@@ -28,10 +28,6 @@ const WorkoutCard = ({workout}) => {
                 src={workout.thumbnailUrl}
                 layout='fill'
              />
-            {/*<LinearGradient*/}
-            {/*  colors={['transparent', '#000000']}*/}
-            {/*  style={styles.overlay}*/}
-            {/*/>*/}
             <Box sx={{
                 width: '100%',
                 height: '100%',

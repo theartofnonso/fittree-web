@@ -1,7 +1,8 @@
 /* eslint-disable */
 import React, {useState} from "react";
 import WorkoutCardBig from "../../cards/WorkoutCardBig";
-import {Box, createTheme, responsiveFontSizes, useMediaQuery, useTheme} from "@mui/material";
+import {Box, createTheme, responsiveFontSizes, ThemeProvider, Typography, useMediaQuery, useTheme} from "@mui/material";
+import WorkoutExerciseCard from "../../cards/WorkoutExerciseCard";
 
 const PreviewWorkout = ({workout, play, close}) => {
 
@@ -38,15 +39,6 @@ const PreviewWorkout = ({workout, play, close}) => {
             backgroundColor: 'rgba(0,0,0,0.6)',
         }}>
             <Box sx={{height: '100vh'}}>
-                {isBigScreen &&
-                    <Box sx={{
-                        position: 'fixed',
-                        top: 10,
-                        right: 10
-                    }} onClick={close}>
-                        {/*<Entypo name="cross" size={32} color="white"/>*/}
-                    </Box>
-                }
                 <Box sx={{
                     position: 'fixed',
                     top: 0,
@@ -55,9 +47,37 @@ const PreviewWorkout = ({workout, play, close}) => {
                     left: 0,
                     overflow: 'scroll',
                     backgroundColor: 'white',
-                    padding: 8,
+                    padding: 1,
                 }}>
+                    {/*{isBigScreen &&*/}
+                    {/*    <Box sx={{*/}
+                    {/*        position: 'fixed',*/}
+                    {/*        top: 10,*/}
+                    {/*        right: 10*/}
+                    {/*    }} onClick={close}>*/}
+                    {/*        /!*<Entypo name="cross" size={32} color="white"/>*!/*/}
+                    {/*    </Box>*/}
+                    {/*}*/}
                     <WorkoutCardBig workout={workout}/>
+                    <Box sx={{
+                        overflow: 'scroll',
+                        paddingHorizontal: isBiggerScreen ? 15 : null,
+                        paddingTop: 1
+                    }}>
+                        <ThemeProvider theme={responsiveFontTheme}>
+                            <Typography variant="body2" sx={{
+                                fontFamily: 'Montserrat',
+                                fontWeight: 300,
+                                whiteSpace: 'pre-line'
+                            }}>{workout.description}</Typography>
+                        </ThemeProvider>
+                        {workout.workoutExercises.map((workoutExercise, i) =>
+                            <Box
+                                key={i}
+                                onClick={() => playExercise(workoutExercise.exercise)}>
+                                <WorkoutExerciseCard workoutExercise={workoutExercise} type={workout.type}/>
+                            </Box>)}
+                    </Box>
                 </Box>
             </Box>
         </Box>

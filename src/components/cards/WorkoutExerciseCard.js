@@ -37,9 +37,13 @@ const WorkoutExerciseCard = props => {
             alignItems: "center",
             justifyContent: "center",
             borderRadius: 5,
-            marginTop: 10,
-            marginBottom: 10,
+            marginY: 2,
         }}>
+            <Box>
+                <video style={{ width: '50px', height: '50px' }}>
+                    <source src="https://d26u7w064jxl38.cloudfront.net/public/Videos/0OStcywbRTXI50hdM88Z5X2nf6MIic87aqMKoY257OBD5CJN56.mp4"/>
+                </video>
+            </Box>
             {/*<Video*/}
             {/*    sx={styles.videoStyle}*/}
             {/*    source={{*/}

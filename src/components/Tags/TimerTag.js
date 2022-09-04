@@ -21,8 +21,8 @@ const TimerTag = ({duration}) => {
                 fontFamily: 'Montserrat',
                 fontSize: 10,
                 fontWeight: 'bold',
-                paddingY: 0.2,
-                paddingX: 0.5
+                paddingY: 0.5,
+                paddingX: 1
             }}>{Math.round(duration / 60000)} mins</Typography>
         </Box>
     )
