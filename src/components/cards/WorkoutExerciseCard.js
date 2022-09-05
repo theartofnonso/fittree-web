@@ -3,6 +3,7 @@ import React from "react";
 import workoutsConstants from "../../utils/workout/workoutsConstants";
 import {Box, createTheme, responsiveFontSizes, ThemeProvider, Typography} from "@mui/material";
 import {timeOrReps} from "../../utils/workout/workoutsHelperFunctions";
+import ReactPlayer from "react-player";
 
 const WorkoutExerciseCard = props => {
 
@@ -36,22 +37,20 @@ const WorkoutExerciseCard = props => {
             flexDirection: "row",
             alignItems: "center",
             justifyContent: "center",
-            borderRadius: 5,
-            marginY: 2,
+            marginBottom: 2,
         }}>
-            <Box>
-                <video style={{ width: '50px', height: '50px' }}>
-                    <source src="https://d26u7w064jxl38.cloudfront.net/public/Videos/0OStcywbRTXI50hdM88Z5X2nf6MIic87aqMKoY257OBD5CJN56.mp4"/>
-                </video>
-            </Box>
-            {/*<Video*/}
-            {/*    sx={styles.videoStyle}*/}
-            {/*    source={{*/}
-            {/*        uri: "https://" + props.workoutExercise.exercise.videoUrls[0],*/}
-            {/*    }}*/}
-            {/*    resizeMode="contain"*/}
-            {/*    shouldPlay={true}*/}
-            {/*/>*/}
+            <ReactPlayer
+                url={"https://" + props.workoutExercise.exercise.videoUrls[0]}
+                style={{
+                    borderRadius: 5,
+                    marginRight: 10,
+                    backgroundColor: '#282828',
+                    overflow: 'hidden',
+                    position:'relative'
+                }}
+                height={60}
+                width={60}
+            />
             <Box sx={{
                 display: "flex",
                 flexDirection: "column",

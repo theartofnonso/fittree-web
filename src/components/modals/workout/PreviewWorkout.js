@@ -1,24 +1,11 @@
 /* eslint-disable */
 import React, {useState} from "react";
 import WorkoutCardBig from "../../cards/WorkoutCardBig";
-import {
-    Box,
-    Container,
-    createTheme,
-    responsiveFontSizes,
-    ThemeProvider,
-    Typography,
-    useMediaQuery,
-    useTheme
-} from "@mui/material";
+import {Box, Container, createTheme, responsiveFontSizes, ThemeProvider, Typography} from "@mui/material";
 import WorkoutExerciseCard from "../../cards/WorkoutExerciseCard";
-import InstagramSvg from "../../icons/InstagramSvg";
+import CloseSvg from "../../icons/CloseSvg";
 
 const PreviewWorkout = ({workout, play, close}) => {
-
-    const theme = useTheme();
-    const isBigScreen = useMediaQuery(theme.breakpoints.up('sm'));
-    const isBiggerScreen = useMediaQuery(theme.breakpoints.up('md'));
 
     let responsiveFontTheme = createTheme();
     responsiveFontTheme = responsiveFontSizes(responsiveFontTheme);
@@ -46,7 +33,8 @@ const PreviewWorkout = ({workout, play, close}) => {
             bottom: 0,
             right: 0,
             left: 0,
-            backgroundColor: 'white'
+            backgroundColor: 'white',
+            overflow: 'scroll',
         }}>
             <Box sx={{
                 backgroundColor: 'white',
@@ -55,18 +43,18 @@ const PreviewWorkout = ({workout, play, close}) => {
                 alignItems: 'center',
                 marginY: 1
             }} onClick={close}>
-                <InstagramSvg/>
+                <CloseSvg/>
             </Box>
             <WorkoutCardBig workout={workout}/>
             <Box sx={{
                 overflow: 'scroll',
-                paddingTop: 1
             }}>
                 <ThemeProvider theme={responsiveFontTheme}>
                     <Typography variant="body2" sx={{
                         fontFamily: 'Montserrat',
                         fontWeight: 300,
-                        whiteSpace: 'pre-line'
+                        whiteSpace: 'pre-line',
+                        marginY: 2
                     }}>{workout.description}</Typography>
                 </ThemeProvider>
                 {workout.workoutExercises.map((workoutExercise, i) =>

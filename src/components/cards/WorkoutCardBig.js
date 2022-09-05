@@ -6,9 +6,6 @@ import TimerTag from "../Tags/TimerTag";
 
 const WorkoutCardBig = props => {
 
-    const theme = useTheme();
-    const isBigScreen = useMediaQuery(theme.breakpoints.up('sm'));
-
     let responsiveFontTheme = createTheme();
     responsiveFontTheme = responsiveFontSizes(responsiveFontTheme);
 
