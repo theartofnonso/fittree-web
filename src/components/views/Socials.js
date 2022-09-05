@@ -39,7 +39,7 @@ const Socials = ({profile}) => {
                     </Link>
                 </Box> : null}
             {profile.tiktok ?
-                <Box sx={{marginX: 1}}>
+                <Box sx={{marginX: 0.7}}>
                     <Link target="_blank" href={TIKTOK + profile.tiktok} sx={{textDecoration: 'none'}}
                           rel="noopener">
                         <TikTokSvg/>
