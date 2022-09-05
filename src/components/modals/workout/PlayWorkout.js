@@ -38,7 +38,7 @@ const PlayWorkout = props => {
     };
 
     return (
-        <Container maxWidth="md" sx={{
+        <Container maxWidth="sm" sx={{
             position: 'fixed',
             top: 0,
             bottom: 0,
