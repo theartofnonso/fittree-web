@@ -21,8 +21,7 @@ const CreatorProfile500 = ({username}) => {
             }}>
                 <ThemeProvider theme={responsiveFontTheme}>
                     <Typography variant="body1" sx={{marginTop: 5, textAlign: 'center'}}>Unable to load {username}'s page</Typography>
-                    <Typography variant="body1" sx={{textAlign: 'center'}}>at this moment
-                        moment</Typography>
+                    <Typography variant="body1" sx={{textAlign: 'center'}}>at this moment</Typography>
                 </ThemeProvider>
 
             <Box sx={{position: 'absolute', bottom: 0}}>

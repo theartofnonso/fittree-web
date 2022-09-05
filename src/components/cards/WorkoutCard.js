@@ -17,21 +17,20 @@ const WorkoutCard = ({workout}) => {
             display: 'flex',
             borderRadius: 2,
             overflow: 'hidden',
+            position: 'relative',
             height: 250,
-            width: 180,
-            borderWidth: '5',
-            borderColor: 'red',
-            position: 'absolute'
+            width: '100%'
         }}>
             <Image
                 loader={imageLoader}
                 src={workout.thumbnailUrl}
                 layout='fill'
+                objectFit={'cover'}
              />
             <Box sx={{
                 width: '100%',
                 height: '100%',
-                background: 'linear-gradient(to bottom, transparent, #000000)',
+                background: 'linear-gradient(transparent, #000000)',
                 position: 'absolute'
             }}></Box>
             <Box sx={{

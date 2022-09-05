@@ -261,7 +261,6 @@ const CreatorProfile = () => {
                 <Box sx={{
                     height: isBigScreen ? 800 : 400,
                     overflow: 'scroll',
-                    borderRadius: 8,
                 }}>
                     {workouts.length > 0 ?
                         <Box sx={{
