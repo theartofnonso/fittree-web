@@ -23,7 +23,7 @@ import {
     useTheme
 } from "@mui/material";
 import workoutsConstants from "../src/utils/workout/workoutsConstants";
-import {sortWorkouts} from "../src/utils/workout/workoutsHelperFunctions";
+import {loadCircuitWorkout, loadRepsAndSetsWorkout, sortWorkouts} from "../src/utils/workout/workoutsHelperFunctions";
 import CreatorProfile404 from "../src/components/views/CreatorProfile404";
 import CreatorProfile500 from "../src/components/views/CreatorProfile500";
 import CreatorProfileLoading from "../src/components/views/CreatorProfileLoading";
@@ -34,6 +34,7 @@ import FittrIconBig from "../src/components/illustrations/FittrIconBig";
 import WorkoutCard from "../src/components/cards/WorkoutCard";
 import EmptyState from "../src/components/illustrations/NotFound";
 import PreviewWorkout from "../src/components/modals/workout/PreviewWorkout";
+import PlayRepsAndSetsWorkout from "../src/components/modals/workout/PlayRepsAndSetsWorkout";
 
 const CreatorProfile = () => {
 
@@ -129,20 +130,21 @@ const CreatorProfile = () => {
      */
     const getWorkoutPlayComponent = () => {
 
-        // if (currentWorkout.type === workoutsConstants.workoutType.CIRCUIT) {
-        //     const rounds = loadCircuitWorkout(currentWorkout);
-        //     return <PlayCircuitWorkout
-        //         workout={currentWorkout}
-        //         rounds={rounds}
-        //         end={() => togglePlayWorkout(false)}/>
-        //
-        // } else {
-        //     const exercises = loadRepsAndSetsWorkout(currentWorkout);
-        //     return <PlayRepsAndSetsWorkout
-        //         workout={currentWorkout}
-        //         exercises={exercises}
-        //         end={() => togglePlayWorkout(false)}/>
-        // }
+        if (currentWorkout.type === workoutsConstants.workoutType.CIRCUIT) {
+            const rounds = loadCircuitWorkout(currentWorkout);
+            return null
+            // return <PlayCircuitWorkout
+            //     workout={currentWorkout}
+            //     rounds={rounds}
+            //     end={() => togglePlayWorkout(false)}/>
+
+        } else {
+            const exercises = loadRepsAndSetsWorkout(currentWorkout);
+            return <PlayRepsAndSetsWorkout
+                workout={currentWorkout}
+                exercises={exercises}
+                end={() => togglePlayWorkout(false)}/>
+        }
     }
 
     // /**

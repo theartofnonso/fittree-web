@@ -4,6 +4,8 @@ import WorkoutCardBig from "../../cards/WorkoutCardBig";
 import {Box, Container, createTheme, responsiveFontSizes, ThemeProvider, Typography} from "@mui/material";
 import WorkoutExerciseCard from "../../cards/WorkoutExerciseCard";
 import CloseSvg from "../../icons/CloseSvg";
+import PlaySvg from "../../icons/PlaySvg";
+import PreviewExercise from "./PreviewExercise";
 
 const PreviewWorkout = ({workout, play, close}) => {
 
@@ -63,7 +65,23 @@ const PreviewWorkout = ({workout, play, close}) => {
                         onClick={() => playExercise(workoutExercise.exercise)}>
                         <WorkoutExerciseCard workoutExercise={workoutExercise} type={workout.type}/>
                     </Box>)}
+                <Box sx={{
+                    position: 'fixed',
+                    right: 0,
+                    bottom: 0,
+                    marginRight: 4,
+                    marginBottom: 4,
+                    backgroundColor: '#ef7a75',
+                    padding: 1,
+                    borderRadius: 2
+                }} onClick={playWorkout}>
+                    <PlaySvg/>
+                </Box>
             </Box>
+            {currentExercise ?
+                <PreviewExercise
+                    exercise={currentExercise}
+                    close={() => setCurrentExercise(null)}/> : null}
         </Container>
     );
 };
