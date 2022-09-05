@@ -6,7 +6,7 @@ import {Container} from "@mui/material";
 const CreatorProfileLoading = () => {
 
     return (
-        <Container maxWidth="md"
+        <Container maxWidth="sm"
                    sx={{
                        height: '100vh',
                        display: 'flex',

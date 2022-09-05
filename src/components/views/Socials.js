@@ -5,6 +5,8 @@ import {INSTAGRAM, TIKTOK, TWITTER, YOUTUBE} from "../../utils/workout/utilsCons
 import TikTokSvg from "../icons/TikTokSvg";
 import TwitterSvg from "../icons/TwitterSvg";
 import InstagramSvg from "../icons/InstagramSvg";
+import FacebookSvg from "../icons/FacebookSvg";
+import YoutubeSvg from "../icons/YoutubeSvg";
 
 const Socials = ({profile}) => {
 
@@ -26,7 +28,7 @@ const Socials = ({profile}) => {
                 <Box sx={{marginX: 1}}>
                     <Link target="_blank" href={INSTAGRAM + profile.facebook} sx={{textDecoration: 'none'}}
                           rel="noopener">
-                        <TikTokSvg/>
+                        <FacebookSvg />
                     </Link>
                 </Box> : null}
             {profile.twitter ?
@@ -47,7 +49,7 @@ const Socials = ({profile}) => {
                 <Box sx={{marginX: 1}}>
                     <Link target="_blank" href={YOUTUBE + profile.youtube} sx={{textDecoration: 'none'}}
                           rel="noopener">
-                        <TikTokSvg/>
+                        <YoutubeSvg/>
                     </Link>
                 </Box> : null}
         </Box>

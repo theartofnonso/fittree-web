@@ -251,7 +251,6 @@ const CreatorProfile = () => {
                     <CssTextField sx={{
                         backgroundColor: "#f5ede8",
                         flex: 1,
-                        height: 25,
                         borderRadius: 2
                     }}
                                   autoCapitalize='none'
