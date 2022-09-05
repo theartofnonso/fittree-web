@@ -3,9 +3,9 @@ import React, {useState} from "react";
 import WorkoutCardBig from "../../cards/WorkoutCardBig";
 import {Box, Container, createTheme, responsiveFontSizes, ThemeProvider, Typography} from "@mui/material";
 import WorkoutExerciseCard from "../../cards/WorkoutExerciseCard";
-import CloseSvg from "../../icons/CloseSvg";
-import PlaySvg from "../../icons/PlaySvg";
 import PreviewExercise from "./PreviewExercise";
+import CloseIcon from "@mui/icons-material/Close";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 
 const PreviewWorkout = ({workout, play, close}) => {
 
@@ -38,15 +38,7 @@ const PreviewWorkout = ({workout, play, close}) => {
             backgroundColor: 'white',
             overflow: 'scroll',
         }}>
-            <Box sx={{
-                backgroundColor: 'white',
-                flexDirection: 'row',
-                justifyContent: 'flex-start',
-                alignItems: 'center',
-                marginY: 1
-            }} onClick={close}>
-                <CloseSvg/>
-            </Box>
+            <CloseIcon onClick={close} sx={{marginY: 1}}/>
             <WorkoutCardBig workout={workout}/>
             <Box sx={{
                 overflow: 'scroll',
@@ -75,7 +67,7 @@ const PreviewWorkout = ({workout, play, close}) => {
                     padding: 1,
                     borderRadius: 2
                 }} onClick={playWorkout}>
-                    <PlaySvg/>
+                    <PlayArrowIcon sx={{fontSize: 40, color: 'white'}}  onClick={playWorkout}/>
                 </Box>
             </Box>
             {currentExercise ?

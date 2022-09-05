@@ -40,15 +40,15 @@ const IntervalModal = props => {
                 return <Box xs={{
                     display: "flex",
                     flexDirection: "column",
-                    justifyContent: "center",
+                    justifyContent: "flex-start",
                     alignItems: "center",
                 }}>
                     <Typography variant="body2" color='#ffffff'
-                                sx={{fontFamily: 'Montserrat', fontWeight: 500, my: 0.5}}>
+                                sx={{fontFamily: 'Montserrat', fontWeight: 500, my: 0.5, textAlign: 'center'}}>
                         {props.description}
                     </Typography>
                     <Typography variant="body2" color='#ffffff'
-                                sx={{fontFamily: 'Montserrat', fontWeight: 700, my: 0.5}}>
+                                sx={{fontFamily: 'Montserrat', fontWeight: 700, my: 0.5, textAlign: 'center'}}>
                         {intervalTime / 1000}s
                     </Typography>
                 </Box>
@@ -61,11 +61,11 @@ const IntervalModal = props => {
                     alignItems: "center",
                 }}>
                     <Typography variant="body2" color='#ffffff'
-                                sx={{fontFamily: 'Montserrat', fontWeight: 500, my: 0.5}}>
+                                sx={{fontFamily: 'Montserrat', fontWeight: 500, my: 0.5, textAlign: 'center'}}>
                         {props.description}
                     </Typography>
                     <Typography variant="body2" color='#ffffff'
-                                sx={{fontFamily: 'Montserrat', fontWeight: 700, my: 0.5}}>
+                                sx={{fontFamily: 'Montserrat', fontWeight: 700, my: 0.5, textAlign: 'center'}}>
                         Rest for {intervalTime / 1000}s
                     </Typography>
                 </Box>

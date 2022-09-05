@@ -35,6 +35,7 @@ import WorkoutCard from "../src/components/cards/WorkoutCard";
 import EmptyState from "../src/components/illustrations/NotFound";
 import PreviewWorkout from "../src/components/modals/workout/PreviewWorkout";
 import PlayRepsAndSetsWorkout from "../src/components/modals/workout/PlayRepsAndSetsWorkout";
+import PlayCircuitWorkout from "../src/components/modals/workout/PlayCircuitWorkout";
 
 const CreatorProfile = () => {
 
@@ -133,10 +134,10 @@ const CreatorProfile = () => {
         if (currentWorkout.type === workoutsConstants.workoutType.CIRCUIT) {
             const rounds = loadCircuitWorkout(currentWorkout);
             return null
-            // return <PlayCircuitWorkout
-            //     workout={currentWorkout}
-            //     rounds={rounds}
-            //     end={() => togglePlayWorkout(false)}/>
+            return <PlayCircuitWorkout
+                workout={currentWorkout}
+                rounds={rounds}
+                end={() => togglePlayWorkout(false)}/>
 
         } else {
             const exercises = loadRepsAndSetsWorkout(currentWorkout);
