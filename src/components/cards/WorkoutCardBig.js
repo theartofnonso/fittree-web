@@ -18,17 +18,16 @@ const WorkoutCardBig = props => {
 
     return (
         <Box sx={{
-            height: isBigScreen ? '100%' : 400,
+            height: 400,
             overflow: 'hidden',
-            borderTopLeftRadius: isBigScreen ? 2 : null,
-            borderBottomLeftRadius: isBigScreen ? 2 : null,
-            borderRadius: !isBigScreen ? 2 : null,
-            position: 'relative'
+            borderRadius: 2,
+            position: 'relative',
         }}>
             <Image
                 loader={imageLoader}
                 src={props.workout.thumbnailUrl}
                 layout='fill'
+                objectFit={'cover'}
             />
             <Box sx={{
                 width: '100%',

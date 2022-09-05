@@ -1,10 +1,18 @@
 /* eslint-disable */
 import React, {useState} from "react";
 import WorkoutCardBig from "../../cards/WorkoutCardBig";
-import {Box, createTheme, responsiveFontSizes, ThemeProvider, Typography, useMediaQuery, useTheme} from "@mui/material";
+import {
+    Box,
+    Container,
+    createTheme,
+    responsiveFontSizes,
+    ThemeProvider,
+    Typography,
+    useMediaQuery,
+    useTheme
+} from "@mui/material";
 import WorkoutExerciseCard from "../../cards/WorkoutExerciseCard";
 import InstagramSvg from "../../icons/InstagramSvg";
-import PreviewWorkoutMd from "./PreviewWorkoutMd";
 
 const PreviewWorkout = ({workout, play, close}) => {
 
@@ -32,28 +40,43 @@ const PreviewWorkout = ({workout, play, close}) => {
     }
 
     return (
-        <Box sx={{
+        <Container maxWidth="md" sx={{
             position: 'fixed',
             top: 0,
             bottom: 0,
             right: 0,
             left: 0,
-            backgroundColor: 'rgba(0,0,0,0.6)',
+            backgroundColor: 'white'
         }}>
-            {isBigScreen &&
-                <Box sx={{
-                    position: 'fixed',
-                    top: 0,
-                    right: 0,
-                    margin: 5
-                }} onClick={close}>
-                    <InstagramSvg/>
-                </Box>
-            }
-            <PreviewWorkoutMd workout={workout}
-                              play={play}
-                              close={close}/>
-        </Box>
+            <Box sx={{
+                backgroundColor: 'white',
+                flexDirection: 'row',
+                justifyContent: 'flex-start',
+                alignItems: 'center',
+                marginY: 1
+            }} onClick={close}>
+                <InstagramSvg/>
+            </Box>
+            <WorkoutCardBig workout={workout}/>
+            <Box sx={{
+                overflow: 'scroll',
+                paddingTop: 1
+            }}>
+                <ThemeProvider theme={responsiveFontTheme}>
+                    <Typography variant="body2" sx={{
+                        fontFamily: 'Montserrat',
+                        fontWeight: 300,
+                        whiteSpace: 'pre-line'
+                    }}>{workout.description}</Typography>
+                </ThemeProvider>
+                {workout.workoutExercises.map((workoutExercise, i) =>
+                    <Box
+                        key={i}
+                        onClick={() => playExercise(workoutExercise.exercise)}>
+                        <WorkoutExerciseCard workoutExercise={workoutExercise} type={workout.type}/>
+                    </Box>)}
+            </Box>
+        </Container>
     );
 };
 
