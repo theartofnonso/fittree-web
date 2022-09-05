@@ -9,6 +9,7 @@ import PauseIcon from '@mui/icons-material/Pause';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import CloseIcon from '@mui/icons-material/Close';
 import IntervalModal from "./IntervalModal";
+import WorkoutCompletedModal from "./WorkoutCompletedModal";
 
 const PlayWorkout = props => {
 
@@ -126,6 +127,11 @@ const PlayWorkout = props => {
                     intervalTime={props.interval.duration}
                     navigateToWorkoutPreview={props.close}
                     onFinish={props.onFinishInterval}/> : null}
+            {props.onEnd ?
+                <WorkoutCompletedModal
+                    isVisible={props.onEnd}
+                    startTime={startTime}
+                    navigateToWorkoutPreview={props.close}/> : null}
         </Container>
     );
 };

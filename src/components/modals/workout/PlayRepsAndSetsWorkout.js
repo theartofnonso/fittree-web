@@ -65,7 +65,7 @@ const PlayRepsSetsWorkout = ({workout, exercises, end}) => {
             } else {
                 setExerciseIndex(nextExerciseIndex);
                 setSetIndex(0);
-                setExerciseDuration(exercises[0][0].repsOrTimeValue);
+                setExerciseDuration(exercises[nextExerciseIndex][0].repsOrTimeValue);
                 setIntervalModalDescription(workoutsConstants.playMessages.NEXT_EXERCISE);
                 setIntervalModalTime(workout.exerciseInterval);
                 setShowIntervalModal(true);

@@ -65,7 +65,7 @@ const PlayCircuitWorkout = ({workout, rounds, end}) => {
             } else {
                 setRoundsIndex(nextRoundsIndex);
                 setExerciseIndex(0);
-                setExerciseDuration(rounds[0][0].repsOrTimeValue);
+                setExerciseDuration(rounds[nextRoundsIndex][0].repsOrTimeValue);
                 setIntervalModalDescription(workoutsConstants.playMessages.NEXT_ROUND);
                 setIntervalModalTime(workout.roundsInterval);
                 setShowIntervalModal(true);
