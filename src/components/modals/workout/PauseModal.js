@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React from "react";
 import {Box, Typography} from "@mui/material";
-import PlaySvg from "../../icons/PlaySvg";
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 
 const PauseModal = props => {
 
@@ -22,11 +22,7 @@ const PauseModal = props => {
                 justifyContent: "center",
                 alignItems: "center",
             }}>
-                <Box sx={{
-               
-                }} onClick={props.play}>
-                    <PlaySvg/>
-                </Box>
+                <PlayArrowIcon sx={{fontSize: 40, color: 'white'}} onClick={props.play}/>
                 <Box
                     sx={{
                         alignItems: 'center',

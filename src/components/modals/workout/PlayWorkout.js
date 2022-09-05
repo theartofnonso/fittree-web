@@ -4,10 +4,11 @@ import workoutsConstants from "../../../utils/workout/workoutsConstants";
 import {timeOrReps} from "../../../utils/workout/workoutsHelperFunctions";
 import {Box, Container, createTheme, responsiveFontSizes, ThemeProvider, Typography,} from "@mui/material";
 import ReactPlayer from "react-player";
-import CloseSvg from "../../icons/CloseSvg";
-import InformationSvg from "../../icons/InformationSvg";
-import PauseSvg from "../../icons/PauseSvg";
 import PauseModal from "./PauseModal";
+import PauseIcon from '@mui/icons-material/Pause';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import CloseIcon from '@mui/icons-material/Close';
+import IntervalModal from "./IntervalModal";
 
 const PlayWorkout = props => {
 
@@ -53,10 +54,9 @@ const PlayWorkout = props => {
                 alignItems: 'center',
                 marginY: 1
             }}>
-                <Box onClick={props.close}>
-                    <CloseSvg/>
-                </Box>
-                <Box><InformationSvg/></Box>
+                <CloseIcon onClick={props.close}/>
+                <InfoOutlinedIcon/>
+
             </Box>
             <ReactPlayer
                 url={"https://" + props.workoutExercise.exercise.videoUrls[0]}
@@ -83,21 +83,16 @@ const PlayWorkout = props => {
                         flexDirection: "row",
                         justifyContent: "center",
                         alignItems: "center",
-                        marginVertical: 20,
+                        marginY: 3,
                     }}>
                         <Box onClick={props.seekBackward}>
                             <Typography variant="body1"
                                         sx={{fontFamily: 'Montserrat', fontWeight: 500}}>Prev</Typography>
                         </Box>
                         <Box sx={{
-                            alignItems: "center",
-                            flexDirection: "column",
-                            justifyContent: "center",
-                            width: 40,
-                            height: 40,
-                            marginX: 1,
-                        }} onClick={props.pause}>
-                            <PauseSvg/>
+                            marginX: 2
+                        }}>
+                            <PauseIcon sx={{fontSize: 24}} onClick={props.pause}/>
                         </Box>
                         <Box onClick={props.seekForward}>
                             <Typography variant="body1"
@@ -125,6 +120,12 @@ const PlayWorkout = props => {
                     close={props.close}
                     play={props.play}
                 /> : null}
+            {props.shouldPlayInterval ?
+                <IntervalModal
+                    description={props.interval.description}
+                    intervalTime={props.interval.duration}
+                    navigateToWorkoutPreview={props.close}
+                    onFinish={props.onFinishInterval}/> : null}
         </Container>
     );
 };
