@@ -26,6 +26,8 @@ const WorkoutCard = ({workout}) => {
                 src={workout.thumbnailUrl}
                 layout='fill'
                 objectFit={'cover'}
+                placeholder={'blur'}
+                blurDataURL={'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAD6CAQAAADKSeXYAAAAEUlEQVR42mPU+M84ikbRyEAAIqMhII3S3FoAAAAASUVORK5CYII='}
              />
             <Box sx={{
                 width: '100%',

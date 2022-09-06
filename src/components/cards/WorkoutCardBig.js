@@ -25,6 +25,8 @@ const WorkoutCardBig = props => {
                 src={props.workout.thumbnailUrl}
                 layout='fill'
                 objectFit={'cover'}
+                placeholder={'blur'}
+                blurDataURL={'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAGQCAQAAADFUcJQAAAAFUlEQVR42mPU+M84ikbRKBpFQwEBAJqFzpCmC66fAAAAAElFTkSuQmCC'}
             />
             <Box sx={{
                 width: '100%',
