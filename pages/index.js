@@ -17,6 +17,10 @@ import AppStoreSvg from "../src/components/illustrations/AppStoreSvg";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {INSTAGRAM, INSTAGRAM_NAME, TWITTER, TWITTER_NAME} from "../src/utils/workout/utilsConstants";
 import Image from "next/image";
+import MocksLeft from "../src/components/views/MocksLeft";
+import MocksRight from "../src/components/views/MocksRight";
+import InstagramSvg from "../src/components/icons/InstagramSvg";
+import TwitterSvg from "../src/components/icons/TwitterSvg";
 
 export default function App() {
 
@@ -124,163 +128,29 @@ export default function App() {
                     </Box>
 
                     <Box sx={{
-                        height: 700,
                         width: 300,
                         resizeMode: 'contain',
-                        margin: 'auto'
+                        margin: 'auto',
                     }}>
                         <Image
                             loader={imageLoader}
-                            src='../src/components/images/screenshot2.png'
-                            layout='fill'
-                            objectFit={'cover'}
+                            src={'d2ez6lox3k9lt0.cloudfront.net/public/fitpin-public/mocks/screenshot2.png'}
+                            width={300}
+                            height={600}
+                            objectFit={'contain'}
+                            placeholder={'blur'}
+                            blurDataURL={'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAGQCAQAAADFUcJQAAAAFUlEQVR42mPU+M84ikbRKBpFQwEBAJqFzpCmC66fAAAAAElFTkSuQmCC'}
                         />
                     </Box>
                 </Box>
 
+                {/*kk*/}
 
-                {/*<Box sx={[isBigScreen ? styles.container : styles.containerSmall]}>*/}
-                {/*    <Box>*/}
-                {/*        <Typography variant='h4'*/}
-                {/*                    sx={{*/}
-                {/*                        textAlign: isBigScreen ? 'left' : 'center',*/}
-                {/*                        fontWeight: '700',*/}
-                {/*                        fontSize: !isBigScreen ? 25 : null,*/}
-                {/*                        fontFamily: 'Montserrat',*/}
-                {/*                    }}*/}
-                {/*                    sx={{whiteSpace: 'pre-line'}}>*/}
-                {/*            Create 5 secs*/}
-                {/*        </Typography>*/}
-                {/*        <Typography variant='h4'*/}
-                {/*                    sx={{*/}
-                {/*                        textAlign: isBigScreen ? 'left' : 'center',*/}
-                {/*                        fontWeight: '700',*/}
-                {/*                        fontSize: !isBigScreen ? 25 : null,*/}
-                {/*                        fontFamily: 'Montserrat',*/}
-                {/*                        marginBottom: 1*/}
-                {/*                    }}*/}
-                {/*                    sx={{whiteSpace: 'pre-line'}}>*/}
-                {/*            exercise videos*/}
-                {/*        </Typography>*/}
-                {/*        <Typography variant='body1'*/}
-                {/*                    sx={{*/}
-                {/*                        my: 0.5,*/}
-                {/*                        textAlign: isBigScreen ? 'left' : 'center',*/}
-                {/*                        fontWeight: '400',*/}
-                {/*                        fontFamily: 'Montserrat',*/}
-                {/*                        fontSize: !isBigScreen ? 14 : null,*/}
-                {/*                    }}>*/}
-                {/*            Shoot 5 seconds videos*/}
-                {/*        </Typography>*/}
-                {/*        <Typography variant='body1'*/}
-                {/*                    sx={{*/}
-                {/*                        my: 0.5,*/}
-                {/*                        textAlign: isBigScreen ? 'left' : 'center',*/}
-                {/*                        fontWeight: '400',*/}
-                {/*                        fontFamily: 'Montserrat',*/}
-                {/*                        fontSize: !isBigScreen ? 14 : null,*/}
-                {/*                    }}>*/}
-                {/*            to demonstrate an exercise*/}
-                {/*        </Typography>*/}
-                {/*    </Box>*/}
-                {/*    <Image*/}
-                {/*        source={require('../src/components/images/create_exercise.png')}*/}
-                {/*        sx={styles.mocksImage}*/}
-                {/*    />*/}
-                {/*</Box>*/}
+                <MocksLeft url={'d2ez6lox3k9lt0.cloudfront.net/public/fitpin-public/mocks/create_exercise.png'}/>
 
-                {/*<Box sx={[isBigScreen ? styles.container : styles.containerSmall]}>*/}
-                {/*    {isBigScreen ? <Image*/}
-                {/*        source={require('../src/components/images/curate_workouts.png')}*/}
-                {/*        sx={styles.mocksImage}*/}
-                {/*    /> : null}*/}
-                {/*    <Box>*/}
-                {/*        <Typography variant='h4'*/}
-                {/*                    sx={{*/}
-                {/*                        textAlign: isBigScreen ? 'right' : 'center',*/}
-                {/*                        fontWeight: '700',*/}
-                {/*                        fontFamily: 'Montserrat',*/}
-                {/*                        fontSize: !isBigScreen ? 25 : null,*/}
-                {/*                    }}*/}
-                {/*                    sx={{whiteSpace: 'pre-line'}}>*/}
-                {/*            Curate exercises*/}
-                {/*        </Typography>*/}
-                {/*        <Typography variant='h4'*/}
-                {/*                    sx={{*/}
-                {/*                        textAlign: isBigScreen ? 'right' : 'center',*/}
-                {/*                        fontWeight: '700',*/}
-                {/*                        fontFamily: 'Montserrat',*/}
-                {/*                        fontSize: !isBigScreen ? 25 : null,*/}
-                {/*                        marginBottom: 1*/}
-                {/*                    }}*/}
-                {/*                    sx={{whiteSpace: 'pre-line'}}>*/}
-                {/*            into workouts*/}
-                {/*        </Typography>*/}
-                {/*        <Typography variant='body1'*/}
-                {/*                    sx={{*/}
-                {/*                        my: 0.5,*/}
-                {/*                        textAlign: isBigScreen ? 'right' : 'center',*/}
-                {/*                        fontWeight: '400',*/}
-                {/*                        fontFamily: 'Montserrat',*/}
-                {/*                        fontSize: !isBigScreen ? 14 : null,*/}
-                {/*                    }}>*/}
-                {/*            Curate various exercises into*/}
-                {/*        </Typography>*/}
-                {/*        <Typography variant='body1'*/}
-                {/*                    sx={{*/}
-                {/*                        my: 0.5,*/}
-                {/*                        textAlign: isBigScreen ? 'right' : 'center',*/}
-                {/*                        fontWeight: '400',*/}
-                {/*                        fontFamily: 'Montserrat',*/}
-                {/*                        fontSize: !isBigScreen ? 14 : null,*/}
-                {/*                    }}>*/}
-                {/*            workouts of Circuits or Reps and Sets*/}
-                {/*        </Typography>*/}
-                {/*    </Box>*/}
-                {/*    {!isBigScreen ? <Image*/}
-                {/*        source={require('../src/components/images/curate_workouts.png')}*/}
-                {/*        sx={styles.mocksImage}*/}
-                {/*    /> : null}*/}
-                {/*</Box>*/}
+                <MocksRight url={'d2ez6lox3k9lt0.cloudfront.net/public/fitpin-public/mocks/curate_workouts.png'}/>
 
-                {/*<Box sx={[isBigScreen ? styles.container : styles.containerSmall]}>*/}
-                {/*    <Box>*/}
-                {/*        <Typography variant='h4'*/}
-                {/*                    sx={{*/}
-                {/*                        textAlign: isBigScreen ? 'left' : 'center',*/}
-                {/*                        fontWeight: '700',*/}
-                {/*                        fontFamily: 'Montserrat',*/}
-                {/*                        fontSize: !isBigScreen ? 25 : null,*/}
-                {/*                    }}*/}
-                {/*                    sx={{whiteSpace: 'pre-line'}}>*/}
-                {/*            Go live*/}
-                {/*        </Typography>*/}
-                {/*        <Typography variant='body1'*/}
-                {/*                    sx={{*/}
-                {/*                        my: 0.5,*/}
-                {/*                        textAlign: isBigScreen ? 'left' : 'center',*/}
-                {/*                        fontWeight: '400',*/}
-                {/*                        fontFamily: 'Montserrat',*/}
-                {/*                        fontSize: !isBigScreen ? 14 : null,*/}
-                {/*                    }}>*/}
-                {/*            Launch your workouts*/}
-                {/*        </Typography>*/}
-                {/*        <Typography variant='body1'*/}
-                {/*                    sx={{*/}
-                {/*                        my: 0.5,*/}
-                {/*                        textAlign: isBigScreen ? 'left' : 'center',*/}
-                {/*                        fontWeight: '400',*/}
-                {/*                        fontFamily: 'Montserrat',*/}
-                {/*                        fontSize: !isBigScreen ? 14 : null,*/}
-                {/*                    }}>*/}
-                {/*            with an improved experience*/}
-                {/*        </Typography>*/}
-                {/*    </Box>*/}
-                {/*    <Image*/}
-                {/*        source={require('../src/components/images/go_live.png')}*/}
-                {/*        sx={styles.mocksImage}*/}
-                {/*    />*/}
-                {/*</Box>*/}
+                <MocksLeft url={'d2ez6lox3k9lt0.cloudfront.net/public/fitpin-public/mocks/go_live.png'}/>
 
                 <Accordion>
                     <AccordionSummary
@@ -435,26 +305,29 @@ export default function App() {
                 flexDirection: 'column',
                 justifyContent: 'center',
                 alignItems: 'center',
-                paddingBottom: 20,
             }}>
 
                 <Link href='/' sx={{textDecoration: 'none'}}>
                     <FittrIconBig/>
                 </Link>
-                {/*<Box>*/}
-                {/*    <Box>*/}
-                {/*        <Link target="_blank" href={INSTAGRAM + INSTAGRAM_NAME} sx={{textDecoration: 'none'}}*/}
-                {/*              rel="noopener">*/}
-                {/*            <SimpleLineIcons name="social-instagram" size={20} color="#ef7a75"/>*/}
-                {/*        </Link>*/}
-                {/*    </Box>*/}
-                {/*    <Box>*/}
-                {/*        <Link target="_blank" href={TWITTER + TWITTER_NAME} sx={{textDecoration: 'none'}}*/}
-                {/*              rel="noopener">*/}
-                {/*            <SimpleLineIcons name="social-twitter" size={20} color="#ef7a75"/>*/}
-                {/*        </Link>*/}
-                {/*    </Box>*/}
-                {/*</Box>*/}
+                <Box sx={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                }}>
+                    <Box sx={{marginX: 1}}>
+                        <Link target="_blank" href={INSTAGRAM + INSTAGRAM_NAME} sx={{textDecoration: 'none'}}
+                              rel="noopener">
+                            <InstagramSvg/>
+                        </Link>
+                    </Box>
+                    <Box sx={{marginX: 1}}>
+                        <Link target="_blank" href={TWITTER + TWITTER_NAME} sx={{textDecoration: 'none'}}
+                              rel="noopener">
+                            <TwitterSvg/>
+                        </Link>
+                    </Box>
+                </Box>
             </Box>
         </Box>
     );
