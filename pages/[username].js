@@ -217,7 +217,7 @@ const CreatorProfile = () => {
                 <Box sx={{
                     display: "flex",
                     flexDirection: "column",
-                    marginBottom: 2,
+                    marginY: 2,
                 }}>
                     <Box sx={{
                         justifyContent: "space-between",
