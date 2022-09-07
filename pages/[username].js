@@ -211,7 +211,7 @@ const CreatorProfile = () => {
          * Loaded Creator page content
          */
         return (
-            <Container maxWidth="md">
+            <Container maxWidth="lg">
                 <Box sx={{
                     display: "flex",
                     flexDirection: "column",
