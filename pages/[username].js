@@ -38,15 +38,6 @@ import PlayCircuitWorkout from "../src/components/modals/workout/PlayCircuitWork
 
 const CreatorProfile = () => {
 
-    const CssTextField = styled(TextField)({
-        '& .MuiOutlinedInput-root': {
-            '& fieldset': {
-                borderColor: 'white',
-            }
-        },
-    });
-
-
     const theme = useTheme();
     const isBigScreen = useMediaQuery(theme.breakpoints.up('sm'));
 
@@ -246,7 +237,7 @@ const CreatorProfile = () => {
                         </ThemeProvider>
                         {profile ? <Socials profile={profile}/> : null}
                     </Box>
-                    <CssTextField sx={{
+                    <TextField sx={{
                         backgroundColor: "#f5ede8",
                         flex: 1,
                         borderRadius: 2
@@ -255,7 +246,8 @@ const CreatorProfile = () => {
                                   id="filled-basic"
                                   label="Search workouts"
                                   variant="outlined"
-                                  value={searchQuery} onChange={value => onChangeSearch(value.toLowerCase())}/>
+                                  value={searchQuery}
+                                  onChange={event => onChangeSearch(event.target.value.toLowerCase())}/>
 
                 </Box>
                 <Box sx={{
