@@ -1,7 +1,6 @@
 /* eslint-disable */
 import React from "react";
 import {Box, Container, createTheme, Link, responsiveFontSizes, ThemeProvider, Typography} from "@mui/material";
-import NotFound from "../illustrations/NotFound";
 import FittrIconBig from "../illustrations/FittrIconBig";
 
 const CreatorProfile500 = ({username}) => {

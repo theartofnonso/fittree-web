@@ -32,7 +32,6 @@ import ShareSvg from "../src/components/icons/ShareSvg";
 import styled from "@emotion/styled";
 import FittrIconBig from "../src/components/illustrations/FittrIconBig";
 import WorkoutCard from "../src/components/cards/WorkoutCard";
-import EmptyState from "../src/components/illustrations/NotFound";
 import PreviewWorkout from "../src/components/modals/workout/PreviewWorkout";
 import PlayRepsAndSetsWorkout from "../src/components/modals/workout/PlayRepsAndSetsWorkout";
 import PlayCircuitWorkout from "../src/components/modals/workout/PlayCircuitWorkout";
@@ -283,11 +282,10 @@ const CreatorProfile = () => {
                             alignItems: "center",
                             flex: 1,
                         }}>
-                            <EmptyState/>
                             <Typography variant="body1" textAlign='center' sx={{
                                 fontFamily: 'Montserrat',
                                 fontSize: 12,
-                                fontWeight: 700,
+                                fontWeight: 500,
                                 marginTop: 5
                             }}>{`${username} has no workouts`}</Typography>
                         </Box>}

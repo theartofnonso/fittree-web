@@ -22,6 +22,7 @@ const WorkoutCard = ({workout}) => {
             width: '100%'
         }}>
             <Image
+                alt={'Workout Thumbnail'}
                 loader={imageLoader}
                 src={workout.thumbnailUrl}
                 layout='fill'

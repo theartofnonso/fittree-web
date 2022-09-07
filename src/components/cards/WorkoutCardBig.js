@@ -21,6 +21,7 @@ const WorkoutCardBig = props => {
             position: 'relative',
         }}>
             <Image
+                alt={'Workout Thumbnail'}
                 loader={imageLoader}
                 src={props.workout.thumbnailUrl}
                 layout='fill'

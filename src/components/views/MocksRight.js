@@ -27,6 +27,7 @@ const MocksRight = (props) => {
                 width: 300,
             }}>
                 <Image
+                    alt={'Image of phone'}
                     loader={imageLoader}
                     src={props.url}
                     width={300}
@@ -77,6 +78,7 @@ const MocksRight = (props) => {
                 width: 300,
             }}>
                 <Image
+                    alt={'Image of phone'}
                     loader={imageLoader}
                     src={props.url}
                     width={300}
