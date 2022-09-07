@@ -3,7 +3,7 @@ import React, {useState} from "react";
 import WorkoutCardBig from "../../cards/WorkoutCardBig";
 import {Box, Container, createTheme, responsiveFontSizes, ThemeProvider, Typography} from "@mui/material";
 import WorkoutExerciseCard from "../../cards/WorkoutExerciseCard";
-import PreviewExercise from "./PreviewExercise";
+import PreviewExercise from "../exercise/PreviewExercise";
 import CloseIcon from "@mui/icons-material/Close";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 

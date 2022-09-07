@@ -10,6 +10,7 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import CloseIcon from '@mui/icons-material/Close';
 import IntervalModal from "./IntervalModal";
 import WorkoutCompletedModal from "./WorkoutCompletedModal";
+import PreviewExercise from "../exercise/PreviewExercise";
 
 const PlayWorkout = props => {
 
@@ -36,6 +37,14 @@ const PlayWorkout = props => {
         }
         return repsOrTimeValue + " " + timeOrReps(props.workoutExercise.repsOrTime);
     };
+    
+    /**
+     * Preview exercise information
+     */
+    const previewExercise = () => {
+        props.previewExercise()
+        setShowExercise(true)
+    }
 
     return (
         <Container maxWidth="sm" sx={{
@@ -56,7 +65,7 @@ const PlayWorkout = props => {
                 marginY: 1
             }}>
                 <CloseIcon onClick={props.close}/>
-                <InfoOutlinedIcon/>
+                <InfoOutlinedIcon onClick={previewExercise}/>
 
             </Box>
             <ReactPlayer
@@ -127,6 +136,10 @@ const PlayWorkout = props => {
                     intervalTime={props.interval.duration}
                     navigateToWorkoutPreview={props.close}
                     onFinish={props.onFinishInterval}/> : null}
+            {showExercise ?
+                <PreviewExercise
+                    exercise={props.workoutExercise.exercise}
+                    close={() => setShowExercise(false)}/> : null}
             {props.onEnd ?
                 <WorkoutCompletedModal
                     isVisible={props.onEnd}
