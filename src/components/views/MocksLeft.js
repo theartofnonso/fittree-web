@@ -18,7 +18,7 @@ const MocksLeft = (props) => {
             justifyContent: isBigScreen ? 'space-evenly' : 'center',
             alignItems: 'center',
             width: '100%',
-            marginTop: isBigScreen ? -150 : null,
+            marginTop: -5,
         }}>
             <Box>
                 <Typography variant='h4'
@@ -27,7 +27,7 @@ const MocksLeft = (props) => {
                                 fontWeight: '700',
                                 fontSize: !isBigScreen ? 25 : null,
                                 fontFamily: 'Montserrat'}}>
-                    Create 5 secs
+                    {props.title[0]}
                 </Typography>
                 <Typography variant='h4'
                             sx={{
@@ -36,7 +36,7 @@ const MocksLeft = (props) => {
                                 fontSize: !isBigScreen ? 25 : null,
                                 fontFamily: 'Montserrat',
                                 marginBottom: 1,}}>
-                    exercise videos
+                    {props.title[1]}
                 </Typography>
                 <Typography variant='body1'
                             sx={{
@@ -46,7 +46,7 @@ const MocksLeft = (props) => {
                                 fontFamily: 'Montserrat',
                                 fontSize: !isBigScreen ? 14 : null,
                             }}>
-                    Shoot 5 seconds videos
+                    {props.description[0]}
                 </Typography>
                 <Typography variant='body1'
                             sx={{
@@ -56,7 +56,7 @@ const MocksLeft = (props) => {
                                 fontFamily: 'Montserrat',
                                 fontSize: !isBigScreen ? 14 : null,
                             }}>
-                    to demonstrate an exercise
+                    {props.description[1]}
                 </Typography>
             </Box>
             <Box sx={{
@@ -68,10 +68,7 @@ const MocksLeft = (props) => {
                     src={props.url}
                     width={300}
                     height={600}
-                    objectFit={'contain'}
-                    placeholder={'blur'}
-                    blurDataURL={'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAGQCAQAAADFUcJQAAAAFUlEQVR42mPU+M84ikbRKBpFQwEBAJqFzpCmC66fAAAAAElFTkSuQmCC'}
-                />
+                    objectFit={'contain'}/>
             </Box>
         </Box>
     )

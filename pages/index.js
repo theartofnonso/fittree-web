@@ -13,10 +13,8 @@ import {
 import {styled} from '@mui/material/styles';
 import MuiAccordion from '@mui/material/Accordion';
 import FittrIconBig from "../src/components/illustrations/FittrIconBig";
-import AppStoreSvg from "../src/components/illustrations/AppStoreSvg";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {INSTAGRAM, INSTAGRAM_NAME, TWITTER, TWITTER_NAME} from "../src/utils/workout/utilsConstants";
-import Image from "next/image";
 import MocksLeft from "../src/components/views/MocksLeft";
 import MocksRight from "../src/components/views/MocksRight";
 import InstagramSvg from "../src/components/icons/InstagramSvg";
@@ -26,10 +24,6 @@ export default function App() {
 
     const theme = useTheme();
     const isBigScreen = useMediaQuery(theme.breakpoints.up('sm'));
-
-    const imageLoader = ({src, width, height, quality}) => {
-        return `https://${src}`
-    }
 
     const Accordion = styled((props) => (
         <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -44,39 +38,15 @@ export default function App() {
         marginBottom: 15
     }));
 
-    //
-    // const AccordionSummary = styled((props) => (
-    //     <MuiAccordionSummary
-    //         expandIcon={<ArrowForwardIosSharpIcon sx={{ fontSize: '0.9rem' }} />}
-    //         {...props}
-    //     />
-    // ))(({ theme }) => ({
-    //     backgroundColor:
-    //         theme.palette.mode === 'dark'
-    //             ? 'rgba(255, 255, 255, .05)'
-    //             : 'rgba(0, 0, 0, .03)',
-    //     flexDirection: 'row-reverse',
-    //     '& .MuiAccordionSummary-expandIconWrapper.Mui-expanded': {
-    //         transform: 'rotate(90deg)',
-    //     },
-    //     '& .MuiAccordionSummary-content': {
-    //         marginLeft: theme.spacing(1),
-    //     },
-    // }));
-    //
-    // const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
-    //     padding: theme.spacing(2),
-    // }));
-
     return (
         <Box>
-            <Container maxWidth="lg" sx={{px: 4}}>
+            <Container maxWidth="lg">
 
                 <Link href='/' sx={{textDecoration: 'none'}}>
                     <FittrIconBig/>
                 </Link>
 
-                <Box sx={{marginTop: 8, marginBottom: isBigScreen ? 150 : 50}}>
+                <Box sx={{marginTop: 2, marginBottom: 10}}>
                     <Box>
                         <Typography variant='h3'
                                     sx={{
@@ -126,31 +96,22 @@ export default function App() {
                             START FOR FREE
                         </Typography>
                     </Box>
-
-                    <Box sx={{
-                        width: 300,
-                        resizeMode: 'contain',
-                        margin: 'auto',
-                    }}>
-                        <Image
-                            loader={imageLoader}
-                            src={'d2ez6lox3k9lt0.cloudfront.net/public/fitpin-public/mocks/screenshot2.png'}
-                            width={300}
-                            height={600}
-                            objectFit={'contain'}
-                            placeholder={'blur'}
-                            blurDataURL={'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAGQCAQAAADFUcJQAAAAFUlEQVR42mPU+M84ikbRKBpFQwEBAJqFzpCmC66fAAAAAElFTkSuQmCC'}
-                        />
-                    </Box>
                 </Box>
 
-                {/*kk*/}
+                <MocksLeft
+                    title={['Create 5 secs', 'exercise videos']}
+                    description={['Shoot 5 seconds videos', 'to demonstrate an exercise']}
+                    url={'d2ez6lox3k9lt0.cloudfront.net/public/fitpin-public/mocks/create_exercise.png'}/>
 
-                <MocksLeft url={'d2ez6lox3k9lt0.cloudfront.net/public/fitpin-public/mocks/create_exercise.png'}/>
+                <MocksRight
+                    title={['Curate exercises', 'into workouts']}
+                    description={['Curate various exercises into', 'workouts of Circuits or Reps and Sets']}
+                    url={'d2ez6lox3k9lt0.cloudfront.net/public/fitpin-public/mocks/curate_workouts.png'}/>
 
-                <MocksRight url={'d2ez6lox3k9lt0.cloudfront.net/public/fitpin-public/mocks/curate_workouts.png'}/>
-
-                <MocksLeft url={'d2ez6lox3k9lt0.cloudfront.net/public/fitpin-public/mocks/go_live.png'}/>
+                <MocksLeft
+                    title={['Go live', '']}
+                    description={['launch your workouts', 'with an improved experience']}
+                    url={'d2ez6lox3k9lt0.cloudfront.net/public/fitpin-public/mocks/go_live.png'}/>
 
                 <Accordion>
                     <AccordionSummary
@@ -263,57 +224,11 @@ export default function App() {
                         </Typography>
                     </AccordionDetails>
                 </Accordion>
-
-                <Box>
-                    <Typography variant='h6' sx={{
-                        textAlign: 'center',
-                        my: 0.5,
-                        fontSize: !isBigScreen ? 14 : null,
-                        fontFamily: 'Montserrat',
-                        fontWeight: '400'
-                    }}>
-                        Are you a fitness influencer
-                    </Typography>
-                    <Typography variant='h6' sx={{
-                        textAlign: 'center',
-                        my: 0.5,
-                        fontSize: !isBigScreen ? 14 : null,
-                        fontFamily: 'Montserrat',
-                        fontWeight: '400'
-                    }}>
-                        or creator with a brand to build?
-                    </Typography>
-                    <Typography variant='h6' sx={{
-                        textAlign: 'center',
-                        my: 0.5,
-                        fontSize: !isBigScreen ? 14 : null,
-                        fontFamily: 'Montserrat',
-                        fontWeight: '400'
-                    }}>
-                        then claim your Fittree link here
-                    </Typography>
-                </Box>
-
-                <Box sx={{display: 'flex', flexDirection: 'row', justifyContent: 'center', marginVertical: 20}}>
-                    <AppStoreSvg/>
-                </Box>
-
-            </Container>
-            <Box sx={{
-                backgroundColor: '#282828',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                alignItems: 'center',
-            }}>
-
-                <Link href='/' sx={{textDecoration: 'none'}}>
-                    <FittrIconBig/>
-                </Link>
                 <Box sx={{
                     display: 'flex',
                     flexDirection: 'row',
                     justifyContent: 'center',
+                    marginY: 4
                 }}>
                     <Box sx={{marginX: 1}}>
                         <Link target="_blank" href={INSTAGRAM + INSTAGRAM_NAME} sx={{textDecoration: 'none'}}
@@ -328,7 +243,7 @@ export default function App() {
                         </Link>
                     </Box>
                 </Box>
-            </Box>
+            </Container>
         </Box>
     );
 }

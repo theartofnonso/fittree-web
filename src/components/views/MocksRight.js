@@ -20,7 +20,7 @@ const MocksRight = (props) => {
             justifyContent: isBigScreen ? 'space-evenly' : 'center',
             alignItems: 'center',
             width: '100%',
-            marginTop: isBigScreen ? -150 : null,
+            marginTop: -5,
         }}>
             {isBigScreen ? <Box sx={{
                 height: 700,
@@ -31,10 +31,7 @@ const MocksRight = (props) => {
                     src={props.url}
                     width={300}
                     height={600}
-                    objectFit={'contain'}
-                    placeholder={'blur'}
-                    blurDataURL={'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAGQCAQAAADFUcJQAAAAFUlEQVR42mPU+M84ikbRKBpFQwEBAJqFzpCmC66fAAAAAElFTkSuQmCC'}
-                />
+                    objectFit={'contain'}/>
             </Box> : null}
             <Box>
                 <Typography variant='h4'
@@ -43,7 +40,7 @@ const MocksRight = (props) => {
                                 fontWeight: '700',
                                 fontFamily: 'Montserrat',
                                 fontSize: !isBigScreen ? 25 : null}}>
-                    Curate exercises
+                    {props.title[0]}
                 </Typography>
                 <Typography variant='h4'
                             sx={{
@@ -52,7 +49,7 @@ const MocksRight = (props) => {
                                 fontFamily: 'Montserrat',
                                 fontSize: !isBigScreen ? 25 : null,
                                 marginBottom: 1}}>
-                    into workouts
+                    {props.title[1]}
                 </Typography>
                 <Typography variant='body1'
                             sx={{
@@ -62,7 +59,7 @@ const MocksRight = (props) => {
                                 fontFamily: 'Montserrat',
                                 fontSize: !isBigScreen ? 14 : null,
                             }}>
-                    Curate various exercises into
+                    {props.description[0]}
                 </Typography>
                 <Typography variant='body1'
                             sx={{
@@ -72,7 +69,7 @@ const MocksRight = (props) => {
                                 fontFamily: 'Montserrat',
                                 fontSize: !isBigScreen ? 14 : null,
                             }}>
-                    workouts of Circuits or Reps and Sets
+                    {props.description[1]}
                 </Typography>
             </Box>
             {!isBigScreen ? <Box sx={{
@@ -84,10 +81,7 @@ const MocksRight = (props) => {
                     src={props.url}
                     width={300}
                     height={600}
-                    objectFit={'contain'}
-                    placeholder={'blur'}
-                    blurDataURL={'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAGQCAQAAADFUcJQAAAAFUlEQVR42mPU+M84ikbRKBpFQwEBAJqFzpCmC66fAAAAAElFTkSuQmCC'}
-                />
+                    objectFit={'contain'}/>
             </Box> : null}
         </Box>
     )
