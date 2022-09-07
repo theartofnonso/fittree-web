@@ -97,7 +97,7 @@ export default function App() {
             </Box>
 
             <MocksLeft
-                title={["&quot;Create 5 secs", "exercise videos"]}
+                title={["Create 5 secs", "exercise videos"]}
                 description={["Shoot 5 seconds videos", "to demonstrate an exercise"]}
                 url={"d2ez6lox3k9lt0.cloudfront.net/public/fitpin-public/mocks/create_exercise.png"}/>
 
