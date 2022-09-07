@@ -93,7 +93,7 @@ export default function App() {
                             margin: 'auto',
                         }}>
                         <Typography sx={{color: 'white', fontFamily: 'Montserrat', fontWeight: '500'}}>
-                            START FOR FREE
+                            Get it on IOS
                         </Typography>
                     </Box>
                 </Box>

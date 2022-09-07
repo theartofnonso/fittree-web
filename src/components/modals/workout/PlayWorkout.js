@@ -37,7 +37,7 @@ const PlayWorkout = props => {
         }
         return repsOrTimeValue + " " + timeOrReps(props.workoutExercise.repsOrTime);
     };
-    
+
     /**
      * Preview exercise information
      */
