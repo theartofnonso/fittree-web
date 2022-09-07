@@ -25,7 +25,7 @@ const creatorProfileSlice = createSlice({
                 state.status = workoutsConstants.profileStatus.READY
                 state.profile = action.payload;
                 // Get their live workout only
-                state.liveWorkouts = !action.payload ? action.payload.workouts.items
+                state.liveWorkouts = action.payload ? action.payload.workouts.items
                     .filter(item => item.isLive)
                     .sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt)) : []
                 // Get all their exercises (it will be needed to load workout)
