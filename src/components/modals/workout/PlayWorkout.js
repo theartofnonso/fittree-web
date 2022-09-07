@@ -127,7 +127,7 @@ const PlayWorkout = props => {
             {props.isPaused ?
                 <PauseModal
                     isVisible={props.isPaused}
-                    close={props.close}
+                    navigateToWorkoutPreview={props.close}
                     play={props.play}
                 /> : null}
             {props.shouldPlayInterval ?
