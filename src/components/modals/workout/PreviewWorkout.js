@@ -53,11 +53,18 @@ const PreviewWorkout = ({workout, play, close}) => {
                 </ThemeProvider>
                 {workout.workoutExercises.map((workoutExercise, i) =>
                     <Box
+                        sx={{
+                            cursor: 'default',
+                            '&:hover': {
+                                background: "rgba(245,237,232,0.3)",
+                                borderRadius: 2
+                            }
+                    }}
                         key={i}
                         onClick={() => playExercise(workoutExercise.exercise)}>
                         <WorkoutExerciseCard workoutExercise={workoutExercise} type={workout.type}/>
                     </Box>)}
-                <Box sx={{
+                {!currentExercise ? <Box sx={{
                     position: 'fixed',
                     right: 0,
                     bottom: 0,
@@ -67,8 +74,8 @@ const PreviewWorkout = ({workout, play, close}) => {
                     padding: 1,
                     borderRadius: 2
                 }} onClick={playWorkout}>
-                    <PlayArrowIcon sx={{fontSize: 40, color: 'white'}}  onClick={playWorkout}/>
-                </Box>
+                    <PlayArrowIcon sx={{fontSize: 40, color: 'white'}} onClick={playWorkout}/>
+                </Box> : null }
             </Box>
             {currentExercise ?
                 <PreviewExercise
