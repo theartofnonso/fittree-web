@@ -133,7 +133,6 @@ const CreatorProfile = () => {
 
         if (currentWorkout.type === workoutsConstants.workoutType.CIRCUIT) {
             const rounds = loadCircuitWorkout(currentWorkout);
-            return null
             return <PlayCircuitWorkout
                 workout={currentWorkout}
                 rounds={rounds}
