@@ -8,10 +8,11 @@ import awsConfigs from '../src/aws-exports';
 Amplify.configure({...awsConfigs, ssr: true});
 
 function MyApp({ Component, pageProps }) {
+
   return (
       <>
         <Head>
-          <title></title>
+          <title>Fittree | Your workouts everywhere</title>
         </Head>
         <Provider store={store}>
             <Component {...pageProps} />
