@@ -38,7 +38,7 @@ const PreviewWorkout = ({workout, play, close}) => {
             backgroundColor: 'white',
             overflow: 'scroll',
         }}>
-            <CloseIcon onClick={close} sx={{marginY: 1}}/>
+            <CloseIcon onClick={close} sx={{marginY: 1, cursor: 'pointer'}}/>
             <WorkoutCardBig workout={workout}/>
             <Box sx={{
                 overflow: 'scroll',
@@ -54,7 +54,7 @@ const PreviewWorkout = ({workout, play, close}) => {
                 {workout.workoutExercises.map((workoutExercise, i) =>
                     <Box
                         sx={{
-                            cursor: 'default',
+                            cursor: 'pointer',
                             '&:hover': {
                                 background: "rgba(245,237,232,0.3)",
                                 borderRadius: 2
@@ -74,7 +74,7 @@ const PreviewWorkout = ({workout, play, close}) => {
                     padding: 1,
                     borderRadius: 2
                 }} onClick={playWorkout}>
-                    <PlayArrowIcon sx={{fontSize: 40, color: 'white'}} onClick={playWorkout}/>
+                    <PlayArrowIcon sx={{fontSize: 40, color: 'white', cursor: 'pointer'}} onClick={playWorkout}/>
                 </Box> : null }
             </Box>
             {currentExercise ?

@@ -64,8 +64,8 @@ const PlayWorkout = props => {
                 alignItems: 'center',
                 marginY: 1
             }}>
-                <CloseIcon onClick={props.close}/>
-                <InfoOutlinedIcon onClick={previewExercise}/>
+                <CloseIcon onClick={props.close} sx={{cursor: 'pointer'}}/>
+                <InfoOutlinedIcon onClick={previewExercise} sx={{cursor: 'pointer'}}/>
 
             </Box>
             <ReactPlayer
@@ -95,16 +95,14 @@ const PlayWorkout = props => {
                         alignItems: "center",
                         marginY: 3,
                     }}>
-                        <Box onClick={props.seekBackward}>
+                        <Box onClick={props.seekBackward} sx={{cursor: 'pointer'}}>
                             <Typography variant="body1"
                                         sx={{fontFamily: 'Montserrat', fontWeight: 500}}>Prev</Typography>
                         </Box>
-                        <Box sx={{
-                            marginX: 2
-                        }}>
+                        <Box sx={{marginX: 2, cursor: 'pointer'}}>
                             <PauseIcon sx={{fontSize: 24}} onClick={props.pause}/>
                         </Box>
-                        <Box onClick={props.seekForward}>
+                        <Box onClick={props.seekForward} sx={{cursor: 'pointer'}}>
                             <Typography variant="body1"
                                         sx={{fontFamily: 'Montserrat', fontWeight: 500}}>Next</Typography>
                         </Box>

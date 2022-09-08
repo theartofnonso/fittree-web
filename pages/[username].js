@@ -219,6 +219,7 @@ const CreatorProfile = () => {
                         flexDirection: "row",
                         alignItems: 'center',
                         paddingHorizontal: 10,
+                        cursor: 'pointer'
                     }} onClick={copyShareableLink}>
                         <ShareSvg/>
                     </Box>
@@ -268,7 +269,7 @@ const CreatorProfile = () => {
                         }}>
                             {filteredWorkouts.map((item, index) => {
                                 return (
-                                    <Box key={index} onClick={() => previewWorkout(item)}>
+                                    <Box key={index} onClick={() => previewWorkout(item)} sx={{cursor: 'pointer'}}>
                                         <WorkoutCard workout={item}/>
                                     </Box>
                                 );

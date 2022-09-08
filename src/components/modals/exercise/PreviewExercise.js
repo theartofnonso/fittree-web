@@ -19,7 +19,7 @@ const PreviewExercise = ({exercise, close}) => {
             backgroundColor: 'white',
             overflow: 'scroll',
         }}>
-            <CloseIcon onClick={close} sx={{marginY: 1}}/>
+            <CloseIcon onClick={close} sx={{marginY: 1, cursor: 'pointer'}}/>
             <Box sx={{
                 display: 'flex',
                 flexDirection: 'row',
