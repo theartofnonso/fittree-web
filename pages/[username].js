@@ -23,7 +23,12 @@ import {
     useTheme
 } from "@mui/material";
 import workoutsConstants from "../src/utils/workout/workoutsConstants";
-import {loadCircuitWorkout, loadRepsAndSetsWorkout, sortWorkouts} from "../src/utils/workout/workoutsHelperFunctions";
+import {
+    generateShareableLink,
+    loadCircuitWorkout,
+    loadRepsAndSetsWorkout,
+    sortWorkouts
+} from "../src/utils/workout/workoutsHelperFunctions";
 import CreatorProfile404 from "../src/components/views/CreatorProfile404";
 import CreatorProfile500 from "../src/components/views/CreatorProfile500";
 import CreatorProfileLoading from "../src/components/views/CreatorProfileLoading";
@@ -137,15 +142,15 @@ const CreatorProfile = () => {
         }
     }
 
-    // /**
-    //  * copy shareable link
-    //  */
-    // const copyShareableLink = () => {
-    //     Clipboard.setStringAsync(generateShareableLink(username)).then(() => {
-    //         setSnackbarMessage("Link copied")
-    //         setShowSnackBar(true)
-    //     });
-    // }
+    /**
+     * copy shareable link
+     */
+    const copyShareableLink = () => {
+        navigator.clipboard.writeText(generateShareableLink(username)).then(() => {
+            setSnackbarMessage("Link copied")
+            setShowSnackBar(true)
+        });
+    }
 
     /**
      * Display Avatar
@@ -202,7 +207,7 @@ const CreatorProfile = () => {
          * Loaded Creator page content
          */
         return (
-            <Container maxWidth="lg">
+            <Container maxWidth="xl">
                 <Box sx={{
                     display: "flex",
                     flexDirection: "column",
@@ -214,7 +219,7 @@ const CreatorProfile = () => {
                         flexDirection: "row",
                         alignItems: 'center',
                         paddingHorizontal: 10,
-                    }}>
+                    }} onClick={copyShareableLink}>
                         <ShareSvg/>
                     </Box>
                     <Box sx={{

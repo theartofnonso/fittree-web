@@ -36,8 +36,7 @@ const PauseModal = props => {
                         bottom: 50,
                         display: 'flex'
                     }}
-                    onClick={props.navigateToWorkoutPreview}
-                    testID="End_Workout_Btn">
+                    onClick={props.navigateToWorkoutPreview}>
                     <Typography sx={{color: 'white', fontFamily: 'Montserrat', fontWeight: 'bold'}}>
                         End Workout
                     </Typography>

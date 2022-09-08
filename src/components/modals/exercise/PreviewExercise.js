@@ -10,7 +10,7 @@ const PreviewExercise = ({exercise, close}) => {
     responsiveFontTheme = responsiveFontSizes(responsiveFontTheme);
 
     return (
-        <Container maxWidth="lg" sx={{
+        <Container maxWidth="xl" sx={{
             position: 'fixed',
             top: 0,
             bottom: 0,
@@ -23,9 +23,12 @@ const PreviewExercise = ({exercise, close}) => {
             <Box sx={{
                 display: 'flex',
                 flexDirection: 'row',
+                justifyContent: 'center',
                 width: '100%',
                 overflow: 'scroll',
-                marginBottom: 3
+                marginBottom: 3,
+                backgroundColor: '#282828',
+
             }}>
                 {exercise.videoUrls.map((url, index) => {
                     return (

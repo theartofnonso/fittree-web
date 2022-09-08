@@ -29,7 +29,7 @@ const PreviewWorkout = ({workout, play, close}) => {
     }
 
     return (
-        <Container maxWidth="lg" sx={{
+        <Container maxWidth="xl" sx={{
             position: 'fixed',
             top: 0,
             bottom: 0,
