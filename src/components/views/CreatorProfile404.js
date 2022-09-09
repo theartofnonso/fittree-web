@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React from "react";
 import {Box, Container, createTheme, Link, responsiveFontSizes, ThemeProvider, Typography} from "@mui/material";
-import FittrIconBig from "../illustrations/FittrIconBig";
+import FittrIcon from "/src/components/svg/fittr.svg";
 
 const CreatorProfile404 = ({username}) => {
 
@@ -28,7 +28,7 @@ const CreatorProfile404 = ({username}) => {
 
             <Box sx={{position: 'absolute', bottom: 0}}>
                 <Link href='/' sx={{textDecoration: 'none'}}>
-                    <FittrIconBig/>
+                    <FittrIcon/>
                 </Link>
             </Box>
         </Container>

@@ -22,7 +22,7 @@ const PauseModal = props => {
                 justifyContent: "center",
                 alignItems: "center",
             }}>
-                <PlayArrowIcon sx={{fontSize: 40, color: 'white'}} onClick={props.play}/>
+                <PlayArrowIcon sx={{fontSize: 40, color: 'white', cursor: 'pointer'}} onClick={props.play}/>
                 <Box
                     sx={{
                         alignItems: 'center',
@@ -34,7 +34,8 @@ const PauseModal = props => {
                         height: 40,
                         position: 'absolute',
                         bottom: 50,
-                        display: 'flex'
+                        display: 'flex',
+                        cursor: 'pointer'
                     }}
                     onClick={props.navigateToWorkoutPreview}>
                     <Typography sx={{color: 'white', fontFamily: 'Montserrat', fontWeight: 'bold'}}>

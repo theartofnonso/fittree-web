@@ -33,13 +33,13 @@ import CreatorProfile404 from "../src/components/views/CreatorProfile404";
 import CreatorProfile500 from "../src/components/views/CreatorProfile500";
 import CreatorProfileLoading from "../src/components/views/CreatorProfileLoading";
 import Socials from "../src/components/views/Socials";
-import ShareSvg from "../src/components/icons/ShareSvg";
-import styled from "@emotion/styled";
-import FittrIconBig from "../src/components/illustrations/FittrIconBig";
 import WorkoutCard from "../src/components/cards/WorkoutCard";
 import PreviewWorkout from "../src/components/modals/workout/PreviewWorkout";
 import PlayRepsAndSetsWorkout from "../src/components/modals/workout/PlayRepsAndSetsWorkout";
 import PlayCircuitWorkout from "../src/components/modals/workout/PlayCircuitWorkout";
+import EmptyStateIcon from '../src/components/svg/empty_state.svg'
+import ShareIcon from '../src/components/svg/share-box-line.svg'
+import FittrIcon from '../src/components/svg/fittr.svg'
 
 const CreatorProfile = () => {
 
@@ -221,7 +221,7 @@ const CreatorProfile = () => {
                         paddingHorizontal: 10,
                         cursor: 'pointer'
                     }} onClick={copyShareableLink}>
-                        <ShareSvg/>
+                        <ShareIcon/>
                     </Box>
                     <Box sx={{
                         display: 'flex',
@@ -248,19 +248,19 @@ const CreatorProfile = () => {
                         flex: 1,
                         borderRadius: 2
                     }}
-                                  autoCapitalize='none'
-                                  id="filled-basic"
-                                  label="Search workouts"
-                                  variant="outlined"
-                                  value={searchQuery}
-                                  onChange={event => onChangeSearch(event.target.value.toLowerCase())}/>
+                               autoCapitalize='none'
+                               id="filled-basic"
+                               label="Search workouts"
+                               variant="outlined"
+                               value={searchQuery}
+                               onChange={event => onChangeSearch(event.target.value.toLowerCase())}/>
 
                 </Box>
                 <Box sx={{
                     height: isBigScreen ? 800 : 400,
                     overflowY: 'scroll',
                 }}>
-                    {workouts.length > 0 ?
+                    {workouts.length < 0 ?
                         <Box sx={{
                             display: 'grid',
                             gridTemplateColumns: isBigScreen ? 'repeat(3, 1fr)' : 'repeat(2, 1fr)',
@@ -276,15 +276,18 @@ const CreatorProfile = () => {
                             })}
                         </Box> :
                         <Box sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
                             justifyContent: "center",
                             alignItems: "center",
-                            flex: 1,
+                            marginTop: 5
                         }}>
+                            <EmptyStateIcon/>
                             <Typography variant="body1" textAlign='center' sx={{
                                 fontFamily: 'Montserrat',
                                 fontSize: 12,
                                 fontWeight: 500,
-                                marginTop: 5
+                                marginTop: 2
                             }}>{`${username} has no workouts`}</Typography>
                         </Box>}
                 </Box>
@@ -295,7 +298,7 @@ const CreatorProfile = () => {
                     justifyContent: 'center',
                     alignItems: 'center',
                 }}>
-                    <FittrIconBig/>
+                    <FittrIcon/>
                 </Link>
                 {currentWorkout && !shouldPlayWorkout ?
                     <PreviewWorkout

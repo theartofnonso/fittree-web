@@ -1,6 +1,6 @@
 import React from 'react';
 import {Box, createTheme, responsiveFontSizes, ThemeProvider, Typography} from "@mui/material";
-import WorkoutCompletedSvg from "../../illustrations/WorkoutCompletedSvg";
+import CheckIcon from '../../svg/check.svg'
 
 const WorkoutCompletedModal = props => {
 
@@ -45,8 +45,9 @@ const WorkoutCompletedModal = props => {
             justifyContent: "center",
             alignItems: "center",
             backgroundColor: 'white',
+            cursor: 'pointer'
         }}>
-            <WorkoutCompletedSvg/>
+            <CheckIcon/>
             <Box sx={{
                 marginY: 10,
                 display: 'flex',

@@ -95,7 +95,7 @@ const IntervalModal = props => {
                 alignItems: "center",
             }}>
                 {displayIntervalMessage()}
-                <SkipNextIcon sx={{fontSize: 40, color: 'white'}} onClick={skipInterval}/>
+                <SkipNextIcon sx={{fontSize: 40, color: 'white', cursor: 'pointer'}} onClick={skipInterval}/>
                 <Box
                     sx={{
                         alignItems: 'center',
@@ -107,7 +107,8 @@ const IntervalModal = props => {
                         height: 40,
                         position: 'absolute',
                         bottom: 50,
-                        display: 'flex'
+                        display: 'flex',
+                        cursor: 'pointer'
                     }}
                     onClick={props.navigateToWorkoutPreview}>
                     <Typography sx={{color: 'white', fontFamily: 'Montserrat', fontWeight: 'bold'}}>
