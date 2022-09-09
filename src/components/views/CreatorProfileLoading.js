@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React from "react";
-import Favicon from "../illustrations/Favicon";
+import FittrIcon from "../svg/fittr_symbol.svg";
 import {Container} from "@mui/material";
 
 const CreatorProfileLoading = () => {
@@ -14,7 +14,7 @@ const CreatorProfileLoading = () => {
                        alignItems: 'center',
                        justifyContent: 'center',
                    }}>
-            <Favicon/>
+            <FittrIcon/>
         </Container>
     );
 };
