@@ -1,12 +1,16 @@
 /* eslint-disable */
 import React from "react";
 import FittrIcon from "../svg/fittr_symbol.svg";
-import {Container} from "@mui/material";
+import FittrIconSmall from "../svg/fittr_symbol_small.svg";
+import {Container, useMediaQuery, useTheme} from "@mui/material";
 
 const CreatorProfileLoading = () => {
 
+    const theme = useTheme();
+    const isBigScreen = useMediaQuery(theme.breakpoints.up('sm'));
+
     return (
-        <Container maxWidth="lg"
+        <Container maxWidth="xl"
                    sx={{
                        height: '100vh',
                        display: 'flex',
@@ -14,7 +18,8 @@ const CreatorProfileLoading = () => {
                        alignItems: 'center',
                        justifyContent: 'center',
                    }}>
-            <FittrIcon/>
+            {isBigScreen ? <FittrIcon/> : <FittrIconSmall/> }
+
         </Container>
     );
 };

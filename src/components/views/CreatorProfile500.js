@@ -9,7 +9,7 @@ const CreatorProfile500 = ({username}) => {
     responsiveFontTheme = responsiveFontSizes(responsiveFontTheme);
 
     return (
-        <Container maxWidth="lg"
+        <Container maxWidth="xl"
             sx={{
                 height: '100vh',
                 display: 'flex',

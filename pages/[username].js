@@ -40,6 +40,7 @@ import PlayCircuitWorkout from "../src/components/modals/workout/PlayCircuitWork
 import EmptyStateIcon from '../src/components/svg/empty_state.svg'
 import ShareIcon from '../src/components/svg/share-box-line.svg'
 import FittrIcon from '../src/components/svg/fittr.svg'
+import FittrIconSmall from '../src/components/svg/fittr_small.svg'
 
 const CreatorProfile = () => {
 
@@ -298,7 +299,7 @@ const CreatorProfile = () => {
                     justifyContent: 'center',
                     alignItems: 'center',
                 }}>
-                    <FittrIcon/>
+                    {isBigScreen ? <FittrIcon/> : <FittrIconSmall/>}
                 </Link>
                 {currentWorkout && !shouldPlayWorkout ?
                     <PreviewWorkout

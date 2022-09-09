@@ -12,6 +12,7 @@ import {
 import {styled} from "@mui/material/styles";
 import MuiAccordion from "@mui/material/Accordion";
 import FittrIcon from "/src/components/svg/fittr.svg";
+import FittrIconSmall from "/src/components/svg/fittr_small.svg";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {INSTAGRAM, INSTAGRAM_NAME, TWITTER, TWITTER_NAME} from "../src/utils/workout/utilsConstants";
 import MocksLeft from "../src/components/views/MocksLeft";
@@ -38,10 +39,10 @@ export default function App() {
     }));
 
     return (
-        <Container maxWidth="lg">
+        <Container maxWidth="xl">
 
             <Link href="/" sx={{textDecoration: "none"}}>
-                <FittrIcon/>
+                {isBigScreen ? <FittrIcon/> : <FittrIconSmall/>}
             </Link>
 
             <Box sx={{marginTop: 2, marginBottom: 10}}>
