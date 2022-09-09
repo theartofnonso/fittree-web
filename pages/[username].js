@@ -260,7 +260,7 @@ const CreatorProfile = () => {
                     height: isBigScreen ? 800 : 400,
                     overflowY: 'scroll',
                 }}>
-                    {workouts.length < 0 ?
+                    {workouts.length > 0 ?
                         <Box sx={{
                             display: 'grid',
                             gridTemplateColumns: isBigScreen ? 'repeat(3, 1fr)' : 'repeat(2, 1fr)',
