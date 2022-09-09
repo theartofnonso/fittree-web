@@ -250,7 +250,6 @@ const CreatorProfile = () => {
                         borderRadius: 2
                     }}
                                autoCapitalize='none'
-                               id="filled-basic"
                                label="Search workouts"
                                variant="outlined"
                                value={searchQuery}

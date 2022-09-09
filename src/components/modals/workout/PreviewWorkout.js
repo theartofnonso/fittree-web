@@ -37,6 +37,7 @@ const PreviewWorkout = ({workout, play, close}) => {
             left: 0,
             backgroundColor: 'white',
             overflowY: 'scroll',
+            zIndex: 1
         }}>
             <CloseIcon onClick={close} sx={{marginY: 1, cursor: 'pointer'}}/>
             <WorkoutCardBig workout={workout}/>
