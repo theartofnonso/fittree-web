@@ -54,7 +54,7 @@ const PlayWorkout = props => {
             right: 0,
             left: 0,
             backgroundColor: 'white',
-            overflow: 'scroll',
+            overflowY: 'scroll',
         }}>
             <Box sx={{
                 backgroundColor: 'white',
@@ -85,7 +85,7 @@ const PlayWorkout = props => {
                 playsinline={true}
             />
             <Box sx={{
-                overflow: 'scroll',
+                overflowY: 'scroll',
             }}>
                 {!props.isPaused ?
                     <Box sx={{

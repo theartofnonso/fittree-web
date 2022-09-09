@@ -17,7 +17,7 @@ const PreviewExercise = ({exercise, close}) => {
             right: 0,
             left: 0,
             backgroundColor: 'white',
-            overflow: 'scroll',
+            overflowY: 'scroll',
         }}>
             <CloseIcon onClick={close} sx={{marginY: 1, cursor: 'pointer'}}/>
             <Box sx={{
@@ -25,7 +25,7 @@ const PreviewExercise = ({exercise, close}) => {
                 flexDirection: 'row',
                 justifyContent: 'center',
                 width: '100%',
-                overflow: 'scroll',
+                overflowY: 'scroll',
                 marginBottom: 3,
                 backgroundColor: '#282828',
 

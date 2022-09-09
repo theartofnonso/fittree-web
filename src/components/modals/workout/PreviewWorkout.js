@@ -36,12 +36,12 @@ const PreviewWorkout = ({workout, play, close}) => {
             right: 0,
             left: 0,
             backgroundColor: 'white',
-            overflow: 'scroll',
+            overflowY: 'scroll',
         }}>
             <CloseIcon onClick={close} sx={{marginY: 1, cursor: 'pointer'}}/>
             <WorkoutCardBig workout={workout}/>
             <Box sx={{
-                overflow: 'scroll',
+                overflowY: 'scroll',
             }}>
                 <ThemeProvider theme={responsiveFontTheme}>
                     <Typography variant="body2" sx={{
