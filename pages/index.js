@@ -11,13 +11,13 @@ import {
 } from "@mui/material";
 import {styled} from "@mui/material/styles";
 import MuiAccordion from "@mui/material/Accordion";
-import FittrIconBig from "../src/components/illustrations/FittrIconBig";
+import FittrIcon from "/src/components/svg/fittr.svg";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {INSTAGRAM, INSTAGRAM_NAME, TWITTER, TWITTER_NAME} from "../src/utils/workout/utilsConstants";
 import MocksLeft from "../src/components/views/MocksLeft";
 import MocksRight from "../src/components/views/MocksRight";
-import InstagramSvg from "../src/components/icons/InstagramSvg";
-import TwitterSvg from "../src/components/icons/TwitterSvg";
+import InstagramIcon from "/src/components/svg/instagram-line.svg";
+import TwitterIcon from "../src/components/svg/twitter-line.svg";
 
 export default function App() {
 
@@ -41,7 +41,7 @@ export default function App() {
         <Container maxWidth="lg">
 
             <Link href="/" sx={{textDecoration: "none"}}>
-                <FittrIconBig/>
+                <FittrIcon/>
             </Link>
 
             <Box sx={{marginTop: 2, marginBottom: 10}}>
@@ -231,13 +231,13 @@ export default function App() {
                 <Box sx={{marginX: 1}}>
                     <Link target="_blank" href={INSTAGRAM + INSTAGRAM_NAME} sx={{textDecoration: "none"}}
                           rel="noopener">
-                        <InstagramSvg/>
+                        <InstagramIcon/>
                     </Link>
                 </Box>
                 <Box sx={{marginX: 1}}>
                     <Link target="_blank" href={TWITTER + TWITTER_NAME} sx={{textDecoration: "none"}}
                           rel="noopener">
-                        <TwitterSvg/>
+                        <TwitterIcon/>
                     </Link>
                 </Box>
             </Box>
