@@ -23,11 +23,13 @@ const PreviewExercise = ({exercise, close}) => {
             <Box sx={{
                 display: 'flex',
                 flexDirection: 'row',
-                justifyContent: 'center',
+                justifyContent: exercise.videoUrls.length > 1 ? 'flex-start' : 'center',
                 width: '100%',
-                overflowY: 'scroll',
+                overflowX: 'scroll',
                 marginBottom: 3,
                 backgroundColor: '#282828',
+                borderRadius: 5,
+                paddingY: 2
 
             }}>
                 {exercise.videoUrls.map((url, index) => {
@@ -38,7 +40,6 @@ const PreviewExercise = ({exercise, close}) => {
                             style={{
                                 flex: '0 0 25em',
                                 borderRadius: 5,
-                                marginRight: 5,
                                 backgroundColor: '#282828',
                                 overflow: 'hidden',
                                 position: 'relative',
