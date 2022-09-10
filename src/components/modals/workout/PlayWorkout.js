@@ -55,6 +55,7 @@ const PlayWorkout = props => {
             left: 0,
             backgroundColor: 'white',
             overflowY: 'scroll',
+            zIndex: 1
         }}>
             <Box sx={{
                 backgroundColor: 'white',

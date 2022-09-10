@@ -45,7 +45,8 @@ const WorkoutCompletedModal = props => {
             justifyContent: "center",
             alignItems: "center",
             backgroundColor: 'white',
-            cursor: 'pointer'
+            cursor: 'pointer',
+            zIndex: 1
         }}>
             <CheckIcon/>
             <Box sx={{
