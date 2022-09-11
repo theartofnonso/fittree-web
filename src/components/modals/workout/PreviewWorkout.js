@@ -53,7 +53,7 @@ const PreviewWorkout = ({workout, play, close}) => {
                     fontFamily: 'Montserrat',
                     fontWeight: 500,
                     whiteSpace: 'pre-line',
-                    marginY: 1
+                    marginBottom: 1
                 }}>{workout.workoutExercises.length} exercises</Typography>
                 {workout.workoutExercises.map((workoutExercise, i) =>
                     <Box
