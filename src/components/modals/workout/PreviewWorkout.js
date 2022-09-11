@@ -1,11 +1,10 @@
 /* eslint-disable */
 import React, {useState} from "react";
 import WorkoutCardBig from "../../cards/WorkoutCardBig";
-import {Box, Container, createTheme, responsiveFontSizes, ThemeProvider, Typography} from "@mui/material";
+import {Box, Container, createTheme, Fab, responsiveFontSizes, ThemeProvider, Typography} from "@mui/material";
 import WorkoutExerciseCard from "../../cards/WorkoutExerciseCard";
 import PreviewExercise from "../exercise/PreviewExercise";
 import CloseIcon from "@mui/icons-material/Close";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 
 const PreviewWorkout = ({workout, play, close}) => {
 
@@ -37,13 +36,11 @@ const PreviewWorkout = ({workout, play, close}) => {
             left: 0,
             backgroundColor: 'white',
             overflowY: 'scroll',
-            zIndex: 1
+            zIndex: 1,
         }}>
             <CloseIcon onClick={close} sx={{marginY: 1, cursor: 'pointer'}}/>
             <WorkoutCardBig workout={workout}/>
-            <Box sx={{
-                overflowY: 'scroll',
-            }}>
+            <Box>
                 <ThemeProvider theme={responsiveFontTheme}>
                     <Typography variant="body2" sx={{
                         fontFamily: 'Montserrat',
@@ -52,6 +49,12 @@ const PreviewWorkout = ({workout, play, close}) => {
                         marginY: 2
                     }}>{workout.description}</Typography>
                 </ThemeProvider>
+                <Typography variant="body2" sx={{
+                    fontFamily: 'Montserrat',
+                    fontWeight: 500,
+                    whiteSpace: 'pre-line',
+                    marginY: 1
+                }}>{workout.workoutExercises.length} exercises</Typography>
                 {workout.workoutExercises.map((workoutExercise, i) =>
                     <Box
                         sx={{
@@ -65,19 +68,25 @@ const PreviewWorkout = ({workout, play, close}) => {
                         onClick={() => playExercise(workoutExercise.exercise)}>
                         <WorkoutExerciseCard workoutExercise={workoutExercise} type={workout.type}/>
                     </Box>)}
-                {!currentExercise ? <Box sx={{
-                    position: 'fixed',
-                    right: 0,
-                    bottom: 0,
-                    marginRight: 4,
-                    marginBottom: 4,
-                    backgroundColor: '#ef7a75',
-                    padding: 1,
-                    borderRadius: 2
-                }} onClick={playWorkout}>
-                    <PlayArrowIcon sx={{fontSize: 40, color: 'white', cursor: 'pointer'}} onClick={playWorkout}/>
-                </Box> : null }
+
             </Box>
+            {!currentExercise ? <Box sx={{
+                left: 0,
+                right: 0,
+                bottom: 0,
+                alignItems: 'center',
+                backgroundColor: '#ef7a75',
+                borderRadius: 1,
+                flexDirection: 'row',
+                justifyContent: 'center',
+                height: 40,
+                display: 'flex',
+                marginBottom: 2,
+            }} onClick={playWorkout}>
+                <Typography sx={{color: 'white', fontFamily: 'Montserrat', fontWeight: 'bold'}}>
+                    Play workout
+                </Typography>
+            </Box> : null }
             {currentExercise ?
                 <PreviewExercise
                     exercise={currentExercise}
