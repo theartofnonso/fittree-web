@@ -28,13 +28,15 @@ const PlayCircuitWorkout = ({workout, rounds, end}) => {
 
         if (!paused) {
             intervalId = setInterval(() => {
-                if (exerciseDuration === 0) {
-                    clearInterval(intervalId);
-                    if (isPlayMode()) {
-                        seekForward();
+                if(getWorkoutExercise().repsOrTime === workoutsConstants.exerciseInfo.TIME) {
+                    if (exerciseDuration === 0) {
+                        clearInterval(intervalId);
+                        if (isPlayMode()) {
+                            seekForward();
+                        }
+                    } else {
+                        setExerciseDuration(prevValue => prevValue - 1000);
                     }
-                } else {
-                    setExerciseDuration(prevValue => prevValue - 1000);
                 }
             }, 1000);
         } else {
