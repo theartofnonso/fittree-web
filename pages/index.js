@@ -14,7 +14,14 @@ import MuiAccordion from "@mui/material/Accordion";
 import FittrIcon from "/src/components/svg/fittr.svg";
 import FittrIconSmall from "/src/components/svg/fittr_small.svg";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import {INSTAGRAM, INSTAGRAM_NAME, TWITTER, TWITTER_NAME} from "../src/utils/workout/utilsConstants";
+import {
+    APP_STORE_URL,
+    INSTAGRAM,
+    INSTAGRAM_NAME,
+    TWITTER,
+    TWITTER_NAME,
+    YOUTUBE
+} from "../src/utils/workout/utilsConstants";
 import MocksLeft from "../src/components/views/MocksLeft";
 import MocksRight from "../src/components/views/MocksRight";
 import InstagramIcon from "/src/components/svg/instagram-line.svg";
@@ -91,9 +98,11 @@ export default function App() {
                         height: 40,
                         margin: "auto",
                     }}>
-                    <Typography sx={{color: "white", fontFamily: "Montserrat", fontWeight: "500"}}>
-                        Get it on IOS
-                    </Typography>
+                    <Link target="_blank" href={APP_STORE_URL} sx={{textDecoration: 'none'}}>
+                        <Typography sx={{color: "white", fontFamily: "Montserrat", fontWeight: "500"}}>
+                            Get it on IOS
+                        </Typography>
+                    </Link>
                 </Box>
             </Box>
 

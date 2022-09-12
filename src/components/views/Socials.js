@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React from "react";
 import {Box, Link} from "@mui/material";
-import {INSTAGRAM, TIKTOK, TWITTER, YOUTUBE} from "../../utils/workout/utilsConstants";
+import {FACEBOOK, INSTAGRAM, TIKTOK, TWITTER, YOUTUBE} from "../../utils/workout/utilsConstants";
 import TikTokIcon from "../svg/tiktok-line.svg";
 import TwitterIcon from "../svg/twitter-line.svg";
 import InstagramIcon from "../svg/instagram-line.svg";
@@ -26,7 +26,7 @@ const Socials = ({profile}) => {
                 </Box> : null}
             {profile.facebook ?
                 <Box sx={{marginX: 1}}>
-                    <Link target="_blank" href={INSTAGRAM + profile.facebook} sx={{textDecoration: 'none'}}
+                    <Link target="_blank" href={FACEBOOK + profile.facebook} sx={{textDecoration: 'none'}}
                           rel="noopener">
                         <FacebookIcon />
                     </Link>

@@ -14,3 +14,4 @@ export const YOUTUBE = 'https://youtube.com/'
 export const APP_NAME = 'Fittree';
 export const INSTAGRAM_NAME = 'fittree.io';
 export const TWITTER_NAME = 'fittreeio';
+export const APP_STORE_URL = 'https://apps.apple.com/gb/app/fittree-for-creators/id6443335947'
