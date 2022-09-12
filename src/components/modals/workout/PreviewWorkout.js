@@ -1,15 +1,28 @@
 /* eslint-disable */
 import React, {useState} from "react";
 import WorkoutCardBig from "../../cards/WorkoutCardBig";
-import {Box, Container, createTheme, Fab, responsiveFontSizes, ThemeProvider, Typography} from "@mui/material";
+import {
+    Box,
+    Container,
+    createTheme,
+    Fab,
+    responsiveFontSizes,
+    ThemeProvider,
+    Typography,
+    useMediaQuery, useTheme
+} from "@mui/material";
 import WorkoutExerciseCard from "../../cards/WorkoutExerciseCard";
 import PreviewExercise from "../exercise/PreviewExercise";
 import CloseIcon from "@mui/icons-material/Close";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 
 const PreviewWorkout = ({workout, play, close}) => {
 
     let responsiveFontTheme = createTheme();
     responsiveFontTheme = responsiveFontSizes(responsiveFontTheme);
+
+    const theme = useTheme();
+    const isBiggerScreen = useMediaQuery(theme.breakpoints.up('xl'));
 
     const [currentExercise, setCurrentExercise] = useState(null)
 
@@ -68,9 +81,21 @@ const PreviewWorkout = ({workout, play, close}) => {
                         onClick={() => playExercise(workoutExercise.exercise)}>
                         <WorkoutExerciseCard workoutExercise={workoutExercise} type={workout.type}/>
                     </Box>)}
-
+                {!currentExercise && !isBiggerScreen ? <Box sx={{
+                    position: 'fixed',
+                    right: 0,
+                    bottom: 0,
+                    marginRight: 4,
+                    marginBottom: 4,
+                    backgroundColor: '#ef7a75',
+                    padding: 1,
+                    borderRadius: 2,
+                    cursor: 'pointer'
+                }} onClick={playWorkout}>
+                    <PlayArrowIcon sx={{fontSize: 40, color: 'white'}} onClick={playWorkout}/>
+                </Box> : null }
             </Box>
-            {!currentExercise ? <Box sx={{
+            {!currentExercise && isBiggerScreen ? <Box sx={{
                 left: 0,
                 right: 0,
                 bottom: 0,
