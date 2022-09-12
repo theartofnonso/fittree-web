@@ -226,21 +226,29 @@ export default function App() {
             <Box sx={{
                 display: "flex",
                 flexDirection: "row",
-                justifyContent: "center",
+                justifyContent: "space-between",
                 marginY: 4
             }}>
-                <Box sx={{marginX: 1}}>
-                    <Link target="_blank" href={INSTAGRAM + INSTAGRAM_NAME} sx={{textDecoration: "none"}}
-                          rel="noopener">
-                        <InstagramIcon/>
-                    </Link>
+                <Typography sx={{fontWeight: "500", fontFamily: "Montserrat"}}>dev@fittree.io</Typography>
+                <Box sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "center",
+                }}>
+                    <Box sx={{marginX: 1}}>
+                        <Link target="_blank" href={INSTAGRAM + INSTAGRAM_NAME} sx={{textDecoration: "none"}}
+                              rel="noopener">
+                            <InstagramIcon/>
+                        </Link>
+                    </Box>
+                    <Box sx={{marginX: 1}}>
+                        <Link target="_blank" href={TWITTER + TWITTER_NAME} sx={{textDecoration: "none"}}
+                              rel="noopener">
+                            <TwitterIcon/>
+                        </Link>
+                    </Box>
                 </Box>
-                <Box sx={{marginX: 1}}>
-                    <Link target="_blank" href={TWITTER + TWITTER_NAME} sx={{textDecoration: "none"}}
-                          rel="noopener">
-                        <TwitterIcon/>
-                    </Link>
-                </Box>
+
             </Box>
         </Container>
     );
