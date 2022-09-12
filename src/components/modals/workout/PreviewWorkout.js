@@ -82,6 +82,7 @@ const PreviewWorkout = ({workout, play, close}) => {
                 height: 40,
                 display: 'flex',
                 marginBottom: 2,
+                cursor: 'pointer'
             }} onClick={playWorkout}>
                 <Typography sx={{color: 'white', fontFamily: 'Montserrat', fontWeight: 'bold'}}>
                     Play workout
