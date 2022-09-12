@@ -45,8 +45,6 @@ const PlayRepsSetsWorkout = ({workout, exercises, end}) => {
         return () => clearInterval(intervalId);
     }, [paused, showIntervalModal, exerciseDuration]);
 
-    console.log(paused, showIntervalModal, exerciseDuration)
-
     /**
      * Seek through fits
      */

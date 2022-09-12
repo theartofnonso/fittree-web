@@ -20,7 +20,6 @@ export const loadCircuitWorkout = workout => {
     for (let i = 0; i < rounds.length; i++) {
         rounds[i] = workout.workoutExercises;
     }
-    console.log(rounds)
     return rounds;
 };
 
