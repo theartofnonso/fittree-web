@@ -2,7 +2,16 @@
 import React, {useEffect, useState} from "react";
 import workoutsConstants from "../../../utils/workout/workoutsConstants";
 import {timeOrReps} from "../../../utils/workout/workoutsHelperFunctions";
-import {Box, Container, createTheme, responsiveFontSizes, ThemeProvider, Typography,} from "@mui/material";
+import {
+    Box,
+    Container,
+    createTheme,
+    responsiveFontSizes,
+    ThemeProvider,
+    Typography,
+    useMediaQuery,
+    useTheme,
+} from "@mui/material";
 import ReactPlayer from "react-player";
 import PauseModal from "./PauseModal";
 import PauseIcon from '@mui/icons-material/Pause';
@@ -20,6 +29,9 @@ const PlayWorkout = props => {
 
     let responsiveFontTheme = createTheme();
     responsiveFontTheme = responsiveFontSizes(responsiveFontTheme);
+
+    const theme = useTheme();
+    const isBigScreen = useMediaQuery(theme.breakpoints.up('md'));
 
     const [showExercise, setShowExercise] = useState(false)
 
@@ -74,7 +86,6 @@ const PlayWorkout = props => {
             zIndex: 1
         }}>
             <Box sx={{
-                backgroundColor: 'white',
                 display: 'flex',
                 flexDirection: 'row',
                 justifyContent: 'space-between',
@@ -147,11 +158,28 @@ const PlayWorkout = props => {
                 </ThemeProvider>
             </Box>
             <Box sx={{
-                marginY: 2
+                position: isBigScreen ? 'absolute' : null,
+                right: isBigScreen ? 0 : null,
+                bottom: 0,
+                marginRight: isBigScreen ? 6 : null,
+                marginBottom: isBigScreen ? 2 : null,
+                marginTop: !isBigScreen ? 4 : null,
             }}>
-                {props.nextWorkoutExercise ? <WorkoutExerciseCard workoutExercise={props.nextWorkoutExercise} type={props.type}/> : null}
+                {props.nextWorkoutExercise ?
+                    <Box>
+                        <Typography variant="body1" sx={{
+                            fontFamily: 'Montserrat',
+                            fontWeight: 500,
+                            marginBottom: 0.5
+                        }}>Up Next:</Typography>
+                        <WorkoutExerciseCard workoutExercise={props.nextWorkoutExercise} type={props.type}/>
+                    </Box>: null}
             </Box>
-            {showWorkoutList ? <WorkoutList type={props.type} close={() => setShowWorkoutList(false)} list={props.data} progress={props.progress}/> : null}
+            {showWorkoutList ?
+                <WorkoutList
+                    type={props.type}
+                    close={() => setShowWorkoutList(false)}
+                    list={props.data} progress={props.progress}/> : null}
             {props.isPaused ?
                 <PauseModal
                     isVisible={props.isPaused}
