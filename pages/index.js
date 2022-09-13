@@ -20,8 +20,7 @@ import {
     INSTAGRAM_NAME,
     TWITTER,
     TWITTER_NAME,
-    YOUTUBE
-} from "../src/utils/workout/utilsConstants";
+} from "../src/utils/utilsConstants";
 import MocksLeft from "../src/components/views/MocksLeft";
 import MocksRight from "../src/components/views/MocksRight";
 import InstagramIcon from "/src/components/svg/instagram-line.svg";

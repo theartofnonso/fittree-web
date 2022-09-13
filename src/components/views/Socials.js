@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React from "react";
 import {Box, Link} from "@mui/material";
-import {FACEBOOK, INSTAGRAM, TIKTOK, TWITTER, YOUTUBE} from "../../utils/workout/utilsConstants";
+import {FACEBOOK, INSTAGRAM, TIKTOK, TWITTER, YOUTUBE} from "../../utils/utilsConstants";
 import TikTokIcon from "../svg/tiktok-line.svg";
 import TwitterIcon from "../svg/twitter-line.svg";
 import InstagramIcon from "../svg/instagram-line.svg";

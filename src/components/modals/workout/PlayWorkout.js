@@ -11,6 +11,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import IntervalModal from "./IntervalModal";
 import WorkoutCompletedModal from "./WorkoutCompletedModal";
 import PreviewExercise from "../exercise/PreviewExercise";
+import ErrorModal from "./ErrorModal";
 
 const PlayWorkout = props => {
 
@@ -20,6 +21,8 @@ const PlayWorkout = props => {
     const [showExercise, setShowExercise] = useState(false)
 
     const [startTime, setStartTime] = useState(0)
+
+    const [isError, setIsError] = useState(false);
 
     useEffect(() => {
         const currentTime = Date.now();
@@ -84,6 +87,10 @@ const PlayWorkout = props => {
                 loop={true}
                 playing={true}
                 playsinline={true}
+                onError={() => {
+                    setIsError(true)
+                    props.pause()
+                }}
             />
             <Box sx={{
                 overflowY: 'scroll',
@@ -128,6 +135,11 @@ const PlayWorkout = props => {
                     isVisible={props.isPaused}
                     navigateToWorkoutPreview={props.close}
                     play={props.play}
+                /> : null}
+            {isError ?
+                <ErrorModal
+                    isVisible={props.isError}
+                    navigateToWorkoutPreview={props.close}
                 /> : null}
             {props.shouldPlayInterval ?
                 <IntervalModal
