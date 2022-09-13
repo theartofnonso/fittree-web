@@ -28,12 +28,10 @@ const PlayRepsSetsWorkout = ({workout, exercises, end}) => {
 
         if (!paused) {
             intervalId = setInterval(() => {
-                if(getWorkoutExercise().repsOrTime === workoutsConstants.exerciseInfo.TIME) {
+                if (getWorkoutExercise().repsOrTime === workoutsConstants.exerciseInfo.TIME) {
                     if (exerciseDuration === 0) {
                         clearInterval(intervalId);
-                        if (isPlayMode()) {
-                            seekForward();
-                        }
+                        seekForward();
                     } else {
                         setExerciseDuration(prevValue => prevValue - 1000);
                     }
@@ -52,14 +50,6 @@ const PlayRepsSetsWorkout = ({workout, exercises, end}) => {
 
         const nextExerciseIndex = exerciseIndex + 1;
         const nextSetIndex = setIndex + 1;
-
-        if (!isPlayMode()) {
-            if (nextExerciseIndex < workout.workoutExercises.items.length) {
-                setExerciseIndex(nextExerciseIndex);
-                setExerciseDuration(getWorkoutExercise().repsOrTimeValue);
-            }
-            return;
-        }
 
         if (nextSetIndex >= exercises[exerciseIndex].length) {
             if (nextExerciseIndex >= exercises.length) {
@@ -84,21 +74,11 @@ const PlayRepsSetsWorkout = ({workout, exercises, end}) => {
      * Seek through fits
      */
     const seekBackward = () => {
-        const prevExerciseIndex = exerciseIndex - 1;
         const prevSetIndex = setIndex - 1;
-
-        if (!isPlayMode()) {
-            if (prevExerciseIndex >= 0) {
-                setExerciseIndex(prevExerciseIndex);
-            } else {
-                setExerciseIndex(0);
-            }
+        if (prevSetIndex >= 0) {
+            setSetIndex(prevSetIndex);
         } else {
-            if (prevSetIndex >= 0) {
-                setSetIndex(prevSetIndex);
-            } else {
-                setSetIndex(0);
-            }
+            setSetIndex(0);
         }
     };
 
@@ -117,18 +97,10 @@ const PlayRepsSetsWorkout = ({workout, exercises, end}) => {
     };
 
     /**
-     * Check if workout is in play mode
-     * @returns {boolean}
-     */
-    const isPlayMode = () => true
-
-    /**
      * Navigate to Fit
      */
     const navigateToExercisePreview = () => {
-        if (isPlayMode()) {
-            pauseWorkout();
-        }
+        pauseWorkout();
     };
 
     /**
@@ -136,11 +108,25 @@ const PlayRepsSetsWorkout = ({workout, exercises, end}) => {
      */
     const getWorkoutExercise = () => exercises[exerciseIndex][setIndex];
 
+    /**
+     * Get the next workoutExercise
+     */
+    const getNextWorkoutExercise = () => {
+        const nextExerciseIndex = exerciseIndex + 1;
+
+        if (nextExerciseIndex >= exercises.length) {
+            return null; // No more sets
+        } else {
+            return exercises[nextExerciseIndex][0]; // New set
+        }
+    }
+
     return (
         <PlayWorkout
             data={exercises}
             progress={{setIndex, exerciseIndex}}
             workoutExercise={getWorkoutExercise()}
+            nextWorkoutExercise={getNextWorkoutExercise()}
             previewExercise={navigateToExercisePreview}
             seekForward={seekForward}
             seekBackward={seekBackward}

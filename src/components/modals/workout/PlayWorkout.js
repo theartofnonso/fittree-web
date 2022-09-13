@@ -14,6 +14,7 @@ import PreviewExercise from "../exercise/PreviewExercise";
 import ErrorModal from "./ErrorModal";
 import WorkoutList from "../../views/WorkoutList";
 import ViewStreamIcon from '@mui/icons-material/ViewStream';
+import WorkoutExerciseCard from "../../cards/WorkoutExerciseCard";
 
 const PlayWorkout = props => {
 
@@ -144,6 +145,11 @@ const PlayWorkout = props => {
                         fontWeight: 300
                     }}>{props.extraData.exerciseExtras}</Typography>
                 </ThemeProvider>
+            </Box>
+            <Box sx={{
+                marginY: 2
+            }}>
+                {props.nextWorkoutExercise ? <WorkoutExerciseCard workoutExercise={props.nextWorkoutExercise} type={props.type}/> : null}
             </Box>
             {showWorkoutList ? <WorkoutList type={props.type} close={() => setShowWorkoutList(false)} list={props.data} progress={props.progress}/> : null}
             {props.isPaused ?

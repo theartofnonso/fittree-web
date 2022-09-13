@@ -21,6 +21,8 @@ const PlayCircuitWorkout = ({workout, rounds, end}) => {
 
     const [showWorkoutCompletedModal, setShowWorkoutCompletedModal] = useState(false)
 
+    const [nextWorkoutExercise, setNextWorkoutExercise] = useState(null)
+
     useEffect(() => {
         let intervalId = null;
 
@@ -28,12 +30,10 @@ const PlayCircuitWorkout = ({workout, rounds, end}) => {
 
         if (!paused) {
             intervalId = setInterval(() => {
-                if(getWorkoutExercise().repsOrTime === workoutsConstants.exerciseInfo.TIME) {
+                if (getWorkoutExercise().repsOrTime === workoutsConstants.exerciseInfo.TIME) {
                     if (exerciseDuration === 0) {
                         clearInterval(intervalId);
-                        if (isPlayMode()) {
-                            seekForward();
-                        }
+                        seekForward();
                     } else {
                         setExerciseDuration(prevValue => prevValue - 1000);
                     }
@@ -52,14 +52,6 @@ const PlayCircuitWorkout = ({workout, rounds, end}) => {
 
         const nextRoundsIndex = roundsIndex + 1;
         const nextExerciseIndex = exerciseIndex + 1;
-
-        if (!isPlayMode()) {
-            if (nextExerciseIndex < workout.workoutExercises.items.length) {
-                setExerciseIndex(nextExerciseIndex);
-                setExerciseDuration(getWorkoutExercise().repsOrTimeValue);
-            }
-            return;
-        }
 
         if (nextExerciseIndex >= rounds[roundsIndex].length) {
             if (nextRoundsIndex >= rounds.length) {
@@ -110,18 +102,10 @@ const PlayCircuitWorkout = ({workout, rounds, end}) => {
     };
 
     /**
-     * Check if workout is in play mode
-     * @returns {boolean}
-     */
-    const isPlayMode = () => true
-
-    /**
      * Navigate to Fit
      */
     const navigateToExercisePreview = () => {
-        if (isPlayMode()) {
-            pauseWorkout();
-        }
+        pauseWorkout();
     };
 
     /**
@@ -129,11 +113,31 @@ const PlayCircuitWorkout = ({workout, rounds, end}) => {
      */
     const getWorkoutExercise = () => rounds[roundsIndex][exerciseIndex];
 
+    /**
+     * Get the next workoutExercise
+     */
+    const getNextWorkoutExercise = () => {
+        const nextRoundsIndex = roundsIndex + 1;
+        const nextExerciseIndex = exerciseIndex + 1;
+
+        if (nextExerciseIndex >= rounds[roundsIndex].length) {
+            if (nextRoundsIndex >= rounds.length) {
+                return null // No more rounds
+            } else {
+                return rounds[nextRoundsIndex][0]; // New round
+            }
+        } else {
+            return rounds[roundsIndex][nextExerciseIndex]; // New Exercise
+        }
+
+    }
+
     return (
         <PlayWorkout
             data={rounds}
             progress={{exerciseIndex, roundsIndex}}
             workoutExercise={getWorkoutExercise()}
+            nextWorkoutExercise={getNextWorkoutExercise()}
             previewExercise={navigateToExercisePreview}
             seekForward={seekForward}
             seekBackward={seekBackward}

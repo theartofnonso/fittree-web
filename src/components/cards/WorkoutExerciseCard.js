@@ -24,13 +24,6 @@ const WorkoutExerciseCard = props => {
         return exerciseInfo
     };
 
-    /**
-     * Only load workout exercise information when available
-     */
-    if (!props.workoutExercise.exercise) {
-        return <Box/>
-    }
-
     return (
         <Box sx={{
             display: "flex",
