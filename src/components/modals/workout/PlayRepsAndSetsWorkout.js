@@ -138,6 +138,8 @@ const PlayRepsSetsWorkout = ({workout, exercises, end}) => {
 
     return (
         <PlayWorkout
+            data={exercises}
+            progress={{setIndex, exerciseIndex}}
             workoutExercise={getWorkoutExercise()}
             previewExercise={navigateToExercisePreview}
             seekForward={seekForward}

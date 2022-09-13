@@ -12,6 +12,8 @@ import IntervalModal from "./IntervalModal";
 import WorkoutCompletedModal from "./WorkoutCompletedModal";
 import PreviewExercise from "../exercise/PreviewExercise";
 import ErrorModal from "./ErrorModal";
+import WorkoutList from "../../views/WorkoutList";
+import ViewStreamIcon from '@mui/icons-material/ViewStream';
 
 const PlayWorkout = props => {
 
@@ -23,6 +25,8 @@ const PlayWorkout = props => {
     const [startTime, setStartTime] = useState(0)
 
     const [isError, setIsError] = useState(false);
+
+    const [showWorkoutList, setShowWorkoutList] = useState(false)
 
     useEffect(() => {
         const currentTime = Date.now();
@@ -49,6 +53,14 @@ const PlayWorkout = props => {
         setShowExercise(true)
     }
 
+    /**
+     * Display Workout list
+     */
+    const toggleWorkoutList = () => {
+        props.pause()
+        setShowWorkoutList(true)
+    }
+
     return (
         <Container maxWidth="xl" sx={{
             position: 'fixed',
@@ -69,7 +81,10 @@ const PlayWorkout = props => {
                 marginY: 1
             }}>
                 <CloseIcon onClick={props.close} sx={{cursor: 'pointer'}}/>
-                <InfoOutlinedIcon onClick={previewExercise} sx={{cursor: 'pointer'}}/>
+                <Box>
+                    <InfoOutlinedIcon onClick={previewExercise} sx={{cursor: 'pointer', marginLeft: 1.5}}/>
+                    <ViewStreamIcon onClick={toggleWorkoutList} sx={{cursor: 'pointer', marginLeft: 1.5}}/>
+                </Box>
 
             </Box>
             <ReactPlayer
@@ -130,6 +145,7 @@ const PlayWorkout = props => {
                     }}>{props.extraData.exerciseExtras}</Typography>
                 </ThemeProvider>
             </Box>
+            {showWorkoutList ? <WorkoutList type={props.type} close={() => setShowWorkoutList(false)} list={props.data} progress={props.progress}/> : null}
             {props.isPaused ?
                 <PauseModal
                     isVisible={props.isPaused}

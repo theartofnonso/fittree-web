@@ -83,7 +83,7 @@ const WorkoutCompletedModal = props => {
                 }}
                 onClick={props.navigateToWorkoutPreview}>
                 <Typography sx={{color: 'white', fontFamily: 'Montserrat', fontWeight: 'bold'}}>
-                    End Workout
+                    Close Workout
                 </Typography>
             </Box>
         </Box>

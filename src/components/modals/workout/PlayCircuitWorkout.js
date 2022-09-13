@@ -131,6 +131,8 @@ const PlayCircuitWorkout = ({workout, rounds, end}) => {
 
     return (
         <PlayWorkout
+            data={rounds}
+            progress={{exerciseIndex, roundsIndex}}
             workoutExercise={getWorkoutExercise()}
             previewExercise={navigateToExercisePreview}
             seekForward={seekForward}
