@@ -3,8 +3,20 @@ import {Provider} from "react-redux";
 import store from "../store/store";
 import {Amplify} from "@aws-amplify/core";
 import awsConfigs from '../src/aws-exports';
+import * as Sentry from "@sentry/react";
+import {BrowserTracing} from "@sentry/tracing";
 
 Amplify.configure({...awsConfigs, ssr: true});
+
+Sentry.init({
+    dsn: "https://ed0806683c484a74bac047f69ad21c44@o1400007.ingest.sentry.io/6746496",
+    integrations: [new BrowserTracing()],
+
+    // Set tracesSampleRate to 1.0 to capture 100%
+    // of transactions for performance monitoring.
+    // We recommend adjusting this value in production
+    tracesSampleRate: 1.0,
+});
 
 function MyApp({Component, pageProps}) {
 
