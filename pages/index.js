@@ -241,7 +241,7 @@ export default function App() {
                 justifyContent: "space-between",
                 marginY: 4
             }}>
-                <Typography sx={{fontWeight: "500", fontFamily: "Montserrat"}}>dev@fittree.io</Typography>
+                <Typography sx={{fontWeight: "500", fontFamily: "Montserrat"}}>hello@fittree.io</Typography>
                 <Box sx={{
                     display: "flex",
                     flexDirection: "row",
