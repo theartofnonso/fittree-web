@@ -121,7 +121,7 @@ export default function App() {
                 url={"d2ez6lox3k9lt0.cloudfront.net/public/fitpin-public/mocks/go_live.png"}/>
 
             <Box sx={{display: 'flex', flexDirection: 'row', justifyContent: 'center', marginBottom: 4}}>
-                <a href="https://www.producthunt.com/posts/fittree?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-fittree" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=359704&theme=light" alt="Fittree - Your&#0032;workouts&#0032;everywhere | Product Hunt" width="250" height="54" /></a>
+                <a href="https://www.producthunt.com/posts/fittree?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-fittree" rel="noreferrer" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=359704&theme=light" alt="Fittree - Your&#0032;workouts&#0032;everywhere | Product Hunt" width="250" height="54" /></a>
             </Box>
 
             <Accordion>
