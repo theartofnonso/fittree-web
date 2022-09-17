@@ -5,7 +5,6 @@ import {Amplify} from "@aws-amplify/core";
 import awsConfigs from '../src/aws-exports';
 import * as Sentry from "@sentry/react";
 import {BrowserTracing} from "@sentry/tracing";
-import Script from "next/script";
 
 Amplify.configure({...awsConfigs, ssr: true});
 
@@ -29,16 +28,6 @@ function MyApp({Component, pageProps}) {
                 <link rel="icon" href="/fittr_symbol_small.svg"/>
                 <title>Fittree | Your workouts everywhere</title>
             </Head>
-            <Script id={'hotjar-injection'} dangerouslySetInnerHTML={
-                `(function(h,o,t,j,a,r){
-                    h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
-                    h._hjSettings={hjid:3162126,hjsv:6};
-                    a=o.getElementsByTagName('head')[0];
-                    r=o.createElement('script');r.async=1;
-                    r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
-                    a.appendChild(r);
-                })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');`
-            }/>
             <Provider store={store}>
                 <Component {...pageProps} />
             </Provider>
