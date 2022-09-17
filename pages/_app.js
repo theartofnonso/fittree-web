@@ -29,7 +29,7 @@ function MyApp({Component, pageProps}) {
                 <link rel="icon" href="/fittr_symbol_small.svg"/>
                 <title>Fittree | Your workouts everywhere</title>
             </Head>
-            <Script dangerouslySetInnerHTML={
+            <Script id={'hotjar-injection'} dangerouslySetInnerHTML={
                 `(function(h,o,t,j,a,r){
                     h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
                     h._hjSettings={hjid:3162126,hjsv:6};
