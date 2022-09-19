@@ -136,7 +136,6 @@ const CreatorProfile = () => {
 
         } else {
             const exercises = loadRepsAndSetsWorkout(currentWorkout);
-            console.log(exercises)
             return <PlayRepsAndSetsWorkout
                 workout={currentWorkout}
                 exercises={exercises}
