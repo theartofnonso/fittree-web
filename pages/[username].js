@@ -216,9 +216,9 @@ const CreatorProfile = () => {
                     <Alert severity="warning" onClose={() => setOpen(false)}>
                         <AlertTitle>Important</AlertTitle>
                         <Typography variant='body2'>Fittree will <strong>never request financial transactions</strong> of
-                            any kind</Typography>
+                            any kind</Typography><br/>
                         <Typography variant='body2'>Fittree will never redirect you to any other page other than
-                            the <strong>socials of a Fittree user as well as our ProductHunt page</strong></Typography>
+                            the <strong>socials of a Fittree user as well as our ProductHunt page</strong></Typography><br/>
                         <Typography variant='body2'>Fittree will <strong>never request any personal
                             details</strong> from you</Typography>
                     </Alert>
