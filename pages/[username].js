@@ -11,8 +11,9 @@ import {useDispatch, useSelector} from "react-redux";
 import {searchExerciseOrWorkout} from "../src/utils/workoutAndExerciseUtils";
 import {
     Alert,
+    AlertTitle,
     Avatar,
-    Box,
+    Box, Collapse,
     Container,
     Link,
     Snackbar,
@@ -70,6 +71,8 @@ const CreatorProfile = () => {
     const [shouldPlayWorkout, setShouldPlayWorkout] = useState(false)
 
     const [searchQuery, setSearchQuery] = React.useState('');
+
+    const [open, setOpen] = React.useState(true);
 
     /**
      * Show snackbar for err message
@@ -209,6 +212,17 @@ const CreatorProfile = () => {
          */
         return (
             <Container maxWidth="xl">
+                <Collapse in={open}>
+                    <Alert severity="warning" onClose={() => setOpen(false)}>
+                        <AlertTitle>Important</AlertTitle>
+                        <Typography variant='body2'>Fittree will <strong>never request financial transactions</strong> of
+                            any kind</Typography>
+                        <Typography variant='body2'>Fittree will never redirect you to any other page other than
+                            the <strong>socials of a Fittree user as well as our ProductHunt page</strong></Typography>
+                        <Typography variant='body2'>Fittree will <strong>never request any personal
+                            details</strong> from you</Typography>
+                    </Alert>
+                </Collapse>
                 <Box sx={{
                     display: "flex",
                     flexDirection: "column",

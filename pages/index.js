@@ -1,8 +1,8 @@
 import React from "react";
 import {
     AccordionDetails,
-    AccordionSummary,
-    Box,
+    AccordionSummary, Alert, AlertTitle,
+    Box, Collapse,
     Container,
     Link,
     Typography,
@@ -31,6 +31,8 @@ export default function App() {
     const theme = useTheme();
     const isBigScreen = useMediaQuery(theme.breakpoints.up("sm"));
 
+    const [open, setOpen] = React.useState(true);
+
     const Accordion = styled((props) => (
         <MuiAccordion disableGutters elevation={0} square {...props} />
     ))(({theme}) => ({
@@ -46,7 +48,19 @@ export default function App() {
 
     return (
         <Container maxWidth="xl">
-
+            <Collapse in={open}>
+                <Alert severity="warning" onClose={() => setOpen(false)}>
+                    <AlertTitle>Important</AlertTitle>
+                    <Typography variant='body2'>Fittree will <strong>never request financial transactions</strong> of
+                        any kind</Typography>
+                    <br/>
+                    <Typography variant='body2'>Fittree will never redirect you to any page other than
+                        the <strong>socials of a Fittree user, our ProductHunt and IOS App store page</strong></Typography>
+                    <br/>
+                    <Typography variant='body2'>Fittree will <strong>never request any personal
+                        details</strong> from you</Typography>
+                </Alert>
+            </Collapse>
             <Link href="/" sx={{textDecoration: "none"}}>
                 {isBigScreen ? <FittrIcon/> : <FittrIconSmall/>}
             </Link>
@@ -106,6 +120,7 @@ export default function App() {
             </Box>
 
             <MocksLeft
+                isPriority={true}
                 title={["Create 5 secs", "exercise videos"]}
                 description={["Shoot 5 seconds videos", "to demonstrate an exercise"]}
                 url={"d2ez6lox3k9lt0.cloudfront.net/public/fitpin-public/mocks/create_exercise.png"}/>

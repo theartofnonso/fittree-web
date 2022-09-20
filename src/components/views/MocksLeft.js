@@ -69,6 +69,7 @@ const MocksLeft = (props) => {
                     src={props.url}
                     width={300}
                     height={600}
+                    priority={props.isPriority}
                     objectFit={'contain'}/>
             </Box>
         </Box>
