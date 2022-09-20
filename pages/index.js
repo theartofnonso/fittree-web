@@ -55,7 +55,7 @@ export default function App() {
                         any kind</Typography>
                     <br/>
                     <Typography variant='body2'>Fittree will never redirect you to any page other than
-                        the <strong>socials of a Fittree user, our ProductHunt and IOS App store page</strong></Typography>
+                        the <strong>official Fittree socials, socials of a Fittree user, our ProductHunt and IOS App store page</strong></Typography>
                     <br/>
                     <Typography variant='body2'>Fittree will <strong>never request any personal
                         details</strong> from you</Typography>
