@@ -83,7 +83,7 @@ const PlayWorkout = props => {
             left: 0,
             backgroundColor: 'white',
             overflowY: 'scroll',
-            zIndex: 1
+            zIndex: 1,
         }}>
             <Box sx={{
                 display: 'flex',
@@ -182,6 +182,8 @@ const PlayWorkout = props => {
                     list={props.data} progress={props.progress}/> : null}
             {props.isPaused ?
                 <PauseModal
+                    previewExercise={previewExercise}
+                    toggleWorkoutList={toggleWorkoutList}
                     isVisible={props.isPaused}
                     navigateToWorkoutPreview={props.close}
                     play={props.play}
@@ -193,6 +195,8 @@ const PlayWorkout = props => {
                 /> : null}
             {props.shouldPlayInterval ?
                 <IntervalModal
+                    previewExercise={previewExercise}
+                    toggleWorkoutList={toggleWorkoutList}
                     description={props.interval.description}
                     intervalTime={props.interval.duration}
                     navigateToWorkoutPreview={props.close}
