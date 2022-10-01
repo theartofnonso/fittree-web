@@ -7,9 +7,10 @@ const nextConfig = {
 const ContentSecurityPolicy = `
   default-src 'self';
   script-src 'self';
+  img-src 'self' https://d2ez6lox3k9lt0.cloudfront.net;
   child-src example.com;
-  style-src 'self' example.com;
-  font-src 'self';  
+  style-src 'self' 'sha256-8BNxsIsc6VHj8/elC63fqbrGsnTOvhNTf17uhaIdUI4=';
+  font-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com;  
 `
 
 const securityHeaders = [
@@ -32,6 +33,10 @@ const securityHeaders = [
     {
         key: 'Referrer-Policy',
         value: 'strict-origin'
+    },
+    {
+        key: 'Content-Security-Policy',
+        value: ContentSecurityPolicy.replace(/\s{2,}/g, ' ').trim()
     }
 ]
 
@@ -40,9 +45,14 @@ module.exports = {
         return [
             {
                 // Apply these headers to all routes in your application.
-                source: '/:path*',
+                source: '/',
                 headers: securityHeaders,
             },
+            // {
+            //     // Apply these headers to all routes in your application.
+            //     source: '/:path*',
+            //     headers: securityHeaders,
+            // },
         ]
     },
     webpack(config) {
