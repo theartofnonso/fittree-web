@@ -3,15 +3,17 @@ import React from 'react';
 const MockRight = (props) => {
 
     return (
-        <div className="flex flex-col sm:flex-row items-center sm:w-3/5 sm:place-content-between">
+        <div className="flex flex-col sm:flex-row items-center sm:w-5/6 sm:place-content-around my-8 sm:my-2">
             <div className="flex flex-col items-center sm:items-start w-80">
-                <p className="font-Montserrat font-bold text-2xl sm:text-4xl">{props.headerOne}</p>
-                <p className="font-Montserrat font-bold text-2xl sm:text-4xl">{props.headerTwo}</p>
-                <p className="font-Montserrat font-normal text-md my-1.5">{props.bodyOne}</p>
-                <p className="font-Montserrat font-normal text-md my-1.5">{props.bodyTwo}</p>
+                <p className="font-bold text-2xl sm:text-4xl">{props.headerOne}</p>
+                <p className="font-bold text-2xl sm:text-4xl">{props.headerTwo}</p>
+                <div className="mt-1.5 flex flex-col items-center sm:items-start w-full">
+                    <p className="font-normal text-sm">{props.bodyOne}</p>
+                    <p className="font-normal text-sm">{props.bodyTwo}</p>
+                </div>
             </div>
-            <div className="w-full">
-                <img src={props.url}  alt='Image of phone'/>
+            <div className="w-3/5 sm:w-1/3">
+                <img src={props.url} alt='Image of phone'/>
             </div>
         </div>
     )

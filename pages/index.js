@@ -2,19 +2,24 @@ import React from "react";
 import MockRight from "../src/components/views/mocks/MockRight";
 import MockLeft from "../src/components/views/mocks/MockLeft";
 import {APP_STORE_URL} from "../src/utils/utilsConstants";
+import "../js/accordion"
+import InstagramIcon from "../src/components/svg/instagram-line.svg";
+import TwitterIcon from "../src/components/svg/twitter-line.svg";
 
 export default function App() {
 
     return (
         <div className="container mx-auto">
             <div></div>
-            <div className="flex flex-col items-center my-16">
+            <div className="flex flex-col items-center my-10">
                 <div className="flex flex-col items-center">
-                    <p className="font-Montserrat font-bold text-2xl sm:text-4xl">Your workouts</p>
-                    <p className="font-Montserrat font-bold text-2xl sm:text-4xl">everywhere you go</p>
-                    <p className="font-Montserrat font-normal text-xs my-1.5">Create, share and play workouts on any device</p>
+                    <p className="font-bold text-2xl sm:text-4xl">Your workouts</p>
+                    <p className="font-bold text-2xl sm:text-4xl">everywhere you go</p>
+                    <p className="font-normal text-xs my-1.5">Create, share and play workouts on any device</p>
                 </div>
-                <a rel="noreferrer" href={APP_STORE_URL} target="_blank" className="font-Montserrat bg-primary rounded-3xl py-2 px-10 mt-6 text-white font-medium">Get it on IOS</a>
+                <a rel="noreferrer" href={APP_STORE_URL} target="_blank"
+                   className="bg-primary rounded-3xl py-2 px-10 mt-6 text-white font-medium">Get it on
+                    IOS</a>
             </div>
 
             <div className="flex flex-col items-center">
@@ -36,6 +41,45 @@ export default function App() {
                     headerTwo=""
                     bodyOne="launch your workouts"
                     bodyTwo="with an improved experience"/>
+            </div>
+            <div className="flex flex-col mx-6 sm:mx-8">
+                <button
+                    className="accordion bg-secondary w-full text-start px-3 py-5 my-2 rounded-lg font-semibold text-md text-primary">What
+                    is Fittree ?
+                </button>
+                <div className="p-3">
+                    <p>Fittree is a link to your workouts.
+                        All you need is a fittree.io/username to share with everyone, everywhere.
+                        Create awesome workouts and share them with your followers, clients, brand partners etc.
+                        Take your link everywhere your fitness brand exists.</p>
+                </div>
+
+                <button
+                    className="accordion bg-secondary w-full text-start px-3 py-5 my-2 rounded-lg font-semibold text-md text-primary">Why
+                    do I need Fittree ?
+                </button>
+                <div className="p-3">
+                    <p>It is simple, you have a brand (sense of value and reputation) to build, and we have the means to
+                        help you achieve that. Fittree is a fit-for-purpose link to the value you have to offer to your
+                        community.</p>
+                </div>
+
+                <button
+                    className="accordion bg-secondary w-full text-start px-3 py-5 my-2 rounded-lg font-semibold text-md text-primary">How
+                    can I share my workouts ?
+                </button>
+                <div className="p-3">
+                    <p>All you need is a fittree.io/username link.</p>
+                </div>
+            </div>
+            <div className="flex flex-row my-4 mx-6 sm:mx-8 place-content-between">
+                <div>
+                    <p>hello@fittree.io</p>
+                </div>
+                <div className="flex flex-row place-content-around w-1/6 bg-secondary">
+                    <InstagramIcon/>
+                    <TwitterIcon/>
+                </div>
             </div>
         </div>
     );
