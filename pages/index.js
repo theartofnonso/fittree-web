@@ -19,19 +19,19 @@ export default function App() {
 
             <div className="flex flex-col items-center">
                 <MockRight
-                    url={"d2ez6lox3k9lt0.cloudfront.net/public/fitpin-public/mocks/create_exercise.png"}
+                    url={"https://d2ez6lox3k9lt0.cloudfront.net/public/fitpin-public/mocks/create_exercise.png"}
                     headerOne="Create 5 secs"
                     headerTwo="exercise videos"
                     bodyOne="Shoot 5 seconds videos"
                     bodyTwo="to demonstrate an exercise"/>
                 <MockLeft
-                    url={"d2ez6lox3k9lt0.cloudfront.net/public/fitpin-public/mocks/curate_workouts.png"}
+                    url={"https://d2ez6lox3k9lt0.cloudfront.net/public/fitpin-public/mocks/curate_workouts.png"}
                     headerOne="Curate exercises"
                     headerTwo="into workouts"
                     bodyOne="Curate various exercises into"
                     bodyTwo="workouts of Circuits or Reps and Sets"/>
                 <MockRight
-                    url={"d2ez6lox3k9lt0.cloudfront.net/public/fitpin-public/mocks/go_live.png"}
+                    url={"https://d2ez6lox3k9lt0.cloudfront.net/public/fitpin-public/mocks/go_live.png"}
                     headerOne="Go live"
                     headerTwo=""
                     bodyOne="launch your workouts"
