@@ -10,11 +10,11 @@ export default function App() {
             <div></div>
             <div className="flex flex-col items-center my-16">
                 <div className="flex flex-col items-center">
-                    <p className="font-bold text-2xl sm:text-4xl">Your workouts</p>
-                    <p className="font-bold text-2xl sm:text-4xl">everywhere you go</p>
-                    <p className="font-normal text-xs my-1.5">Create, share and play workouts on any device</p>
+                    <p className="font-Montserrat font-bold text-2xl sm:text-4xl">Your workouts</p>
+                    <p className="font-Montserrat font-bold text-2xl sm:text-4xl">everywhere you go</p>
+                    <p className="font-Montserrat font-normal text-xs my-1.5">Create, share and play workouts on any device</p>
                 </div>
-                <a rel="noreferrer" href={APP_STORE_URL} target="_blank" className="bg-primary rounded-3xl py-2 px-10 mt-6 text-white font-medium">Get it on IOS</a>
+                <a rel="noreferrer" href={APP_STORE_URL} target="_blank" className="font-Montserrat bg-primary rounded-3xl py-2 px-10 mt-6 text-white font-medium">Get it on IOS</a>
             </div>
 
             {/*<div className="flex flex-col items-center">*/}
