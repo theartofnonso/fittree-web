@@ -14,29 +14,29 @@ export default function App() {
                     <p className="font-bold text-2xl sm:text-4xl">everywhere you go</p>
                     <p className="font-normal text-xs my-1.5">Create, share and play workouts on any device</p>
                 </div>
-                <a href={APP_STORE_URL} target="_blank" className="bg-primary rounded-3xl py-2 px-10 mt-6 text-white font-medium">Get it on IOS</a>
+                <a rel="noreferrer" href={APP_STORE_URL} target="_blank" className="bg-primary rounded-3xl py-2 px-10 mt-6 text-white font-medium">Get it on IOS</a>
             </div>
 
-            <div className="flex flex-col items-center">
-                <MockRight
-                    url={"d2ez6lox3k9lt0.cloudfront.net/public/fitpin-public/mocks/create_exercise.png"}
-                    headerOne="Create 5 secs"
-                    headerTwo="exercise videos"
-                    bodyOne="Shoot 5 seconds videos"
-                    bodyTwo="to demonstrate an exercise"/>
-                <MockLeft
-                    url={"d2ez6lox3k9lt0.cloudfront.net/public/fitpin-public/mocks/curate_workouts.png"}
-                    headerOne="Curate exercises"
-                    headerTwo="into workouts"
-                    bodyOne="Curate various exercises into"
-                    bodyTwo="workouts of Circuits or Reps and Sets"/>
-                <MockRight
-                    url={"d2ez6lox3k9lt0.cloudfront.net/public/fitpin-public/mocks/go_live.png"}
-                    headerOne="Go live"
-                    headerTwo=""
-                    bodyOne="launch your workouts"
-                    bodyTwo="with an improved experience"/>
-            </div>
+            {/*<div className="flex flex-col items-center">*/}
+            {/*    <MockRight*/}
+            {/*        url={"d2ez6lox3k9lt0.cloudfront.net/public/fitpin-public/mocks/create_exercise.png"}*/}
+            {/*        headerOne="Create 5 secs"*/}
+            {/*        headerTwo="exercise videos"*/}
+            {/*        bodyOne="Shoot 5 seconds videos"*/}
+            {/*        bodyTwo="to demonstrate an exercise"/>*/}
+            {/*    <MockLeft*/}
+            {/*        url={"d2ez6lox3k9lt0.cloudfront.net/public/fitpin-public/mocks/curate_workouts.png"}*/}
+            {/*        headerOne="Curate exercises"*/}
+            {/*        headerTwo="into workouts"*/}
+            {/*        bodyOne="Curate various exercises into"*/}
+            {/*        bodyTwo="workouts of Circuits or Reps and Sets"/>*/}
+            {/*    <MockRight*/}
+            {/*        url={"d2ez6lox3k9lt0.cloudfront.net/public/fitpin-public/mocks/go_live.png"}*/}
+            {/*        headerOne="Go live"*/}
+            {/*        headerTwo=""*/}
+            {/*        bodyOne="launch your workouts"*/}
+            {/*        bodyTwo="with an improved experience"/>*/}
+            {/*</div>*/}
         </div>
     );
 }

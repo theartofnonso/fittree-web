@@ -5,7 +5,7 @@ import {Amplify} from "@aws-amplify/core";
 import awsConfigs from '../src/aws-exports';
 import * as Sentry from "@sentry/react";
 import {BrowserTracing} from "@sentry/tracing";
-import styles from "../styles/index.css"
+import "../styles/index.css"
 
 Amplify.configure({...awsConfigs, ssr: true});
 

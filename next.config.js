@@ -7,10 +7,10 @@ const nextConfig = {
 const ContentSecurityPolicy = `
   default-src 'self';
   script-src 'self';
-  img-src 'self' https://d2ez6lox3k9lt0.cloudfront.net;
+  img-src 'self' data: https://d2ez6lox3k9lt0.cloudfront.net;
   child-src example.com;
-  style-src 'self' 'sha256-8BNxsIsc6VHj8/elC63fqbrGsnTOvhNTf17uhaIdUI4=';
-  font-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com;  
+  style-src 'self' https://fonts.googleapis.com 'sha256-4/2nIlfwIVTJ1+JcNQ6LkeVWzNS148LKAJeL5yofdN4=';
+  font-src 'self' https://fonts.gstatic.com;  
 `
 
 const securityHeaders = [
@@ -43,11 +43,11 @@ const securityHeaders = [
 module.exports = {
     async headers() {
         return [
-            {
-                // Apply these headers to all routes in your application.
-                source: '/',
-                headers: securityHeaders,
-            },
+            // {
+            //     // Apply these headers to all routes in your application.
+            //     source: '/',
+            //     headers: securityHeaders,
+            // },
             // {
             //     // Apply these headers to all routes in your application.
             //     source: '/:path*',
@@ -59,9 +59,8 @@ module.exports = {
         config.module.rules.push({
             test: /\.svg$/i,
             issuer: /\.[jt]sx?$/,
-            use: ['@svgr/webpack'],
+            use: ['@svgr/webpack']
         })
-
         return config
     },
 
