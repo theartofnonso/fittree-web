@@ -8,8 +8,7 @@ const ContentSecurityPolicy = `
   default-src 'self';
   script-src 'self';
   img-src 'self' data: https://d2ez6lox3k9lt0.cloudfront.net;
-  child-src example.com;
-  style-src 'self' https://fonts.googleapis.com;
+  style-src 'self' https://fonts.googleapis.com 'sha256-4/2nIlfwIVTJ1+JcNQ6LkeVWzNS148LKAJeL5yofdN4=';
   font-src 'self' https://fonts.gstatic.com;  
 `
 
