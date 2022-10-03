@@ -44,6 +44,7 @@ export default function App() {
             </div>
             <div className="flex flex-col mx-6 sm:mx-8">
                 <button
+                    onClick={() => console.log('Hiya')}
                     className="accordion bg-secondary w-full text-start px-3 py-5 my-2 rounded-lg font-semibold text-md text-primary">What
                     is Fittree ?
                 </button>
