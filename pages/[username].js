@@ -22,8 +22,8 @@ import CreatorProfile500 from "../src/components/views/CreatorProfile500";
 import CreatorProfileLoading from "../src/components/views/CreatorProfileLoading";
 import PlayRepsAndSetsWorkout from "../src/components/modals/workout/PlayRepsAndSetsWorkout";
 import PlayCircuitWorkout from "../src/components/modals/workout/PlayCircuitWorkout";
-import FittrIcon from "../src/components/svg/fittr.svg";
 import ShareIcon from "../src/components/svg/share-box-line.svg";
+import WorkoutCard from "../src/components/cards/WorkoutCard";
 
 const CreatorProfile = () => {
 
@@ -193,12 +193,10 @@ const CreatorProfile = () => {
          * Loaded Creator page content
          */
         return (
-            <div className="container mx-auto">
-                <div className="ml-8 sm:ml-10 my-4">
-                    <button>
-                        <ShareIcon/>
-                    </button>
-                </div>
+            <div className="container mx-auto px-6 sm:px-10">
+                <button className="my-4">
+                    <ShareIcon/>
+                </button>
                 <div className="flex flex-col items-center">
                     <div className="rounded-full w-1/4 sm:w-1/6 overflow-hidden mb-2">
                         <img src={"https://" + profile.displayProfile} alt="Display profile" className="object-cover"/>
@@ -207,11 +205,19 @@ const CreatorProfile = () => {
                     <p className="font-light py-1 text-sm sm:text-xl">{profile.displayBrief}</p>
                 </div>
                 <form className="my-4 flex flex-col items-center">
-                    <input className=" w-5/6 h-11 bg-secondary sm:h-20 shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
-                           id="username"
-                           type="text"
-                           placeholder="Search workouts"/>
+                    <input
+                        className=" w-5/6 bg-secondary h-14 sm:h-20 shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+                        id="username"
+                        type="text"
+                        placeholder="Search workouts"/>
                 </form>
+                <div className="grid gap-2 grid-cols-2 sm:grid-cols-3">
+                    {workouts.length > 0 ? filteredWorkouts.map((item, index) => {
+                        return (
+                            <WorkoutCard key={index} workout={item}/>
+                        );
+                    }) : null}
+                </div>
             </div>
         )
     }
