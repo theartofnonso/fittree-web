@@ -198,19 +198,20 @@ const CreatorProfile = () => {
                     <ShareIcon/>
                 </button>
                 <div className="flex flex-col items-center">
-                    <div className="rounded-full w-1/4 sm:w-1/6 overflow-hidden mb-2">
+                    <div className="rounded-full w-1/4 sm:w-1/6 md:w-24 overflow-hidden mb-2">
                         <img src={"https://" + profile.displayProfile} alt="Display profile" className="object-cover"/>
                     </div>
-                    <p className="font-semibold py-1 text-base sm:text-2xl">{profile.preferred_username}</p>
-                    <p className="font-light py-1 text-sm sm:text-xl">{profile.displayBrief}</p>
+                    <p className="font-semibold py-1 text-base sm:text-2xl md:text-lg">{profile.preferred_username}</p>
+                    <p className="font-light py-1 text-sm sm:text-xl md:text-base">{profile.displayBrief}</p>
                 </div>
                 <form className="my-4 flex flex-col items-center">
                     <input
-                        className=" w-5/6 bg-secondary h-14 sm:h-20 shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
-                        id="username"
+                        className="border-primary w-5/6 bg-secondary h-14 sm:h-18 shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+                        id="search"
                         type="text"
                         placeholder="Search workouts"/>
                 </form>
+                <div className={`bg-[url(https://${workouts[0].thumbnailUrl})] h-80 w-80 `}/>
                 <div className="grid gap-2 grid-cols-2 sm:grid-cols-3">
                     {workouts.length > 0 ? filteredWorkouts.map((item, index) => {
                         return (
