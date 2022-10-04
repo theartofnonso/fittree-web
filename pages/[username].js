@@ -9,20 +9,7 @@ import {
 } from "../src/features/CreatorProfileSlice";
 import {useDispatch, useSelector} from "react-redux";
 import {searchExerciseOrWorkout} from "../src/utils/workoutAndExerciseUtils";
-import {
-    Alert,
-    AlertTitle,
-    Avatar,
-    Box, Collapse,
-    Container,
-    Link,
-    Snackbar,
-    TextField,
-    ThemeProvider,
-    Typography,
-    useMediaQuery,
-    useTheme
-} from "@mui/material";
+import {Avatar, useMediaQuery, useTheme} from "@mui/material";
 import workoutsConstants from "../src/utils/workout/workoutsConstants";
 import {
     generateShareableLink,
@@ -33,15 +20,10 @@ import {
 import CreatorProfile404 from "../src/components/views/CreatorProfile404";
 import CreatorProfile500 from "../src/components/views/CreatorProfile500";
 import CreatorProfileLoading from "../src/components/views/CreatorProfileLoading";
-import Socials from "../src/components/views/Socials";
-import WorkoutCard from "../src/components/cards/WorkoutCard";
-import PreviewWorkout from "../src/components/modals/workout/PreviewWorkout";
 import PlayRepsAndSetsWorkout from "../src/components/modals/workout/PlayRepsAndSetsWorkout";
 import PlayCircuitWorkout from "../src/components/modals/workout/PlayCircuitWorkout";
-import EmptyStateIcon from '../src/components/svg/empty_state.svg'
-import ShareIcon from '../src/components/svg/share-box-line.svg'
-import FittrIcon from '../src/components/svg/fittr.svg'
-import FittrIconSmall from '../src/components/svg/fittr_small.svg'
+import FittrIcon from "../src/components/svg/fittr.svg";
+import ShareIcon from "../src/components/svg/share-box-line.svg";
 
 const CreatorProfile = () => {
 
@@ -211,125 +193,26 @@ const CreatorProfile = () => {
          * Loaded Creator page content
          */
         return (
-            <Container maxWidth="xl">
-                <Collapse in={open}>
-                    <Alert severity="warning" onClose={() => setOpen(false)}>
-                        <AlertTitle>Important</AlertTitle>
-                        <Typography variant='body2'>Fittree will <strong>never request financial transactions</strong> of
-                            any kind</Typography><br/>
-                        <Typography variant='body2'>Fittree will never redirect you to any other page other than
-                            the <strong>official Fittree socials, socials of a Fittree user as well as our ProductHunt page</strong></Typography><br/>
-                        <Typography variant='body2'>Fittree will <strong>never request any personal
-                            details</strong> from you</Typography>
-                    </Alert>
-                </Collapse>
-                <Box sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    marginY: 2,
-                }}>
-                    <Box sx={{
-                        justifyContent: "space-between",
-                        display: 'flex',
-                        flexDirection: "row",
-                        alignItems: 'center',
-                        paddingHorizontal: 10,
-                        cursor: 'pointer'
-                    }} onClick={copyShareableLink}>
+            <div className="container mx-auto">
+                <div className="ml-8 sm:ml-10 my-4">
+                    <button>
                         <ShareIcon/>
-                    </Box>
-                    <Box sx={{
-                        display: 'flex',
-                        flexDirection: "column",
-                        alignItems: 'center',
-                        justifyContent: 'center'
-                    }}>
-                        {displayAvatar()}
-                        <ThemeProvider theme={theme}>
-                            <Typography variant="h6" textAlign='center' sx={{
-                                my: 1,
-                                fontFamily: 'Montserrat',
-                                fontWeight: 500
-                            }}>{profile.preferred_username}</Typography>
-                            <Typography variant="body2" textAlign='center' sx={{
-                                fontFamily: 'Montserrat',
-                                fontSize: 12
-                            }}>{profile.displayBrief}</Typography>
-                        </ThemeProvider>
-                        {profile ? <Socials profile={profile}/> : null}
-                    </Box>
-                    <TextField sx={{
-                        backgroundColor: "#f5ede8",
-                        flex: 1,
-                        borderRadius: 2
-                    }}
-                               autoCapitalize='none'
-                               label="Search workouts"
-                               variant="outlined"
-                               value={searchQuery}
-                               onChange={event => onChangeSearch(event.target.value.toLowerCase())}/>
-
-                </Box>
-                <Box sx={{
-                    height: isBigScreen ? 800 : 400,
-                    overflowY: 'scroll',
-                }}>
-                    {workouts.length > 0 ?
-                        <Box sx={{
-                            display: 'grid',
-                            gridTemplateColumns: isBigScreen ? 'repeat(3, 1fr)' : 'repeat(2, 1fr)',
-                            gridGap: 8,
-                            overflowY: !isBigScreen ? 'scroll' : null,
-                        }}>
-                            {filteredWorkouts.map((item, index) => {
-                                return (
-                                    <Box key={index} onClick={() => previewWorkout(item)} sx={{cursor: 'pointer'}}>
-                                        <WorkoutCard workout={item}/>
-                                    </Box>
-                                );
-                            })}
-                        </Box> :
-                        <Box sx={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            justifyContent: "center",
-                            alignItems: "center",
-                            marginTop: 5
-                        }}>
-                            <EmptyStateIcon/>
-                            <Typography variant="body1" textAlign='center' sx={{
-                                fontFamily: 'Montserrat',
-                                fontSize: 12,
-                                fontWeight: 500,
-                                marginTop: 2
-                            }}>{`${username} has no workouts`}</Typography>
-                        </Box>}
-                </Box>
-                <Link href='/' sx={{
-                    textDecoration: 'none',
-                    display: 'flex',
-                    flexDirection: 'row',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                }}>
-                    {isBigScreen ? <FittrIcon/> : <FittrIconSmall/>}
-                </Link>
-                {currentWorkout && !shouldPlayWorkout ?
-                    <PreviewWorkout
-                        workout={currentWorkout}
-                        play={() => togglePlayWorkout(true)}
-                        close={closePreview}/> : null}
-                {shouldPlayWorkout ? getWorkoutPlayComponent() : null}
-                <Snackbar
-                    autoHideDuration={2000}
-                    open={showSnackBar}
-                    onClose={handleClose}
-                    message={snackbarMessage}>
-                    <Alert severity="success" sx={{width: '100%'}}>
-                        {snackbarMessage}
-                    </Alert>
-                </Snackbar>
-            </Container>
+                    </button>
+                </div>
+                <div className="flex flex-col items-center">
+                    <div className="rounded-full w-1/4 sm:w-1/6 overflow-hidden mb-2">
+                        <img src={"https://" + profile.displayProfile} alt="Display profile" className="object-cover"/>
+                    </div>
+                    <p className="font-semibold py-1 text-base sm:text-2xl">{profile.preferred_username}</p>
+                    <p className="font-light py-1 text-sm sm:text-xl">{profile.displayBrief}</p>
+                </div>
+                <form className="my-4 flex flex-col items-center">
+                    <input className=" w-5/6 h-11 bg-secondary sm:h-20 shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+                           id="username"
+                           type="text"
+                           placeholder="Search workouts"/>
+                </form>
+            </div>
         )
     }
 }
