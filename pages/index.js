@@ -2,16 +2,21 @@ import React from "react";
 import MockRight from "../src/components/views/mocks/MockRight";
 import MockLeft from "../src/components/views/mocks/MockLeft";
 import {APP_STORE_URL} from "../src/utils/utilsConstants";
-import "../js/accordion"
 import InstagramIcon from "../src/components/svg/instagram-line.svg";
 import TwitterIcon from "../src/components/svg/twitter-line.svg";
+import FittrIcon from "../src/components/svg/fittr.svg";
 
 export default function App() {
 
     return (
         <div className="container mx-auto">
-            <div></div>
-            <div className="flex flex-col items-center my-10">
+            <div className="ml-8 sm:ml-10">
+                <a rel="noreferrer" href="/" target="_blank" className="">
+                    <FittrIcon/>
+                </a>
+            </div>
+
+            <div className="flex flex-col items-center my-2 sm:my-4">
                 <div className="flex flex-col items-center">
                     <p className="font-bold text-2xl sm:text-4xl">Your workouts</p>
                     <p className="font-bold text-2xl sm:text-4xl">everywhere you go</p>
@@ -44,8 +49,7 @@ export default function App() {
             </div>
             <div className="flex flex-col mx-6 sm:mx-8">
                 <button
-                    onClick={() => console.log('Hiya')}
-                    className="accordion bg-secondary w-full text-start px-3 py-5 my-2 rounded-lg font-semibold text-md text-primary">What
+                    className="accordion bg-primary w-full text-start px-3 py-5 my-2 rounded-lg font-semibold text-md text-white">What
                     is Fittree ?
                 </button>
                 <div className="p-3">
@@ -56,7 +60,7 @@ export default function App() {
                 </div>
 
                 <button
-                    className="accordion bg-secondary w-full text-start px-3 py-5 my-2 rounded-lg font-semibold text-md text-primary">Why
+                    className="accordion bg-primary w-full text-start px-3 py-5 my-2 rounded-lg font-semibold text-md text-white">Why
                     do I need Fittree ?
                 </button>
                 <div className="p-3">
@@ -66,7 +70,7 @@ export default function App() {
                 </div>
 
                 <button
-                    className="accordion bg-secondary w-full text-start px-3 py-5 my-2 rounded-lg font-semibold text-md text-primary">How
+                    className="accordion bg-primary w-full text-start px-3 py-5 my-2 rounded-lg font-semibold text-md text-white">How
                     can I share my workouts ?
                 </button>
                 <div className="p-3">
@@ -75,11 +79,15 @@ export default function App() {
             </div>
             <div className="flex flex-row my-4 mx-6 sm:mx-8 place-content-between">
                 <div>
-                    <p>hello@fittree.io</p>
+                    <p className="font-semibold">hello@fittree.io</p>
                 </div>
-                <div className="flex flex-row place-content-around w-1/6 bg-secondary">
-                    <InstagramIcon/>
-                    <TwitterIcon/>
+                <div className="flex flex-row place-content-around">
+                    <div className="mx-2">
+                        <InstagramIcon/>
+                    </div>
+                    <div className="mx-2">
+                        <TwitterIcon/>
+                    </div>
                 </div>
             </div>
         </div>
