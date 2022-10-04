@@ -3,19 +3,15 @@ import React from 'react';
 const WorkoutCard = ({workout}) => {
 
     return (
-        <div className={`bg-[url(https://${workout.thumbnailUrl})] h-60 sm:h-80 bg-cover bg-center rounded-md`}>
-            <p>dfsfda</p>
-            <p>dfsfda</p>
-            <p>dfsfda</p>
-            <p>dfsfda</p>
-            {/*<div className="bg-primary opacity-25 h-full w-full "/>*/}
-            {/*<div className="absolute bg-primary">*/}
-            {/*    <div>{Math.round(workout.duration / 60000)} mins</div>*/}
-            {/*    <div className="flex flex-col items-start">*/}
-            {/*        <p>{workout.title}</p>*/}
-            {/*        <p>{workout.intensityLevel}</p>*/}
-            {/*    </div>*/}
-            {/*</div>*/}
+        <div className={`relative bg-[url(https://${workout.thumbnailUrl})] 
+                        h-60 object-center object-cover rounded-lg p-2 flex flex-col justify-end text-white`}>
+            <div className="absolute top-0 right-0 m-2 py-0.5 px-2 rounded-md bg-primary text-sm font-medium">
+                <p>{Math.round(workout.duration / 60000)} mins</p>
+            </div>
+            <div className="flex flex-col items-start">
+                <p>{workout.title}</p>
+                <p>{workout.intensityLevel}</p>
+            </div>
         </div>
     );
 };

@@ -9,7 +9,7 @@ import {
 } from "../src/features/CreatorProfileSlice";
 import {useDispatch, useSelector} from "react-redux";
 import {searchExerciseOrWorkout} from "../src/utils/workoutAndExerciseUtils";
-import {Avatar, useMediaQuery, useTheme} from "@mui/material";
+import {Avatar} from "@mui/material";
 import workoutsConstants from "../src/utils/workout/workoutsConstants";
 import {
     generateShareableLink,
@@ -26,9 +26,6 @@ import ShareIcon from "../src/components/svg/share-box-line.svg";
 import WorkoutCard from "../src/components/cards/WorkoutCard";
 
 const CreatorProfile = () => {
-
-    const theme = useTheme();
-    const isBigScreen = useMediaQuery(theme.breakpoints.up('sm'));
 
     /**
      * Retrieve creator's username
@@ -193,7 +190,7 @@ const CreatorProfile = () => {
          * Loaded Creator page content
          */
         return (
-            <div className="container mx-auto px-6 sm:px-10">
+            <div className="container mx-auto px-2 sm:px-10">
                 <button className="my-4">
                     <ShareIcon/>
                 </button>
@@ -211,8 +208,8 @@ const CreatorProfile = () => {
                         type="text"
                         placeholder="Search workouts"/>
                 </form>
-                <div className={`bg-[url(https://${workouts[0].thumbnailUrl})] h-80 w-80 `}/>
-                <div className="grid gap-2 grid-cols-2 sm:grid-cols-3">
+
+                <div className="grid gap-0.5 grid-cols-2 sm:grid-cols-3">
                     {workouts.length > 0 ? filteredWorkouts.map((item, index) => {
                         return (
                             <WorkoutCard key={index} workout={item}/>
