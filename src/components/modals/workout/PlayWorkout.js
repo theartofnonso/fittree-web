@@ -7,6 +7,7 @@ import InfoOutlinedIcon from "../../svg/information-line.svg";
 import OrderPlayIcon from "../../svg/order-play-line.svg";
 import PauseIcon from "../../svg/pause-mini-line.svg";
 import WorkoutList from "../../views/WorkoutList";
+import WorkoutExerciseCard from "../../cards/WorkoutExerciseCard";
 
 const PlayWorkout = props => {
 
@@ -69,7 +70,8 @@ const PlayWorkout = props => {
                     </button>
                 </div>
             </div>
-            <video className="rounded-md w-full h-96 sm:w-full sm:h-96 object-contain mr-2 bg-dustBlack" autoPlay playsInline loop>
+            <video className="rounded-md w-full h-96 sm:w-full sm:h-96 object-contain mr-2 bg-dustBlack" autoPlay
+                   playsInline loop>
                 <source src={`https://${props.workoutExercise.exercise.videoUrls[0]}`} type="video/mp4"/>
                 Your browser does not support the video tag.
             </video>
@@ -91,6 +93,13 @@ const PlayWorkout = props => {
                     <p>{props.extraData.exerciseExtras}</p>
                 </div>
             </div>
+            {props.nextWorkoutExercise ?
+                <div className="flex flex-row justify-start sm:justify-end mt-4">
+                    <div>
+                        <p className="py-0.5">Up Next:</p>
+                        <WorkoutExerciseCard workoutExercise={props.nextWorkoutExercise} type={props.type}/>
+                    </div>
+                </div> : null}
             {showWorkoutList ?
                 <WorkoutList
                     type={props.type}
