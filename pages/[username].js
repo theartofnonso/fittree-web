@@ -214,7 +214,7 @@ const CreatorProfile = () => {
                     {workouts.length > 0 ? filteredWorkouts.map((item, index) => {
                         return (
                         //     <button key={index} onClick={() => previewWorkout(item)}>
-                                <WorkoutCard workout={item}/>
+                                <WorkoutCard key={index} workout={item}/>
                             // </button>
                         );
                     }) : null}

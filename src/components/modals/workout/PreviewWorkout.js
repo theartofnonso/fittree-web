@@ -26,7 +26,7 @@ const PreviewWorkout = ({workout, play, close}) => {
     return (
         <div className="container mx-auto px-2 sm:px-10 absolute top-0 right-0 bottom-0 left-0 h-screen w-screen bg-white">
             {/*<button className="my-4" onClick={close}>*/}
-            {/*    <CloseIcon/>*/}
+                <CloseIcon/>
             {/*</button>*/}
             <WorkoutCardBig workout={workout}/>
             <div>
