@@ -224,6 +224,7 @@ const CreatorProfile = () => {
                         workout={currentWorkout}
                         play={() => togglePlayWorkout(true)}
                         close={closePreview}/> : null}
+                {shouldPlayWorkout ? getWorkoutPlayComponent() : null}
             </div>
         )
     }

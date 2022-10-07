@@ -42,7 +42,7 @@ const PreviewWorkout = ({workout, play, close}) => {
                             type={workout.type}/>)}
                 </div>
             </div>
-            <button className="flex flex-row items-center justify-center bg-primary rounded-md w-14 h-14 sm:w-20 sm:h-20 fixed bottom-0 right-0 mr-8 mb-8">
+            <button onClick={playWorkout} className="flex flex-row items-center justify-center bg-primary rounded-md w-14 h-14 sm:w-20 sm:h-20 fixed bottom-0 right-0 mr-8 mb-8">
                 <PlayIcon/>
             </button>
         </div>
