@@ -213,9 +213,9 @@ const CreatorProfile = () => {
                 <div className="grid gap-0.5 grid-cols-2 sm:grid-cols-3">
                     {workouts.length > 0 ? filteredWorkouts.map((item, index) => {
                         return (
-                        //     <button key={index} onClick={() => previewWorkout(item)}>
-                                <WorkoutCard key={index} workout={item}/>
-                            // </button>
+                            <button key={index} onClick={() => previewWorkout(item)}>
+                                <WorkoutCard workout={item}/>
+                            </button>
                         );
                     }) : null}
                 </div>
