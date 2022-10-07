@@ -24,6 +24,7 @@ import PlayRepsAndSetsWorkout from "../src/components/modals/workout/PlayRepsAnd
 import PlayCircuitWorkout from "../src/components/modals/workout/PlayCircuitWorkout";
 import ShareIcon from "../src/components/svg/share-box-line.svg";
 import WorkoutCard from "../src/components/cards/WorkoutCard";
+import PreviewWorkout from "../src/components/modals/workout/PreviewWorkout";
 
 const CreatorProfile = () => {
 
@@ -212,10 +213,17 @@ const CreatorProfile = () => {
                 <div className="grid gap-0.5 grid-cols-2 sm:grid-cols-3">
                     {workouts.length > 0 ? filteredWorkouts.map((item, index) => {
                         return (
-                            <WorkoutCard key={index} workout={item}/>
+                            <button key={index} onClick={() => previewWorkout(item)}>
+                                <WorkoutCard workout={item}/>
+                            </button>
                         );
                     }) : null}
                 </div>
+                {currentWorkout && !shouldPlayWorkout ?
+                    <PreviewWorkout
+                        workout={currentWorkout}
+                        play={() => togglePlayWorkout(true)}
+                        close={closePreview}/> : null}
             </div>
         )
     }
