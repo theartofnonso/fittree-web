@@ -192,7 +192,7 @@ const CreatorProfile = () => {
          */
         return (
             <div className="container mx-auto px-2 sm:px-10">
-                <button className="my-4">
+                <button className="my-4" onClick={copyShareableLink}>
                     <ShareIcon/>
                 </button>
                 <div className="flex flex-col items-center">
