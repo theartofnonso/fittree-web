@@ -10,6 +10,8 @@ import WorkoutList from "../../views/WorkoutList";
 import WorkoutExerciseCard from "../../cards/WorkoutExerciseCard";
 import PauseModal from "./PauseModal";
 import IntervalModal from "./IntervalModal";
+import PreviewExercise from "../exercise/PreviewExercise";
+import WorkoutCompletedModal from "./WorkoutCompletedModal";
 
 const PlayWorkout = props => {
 
@@ -123,6 +125,15 @@ const PlayWorkout = props => {
                     intervalTime={props.interval.duration}
                     navigateToWorkoutPreview={props.close}
                     onFinish={props.onFinishInterval}/> : null}
+            {showExercise ?
+                <PreviewExercise
+                    exercise={props.workoutExercise.exercise}
+                    close={() => setShowExercise(false)}/> : null}
+            {props.onEnd ?
+                <WorkoutCompletedModal
+                    isVisible={props.onEnd}
+                    startTime={startTime}
+                    navigateToWorkoutPreview={props.close}/> : null}
         </div>
     );
 };
