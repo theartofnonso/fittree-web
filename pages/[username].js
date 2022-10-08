@@ -198,7 +198,7 @@ const CreatorProfile = () => {
          */
         return (
             <div
-                className="container mx-auto px-2 sm:px-10 fixed top-0 right-0 bottom-0 left-0 h-full overflow-y-scroll">
+                className="container mx-auto px-2 sm:px-10 h-screen overflow-y-scroll">
                 <div className="mt-4 mb-10 flex flex-row items-center place-content-between">
                     <button onClick={copyShareableLink}>
                         <ShareIcon/>
@@ -232,7 +232,7 @@ const CreatorProfile = () => {
                         <EmptyState/>
                         <p className="font-normal mt-4">{profile.preferred_username} has no workouts</p>
                     </div>}
-                <div className="absolute right-0 bottom-0 left-0 flex flex-row justify-center items-center">
+                <div className=" flex flex-row justify-center items-center">
                     <a rel="noreferrer" href="/" target="_blank">
                         <FittrIcon/>
                     </a>
