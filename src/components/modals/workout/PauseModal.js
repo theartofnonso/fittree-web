@@ -1,68 +1,32 @@
 /* eslint-disable */
 import React from "react";
-import {Box, Container, Typography} from "@mui/material";
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-import ViewStreamIcon from "@mui/icons-material/ViewStream";
+import PlayArrowIcon from "../../svg/play-mini-fill.svg";
+import InfoOutlinedIcon from "../../svg/information-white-line.svg";
+import OrderPlayIcon from "../../svg/order-play-white-line.svg";
 
 const PauseModal = props => {
 
     return (
-        <Container maxWidth="xl" sx={{
-            position: 'fixed',
-            top: 0,
-            bottom: 0,
-            right: 0,
-            left: 0,
-            backgroundColor: 'rgba(0,0,0,0.6)',
-            overflowY: 'scroll',
-            zIndex: 1
-        }}>
-            <Box sx={{
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'flex-end',
-                alignItems: 'center',
-                marginY: 1
-            }}>
-                <InfoOutlinedIcon style={{color: 'white'}}
-                                  onClick={props.previewExercise}
-                                  sx={{cursor: 'pointer', marginLeft: 1.5}}/>
-                <ViewStreamIcon style={{color: 'white'}}
-                                onClick={props.toggleWorkoutList}
-                                sx={{cursor: 'pointer', marginLeft: 1.5}}/>
-
-            </Box>
-            <Box sx={{
-                height: '100vh',
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-            }}>
-                <PlayArrowIcon sx={{fontSize: 40, color: 'white', cursor: 'pointer'}} onClick={props.play}/>
-                <Box
-                    sx={{
-                        alignItems: 'center',
-                        backgroundColor: '#ef7a75',
-                        borderRadius: 8,
-                        flexDirection: 'row',
-                        justifyContent: 'center',
-                        width: 200,
-                        height: 40,
-                        position: 'absolute',
-                        bottom: 50,
-                        display: 'flex',
-                        cursor: 'pointer'
-                    }}
-                    onClick={props.navigateToWorkoutPreview}>
-                    <Typography sx={{color: 'white', fontFamily: 'Montserrat', fontWeight: 'bold'}}>
-                        End Workout
-                    </Typography>
-                </Box>
-
-            </Box>
-        </Container>
+        <div className="px-5 sm:px-10 fixed top-0 right-0 bottom-0 left-0 h-full w-screen bg-transparentBlack">
+            <div className="my-4 flex flex-row justify-end">
+                <button className="mx-2" onClick={props.previewExercise}>
+                    <InfoOutlinedIcon/>
+                </button>
+                <button className="mx-2" onClick={props.toggleWorkoutList}>
+                    <OrderPlayIcon/>
+                </button>
+            </div>
+            <div className="flex flex-col items-center justify-center h-full">
+                <button onClick={props.play}>
+                    <PlayArrowIcon/>
+                </button>
+                <button
+                    onClick={props.navigateToWorkoutPreview}
+                    className="absolute bottom-0 mb-10 bg-primary rounded-3xl py-2 px-10 mt-6 text-white font-medium">End
+                    Workout
+                </button>
+            </div>
+        </div>
     );
 };
 

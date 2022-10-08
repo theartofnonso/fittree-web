@@ -8,6 +8,8 @@ import OrderPlayIcon from "../../svg/order-play-line.svg";
 import PauseIcon from "../../svg/pause-mini-line.svg";
 import WorkoutList from "../../views/WorkoutList";
 import WorkoutExerciseCard from "../../cards/WorkoutExerciseCard";
+import PauseModal from "./PauseModal";
+import IntervalModal from "./IntervalModal";
 
 const PlayWorkout = props => {
 
@@ -105,6 +107,22 @@ const PlayWorkout = props => {
                     type={props.type}
                     close={() => setShowWorkoutList(false)}
                     list={props.data} progress={props.progress}/> : null}
+            {props.isPaused ?
+                <PauseModal
+                    previewExercise={previewExercise}
+                    toggleWorkoutList={toggleWorkoutList}
+                    isVisible={props.isPaused}
+                    navigateToWorkoutPreview={props.close}
+                    play={props.play}
+                /> : null}
+            {props.shouldPlayInterval ?
+                <IntervalModal
+                    previewExercise={previewExercise}
+                    toggleWorkoutList={toggleWorkoutList}
+                    description={props.interval.description}
+                    intervalTime={props.interval.duration}
+                    navigateToWorkoutPreview={props.close}
+                    onFinish={props.onFinishInterval}/> : null}
         </div>
     );
 };
