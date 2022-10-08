@@ -24,7 +24,7 @@ const PreviewExercise = ({exercise, close}) => {
                 })}
             </div>
             <div>
-                <p className="my-4 font-light">{exercise.description}</p>
+                <pre className="my-4 font-light">{exercise.description}</pre>
             </div>
             <div>
                 <div className="mb-4">

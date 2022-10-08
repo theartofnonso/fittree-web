@@ -33,7 +33,7 @@ const PreviewWorkout = ({workout, play, close}) => {
             </button>
             <WorkoutCardBig workout={workout}/>
             <div>
-                <p className="my-4 font-light">{workout.description}</p>
+                <pre className="my-4 font-light">{workout.description}</pre>
             </div>
             <div className="pb-2">
                 <p className="mb-2 font-semibold">{workout.workoutExercises.length} exercises</p>

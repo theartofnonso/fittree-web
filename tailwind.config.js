@@ -20,7 +20,11 @@ module.exports = {
       lightGreen: '#80e876',
       midnightGreen: '#2a4f27',
     },
-    extend: {},
+    extend: {
+      transitionProperty: {
+        'visibility': 'visible',
+      }
+    },
   },
   plugins: [],
 }

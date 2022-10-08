@@ -222,7 +222,7 @@ const CreatorProfile = () => {
                     }) : null}
                 </div>
                 {showSnackBar ?
-                    <div className="absolute bottom-0 left-0 ml-4 mb-4 p-2 flex flex-row justify-start items-center rounded bg-lightGreen w-1/2 sm:w-2/5">
+                    <div className="absolute hidden bottom-0 left-0 ml-4 mb-4 p-2 flex flex-row justify-start items-center rounded bg-lightGreen w-1/2 sm:w-2/5 transition-[visibility] ease-in-out delay-150">
                         <CheckIcon/>
                         <p className="ml-2 text-midnightGreen font-semibold">{snackbarMessage}</p>
                     </div> : null}
