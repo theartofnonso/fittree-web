@@ -19,8 +19,6 @@ const PlayWorkout = props => {
 
     const [startTime, setStartTime] = useState(0)
 
-    const [isError, setIsError] = useState(false);
-
     const [showWorkoutList, setShowWorkoutList] = useState(false)
 
     useEffect(() => {
@@ -58,7 +56,7 @@ const PlayWorkout = props => {
 
     return (
         <div
-            className="container mx-auto px-2 sm:px-10 fixed top-0 right-0 bottom-0 left-0 h-screen w-screen bg-white overflow-y-scroll">
+            className="container mx-auto px-2 sm:px-10 fixed top-0 right-0 bottom-0 left-0 h-full w-screen bg-white overflow-y-scroll">
             <div className="my-4 flex flex-row place-content-between">
                 <div>
                     <button onClick={props.close}>

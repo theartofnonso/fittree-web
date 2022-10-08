@@ -52,7 +52,7 @@ const PreviewWorkout = ({workout, play, close}) => {
             </button>
             <button
                 onClick={playWorkout}
-                className="mb-8 w-full bg-primary rounded-3xl py-2 px-10 text-white font-medium hover:bg-darkPrimary hidden lg:visible">Play workout
+                className="mb-8 w-full bg-primary rounded-3xl py-2 px-10 text-white font-medium hover:bg-darkPrimary hidden lg:block">Play workout
             </button>
             {currentExercise ?
                 <PreviewExercise
