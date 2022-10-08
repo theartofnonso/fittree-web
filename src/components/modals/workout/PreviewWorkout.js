@@ -26,13 +26,13 @@ const PreviewWorkout = ({workout, play, close}) => {
 
     return (
         <div
-            className="container mx-auto px-2 sm:px-10 absolute top-0 right-0 bottom-0 left-0 h-screen w-screen bg-white">
+            className="container mx-auto px-2 sm:px-10 fixed top-0 right-0 bottom-0 left-0 h-screen w-screen bg-white overflow-y-scroll">
             <button className="my-4" onClick={close}>
                 <CloseIcon/>
             </button>
             <WorkoutCardBig workout={workout}/>
             <div className="overscroll-contain">
-                <pre className="my-4 font-light">{workout.description}</pre>
+                <p className="my-4 font-light whitespace-pre">{workout.description}</p>
             </div>
             <div className="pb-2">
                 <p className="mb-2 font-semibold">{workout.workoutExercises.length} exercises</p>

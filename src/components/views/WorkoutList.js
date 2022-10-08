@@ -51,7 +51,7 @@ const WorkoutList = ({close, type, list, progress}) => {
 
     return (
         <div
-            className="px-5 sm:px-10 fixed top-0 right-0 bottom-0 left-0 h-screen w-screen bg-transparentBlack">
+            className="px-5 sm:px-10 fixed top-0 right-0 bottom-0 left-0 h-screen w-screen bg-transparentBlack z-50">
             <div className="my-4">
                 <button onClick={close}>
                     <CloseIcon/>

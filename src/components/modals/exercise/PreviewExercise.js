@@ -6,7 +6,7 @@ const PreviewExercise = ({exercise, close}) => {
 
     return (
         <div
-            className="container mx-auto px-2 sm:px-10 absolute top-0 right-0 bottom-0 left-0 h-screen w-screen bg-white">
+            className="container mx-auto px-2 sm:px-10 fixed top-0 right-0 bottom-0 left-0 h-screen w-screen bg-white overflow-y-scroll">
             <button className="my-4" onClick={close}>
                 <CloseIcon/>
             </button>
@@ -24,7 +24,7 @@ const PreviewExercise = ({exercise, close}) => {
                 })}
             </div>
             <div>
-                <pre className="my-4 font-light">{exercise.description}</pre>
+                <p className="my-4 font-light whitespace-pre">{exercise.description}</p>
             </div>
             <div>
                 <div className="mb-4">
