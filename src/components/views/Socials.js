@@ -1,58 +1,36 @@
 /* eslint-disable */
 import React from "react";
-import {Box, Link} from "@mui/material";
 import {FACEBOOK, INSTAGRAM, TIKTOK, TWITTER, YOUTUBE} from "../../utils/utilsConstants";
-import TikTokIcon from "../svg/tiktok-line.svg";
-import TwitterIcon from "../svg/twitter-line.svg";
 import InstagramIcon from "../svg/instagram-line.svg";
 import FacebookIcon from "../svg/facebook-circle-line.svg";
+import TwitterIcon from "../svg/twitter-line.svg";
+import TikTokIcon from "../svg/tiktok-line.svg";
 import YoutubeIcon from "../svg/youtube-line.svg";
 
 const Socials = ({profile}) => {
 
     return (
-        <Box sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'center',
-            my: 3
-        }}>
+        <div className="flex flex-row justify-center my-2">
             {profile.instagram ?
-                <Box sx={{marginX: 1}}>
-                    <Link target="_blank" href={INSTAGRAM + profile.instagram} sx={{textDecoration: 'none'}}
-                          rel="noopener">
-                        <InstagramIcon/>
-                    </Link>
-                </Box> : null}
+                <a rel="noreferrer" href={INSTAGRAM + profile.instagram} target="_blank" className="mx-2">
+                    <InstagramIcon/></a> : null}
+
             {profile.facebook ?
-                <Box sx={{marginX: 1}}>
-                    <Link target="_blank" href={FACEBOOK + profile.facebook} sx={{textDecoration: 'none'}}
-                          rel="noopener">
-                        <FacebookIcon />
-                    </Link>
-                </Box> : null}
+                <a rel="noreferrer" href={FACEBOOK + profile.facebook} target="_blank" className="mx-2">
+                    <FacebookIcon/></a> : null}
+
             {profile.twitter ?
-                <Box sx={{marginX: 1}}>
-                    <Link target="_blank" href={TWITTER + profile.twitter} sx={{textDecoration: 'none'}}
-                          rel="noopener">
-                        <TwitterIcon/>
-                    </Link>
-                </Box> : null}
+                <a rel="noreferrer" href={TWITTER + profile.twitter} target="_blank" className="mx-2">
+                    <TwitterIcon/></a> : null}
+
             {profile.tiktok ?
-                <Box sx={{marginX: 0.6}}>
-                    <Link target="_blank" href={TIKTOK + profile.tiktok} sx={{textDecoration: 'none'}}
-                          rel="noopener">
-                        <TikTokIcon/>
-                    </Link>
-                </Box> : null}
+                <a rel="noreferrer" href={TIKTOK + profile.tiktok} target="_blank" className="mx-1">
+                    <TikTokIcon/></a> : null}
+
             {profile.youtube ?
-                <Box sx={{marginX: 1}}>
-                    <Link target="_blank" href={YOUTUBE + profile.youtube} sx={{textDecoration: 'none'}}
-                          rel="noopener">
-                        <YoutubeIcon/>
-                    </Link>
-                </Box> : null}
-        </Box>
+                <a rel="noreferrer" href={YOUTUBE + profile.youtube} target="_blank" className="mx-2">
+                    <YoutubeIcon/></a> : null}
+        </div>
     );
 };
 

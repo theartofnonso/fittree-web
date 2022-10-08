@@ -9,7 +9,6 @@ import {
 } from "../src/features/CreatorProfileSlice";
 import {useDispatch, useSelector} from "react-redux";
 import {searchExerciseOrWorkout} from "../src/utils/workoutAndExerciseUtils";
-import {Avatar} from "@mui/material";
 import workoutsConstants from "../src/utils/workout/workoutsConstants";
 import {
     generateShareableLink,
@@ -25,6 +24,10 @@ import PlayCircuitWorkout from "../src/components/modals/workout/PlayCircuitWork
 import ShareIcon from "../src/components/svg/share-box-line.svg";
 import WorkoutCard from "../src/components/cards/WorkoutCard";
 import PreviewWorkout from "../src/components/modals/workout/PreviewWorkout";
+import Socials from "../src/components/views/Socials";
+import CloseIcon from "../src/components/svg/close-line.svg";
+import InfoOutlinedIcon from "../src/components/svg/information-line.svg";
+import OrderPlayIcon from "../src/components/svg/order-play-line.svg";
 
 const CreatorProfile = () => {
 
@@ -142,13 +145,12 @@ const CreatorProfile = () => {
      */
     const displayAvatar = () => {
         if (profile) {
-            return profile.displayProfile ?
-                <Avatar sx={{backgroundColor: "#ef7a75", width: 80, height: 80}} alt="Display Profile"
-                        src={"https://" + profile.displayProfile}/> :
-                <Avatar sx={{backgroundColor: "#ef7a75", width: 80, height: 80}} alt="Display profile"
-                        src={"https://" + profile.displayProfile}>
-                    {profile.preferred_username.slice(0, 1).toUpperCase()}
-                </Avatar>
+            return (
+                <div className="rounded-full bg-primary flex flex-row justify-start items-center">
+                    <Socials profile={profile}/>
+                    <p className="text-white font-bold mx-2">{profile.preferred_username}</p>
+                    {profile.displayProfile ? <img src={"https://" + profile.displayProfile} alt="Display profile" className="h-10 rounded-full"/> : null}
+                </div>)
         }
     };
 
@@ -192,14 +194,13 @@ const CreatorProfile = () => {
          */
         return (
             <div className="container mx-auto px-2 sm:px-10">
-                <button className="my-4" onClick={copyShareableLink}>
-                    <ShareIcon/>
-                </button>
+                <div className="my-4 flex flex-row items-center place-content-between">
+                    <button onClick={copyShareableLink}>
+                        <ShareIcon/>
+                    </button>
+                    {displayAvatar()}
+                </div>
                 <div className="flex flex-col items-center">
-                    <div className="rounded-full w-1/4 sm:w-1/6 md:w-24 overflow-hidden mb-2">
-                        <img src={"https://" + profile.displayProfile} alt="Display profile" className="object-cover"/>
-                    </div>
-                    <p className="font-semibold py-1 text-base sm:text-2xl md:text-lg">{profile.preferred_username}</p>
                     <p className="font-light py-1 text-sm sm:text-xl md:text-base">{profile.displayBrief}</p>
                 </div>
                 <form className="my-4 flex flex-col items-center">

@@ -21,8 +21,6 @@ const PlayCircuitWorkout = ({workout, rounds, end}) => {
 
     const [showWorkoutCompletedModal, setShowWorkoutCompletedModal] = useState(false)
 
-    const [nextWorkoutExercise, setNextWorkoutExercise] = useState(null)
-
     useEffect(() => {
         let intervalId = null;
 
