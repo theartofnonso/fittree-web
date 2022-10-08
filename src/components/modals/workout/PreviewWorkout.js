@@ -26,7 +26,7 @@ const PreviewWorkout = ({workout, play, close}) => {
 
     return (
         <div
-            className="container mx-auto px-2 sm:px-10 fixed top-0 right-0 bottom-0 left-0 h-full w-full bg-white overflow-y-scroll">
+            className="container mx-auto px-2 sm:px-10 fixed top-0 right-0 bottom-0 left-0 h-screen w-full bg-white overflow-y-scroll">
             <button className="my-4" onClick={close}>
                 <CloseIcon/>
             </button>
