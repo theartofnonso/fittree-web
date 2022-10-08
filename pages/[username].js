@@ -27,6 +27,7 @@ import PreviewWorkout from "../src/components/modals/workout/PreviewWorkout";
 import Socials from "../src/components/views/Socials";
 import CheckIcon from "../src/components/svg/check-green-24.svg";
 import FittrIcon from "../src/components/svg/fittr.svg";
+import EmptyState from "../src/components/svg/empty_state.svg";
 
 const CreatorProfile = () => {
 
@@ -72,8 +73,8 @@ const CreatorProfile = () => {
      * Hide Snackbar
      */
     useEffect(() => {
-        if(showSnackBar) {
-            setTimeout(()=> {
+        if (showSnackBar) {
+            setTimeout(() => {
                 setShowSnackBar(false)
             }, 5000)
         }
@@ -196,7 +197,8 @@ const CreatorProfile = () => {
          * Loaded Creator page content
          */
         return (
-            <div className="container mx-auto px-2 sm:px-10 fixed top-0 right-0 bottom-0 left-0 h-full overflow-y-scroll">
+            <div
+                className="container mx-auto px-2 sm:px-10 fixed top-0 right-0 bottom-0 left-0 h-full overflow-y-scroll">
                 <div className="mt-4 mb-10 flex flex-row items-center place-content-between">
                     <button onClick={copyShareableLink}>
                         <ShareIcon/>
@@ -216,17 +218,22 @@ const CreatorProfile = () => {
                         onChange={event => onChangeSearch(event.target.value.toLowerCase())}/>
                 </form>
 
-                <div className="grid gap-0.5 grid-cols-2 sm:grid-cols-3">
-                    {workouts.length > 0 ? filteredWorkouts.map((item, index) => {
-                        return (
-                            <button key={index} onClick={() => previewWorkout(item)}>
-                                <WorkoutCard workout={item}/>
-                            </button>
-                        );
-                    }) : null}
-                </div>
-                <div className="flex flex-row justify-center items-center my-4">
-                    <a rel="noreferrer" href="/" target="_blank" className="">
+                {workouts.length > 0 ?
+                    <div className="grid gap-0.5 grid-cols-2 sm:grid-cols-3">
+                        {filteredWorkouts.map((item, index) => {
+                            return (
+                                <button key={index} onClick={() => previewWorkout(item)}>
+                                    <WorkoutCard workout={item}/>
+                                </button>
+                            );
+                        })}
+                    </div> :
+                    <div className="flex flex-col justify-center items-center h-96">
+                        <EmptyState/>
+                        <p className="font-normal mt-4">{profile.preferred_username} has no workouts</p>
+                    </div>}
+                <div className="absolute right-0 bottom-0 left-0 flex flex-row justify-center items-center">
+                    <a rel="noreferrer" href="/" target="_blank">
                         <FittrIcon/>
                     </a>
                 </div>
