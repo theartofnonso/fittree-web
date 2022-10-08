@@ -2,8 +2,8 @@ import React from "react";
 import MockRight from "../src/components/views/mocks/MockRight";
 import MockLeft from "../src/components/views/mocks/MockLeft";
 import {APP_STORE_URL} from "../src/utils/utilsConstants";
-import InstagramIcon from "../src/components/svg/instagram-line.svg";
-import TwitterIcon from "../src/components/svg/twitter-line.svg";
+import InstagramIcon from "../src/components/svg/instagram-primary-line.svg";
+import TwitterIcon from "../src/components/svg/twitter-primary-line.svg";
 import FittrIcon from "../src/components/svg/fittr.svg";
 
 export default function App() {

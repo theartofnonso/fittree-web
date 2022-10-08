@@ -26,6 +26,7 @@ import WorkoutCard from "../src/components/cards/WorkoutCard";
 import PreviewWorkout from "../src/components/modals/workout/PreviewWorkout";
 import Socials from "../src/components/views/Socials";
 import CheckIcon from "../src/components/svg/check-green-24.svg";
+import FittrIcon from "../src/components/svg/fittr.svg";
 
 const CreatorProfile = () => {
 
@@ -57,7 +58,6 @@ const CreatorProfile = () => {
      * Show snackbar for err message
      */
     const [showSnackBar, setShowSnackBar] = useState(false)
-    const [snackbarMessage, setSnackbarMessage] = useState("");
 
     /**
      * Load workout into filtered workout
@@ -67,6 +67,17 @@ const CreatorProfile = () => {
             setFilteredWorkouts(workouts)
         }
     }, [workouts])
+
+    /**
+     * Hide Snackbar
+     */
+    useEffect(() => {
+        if(showSnackBar) {
+            setTimeout(()=> {
+                setShowSnackBar(false)
+            }, 5000)
+        }
+    }, [showSnackBar])
 
     /**
      * Filter workout
@@ -130,7 +141,6 @@ const CreatorProfile = () => {
      */
     const copyShareableLink = () => {
         navigator.clipboard.writeText(generateShareableLink(username)).then(() => {
-            setSnackbarMessage("Link copied")
             setShowSnackBar(true)
         });
     }
@@ -149,10 +159,6 @@ const CreatorProfile = () => {
                                                    className="h-10 rounded-full"/> : null}
                 </div>)
         }
-    };
-
-    const handleClose = () => {
-        setShowSnackBar(false);
     };
 
     /**
@@ -190,7 +196,7 @@ const CreatorProfile = () => {
          * Loaded Creator page content
          */
         return (
-            <div className="container mx-auto px-2 sm:px-10">
+            <div className="container mx-auto px-2 sm:px-10 fixed top-0 right-0 bottom-0 left-0 h-full overflow-y-scroll">
                 <div className="mt-4 mb-10 flex flex-row items-center place-content-between">
                     <button onClick={copyShareableLink}>
                         <ShareIcon/>
@@ -219,10 +225,16 @@ const CreatorProfile = () => {
                         );
                     }) : null}
                 </div>
+                <div className="flex flex-row justify-center items-center my-4">
+                    <a rel="noreferrer" href="/" target="_blank" className="">
+                        <FittrIcon/>
+                    </a>
+                </div>
                 {showSnackBar ?
-                    <div className="absolute hidden bottom-0 left-0 ml-4 mb-4 p-2 flex flex-row justify-start items-center rounded bg-lightGreen w-1/2 sm:w-2/5 transition-[visibility] ease-in-out delay-150">
+                    <div
+                        className="absolute rounded-3xl bottom-0 left-0 ml-2 sm:ml-10 mb-8 p-2 flex flex-row justify-start items-center rounded bg-lightGreen w-1/2 sm:w-2/5">
                         <CheckIcon/>
-                        <p className="ml-2 text-midnightGreen font-semibold">{snackbarMessage}</p>
+                        <p className="ml-2 text-midnightGreen font-semibold">Link copied</p>
                     </div> : null}
                 {currentWorkout && !shouldPlayWorkout ?
                     <PreviewWorkout
