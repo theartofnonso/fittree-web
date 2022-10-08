@@ -53,8 +53,6 @@ const CreatorProfile = () => {
 
     const [searchQuery, setSearchQuery] = React.useState('');
 
-    const [open, setOpen] = React.useState(true);
-
     /**
      * Show snackbar for err message
      */

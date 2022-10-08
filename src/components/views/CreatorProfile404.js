@@ -1,37 +1,18 @@
 /* eslint-disable */
 import React from "react";
-import {Box, Container, createTheme, Link, responsiveFontSizes, ThemeProvider, Typography} from "@mui/material";
-import FittrIcon from "/src/components/svg/fittr.svg";
+import FittrIcon from "/src/components/svg/fittr_small.svg";
 
 const CreatorProfile404 = ({username}) => {
 
-    let responsiveFontTheme = createTheme();
-    responsiveFontTheme = responsiveFontSizes(responsiveFontTheme);
-
     return (
-        <Container maxWidth="xl"
-                   sx={{
-                       height: '100vh',
-                       display: 'flex',
-                       flexDirection: 'column',
-                       alignItems: 'center',
-                       justifyContent: 'center',
-                   }}>
-                <ThemeProvider theme={responsiveFontTheme}>
-                    <Typography variant="body1" sx={{marginTop: 5}}>We can't find {username}, claim <Link href='#'
-                                                                                                          color='#ef7a75'
-                                                                                                          sx={{
-                                                                                                              textDecoration: 'underline',
-                                                                                                              fontWeight: 'bold'
-                                                                                                          }}>Fittree.io/{username}</Link></Typography>
-                </ThemeProvider>
-
-            <Box sx={{position: 'absolute', bottom: 0}}>
-                <Link href='/' sx={{textDecoration: 'none'}}>
-                    <FittrIcon/>
-                </Link>
-            </Box>
-        </Container>
+        <div className="flex flex-col items-center justify-center fixed top-0 right-0 bottom-0 left-0 h-full w-screen">
+            <p>
+                We can't find <a href="/" className="text-primary font-semibold">Fittree.io/{username}</a>, claim it now
+            </p>
+            <a rel="noreferrer" href="/" target="_blank" className="absolute bottom-0 mb-10">
+                <FittrIcon/>
+            </a>
+        </div>
     );
 };
 
