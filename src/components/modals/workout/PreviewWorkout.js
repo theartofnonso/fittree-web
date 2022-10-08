@@ -4,7 +4,6 @@ import WorkoutCardBig from "../../cards/WorkoutCardBig";
 import WorkoutExerciseCard from "../../cards/WorkoutExerciseCard";
 import CloseIcon from "../../svg/close-line.svg";
 import PlayIcon from "../../svg/play-mini-fill.svg";
-import previewExercise from "../exercise/PreviewExercise";
 import PreviewExercise from "../exercise/PreviewExercise";
 
 const PreviewWorkout = ({workout, play, close}) => {
@@ -48,7 +47,7 @@ const PreviewWorkout = ({workout, play, close}) => {
                 </div>
             </div>
             <button onClick={playWorkout}
-                    className="flex flex-row items-center justify-center bg-primary rounded-md w-14 h-14 sm:w-20 sm:h-20 fixed bottom-0 right-0 mr-8 mb-8">
+                    className="flex flex-row items-center justify-center bg-primary rounded-md w-14 h-14 sm:w-20 sm:h-20 fixed bottom-0 right-0 mr-8 mb-8 hover:bg-darkPrimary">
                 <PlayIcon/>
             </button>
             {currentExercise ?

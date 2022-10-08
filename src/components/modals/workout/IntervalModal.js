@@ -79,7 +79,7 @@ const IntervalModal = props => {
 
                 <button
                     onClick={props.navigateToWorkoutPreview}
-                    className="absolute bottom-0 mb-10 bg-primary rounded-3xl py-2 px-10 mt-6 text-white font-medium">End
+                    className="absolute bottom-0 mb-10 bg-primary rounded-3xl py-2 px-10 mt-6 text-white font-medium hover:bg-darkPrimary">End
                     Workout
                 </button>
             </div>
