@@ -58,7 +58,7 @@ const PlayWorkout = props => {
 
     return (
         <div
-            className="container mx-auto px-2 sm:px-10 absolute top-0 right-0 bottom-0 left-0 h-screen w-screen bg-white">
+            className="container mx-auto px-2 sm:px-10 fixed top-0 right-0 bottom-0 left-0 h-screen w-screen bg-white overflow-y-scroll">
             <div className="my-4 flex flex-row place-content-between">
                 <div>
                     <button onClick={props.close}>
