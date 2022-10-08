@@ -31,7 +31,7 @@ const PreviewWorkout = ({workout, play, close}) => {
                 <CloseIcon/>
             </button>
             <WorkoutCardBig workout={workout}/>
-            <div>
+            <div className="overscroll-contain">
                 <pre className="my-4 font-light">{workout.description}</pre>
             </div>
             <div className="pb-2">
