@@ -25,9 +25,7 @@ import ShareIcon from "../src/components/svg/share-box-line.svg";
 import WorkoutCard from "../src/components/cards/WorkoutCard";
 import PreviewWorkout from "../src/components/modals/workout/PreviewWorkout";
 import Socials from "../src/components/views/Socials";
-import CloseIcon from "../src/components/svg/close-line.svg";
-import InfoOutlinedIcon from "../src/components/svg/information-line.svg";
-import OrderPlayIcon from "../src/components/svg/order-play-line.svg";
+import CheckIcon from "../src/components/svg/check-green-24.svg";
 
 const CreatorProfile = () => {
 
@@ -149,7 +147,8 @@ const CreatorProfile = () => {
                 <div className="rounded-full bg-primary flex flex-row justify-start items-center">
                     <Socials profile={profile}/>
                     <p className="text-white font-bold mx-2">{profile.preferred_username}</p>
-                    {profile.displayProfile ? <img src={"https://" + profile.displayProfile} alt="Display profile" className="h-10 rounded-full"/> : null}
+                    {profile.displayProfile ? <img src={"https://" + profile.displayProfile} alt="Display profile"
+                                                   className="h-10 rounded-full"/> : null}
                 </div>)
         }
     };
@@ -208,7 +207,9 @@ const CreatorProfile = () => {
                         className="border-gray w-5/6 bg-secondary h-14 sm:h-18 shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
                         id="search"
                         type="text"
-                        placeholder="Search workouts"/>
+                        placeholder="Search workouts"
+                        value={searchQuery}
+                        onChange={event => onChangeSearch(event.target.value.toLowerCase())}/>
                 </form>
 
                 <div className="grid gap-0.5 grid-cols-2 sm:grid-cols-3">
@@ -220,6 +221,11 @@ const CreatorProfile = () => {
                         );
                     }) : null}
                 </div>
+                {showSnackBar ?
+                    <div className="absolute bottom-0 left-0 ml-4 mb-4 p-2 flex flex-row justify-start items-center rounded bg-lightGreen w-1/2 sm:w-2/5">
+                        <CheckIcon/>
+                        <p className="ml-2 text-midnightGreen font-semibold">{snackbarMessage}</p>
+                    </div> : null}
                 {currentWorkout && !shouldPlayWorkout ?
                     <PreviewWorkout
                         workout={currentWorkout}

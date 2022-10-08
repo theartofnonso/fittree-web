@@ -16,7 +16,9 @@ module.exports = {
       white: '#FFFFFF',
       black: '#000000',
       transparentBlack: 'rgba(0,0,0,0.9)',
-      dustBlack: '#282828'
+      dustBlack: '#282828',
+      lightGreen: '#80e876',
+      midnightGreen: '#2a4f27',
     },
     extend: {},
   },
