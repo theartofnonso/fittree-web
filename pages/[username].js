@@ -26,7 +26,8 @@ import WorkoutCard from "../src/components/cards/WorkoutCard";
 import PreviewWorkout from "../src/components/modals/workout/PreviewWorkout";
 import Socials from "../src/components/views/Socials";
 import CheckIcon from "../src/components/svg/check-green-24.svg";
-import FittrIcon from "../src/components/svg/fittr.svg";
+import FittrBigIcon from "../src/components/svg/fittr.svg";
+import FittrSmallIcon from "../src/components/svg/fittr_small.svg";
 import EmptyState from "../src/components/svg/empty_state.svg";
 
 const CreatorProfile = () => {
@@ -234,8 +235,11 @@ const CreatorProfile = () => {
                         </div>}
                 </div>
                 <div className="flex flex-row justify-center items-center">
-                    <a rel="noreferrer" href="/" target="_blank">
-                        <FittrIcon/>
+                    <a rel="noreferrer" href="/" target="_blank" className="lg:hidden">
+                        <FittrSmallIcon/>
+                    </a>
+                    <a rel="noreferrer" href="/" target="_blank" className="hidden lg:block">
+                        <FittrBigIcon/>
                     </a>
                 </div>
                 {showSnackBar ?

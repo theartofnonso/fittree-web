@@ -4,15 +4,19 @@ import MockLeft from "../src/components/views/mocks/MockLeft";
 import {APP_STORE_URL} from "../src/utils/utilsConstants";
 import InstagramIcon from "../src/components/svg/instagram-primary-line.svg";
 import TwitterIcon from "../src/components/svg/twitter-primary-line.svg";
-import FittrIcon from "../src/components/svg/fittr.svg";
+import FittrBigIcon from "../src/components/svg/fittr.svg";
+import FittrSmallIcon from "../src/components/svg/fittr_small.svg";
 
 export default function App() {
 
     return (
         <div className="container mx-auto">
             <div className="ml-8 sm:ml-10">
-                <a rel="noreferrer" href="/" target="_blank" className="">
-                    <FittrIcon/>
+                <a rel="noreferrer" href="/" target="_blank" className="lg:hidden">
+                    <FittrSmallIcon/>
+                </a>
+                <a rel="noreferrer" href="/" target="_blank" className="hidden lg:block">
+                    <FittrBigIcon/>
                 </a>
             </div>
 
@@ -79,7 +83,7 @@ export default function App() {
             </div>
             <div className="flex flex-row my-4 mx-6 sm:mx-8 place-content-between">
                 <div>
-                    <p className="font-semibold">hello@fittree.io</p>
+                    <p className="font-medium">hello@fittree.io</p>
                 </div>
                 <div className="flex flex-row place-content-around">
                     <div className="mx-2">
