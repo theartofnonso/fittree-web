@@ -1,28 +1,12 @@
 /* eslint-disable */
 import React, {useState} from "react";
 import WorkoutCardBig from "../../cards/WorkoutCardBig";
-import {
-    Box,
-    Container,
-    createTheme,
-    Fab,
-    responsiveFontSizes,
-    ThemeProvider,
-    Typography,
-    useMediaQuery, useTheme
-} from "@mui/material";
 import WorkoutExerciseCard from "../../cards/WorkoutExerciseCard";
+import CloseIcon from "../../svg/close-line.svg";
+import PlayIcon from "../../svg/play-mini-fill.svg";
 import PreviewExercise from "../exercise/PreviewExercise";
-import CloseIcon from "@mui/icons-material/Close";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 
 const PreviewWorkout = ({workout, play, close}) => {
-
-    let responsiveFontTheme = createTheme();
-    responsiveFontTheme = responsiveFontSizes(responsiveFontTheme);
-
-    const theme = useTheme();
-    const isBiggerScreen = useMediaQuery(theme.breakpoints.up('xl'));
 
     const [currentExercise, setCurrentExercise] = useState(null)
 
@@ -41,83 +25,40 @@ const PreviewWorkout = ({workout, play, close}) => {
     }
 
     return (
-        <Container maxWidth="xl" sx={{
-            position: 'fixed',
-            top: 0,
-            bottom: 0,
-            right: 0,
-            left: 0,
-            backgroundColor: 'white',
-            overflowY: 'scroll',
-            zIndex: 1,
-        }}>
-            <CloseIcon onClick={close} sx={{marginY: 1, cursor: 'pointer'}}/>
+        <div
+            className="container mx-auto px-2 sm:px-10 fixed top-0 right-0 bottom-0 left-0 h-full w-full bg-white overflow-y-scroll">
+            <button className="my-4" onClick={close}>
+                <CloseIcon/>
+            </button>
             <WorkoutCardBig workout={workout}/>
-            <Box>
-                <ThemeProvider theme={responsiveFontTheme}>
-                    <Typography variant="body2" sx={{
-                        fontFamily: 'Montserrat',
-                        fontWeight: 300,
-                        whiteSpace: 'pre-line',
-                        marginY: 2
-                    }}>{workout.description}</Typography>
-                </ThemeProvider>
-                <Typography variant="body2" sx={{
-                    fontFamily: 'Montserrat',
-                    fontWeight: 500,
-                    whiteSpace: 'pre-line',
-                    marginBottom: 1
-                }}>{workout.workoutExercises.length} exercises</Typography>
-                {workout.workoutExercises.map((workoutExercise, i) =>
-                    <Box
-                        sx={{
-                            cursor: 'pointer',
-                            '&:hover': {
-                                background: "rgba(245,237,232,0.3)",
-                                borderRadius: 2
-                            }
-                    }}
-                        key={i}
-                        onClick={() => playExercise(workoutExercise.exercise)}>
-                        <WorkoutExerciseCard workoutExercise={workoutExercise} type={workout.type}/>
-                    </Box>)}
-                {!currentExercise && !isBiggerScreen ? <Box sx={{
-                    position: 'fixed',
-                    right: 0,
-                    bottom: 0,
-                    marginRight: 4,
-                    marginBottom: 4,
-                    backgroundColor: '#ef7a75',
-                    padding: 1,
-                    borderRadius: 2,
-                    cursor: 'pointer'
-                }} onClick={playWorkout}>
-                    <PlayArrowIcon sx={{fontSize: 40, color: 'white'}} onClick={playWorkout}/>
-                </Box> : null }
-            </Box>
-            {!currentExercise && isBiggerScreen ? <Box sx={{
-                left: 0,
-                right: 0,
-                bottom: 0,
-                alignItems: 'center',
-                backgroundColor: '#ef7a75',
-                borderRadius: 1,
-                flexDirection: 'row',
-                justifyContent: 'center',
-                height: 40,
-                display: 'flex',
-                marginBottom: 2,
-                cursor: 'pointer'
-            }} onClick={playWorkout}>
-                <Typography sx={{color: 'white', fontFamily: 'Montserrat', fontWeight: 'bold'}}>
-                    Play workout
-                </Typography>
-            </Box> : null }
+            <div className="overscroll-contain">
+                <p className="my-4 font-light whitespace-pre">{workout.description}</p>
+            </div>
+            <div className="pb-2">
+                <p className="mb-2 font-semibold">{workout.workoutExercises.length} exercises</p>
+                <div>
+                    {workout.workoutExercises.map((workoutExercise, index) =>
+                        <WorkoutExerciseCard
+                            onClick={() => playExercise(workoutExercise.exercise)}
+                            key={index}
+                            workoutExercise={workoutExercise}
+                            type={workout.type}/>
+                    )}
+                </div>
+            </div>
+            <button onClick={playWorkout}
+                    className="flex flex-row items-center justify-center bg-primary rounded-md w-14 h-14 sm:w-20 sm:h-20 fixed bottom-0 right-0 mr-8 mb-8 hover:bg-darkPrimary lg:hidden">
+                <PlayIcon/>
+            </button>
+            <button
+                onClick={playWorkout}
+                className="mb-8 w-full bg-primary rounded-3xl py-2 px-10 text-white font-medium hover:bg-darkPrimary hidden lg:block">Play workout
+            </button>
             {currentExercise ?
                 <PreviewExercise
                     exercise={currentExercise}
                     close={() => setCurrentExercise(null)}/> : null}
-        </Container>
+        </div>
     );
 };
 
