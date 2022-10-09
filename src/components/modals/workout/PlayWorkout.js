@@ -78,7 +78,8 @@ const PlayWorkout = props => {
                 Your browser does not support the video tag.
             </video>
             <div>
-                <div className="my-4 flex flex-row justify-center">
+                {!props.isPaused ?
+                <div className="mt-4 flex flex-row justify-center">
                     <button className="mx-2" onClick={props.seekBackward}>
                         <p>Prev</p>
                     </button>
@@ -88,9 +89,9 @@ const PlayWorkout = props => {
                     <button className="mx-2" onClick={props.seekForward}>
                         <p>Next</p>
                     </button>
-                </div>
+                </div> : null}
                 <div>
-                    <p className="font-bold my-0.5">{props.workoutExercise.exercise.title}</p>
+                    <p className="font-bold mt-4 mb-0.5">{props.workoutExercise.exercise.title}</p>
                     <p>{getRepsOrTimeValue()}</p>
                     <p>{props.extraData.exerciseExtras}</p>
                 </div>

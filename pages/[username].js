@@ -197,42 +197,43 @@ const CreatorProfile = () => {
          * Loaded Creator page content
          */
         return (
-            <div
-                className="container mx-auto px-2 sm:px-10 h-screen overflow-y-scroll">
-                <div className="mt-4 mb-10 flex flex-row items-center place-content-between">
-                    <button onClick={copyShareableLink}>
-                        <ShareIcon/>
-                    </button>
-                    {displayAvatar()}
-                </div>
-                <div className="flex flex-col items-center">
-                    <p className="font-light py-1 text-sm sm:text-xl md:text-base">{profile.displayBrief}</p>
-                </div>
-                <form className="my-4 flex flex-col items-center">
-                    <input
-                        className="border-gray w-5/6 bg-secondary h-14 sm:h-18 shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
-                        id="search"
-                        type="text"
-                        placeholder="Search workouts"
-                        value={searchQuery}
-                        onChange={event => onChangeSearch(event.target.value.toLowerCase())}/>
-                </form>
+            <div className="container mx-auto px-2 sm:px-10 h-full overflow-y-scroll">
+                <div className="h-full">
+                    <div className="mt-4 mb-10 flex flex-row items-center place-content-between">
+                        <button onClick={copyShareableLink}>
+                            <ShareIcon/>
+                        </button>
+                        {displayAvatar()}
+                    </div>
+                    <div className="flex flex-col items-center">
+                        <p className="font-light py-1 text-sm sm:text-xl md:text-base">{profile.displayBrief}</p>
+                    </div>
+                    <form className="my-4 flex flex-col items-center">
+                        <input
+                            className="border-gray w-5/6 bg-secondary h-14 sm:h-18 shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+                            id="search"
+                            type="text"
+                            placeholder="Search workouts"
+                            value={searchQuery}
+                            onChange={event => onChangeSearch(event.target.value.toLowerCase())}/>
+                    </form>
 
-                {workouts.length > 0 ?
-                    <div className="grid gap-0.5 grid-cols-2 sm:grid-cols-3">
-                        {filteredWorkouts.map((item, index) => {
-                            return (
-                                <button key={index} onClick={() => previewWorkout(item)}>
-                                    <WorkoutCard workout={item}/>
-                                </button>
-                            );
-                        })}
-                    </div> :
-                    <div className="flex flex-col justify-center items-center h-96">
-                        <EmptyState/>
-                        <p className="font-normal mt-4">{profile.preferred_username} has no workouts</p>
-                    </div>}
-                <div className=" flex flex-row justify-center items-center">
+                    {workouts.length > 0 ?
+                        <div className="grid gap-0.5 grid-cols-2 sm:grid-cols-3">
+                            {filteredWorkouts.map((item, index) => {
+                                return (
+                                    <button key={index} onClick={() => previewWorkout(item)}>
+                                        <WorkoutCard workout={item}/>
+                                    </button>
+                                );
+                            })}
+                        </div> :
+                        <div className="flex flex-col justify-center items-center h-screen">
+                            <EmptyState/>
+                            <p className="font-normal mt-4">{profile.preferred_username} has no workouts</p>
+                        </div>}
+                </div>
+                <div className="flex flex-row justify-center items-center">
                     <a rel="noreferrer" href="/" target="_blank">
                         <FittrIcon/>
                     </a>
