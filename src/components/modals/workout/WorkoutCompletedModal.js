@@ -1,11 +1,7 @@
 import React from 'react';
-import {Box, createTheme, responsiveFontSizes, ThemeProvider, Typography} from "@mui/material";
-import CheckIcon from '../../svg/check.svg'
+import CheckIcon from "../../svg/check.svg";
 
 const WorkoutCompletedModal = props => {
-
-    let responsiveFontTheme = createTheme();
-    responsiveFontTheme = responsiveFontSizes(responsiveFontTheme);
 
     /**
      * calculate workout duration
@@ -34,59 +30,18 @@ const WorkoutCompletedModal = props => {
     }
 
     return (
-        <Box sx={{
-            position: 'fixed',
-            top: 0,
-            bottom: 0,
-            right: 0,
-            left: 0,
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: 'white',
-            cursor: 'pointer',
-            zIndex: 1
-        }}>
-            <CheckIcon/>
-            <Box sx={{
-                marginY: 10,
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                alignItems: 'center'
-            }}>
-                <ThemeProvider theme={responsiveFontTheme}>
-                    <Typography variant="h6" sx={{
-                        fontFamily: 'Montserrat',
-                        fontWeight: 700
-                    }}> Workout Completed</Typography>
-                    <Typography variant="body1" sx={{
-                        fontFamily: 'Montserrat',
-                        fontWeight: 400,
-                        my: 1
-                    }}> It took you {calculateWorkoutDuration()}</Typography>
-                </ThemeProvider>
-            </Box>
-            <Box
-                sx={{
-                    alignItems: 'center',
-                    backgroundColor: '#ef7a75',
-                    borderRadius: 8,
-                    flexDirection: 'row',
-                    justifyContent: 'center',
-                    width: 200,
-                    height: 40,
-                    position: 'absolute',
-                    bottom: 50,
-                    display: 'flex'
-                }}
-                onClick={props.navigateToWorkoutPreview}>
-                <Typography sx={{color: 'white', fontFamily: 'Montserrat', fontWeight: 'bold'}}>
-                    Close Workout
-                </Typography>
-            </Box>
-        </Box>
+        <div
+            className="px-5 sm:px-10 fixed top-0 right-0 bottom-0 left-0 h-full w-screen flex flex-col items-center bg-white">
+            <div className="flex flex-col items-center justify-center h-full">
+                <CheckIcon/>
+                <p className="mt-4 font-medium">It took you {calculateWorkoutDuration()}</p>
+            </div>
+            <button
+                onClick={props.navigateToWorkoutPreview}
+                className="absolute bottom-0 mb-10 bg-primary rounded-3xl py-2 px-10 mt-6 text-white font-medium hover:bg-darkPrimary">Close
+                Workout
+            </button>
+        </div>
     );
 };
 

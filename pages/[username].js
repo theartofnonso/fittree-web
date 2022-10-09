@@ -9,20 +9,6 @@ import {
 } from "../src/features/CreatorProfileSlice";
 import {useDispatch, useSelector} from "react-redux";
 import {searchExerciseOrWorkout} from "../src/utils/workoutAndExerciseUtils";
-import {
-    Alert,
-    AlertTitle,
-    Avatar,
-    Box, Collapse,
-    Container,
-    Link,
-    Snackbar,
-    TextField,
-    ThemeProvider,
-    Typography,
-    useMediaQuery,
-    useTheme
-} from "@mui/material";
 import workoutsConstants from "../src/utils/workout/workoutsConstants";
 import {
     generateShareableLink,
@@ -33,20 +19,18 @@ import {
 import CreatorProfile404 from "../src/components/views/CreatorProfile404";
 import CreatorProfile500 from "../src/components/views/CreatorProfile500";
 import CreatorProfileLoading from "../src/components/views/CreatorProfileLoading";
-import Socials from "../src/components/views/Socials";
-import WorkoutCard from "../src/components/cards/WorkoutCard";
-import PreviewWorkout from "../src/components/modals/workout/PreviewWorkout";
 import PlayRepsAndSetsWorkout from "../src/components/modals/workout/PlayRepsAndSetsWorkout";
 import PlayCircuitWorkout from "../src/components/modals/workout/PlayCircuitWorkout";
-import EmptyStateIcon from '../src/components/svg/empty_state.svg'
-import ShareIcon from '../src/components/svg/share-box-line.svg'
-import FittrIcon from '../src/components/svg/fittr.svg'
-import FittrIconSmall from '../src/components/svg/fittr_small.svg'
+import ShareIcon from "../src/components/svg/share-box-line.svg";
+import WorkoutCard from "../src/components/cards/WorkoutCard";
+import PreviewWorkout from "../src/components/modals/workout/PreviewWorkout";
+import Socials from "../src/components/views/Socials";
+import CheckIcon from "../src/components/svg/check-green-24.svg";
+import FittrBigIcon from "../src/components/svg/fittr.svg";
+import FittrSmallIcon from "../src/components/svg/fittr_small.svg";
+import EmptyState from "../src/components/svg/empty_state.svg";
 
 const CreatorProfile = () => {
-
-    const theme = useTheme();
-    const isBigScreen = useMediaQuery(theme.breakpoints.up('sm'));
 
     /**
      * Retrieve creator's username
@@ -72,13 +56,10 @@ const CreatorProfile = () => {
 
     const [searchQuery, setSearchQuery] = React.useState('');
 
-    const [open, setOpen] = React.useState(true);
-
     /**
      * Show snackbar for err message
      */
     const [showSnackBar, setShowSnackBar] = useState(false)
-    const [snackbarMessage, setSnackbarMessage] = useState("");
 
     /**
      * Load workout into filtered workout
@@ -88,6 +69,17 @@ const CreatorProfile = () => {
             setFilteredWorkouts(workouts)
         }
     }, [workouts])
+
+    /**
+     * Hide Snackbar
+     */
+    useEffect(() => {
+        if (showSnackBar) {
+            setTimeout(() => {
+                setShowSnackBar(false)
+            }, 5000)
+        }
+    }, [showSnackBar])
 
     /**
      * Filter workout
@@ -151,7 +143,6 @@ const CreatorProfile = () => {
      */
     const copyShareableLink = () => {
         navigator.clipboard.writeText(generateShareableLink(username)).then(() => {
-            setSnackbarMessage("Link copied")
             setShowSnackBar(true)
         });
     }
@@ -162,18 +153,14 @@ const CreatorProfile = () => {
      */
     const displayAvatar = () => {
         if (profile) {
-            return profile.displayProfile ?
-                <Avatar sx={{backgroundColor: "#ef7a75", width: 80, height: 80}} alt="Display Profile"
-                        src={"https://" + profile.displayProfile}/> :
-                <Avatar sx={{backgroundColor: "#ef7a75", width: 80, height: 80}} alt="Display profile"
-                        src={"https://" + profile.displayProfile}>
-                    {profile.preferred_username.slice(0, 1).toUpperCase()}
-                </Avatar>
+            return (
+                <div className="rounded-full bg-primary flex flex-row justify-start items-center">
+                    <Socials profile={profile}/>
+                    <p className="text-white font-bold mx-2">{profile.preferred_username}</p>
+                    {profile.displayProfile ? <img src={"https://" + profile.displayProfile} alt="Display profile"
+                                                   className="h-10 rounded-full"/> : null}
+                </div>)
         }
-    };
-
-    const handleClose = () => {
-        setShowSnackBar(false);
     };
 
     /**
@@ -211,125 +198,63 @@ const CreatorProfile = () => {
          * Loaded Creator page content
          */
         return (
-            <Container maxWidth="xl">
-                <Collapse in={open}>
-                    <Alert severity="warning" onClose={() => setOpen(false)}>
-                        <AlertTitle>Important</AlertTitle>
-                        <Typography variant='body2'>Fittree will <strong>never request financial transactions</strong> of
-                            any kind</Typography><br/>
-                        <Typography variant='body2'>Fittree will never redirect you to any other page other than
-                            the <strong>official Fittree socials, socials of a Fittree user as well as our ProductHunt page</strong></Typography><br/>
-                        <Typography variant='body2'>Fittree will <strong>never request any personal
-                            details</strong> from you</Typography>
-                    </Alert>
-                </Collapse>
-                <Box sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    marginY: 2,
-                }}>
-                    <Box sx={{
-                        justifyContent: "space-between",
-                        display: 'flex',
-                        flexDirection: "row",
-                        alignItems: 'center',
-                        paddingHorizontal: 10,
-                        cursor: 'pointer'
-                    }} onClick={copyShareableLink}>
-                        <ShareIcon/>
-                    </Box>
-                    <Box sx={{
-                        display: 'flex',
-                        flexDirection: "column",
-                        alignItems: 'center',
-                        justifyContent: 'center'
-                    }}>
+            <div className="container mx-auto px-2 sm:px-10 h-full overflow-y-scroll">
+                <div className="h-full">
+                    <div className="mt-4 mb-10 flex flex-row items-center place-content-between">
+                        <button onClick={copyShareableLink}>
+                            <ShareIcon/>
+                        </button>
                         {displayAvatar()}
-                        <ThemeProvider theme={theme}>
-                            <Typography variant="h6" textAlign='center' sx={{
-                                my: 1,
-                                fontFamily: 'Montserrat',
-                                fontWeight: 500
-                            }}>{profile.preferred_username}</Typography>
-                            <Typography variant="body2" textAlign='center' sx={{
-                                fontFamily: 'Montserrat',
-                                fontSize: 12
-                            }}>{profile.displayBrief}</Typography>
-                        </ThemeProvider>
-                        {profile ? <Socials profile={profile}/> : null}
-                    </Box>
-                    <TextField sx={{
-                        backgroundColor: "#f5ede8",
-                        flex: 1,
-                        borderRadius: 2
-                    }}
-                               autoCapitalize='none'
-                               label="Search workouts"
-                               variant="outlined"
-                               value={searchQuery}
-                               onChange={event => onChangeSearch(event.target.value.toLowerCase())}/>
+                    </div>
+                    <div className="flex flex-col items-center">
+                        <p className="font-light py-1 text-sm sm:text-xl md:text-base">{profile.displayBrief}</p>
+                    </div>
+                    <form className="my-4 flex flex-col items-center">
+                        <input
+                            className="border-gray w-5/6 bg-secondary h-14 sm:h-18 shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+                            id="search"
+                            type="text"
+                            placeholder="Search workouts"
+                            value={searchQuery}
+                            onChange={event => onChangeSearch(event.target.value.toLowerCase())}/>
+                    </form>
 
-                </Box>
-                <Box sx={{
-                    height: isBigScreen ? 800 : 400,
-                    overflowY: 'scroll',
-                }}>
                     {workouts.length > 0 ?
-                        <Box sx={{
-                            display: 'grid',
-                            gridTemplateColumns: isBigScreen ? 'repeat(3, 1fr)' : 'repeat(2, 1fr)',
-                            gridGap: 8,
-                            overflowY: !isBigScreen ? 'scroll' : null,
-                        }}>
+                        <div className="grid gap-0.5 grid-cols-2 sm:grid-cols-3">
                             {filteredWorkouts.map((item, index) => {
                                 return (
-                                    <Box key={index} onClick={() => previewWorkout(item)} sx={{cursor: 'pointer'}}>
+                                    <button key={index} onClick={() => previewWorkout(item)}>
                                         <WorkoutCard workout={item}/>
-                                    </Box>
+                                    </button>
                                 );
                             })}
-                        </Box> :
-                        <Box sx={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            justifyContent: "center",
-                            alignItems: "center",
-                            marginTop: 5
-                        }}>
-                            <EmptyStateIcon/>
-                            <Typography variant="body1" textAlign='center' sx={{
-                                fontFamily: 'Montserrat',
-                                fontSize: 12,
-                                fontWeight: 500,
-                                marginTop: 2
-                            }}>{`${username} has no workouts`}</Typography>
-                        </Box>}
-                </Box>
-                <Link href='/' sx={{
-                    textDecoration: 'none',
-                    display: 'flex',
-                    flexDirection: 'row',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                }}>
-                    {isBigScreen ? <FittrIcon/> : <FittrIconSmall/>}
-                </Link>
+                        </div> :
+                        <div className="flex flex-col justify-center items-center h-screen">
+                            <EmptyState/>
+                            <p className="font-normal mt-4">{profile.preferred_username} has no workouts</p>
+                        </div>}
+                </div>
+                <div className="flex flex-row justify-center items-center">
+                    <a rel="noreferrer" href="/" target="_blank" className="lg:hidden">
+                        <FittrSmallIcon/>
+                    </a>
+                    <a rel="noreferrer" href="/" target="_blank" className="hidden lg:block">
+                        <FittrBigIcon/>
+                    </a>
+                </div>
+                {showSnackBar ?
+                    <div
+                        className="absolute rounded-3xl bottom-0 left-0 ml-2 sm:ml-10 mb-8 p-2 flex flex-row justify-start items-center rounded bg-lightGreen w-1/2 sm:w-2/5">
+                        <CheckIcon/>
+                        <p className="ml-2 text-midnightGreen font-semibold">Link copied</p>
+                    </div> : null}
                 {currentWorkout && !shouldPlayWorkout ?
                     <PreviewWorkout
                         workout={currentWorkout}
                         play={() => togglePlayWorkout(true)}
                         close={closePreview}/> : null}
                 {shouldPlayWorkout ? getWorkoutPlayComponent() : null}
-                <Snackbar
-                    autoHideDuration={2000}
-                    open={showSnackBar}
-                    onClose={handleClose}
-                    message={snackbarMessage}>
-                    <Alert severity="success" sx={{width: '100%'}}>
-                        {snackbarMessage}
-                    </Alert>
-                </Snackbar>
-            </Container>
+            </div>
         )
     }
 }

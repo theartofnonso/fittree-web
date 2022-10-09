@@ -1,151 +1,46 @@
 /* eslint-disable */
 import React from "react";
-import {Box, Container, createTheme, responsiveFontSizes, ThemeProvider, Typography} from "@mui/material";
-import ReactPlayer from "react-player";
-import CloseIcon from "@mui/icons-material/Close";
+import CloseIcon from "../../svg/close-line.svg";
 
 const PreviewExercise = ({exercise, close}) => {
 
-    let responsiveFontTheme = createTheme();
-    responsiveFontTheme = responsiveFontSizes(responsiveFontTheme);
-
     return (
-        <Container maxWidth="xl" sx={{
-            position: 'fixed',
-            top: 0,
-            bottom: 0,
-            right: 0,
-            left: 0,
-            backgroundColor: 'white',
-            overflowY: 'scroll',
-            zIndex: 1
-        }}>
-            <CloseIcon onClick={close} sx={{marginY: 1, cursor: 'pointer'}}/>
-            <Box sx={{
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: exercise.videoUrls.length > 1 ? 'flex-start' : 'center',
-                width: '100%',
-                overflowX: 'scroll',
-                marginBottom: 3,
-                backgroundColor: '#282828',
-                borderRadius: 5,
-                paddingY: 2
-
-            }}>
+        <div
+            className="container mx-auto px-2 sm:px-10 fixed top-0 right-0 bottom-0 left-0 h-full w-full bg-white overflow-y-scroll">
+            <button className="my-4" onClick={close}>
+                <CloseIcon/>
+            </button>
+            <div className="">
                 {exercise.videoUrls.map((url, index) => {
                     return (
-                        <ReactPlayer
-                            key={index}
-                            url={"https://" + url}
-                            style={{
-                                flex: '0 0 25em',
-                                borderRadius: 5,
-                                backgroundColor: '#282828',
-                                overflow: 'hidden',
-                                position: 'relative',
-                            }}
-                            width='100%'
-                            loop={true}
-                            playing={true}
-                            playsinline={true}
-                        />
-                    );
+                        <video key={index}
+                               className="rounded-md w-full h-96 sm:w-full sm:h-96 object-contain mr-2 bg-dustBlack"
+                               autoPlay
+                               playsInline loop>
+                            <source src={`https://${url}`} type="video/mp4"/>
+                            Your browser does not support the video tag.
+                        </video>
+                    )
                 })}
-            </Box>
-
-            <Box>
-                <ThemeProvider theme={responsiveFontTheme}>
-                    <Typography variant="h6" sx={{
-                        fontFamily: 'Montserrat',
-                        fontWeight: 500,
-                    }}>{exercise.title}</Typography>
-                </ThemeProvider>
-            </Box>
-            <Box sx={{marginY: 2,}}>
-                <ThemeProvider theme={responsiveFontTheme}>
-                    <Typography variant="body2" sx={{
-                        fontFamily: 'Montserrat',
-                        fontWeight: 400,
-                        whiteSpace: 'pre-line'
-                    }}>{exercise.description}</Typography>
-                </ThemeProvider>
-            </Box>
-
-            <Box sx={{marginBottom: 1}}>
-                <ThemeProvider theme={responsiveFontTheme}>
-                    <Typography sx={{
-                        fontFamily: 'Montserrat',
-                        fontWeight: 500,
-                    }} variant="body2">Body Parts</Typography>
-                </ThemeProvider>
-            </Box>
-            <Box sx={{
-                display: "flex",
-                flexDirection: "row",
-                flexWrap: "wrap",
-                marginBottom: 2
-            }}>
-                {exercise.bodyParts.map((part, index) => {
-                    return (
-                        <Box key={index} sx={{
-                            backgroundColor: "#ef7a75",
-                            marginRight: 0.8,
-                            marginBottom: 0.8,
-                            borderRadius: 1,
-                        }}>
-                            <ThemeProvider theme={responsiveFontTheme}>
-                                <Typography sx={{
-                                    color: 'white',
-                                    textAlign: 'center',
-                                    fontFamily: 'Montserrat',
-                                    fontWeight: 300,
-                                    paddingX: 0.8,
-                                    paddingY: 0.3,
-                                }}
-                                            variant="body2">{part}</Typography>
-                            </ThemeProvider>
-                        </Box>
-                    );
-                })}
-            </Box>
-            <Box sx={{marginBottom: 1}}>
-                <ThemeProvider theme={responsiveFontTheme}>
-                    <Typography sx={{
-                        fontFamily: 'Montserrat',
-                        fontWeight: 500,
-                    }} variant="body2">Equipment</Typography>
-                </ThemeProvider>
-            </Box>
-            <Box sx={{
-                display: "flex",
-                flexDirection: "row",
-                flexWrap: "wrap",
-                marginY: 1,
-            }}>
-                {exercise.equipments.map((equipment, index) => {
-                    return (
-                        <Box key={index} sx={{
-                            backgroundColor: "#ef7a75",
-                            marginRight: 0.8,
-                            marginBottom: 0.8,
-                            borderRadius: 1,
-                        }}>
-                            <ThemeProvider theme={responsiveFontTheme}>
-                                <Typography sx={{
-                                    color: 'white',
-                                    textAlign: 'center',
-                                    fontFamily: 'Montserrat',
-                                    fontWeight: 300,
-                                    paddingX: 0.8,
-                                    paddingY: 0.3,
-                                }} variant="body2">{equipment}</Typography>
-                            </ThemeProvider>
-                        </Box>
-                    );
-                })}
-            </Box>
-        </Container>
+            </div>
+            <div>
+                <p className="my-4 font-light whitespace-pre">{exercise.description}</p>
+            </div>
+            <div>
+                <div className="mb-4">
+                    <p className="font-semibold">Body Parts</p>
+                    <div className="flex flex-row flex-wrap text-sm">
+                        {exercise.bodyParts.map((item, index) => <p key={index} className="mr-2">{item}</p>)}
+                    </div>
+                </div>
+                <div className="mb-4">
+                    <p className="font-semibold">Equipment</p>
+                    <div className="flex flex-row flex-wrap text-sm">
+                        {exercise.equipments.map((item, index) => <p key={index} className="mr-2">{item}</p>)}
+                    </div>
+                </div>
+            </div>
+        </div>
     );
 };
 

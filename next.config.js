@@ -7,9 +7,11 @@ const nextConfig = {
 const ContentSecurityPolicy = `
   default-src 'self';
   script-src 'self';
-  child-src example.com;
-  style-src 'self' example.com;
-  font-src 'self';  
+  connect-src 'self' https://cognito-identity.eu-west-2.amazonaws.com  https://vcjfyfujgnafzidkrjmnsdwuai.appsync-api.eu-west-2.amazonaws.com/graphql https://vitals.vercel-insights.com/v1/vitals https://o1400007.ingest.sentry.io;
+  img-src 'self' data: https://d2ez6lox3k9lt0.cloudfront.net;
+  media-src 'self' https://d2ez6lox3k9lt0.cloudfront.net;
+  style-src 'self' https://fonts.googleapis.com;
+  font-src 'self' https://fonts.gstatic.com;  
 `
 
 const securityHeaders = [
@@ -32,6 +34,10 @@ const securityHeaders = [
     {
         key: 'Referrer-Policy',
         value: 'strict-origin'
+    },
+    {
+        key: 'Content-Security-Policy',
+        value: ContentSecurityPolicy.replace(/\s{2,}/g, ' ').trim()
     }
 ]
 
@@ -49,9 +55,8 @@ module.exports = {
         config.module.rules.push({
             test: /\.svg$/i,
             issuer: /\.[jt]sx?$/,
-            use: ['@svgr/webpack'],
+            use: ['@svgr/webpack']
         })
-
         return config
     },
 

@@ -1,7 +1,6 @@
 /* eslint-disable */
 import React from "react";
-import {Box, Container, Typography} from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
+import CloseIcon from "../svg/close-line-white.svg";
 import workoutsConstants from "../../utils/workout/workoutsConstants";
 
 const WorkoutList = ({close, type, list, progress}) => {
@@ -13,25 +12,22 @@ const WorkoutList = ({close, type, list, progress}) => {
     const displayCircuitList = () => {
         return list.map((round, roundIndex) => {
             return (
-                <Box key={roundIndex} sx={{marginY: 4}}>
-                    <Typography variant='h5' sx={{
-                        marginY: 1,
-                        fontFamily: 'Montserrat',
-                        fontWeight: 700,
-                        color: roundIndex === progress.roundsIndex ? '#EF7A75' : 'white',
-                    }}>Round {roundIndex + 1}</Typography>
+                <div key={roundIndex} className="my-8 sm:my-10 text-xl text-primary font-bold">
+                    {roundIndex === progress.roundsIndex ?
+                        <p className="text-xl text-primary font-bold">Round {roundIndex + 1}</p> :
+                        <p className="text-xl text-white font-bold">Round {roundIndex + 1}</p>}
 
                     {round.map((workoutExercise, index) => {
 
-                        return <Typography key={index} sx={{
-                            marginBottom: 1,
-                            fontFamily: 'Montserrat',
-                            fontSize: (index === progress.exerciseIndex && roundIndex === progress.roundsIndex) ? 25 : 18,
-                            fontWeight: (index === progress.exerciseIndex && roundIndex === progress.roundsIndex) ? 700 : 400,
-                            color: (index === progress.exerciseIndex && roundIndex === progress.roundsIndex) ? '#EF7A75' : 'white',
-                        }}>{workoutExercise.exercise.title}</Typography>
+                        if ((index === progress.exerciseIndex) && (roundIndex === progress.roundsIndex)) {
+                            return <p key={index}
+                                      className="my-2 sm:my-4 text-xl text-primary font-bold">{workoutExercise.exercise.title}</p>
+                        } else {
+                            return <p key={index}
+                                      className="my-2 sm:my-4 text-white font-normal">{workoutExercise.exercise.title}</p>
+                        }
                     })}
-                </Box>
+                </div>
             )
         })
     }
@@ -42,43 +38,29 @@ const WorkoutList = ({close, type, list, progress}) => {
      */
     const displayRepsAndSetsList = () => {
         return list.map((exercise, index) => {
-            return (
-                <Box key={index} sx={{marginY: 4}}>
-                    <Typography variant='h5' sx={{
-                        marginY: 1,
-                        fontFamily: 'Montserrat',
-                        fontSize: index === progress.exerciseIndex ? 25 : 18,
-                        fontWeight: index === progress.exerciseIndex ? 700 : 400,
-                        color: index === progress.exerciseIndex ? '#EF7A75' : 'white',
-                    }}>{exercise[0].exercise.title}</Typography>
-                </Box>
-            )
+
+            if (index === progress.exerciseIndex) {
+                return <p key={index}
+                          className="my-4 sm:my-8 text-xl text-primary font-bold">{exercise[0].exercise.title}</p>
+            } else {
+                return <p key={index}
+                          className="my-4 sm:my-8 text-white font-normal">{exercise[0].exercise.title}</p>
+            }
         })
     }
 
     return (
-        <Container maxWidth="xl" sx={{
-            position: 'fixed',
-            top: 0,
-            bottom: 0,
-            right: 0,
-            left: 0,
-            overflowY: 'scroll',
-            backgroundColor: 'rgba(0,0,0,0.9)',
-            paddingTop: 2,
-            zIndex: 100,
-        }}>
-            <Box sx={{
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                marginY: 1
-            }}>
-                <CloseIcon onClick={close} sx={{cursor: 'pointer', color: 'white'}}/>
-            </Box>
-            {type === workoutsConstants.workoutType.CIRCUIT ? displayCircuitList() : displayRepsAndSetsList()}
-        </Container>
+        <div
+            className="px-5 sm:px-10 fixed top-0 right-0 bottom-0 left-0 h-screen w-screen bg-transparentBlack z-50">
+            <div className="my-4">
+                <button onClick={close}>
+                    <CloseIcon/>
+                </button>
+            </div>
+            <div>
+                {type === workoutsConstants.workoutType.CIRCUIT ? displayCircuitList() : displayRepsAndSetsList()}
+            </div>
+        </div>
     );
 };
 

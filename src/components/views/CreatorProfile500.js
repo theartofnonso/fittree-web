@@ -1,33 +1,18 @@
 /* eslint-disable */
 import React from "react";
-import {Box, Container, createTheme, Link, responsiveFontSizes, ThemeProvider, Typography} from "@mui/material";
 import FittrIcon from "/src/components/svg/fittr.svg";
 
 const CreatorProfile500 = ({username}) => {
 
-    let responsiveFontTheme = createTheme();
-    responsiveFontTheme = responsiveFontSizes(responsiveFontTheme);
-
     return (
-        <Container maxWidth="xl"
-            sx={{
-                height: '100vh',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-            }}>
-                <ThemeProvider theme={responsiveFontTheme}>
-                    <Typography variant="body1" sx={{marginTop: 5, textAlign: 'center'}}>Unable to load {username}'s page</Typography>
-                    <Typography variant="body1" sx={{textAlign: 'center'}}>at this moment</Typography>
-                </ThemeProvider>
-
-            <Box sx={{position: 'absolute', bottom: 0}}>
-                <Link href='/' sx={{textDecoration: 'none'}}>
-                    <FittrIcon/>
-                </Link>
-            </Box>
-        </Container>
+        <div className="flex flex-col items-center justify-center fixed top-0 right-0 bottom-0 left-0 h-full w-screen">
+            <p>
+                We are unable to load {username}'s page
+            </p>
+            <a rel="noreferrer" href="/" target="_blank" className="absolute bottom-0 mb-10">
+                <FittrIcon/>
+            </a>
+        </div>
     );
 };
 

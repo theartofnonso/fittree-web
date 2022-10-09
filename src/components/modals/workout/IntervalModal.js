@@ -1,10 +1,9 @@
 /* eslint-disable */
 import React, {useEffect, useState} from "react";
-import {Box, Container, Typography} from "@mui/material";
 import workoutsConstants from "../../../utils/workout/workoutsConstants";
-import SkipNextIcon from '@mui/icons-material/SkipNext';
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-import ViewStreamIcon from "@mui/icons-material/ViewStream";
+import InfoOutlinedIcon from "../../svg/information-white-line.svg";
+import OrderPlayIcon from "../../svg/order-play-white-line.svg";
+import SkipIcon from "../../svg/skip-forward-fill.svg";
 
 const IntervalModal = props => {
 
@@ -39,103 +38,52 @@ const IntervalModal = props => {
 
         switch (props.description) {
             case workoutsConstants.playMessages.WORKOUT_STARTING:
-                return <Box xs={{
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "flex-start",
-                    alignItems: "center",
-                }}>
-                    <Typography variant="body2" color='#ffffff'
-                                sx={{fontFamily: 'Montserrat', fontWeight: 500, my: 0.5, textAlign: 'center'}}>
-                        {props.description}
-                    </Typography>
-                    <Typography variant="body2" color='#ffffff'
-                                sx={{fontFamily: 'Montserrat', fontWeight: 700, my: 0.5, textAlign: 'center'}}>
-                        {intervalTime / 1000}s
-                    </Typography>
-                </Box>
+                return (
+                    <div className="flex flex-col items-center justify-center text-white mb-4">
+                        <p className="font-semibold text-lg">{props.description}</p>
+                        <p className="font-medium text-base">{intervalTime / 1000}s</p>
+                    </div>
+                )
             case workoutsConstants.playMessages.NEXT_ROUND:
             case workoutsConstants.playMessages.NEXT_EXERCISE:
-                return <Box xs={{
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: "center",
-                }}>
-                    <Typography variant="body2" color='#ffffff'
-                                sx={{fontFamily: 'Montserrat', fontWeight: 500, my: 0.5, textAlign: 'center'}}>
-                        {props.description}
-                    </Typography>
-                    <Typography variant="body2" color='#ffffff'
-                                sx={{fontFamily: 'Montserrat', fontWeight: 700, my: 0.5, textAlign: 'center'}}>
-                        Rest for {intervalTime / 1000}s
-                    </Typography>
-                </Box>
+                return (
+                    <div className="flex flex-col items-center justify-center text-white mb-4">
+                        <p className="font-semibold text-lg">{props.description}</p>
+                        <p className="font-medium text-base">Rest for {intervalTime / 1000}s</p>
+                    </div>
+                )
             default:
-                return <Typography variant="body2" color='#ffffff'
-                                   sx={{fontFamily: 'Montserrat', fontWeight: 500, my: 0.5}}>
-                    Rest for {intervalTime / 1000}s
-                </Typography>
+                return <p className="text-white font-medium text-base mb-4">Rest for {intervalTime / 1000}s</p>
         }
     }
 
     return (
-        <Container maxWidth="xl" sx={{
-            position: 'fixed',
-            top: 0,
-            bottom: 0,
-            right: 0,
-            left: 0,
-            backgroundColor: 'rgba(0,0,0,0.6)',
-            overflowY: 'scroll',
-            zIndex: 1
-        }}>
-            <Box sx={{
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'flex-end',
-                alignItems: 'center',
-                marginY: 1
-            }}>
-                <InfoOutlinedIcon style={{color: 'white'}}
-                                  onClick={props.previewExercise}
-                                  sx={{cursor: 'pointer', marginLeft: 1.5}}/>
-                <ViewStreamIcon style={{color: 'white'}}
-                                onClick={props.toggleWorkoutList}
-                                sx={{cursor: 'pointer', marginLeft: 1.5}}/>
+        <div className="px-5 sm:px-10 fixed top-0 right-0 bottom-0 left-0 h-full w-screen bg-transparentBlack">
+            <div className="my-4 flex flex-row justify-end">
+                <button className="mx-2" onClick={props.previewExercise}>
+                    <InfoOutlinedIcon/>
+                </button>
+                <button className="mx-2" onClick={props.toggleWorkoutList}>
+                    <OrderPlayIcon/>
+                </button>
+            </div>
+            <div className="flex flex-col items-center justify-center h-full">
+                <div className="flex flex-col items-center justify-center">
+                    <div>
+                        <p>{displayIntervalMessage()}</p>
+                    </div>
+                    <button onClick={skipInterval}>
+                        <SkipIcon/>
+                    </button>
+                </div>
 
-            </Box>
-            <Box sx={{
-                height: '100vh',
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-            }}>
-                {displayIntervalMessage()}
-                <SkipNextIcon sx={{fontSize: 40, color: 'white', cursor: 'pointer'}} onClick={skipInterval}/>
-                <Box
-                    sx={{
-                        alignItems: 'center',
-                        backgroundColor: '#ef7a75',
-                        borderRadius: 8,
-                        flexDirection: 'row',
-                        justifyContent: 'center',
-                        width: 200,
-                        height: 40,
-                        position: 'absolute',
-                        bottom: 50,
-                        display: 'flex',
-                        cursor: 'pointer'
-                    }}
-                    onClick={props.navigateToWorkoutPreview}>
-                    <Typography sx={{color: 'white', fontFamily: 'Montserrat', fontWeight: 'bold'}}>
-                        End Workout
-                    </Typography>
-                </Box>
-
-            </Box>
-        </Container>
+                <button
+                    onClick={props.navigateToWorkoutPreview}
+                    className="absolute bottom-0 mb-10 bg-primary rounded-3xl py-2 px-10 mt-6 text-white font-medium hover:bg-darkPrimary">End
+                    Workout
+                </button>
+            </div>
+        </div>
     );
 };
 

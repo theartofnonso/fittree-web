@@ -1,58 +1,19 @@
 import React from 'react';
-import {Box, createTheme, responsiveFontSizes, ThemeProvider, Typography} from "@mui/material";
-import Image from "next/image";
-import TimerTag from "../Tags/TimerTag";
 
 const WorkoutCard = ({workout}) => {
 
-    let theme = createTheme();
-    theme = responsiveFontSizes(theme);
-
-    const imageLoader = ({ src, width, height, quality }) => {
-        return `https://${src}`
-    }
-
     return (
-        <Box sx={{
-            display: 'flex',
-            borderRadius: 2,
-            overflow: 'hidden',
-            position: 'relative',
-            height: 250,
-            width: '100%'
-        }}>
-            <Image
-                alt={'Workout Thumbnail'}
-                loader={imageLoader}
-                src={workout.thumbnailUrl}
-                layout='fill'
-                objectFit={'cover'}
-                placeholder={'blur'}
-                blurDataURL={'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAD6CAQAAADKSeXYAAAAEUlEQVR42mPU+M84ikbRyEAAIqMhII3S3FoAAAAASUVORK5CYII='}
-             />
-            <Box sx={{
-                width: '100%',
-                height: '100%',
-                background: 'linear-gradient(transparent, #000000)',
-                position: 'absolute'
-            }}></Box>
-            <Box sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'flex-start',
-                justifyContent: 'flex-end',
-                position: 'absolute',
-                left: 0,
-                bottom: 0,
-                margin: 1,
-            }}>
-                <ThemeProvider theme={theme}>
-                    <Typography variant="h6" color='#ffffff' sx={{fontFamily: 'Montserrat', fontWeight: 500}}>{workout.title}</Typography>
-                    <Typography variant="body2" color='#ffffff' sx={{fontFamily: 'Montserrat', fontWeight: 500, fontSize: 10}}>{workout.intensityLevel}</Typography>
-                </ThemeProvider>
-            </Box>
-           <TimerTag duration={workout.duration}/>
-        </Box>
+        <div className={`relative h-60 rounded-lg flex flex-col justify-end text-white overflow-hidden hover:bg-secondary`}>
+            <img src={"https://" + workout.thumbnailUrl} alt="Display profile" className="object-cover h-full w-full"/>
+            <div className="absolute top-0 right-0 bottom-0 left-0 bg-gradient-to-b from-transparentBlack1 to-transparentBlack"/>
+            <div className="absolute top-0 right-0 m-2 py-0.5 px-2 rounded-md bg-primary text-xs font-medium">
+                <p>{Math.round(workout.duration / 60000)} mins</p>
+            </div>
+            <div className="absolute flex flex-col items-start pl-2 pb-2">
+                <p className="font-bold text-left">{workout.title}</p>
+                <p className="text-sm">{workout.intensityLevel}</p>
+            </div>
+        </div>
     );
 };
 
