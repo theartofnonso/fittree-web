@@ -70,7 +70,7 @@ const IntervalModal = props => {
             <div className="flex flex-col items-center justify-center h-full">
                 <div className="flex flex-col items-center justify-center">
                     <div>
-                        <p>{displayIntervalMessage()}</p>
+                        {displayIntervalMessage()}
                     </div>
                     <button onClick={skipInterval}>
                         <SkipIcon/>
