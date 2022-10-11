@@ -4,25 +4,41 @@ import CloseIcon from "../../svg/close-line.svg";
 
 const PreviewExercise = ({exercise, close}) => {
 
+    /**
+     * Exercise videos
+     */
+    const videos = () => {
+        return exercise.videoUrls.map((url, index) => {
+            return (
+                <video key={index}
+                       className="mr-1"
+                       autoPlay
+                       playsInline loop>
+                    <source src={`https://${url}`} type="video/mp4"/>
+                    Your browser does not support the video tag.
+                </video>
+            )
+        })
+    }
+
     return (
         <div
             className="container mx-auto px-2 sm:px-10 fixed top-0 right-0 bottom-0 left-0 h-full w-full bg-white overflow-y-scroll">
             <button className="my-4" onClick={close}>
                 <CloseIcon/>
             </button>
-            <div className="">
-                {exercise.videoUrls.map((url, index) => {
-                    return (
-                        <video key={index}
-                               className="rounded-md w-full h-96 sm:w-full sm:h-96 object-contain mr-2 bg-dustBlack"
-                               autoPlay
-                               playsInline loop>
-                            <source src={`https://${url}`} type="video/mp4"/>
-                            Your browser does not support the video tag.
-                        </video>
-                    )
-                })}
-            </div>
+            {exercise.videoUrls.length > 1 ?
+                <div
+                    className="flex flex-row justify-start rounded-md h-96 bg-dustBlack overflow-x-scroll pr-8 lg:pr-0">
+                    {videos()}
+                </div> : null
+            }
+            {exercise.videoUrls.length === 1 ?
+                <div
+                    className="flex flex-row justify-center rounded-md h-96 bg-dustBlack overflow-x-hidden">
+                    {videos()}
+                </div> : null
+            }
             <div>
                 <p className="my-4 font-light whitespace-pre">{exercise.description}</p>
             </div>
