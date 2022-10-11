@@ -11,7 +11,7 @@ const PreviewExercise = ({exercise, close}) => {
         return exercise.videoUrls.map((url, index) => {
             return (
                 <video key={index}
-                       className="mr-1"
+                       className={exercise.videoUrls.length > 1 ? "mr-1" : null}
                        autoPlay
                        playsInline loop>
                     <source src={`https://${url}`} type="video/mp4"/>
