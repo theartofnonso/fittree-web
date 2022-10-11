@@ -72,7 +72,7 @@ const PlayWorkout = props => {
                     </button>
                 </div>
             </div>
-            <video className="rounded-md w-full h-96 sm:w-full sm:h-96 object-contain mr-2 bg-dustBlack" autoPlay
+            <video key={props.workoutExercise.exercise.videoUrls[0]} className="rounded-md w-full h-96 sm:w-full sm:h-96 object-contain mr-2 bg-dustBlack" autoPlay
                    playsInline loop>
                 <source src={`https://${props.workoutExercise.exercise.videoUrls[0]}`} type="video/mp4"/>
                 Your browser does not support the video tag.
