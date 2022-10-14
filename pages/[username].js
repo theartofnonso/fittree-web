@@ -220,7 +220,7 @@ const CreatorProfile = () => {
                     </form>
 
                     {workouts.length > 0 ?
-                        <div className="grid gap-0.5 grid-cols-2 sm:grid-cols-3">
+                        <div className="grid gap-0.5 grid-cols-2 sm:grid-cols-4">
                             {filteredWorkouts.map((item, index) => {
                                 return (
                                     <button key={index} onClick={() => previewWorkout(item)}>

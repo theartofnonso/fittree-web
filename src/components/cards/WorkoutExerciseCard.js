@@ -16,7 +16,7 @@ const WorkoutExerciseCard = ({workoutExercise, type, onClick}) => {
         } else {
             exerciseInfo = workoutExercise.repsOrTimeValue + " " + timeOrReps(workoutExercise.repsOrTime);
         }
-        return type === workoutsConstants.workoutType.CIRCUIT ? exerciseInfo : exerciseInfo + " x set(s)";
+        return type === workoutsConstants.workoutType.CIRCUIT ? exerciseInfo : exerciseInfo + " x " + workoutExercise.sets + " set(s)";
     };
 
     return (
