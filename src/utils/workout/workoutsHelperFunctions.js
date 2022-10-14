@@ -2,6 +2,20 @@
 
 import workoutsConstants from './workoutsConstants';
 
+export const workoutDurationSummary = duration => {
+    const exactDuration = Math.round(duration / 60000)
+
+    if(exactDuration > 60) {
+        return " 60 mins+"
+    }
+
+    if(exactDuration > 30) {
+        return " 30 mins+"
+    }
+
+    return exactDuration + " mins"
+}
+
 /**
  * Display either Secs for Time values or Reps for count values
  * @param timeOrCount

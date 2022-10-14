@@ -5,6 +5,7 @@ import WorkoutExerciseCard from "../../cards/WorkoutExerciseCard";
 import CloseIcon from "../../svg/close-line.svg";
 import PlayIcon from "../../svg/play-mini-fill.svg";
 import PreviewExercise from "../exercise/PreviewExercise";
+import WorkoutCard from "../../cards/WorkoutCard";
 
 const PreviewWorkout = ({workout, play, close}) => {
 
@@ -30,29 +31,47 @@ const PreviewWorkout = ({workout, play, close}) => {
             <button className="my-4" onClick={close}>
                 <CloseIcon/>
             </button>
-            <WorkoutCardBig workout={workout}/>
-            <div className="overscroll-contain">
-                <p className="my-4 font-light whitespace-pre">{workout.description}</p>
-            </div>
-            <div className="pb-2">
-                <p className="mb-2 font-semibold">{workout.workoutExercises.length} exercises</p>
+            <div className="grid sm:gap-3 grid-cols-1 sm:grid-cols-2">
                 <div>
-                    {workout.workoutExercises.map((workoutExercise, index) =>
-                        <WorkoutExerciseCard
-                            onClick={() => playExercise(workoutExercise.exercise)}
-                            key={index}
-                            workoutExercise={workoutExercise}
-                            type={workout.type}/>
-                    )}
+                    <WorkoutCardBig workout={workout}/>
+                    <p className="my-4 font-light break-words whitespace-pre-line">{workout.description}</p>
+                    <button
+                        onClick={playWorkout}
+                        className="mb-8 w-full bg-primary rounded-sm py-2 px-10 text-white font-medium hover:bg-darkPrimary hidden lg:block">Play
+                        workout
+                    </button>
+                </div>
+
+                <div className="pb-2">
+                    <p className="mb-2 font-semibold">{workout.workoutExercises.length} exercises</p>
+                    <div>
+                        {workout.workoutExercises.map((workoutExercise, index) =>
+                            <WorkoutExerciseCard
+                                onClick={() => playExercise(workoutExercise.exercise)}
+                                key={index}
+                                workoutExercise={workoutExercise}
+                                type={workout.type}/>
+                        )}
+                    </div>
                 </div>
             </div>
+            {/*<WorkoutCardBig workout={workout}/>*/}
+            {/*<p className="my-4 font-light break-words whitespace-pre-line">{workout.description}</p>*/}
+            {/*<div className="pb-2">*/}
+            {/*    <p className="mb-2 font-semibold">{workout.workoutExercises.length} exercises</p>*/}
+            {/*    <div>*/}
+            {/*        {workout.workoutExercises.map((workoutExercise, index) =>*/}
+            {/*            <WorkoutExerciseCard*/}
+            {/*                onClick={() => playExercise(workoutExercise.exercise)}*/}
+            {/*                key={index}*/}
+            {/*                workoutExercise={workoutExercise}*/}
+            {/*                type={workout.type}/>*/}
+            {/*        )}*/}
+            {/*    </div>*/}
+            {/*</div>*/}
             <button onClick={playWorkout}
                     className="flex flex-row items-center justify-center bg-primary rounded-md w-14 h-14 sm:w-20 sm:h-20 fixed bottom-0 right-0 mr-8 mb-8 hover:bg-darkPrimary lg:hidden">
                 <PlayIcon/>
-            </button>
-            <button
-                onClick={playWorkout}
-                className="mb-8 w-full bg-primary rounded-3xl py-2 px-10 text-white font-medium hover:bg-darkPrimary hidden lg:block">Play workout
             </button>
             {currentExercise ?
                 <PreviewExercise
