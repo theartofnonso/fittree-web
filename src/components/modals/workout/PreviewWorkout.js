@@ -37,7 +37,7 @@ const PreviewWorkout = ({workout, play, close}) => {
                     <p className="my-4 font-light break-words whitespace-pre-line">{workout.description}</p>
                     <button
                         onClick={playWorkout}
-                        className="mb-8 w-full bg-primary rounded-sm py-2 px-10 text-white font-medium hover:bg-darkPrimary hidden lg:block">Play
+                        className="mb-8 w-full bg-primary rounded-sm py-2 px-10 text-white font-medium hover:bg-darkPrimary hidden sm:block">Play
                         workout
                     </button>
                 </div>
@@ -55,22 +55,8 @@ const PreviewWorkout = ({workout, play, close}) => {
                     </div>
                 </div>
             </div>
-            {/*<WorkoutCardBig workout={workout}/>*/}
-            {/*<p className="my-4 font-light break-words whitespace-pre-line">{workout.description}</p>*/}
-            {/*<div className="pb-2">*/}
-            {/*    <p className="mb-2 font-semibold">{workout.workoutExercises.length} exercises</p>*/}
-            {/*    <div>*/}
-            {/*        {workout.workoutExercises.map((workoutExercise, index) =>*/}
-            {/*            <WorkoutExerciseCard*/}
-            {/*                onClick={() => playExercise(workoutExercise.exercise)}*/}
-            {/*                key={index}*/}
-            {/*                workoutExercise={workoutExercise}*/}
-            {/*                type={workout.type}/>*/}
-            {/*        )}*/}
-            {/*    </div>*/}
-            {/*</div>*/}
             <button onClick={playWorkout}
-                    className="flex flex-row items-center justify-center bg-primary rounded-md w-14 h-14 sm:w-20 sm:h-20 fixed bottom-0 right-0 mr-8 mb-8 hover:bg-darkPrimary lg:hidden">
+                    className="flex flex-row items-center justify-center bg-primary rounded-md w-14 h-14 sm:w-20 sm:h-20 fixed bottom-0 right-0 mr-8 mb-8 hover:bg-darkPrimary sm:hidden">
                 <PlayIcon/>
             </button>
             {currentExercise ?
