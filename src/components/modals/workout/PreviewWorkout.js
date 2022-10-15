@@ -31,7 +31,7 @@ const PreviewWorkout = ({workout, play, close}) => {
             <button className="my-4" onClick={close}>
                 <CloseIcon/>
             </button>
-            <div className="grid sm:gap-3 grid-cols-1 sm:grid-cols-2">
+            <div className="grid sm:gap-3 grid-cols-1 sm:grid-cols-2 h-3/4">
                 <div>
                     <WorkoutCardBig workout={workout}/>
                     <p className="my-4 font-light break-words whitespace-pre-line">{workout.description}</p>
@@ -42,7 +42,7 @@ const PreviewWorkout = ({workout, play, close}) => {
                     </button>
                 </div>
 
-                <div className="pb-2">
+                <div className="p-2 bg-secondary/25 overflow-y-scroll rounded-xs">
                     <p className="mb-2 font-semibold">{workout.workoutExercises.length} exercises</p>
                     <div>
                         {workout.workoutExercises.map((workoutExercise, index) =>
