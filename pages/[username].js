@@ -198,8 +198,8 @@ const CreatorProfile = () => {
          * Loaded Creator page content
          */
         return (
-            <div className="container mx-auto px-2 sm:px-10 h-full overflow-y-scroll">
-                <div className="h-screen">
+            <div className="container mx-auto px-2 sm:px-10 h-screen">
+                <div className="h-full relative table">
                     <div className="mt-4 mb-10 flex flex-row items-center place-content-between">
                         <button onClick={copyShareableLink}>
                             <ShareIcon/>
