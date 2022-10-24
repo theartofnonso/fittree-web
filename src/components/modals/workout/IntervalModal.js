@@ -4,6 +4,7 @@ import workoutsConstants from "../../../utils/workout/workoutsConstants";
 import InfoOutlinedIcon from "../../svg/information-white-line.svg";
 import OrderPlayIcon from "../../svg/order-play-white-line.svg";
 import SkipIcon from "../../svg/skip-forward-fill.svg";
+import {intervalDurationSummary} from "../../../utils/workout/workoutsHelperFunctions";
 
 const IntervalModal = props => {
 
@@ -41,7 +42,7 @@ const IntervalModal = props => {
                 return (
                     <div className="flex flex-col items-center justify-center text-white mb-4">
                         <p className="font-semibold text-lg">{props.description}</p>
-                        <p className="font-medium text-base">{intervalTime / 1000}s</p>
+                        <p className="font-medium text-base">{intervalDurationSummary(intervalTime)}</p>
                     </div>
                 )
             case workoutsConstants.playMessages.NEXT_ROUND:
@@ -49,11 +50,11 @@ const IntervalModal = props => {
                 return (
                     <div className="flex flex-col items-center justify-center text-white mb-4">
                         <p className="font-semibold text-lg">{props.description}</p>
-                        <p className="font-medium text-base">Rest for {intervalTime / 1000}s</p>
+                        <p className="font-medium text-base">Rest for {intervalDurationSummary(intervalTime)}</p>
                     </div>
                 )
             default:
-                return <p className="text-white font-medium text-base mb-4">Rest for {intervalTime / 1000}s</p>
+                return <p className="text-white font-medium text-base mb-4">Rest for {intervalDurationSummary(intervalTime)}</p>
         }
     }
 
