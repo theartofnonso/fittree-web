@@ -40,7 +40,7 @@ const PreviewExercise = ({exercise, close}) => {
                 </div> : null
             }
             <div>
-                <p className="my-4 font-light whitespace-pre">{exercise.description}</p>
+                <p className="my-4 font-light break-words whitespace-pre-line">{exercise.description}</p>
             </div>
             <div>
                 <div className="mb-4">

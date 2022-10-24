@@ -26,9 +26,9 @@ import WorkoutCard from "../src/components/cards/WorkoutCard";
 import PreviewWorkout from "../src/components/modals/workout/PreviewWorkout";
 import Socials from "../src/components/views/Socials";
 import CheckIcon from "../src/components/svg/check-green-24.svg";
-import FittrBigIcon from "../src/components/svg/fittr.svg";
-import FittrSmallIcon from "../src/components/svg/fittr_small.svg";
 import EmptyState from "../src/components/svg/empty_state.svg";
+import FittrSmallIcon from "../src/components/svg/fittr_small.svg";
+import FittrBigIcon from "../src/components/svg/fittr.svg";
 
 const CreatorProfile = () => {
 
@@ -198,9 +198,11 @@ const CreatorProfile = () => {
          * Loaded Creator page content
          */
         return (
-            <div className="container mx-auto px-2 sm:px-10 h-screen">
-                <div className="h-full relative table">
-                    <div className="mt-4 mb-10 flex flex-row items-center place-content-between">
+
+            <>
+                <div className="container mx-auto p-4 min-h-screen">
+
+                    <div className="mb-10 flex flex-row items-center place-content-between">
                         <button onClick={copyShareableLink}>
                             <ShareIcon/>
                         </button>
@@ -220,7 +222,7 @@ const CreatorProfile = () => {
                     </form>
 
                     {workouts.length > 0 ?
-                        <div className="grid gap-0.5 grid-cols-2 sm:grid-cols-4">
+                        <div className="grid gap-0.5 grid-cols-2 sm:grid-cols-3">
                             {filteredWorkouts.map((item, index) => {
                                 return (
                                     <button key={index} onClick={() => previewWorkout(item)}>
@@ -233,6 +235,18 @@ const CreatorProfile = () => {
                             <EmptyState/>
                             <p className="font-normal mt-4">{profile.preferred_username} has no workouts</p>
                         </div>}
+                    {showSnackBar ?
+                        <div
+                            className="absolute rounded-3xl bottom-0 left-0 ml-2 sm:ml-10 mb-8 p-2 flex flex-row justify-start items-center rounded bg-lightGreen w-1/2 sm:w-2/5">
+                            <CheckIcon/>
+                            <p className="ml-2 text-midnightGreen font-semibold">Link copied</p>
+                        </div> : null}
+                    {currentWorkout && !shouldPlayWorkout ?
+                        <PreviewWorkout
+                            workout={currentWorkout}
+                            play={() => togglePlayWorkout(true)}
+                            close={closePreview}/> : null}
+                    {shouldPlayWorkout ? getWorkoutPlayComponent() : null}
                 </div>
                 <div className="flex flex-row justify-center items-center">
                     <a rel="noreferrer" href="/" target="_blank" className="lg:hidden">
@@ -242,19 +256,8 @@ const CreatorProfile = () => {
                         <FittrBigIcon/>
                     </a>
                 </div>
-                {showSnackBar ?
-                    <div
-                        className="absolute rounded-3xl bottom-0 left-0 ml-2 sm:ml-10 mb-8 p-2 flex flex-row justify-start items-center rounded bg-lightGreen w-1/2 sm:w-2/5">
-                        <CheckIcon/>
-                        <p className="ml-2 text-midnightGreen font-semibold">Link copied</p>
-                    </div> : null}
-                {currentWorkout && !shouldPlayWorkout ?
-                    <PreviewWorkout
-                        workout={currentWorkout}
-                        play={() => togglePlayWorkout(true)}
-                        close={closePreview}/> : null}
-                {shouldPlayWorkout ? getWorkoutPlayComponent() : null}
-            </div>
+            </>
+
         )
     }
 }
