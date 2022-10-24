@@ -57,39 +57,43 @@ const PlayWorkout = props => {
     return (
         <div
             className="container mx-auto px-2 sm:px-10 fixed top-0 right-0 bottom-0 left-0 h-full w-screen bg-white overflow-y-scroll">
+
             <div className="my-4 flex flex-row place-content-between">
-                <div>
+                {!props.isPaused ? <div>
                     <button onClick={props.close}>
                         <CloseIcon/>
                     </button>
-                </div>
-                <div>
+                </div> : null}
+
+                {!props.isPaused ? <div>
                     <button className="mx-2" onClick={previewExercise}>
                         <InfoOutlinedIcon/>
                     </button>
                     <button className="mx-2" onClick={toggleWorkoutList}>
                         <OrderPlayIcon/>
                     </button>
-                </div>
+                </div> : null}
             </div>
-            <video key={props.workoutExercise.exercise.videoUrls[0]} className="rounded-md w-full h-96 sm:w-full sm:h-96 object-contain mr-2 bg-dustBlack" autoPlay
+
+            <video key={props.workoutExercise.exercise.videoUrls[0]}
+                   className="rounded-md w-full h-96 sm:w-full sm:h-96 object-contain mr-2 bg-dustBlack" autoPlay
                    playsInline loop>
                 <source src={`https://${props.workoutExercise.exercise.videoUrls[0]}`} type="video/mp4"/>
                 Your browser does not support the video tag.
             </video>
             <div>
                 {!props.isPaused ?
-                <div className="mt-4 flex flex-row justify-center">
-                    <button className="mx-2" onClick={props.seekBackward}>
-                        <p>Prev</p>
-                    </button>
-                    <button className="mx-2" onClick={props.pause}>
-                        <PauseIcon/>
-                    </button>
-                    <button className="mx-2" onClick={props.seekForward}>
-                        <p>Next</p>
-                    </button>
-                </div> : null}
+                    <div className="mt-4 flex flex-row justify-center">
+                        <button className="mx-2" onClick={props.seekBackward}>
+                            <p>Prev</p>
+                        </button>
+                        <button className="mx-2" onClick={props.pause}>
+                            <PauseIcon/>
+                        </button>
+                        <button className="mx-2" onClick={props.seekForward}>
+                            <p>Next</p>
+                        </button>
+                    </div> : null}
                 <div>
                     <p className="font-bold mt-4 mb-0.5">{props.workoutExercise.exercise.title}</p>
                     <p>{getRepsOrTimeValue()}</p>
