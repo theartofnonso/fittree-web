@@ -21,8 +21,8 @@ const WorkoutExerciseCard = ({workoutExercise, type, onClick}) => {
 
     return (
         <button onClick={onClick} className="flex flex-row items-center mb-4 hover:bg-secondary w-full rounded-md">
-            <video className="rounded-md w-16 h-16 sm:w-20 sm:h-20 object-cover mr-2 bg-dustBlack" autoPlay playsInline>
-                <source src={`https://${workoutExercise.exercise.videoUrls[0]}`} type="video/mp4"/>
+            <video className="rounded-md w-16 h-16 sm:w-20 sm:h-20 object-cover mr-2 bg-dustBlack" playsInline>
+                <source src={`https://${workoutExercise.exercise.videoUrls[0]}#t=0.1`} type="video/mp4"/>
                 Your browser does not support the video tag.
             </video>
             <div className="flex flex-col items-start">
