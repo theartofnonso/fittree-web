@@ -21,6 +21,7 @@ const WorkoutCardBig = ({workout}) => {
                     {workout.equipments.map((item, index) => <p key={index} className="mr-2">{item}</p>)}
                 </div>
             </div>
+            <img src={"https://" + workout.thumbnailUrl} alt="Display profile" className="rounded-lg absolute right-0 bottom-0 mr-2 mb-2 h-24 w-24 hidden sm:block"/>
         </div>
     );
 };
