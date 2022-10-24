@@ -2,18 +2,46 @@
 
 import workoutsConstants from './workoutsConstants';
 
+/**
+ * Workout duration summary
+ * @param duration
+ * @returns {string}
+ */
 export const workoutDurationSummary = duration => {
-    const exactDuration = Math.round(duration / 60000)
+    const exactDurationInSeconds = Math.round(duration / 1000)
+    const exactDurationInMinutes = Math.round(duration / 60000)
 
-    if(exactDuration > 60) {
-        return " 60 mins+"
+    if(exactDurationInSeconds > 60) {
+        if(exactDurationInMinutes > 60) {
+            return " 60 mins+"
+        }
+
+        if(exactDurationInMinutes > 30) {
+            return " 30 mins+"
+        }
+
+        if(exactDurationInMinutes < 1) {
+            return "less than a min"
+        }
     }
 
-    if(exactDuration > 30) {
-        return " 30 mins+"
+    return exactDurationInMinutes + " mins"
+}
+
+/**
+ * Interval duration summary
+ * @param duration
+ * @returns {string}
+ */
+export const intervalDurationSummary = duration => {
+    const exactDurationInSeconds = Math.round(duration / 1000)
+    const exactDurationInMinutes = Math.round(duration / 60000)
+
+    if(exactDurationInSeconds > 60) {
+        return exactDurationInMinutes + " mins"
     }
 
-    return exactDuration + " mins"
+    return exactDurationInSeconds + " secs"
 }
 
 /**
