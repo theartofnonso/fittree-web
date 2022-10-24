@@ -25,7 +25,7 @@ const WorkoutExerciseCard = ({workoutExercise, type, onClick}) => {
                 <source src={`https://${workoutExercise.exercise.videoUrls[0]}#t=0.1`} type="video/mp4"/>
                 Your browser does not support the video tag.
             </video>
-            <div className="flex flex-col items-start">
+            <div className="flex flex-col items-start text-left">
                 <p className="font-medium text-sm">{workoutExercise.exercise.title}</p>
                 <p className="text-sm">{displayRepsOrTime()}</p>
             </div>
