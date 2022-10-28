@@ -76,19 +76,7 @@ export default function SignIn() {
      * Display alert for empty sign field information
      */
     const showAlert = message => {
-        Alert.alert(
-            "Sign in",
-            message,
-            [
-                {
-                    text: "Ok",
-                    style: "cancel",
-                },
-            ],
-            {
-                cancelable: false,
-            },
-        );
+        alert(message);
     };
 
     /**
@@ -109,7 +97,8 @@ export default function SignIn() {
             if (!user) {
                 await persistUserToDB(verifiedUser.attributes);
             }
-            signIn(verifiedUser.username);
+            // Navigate to Dashboard
+            console.log("Navigate to Dashboard")
         } catch (err) {
             // Do something
         }

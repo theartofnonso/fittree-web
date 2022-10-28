@@ -8,7 +8,8 @@ import {APP_NAME} from "../src/utils/utilsConstants";
 import VerifyAuth from "../src/components/modals/auth/verifyauth";
 import {
     deleteCognitoUser,
-    doesPreferredUsernameExists, persistUserToDB,
+    doesPreferredUsernameExists,
+    persistUserToDB,
     retrieveCognitoUser
 } from "../src/utils/aws-utils/awsHelperFunctions";
 import {Auth} from "aws-amplify";
@@ -164,19 +165,7 @@ export default function SignUp() {
      * Display alert for empty sign field information
      */
     const showAlert = message => {
-        Alert.alert(
-            "Sign up",
-            message,
-            [
-                {
-                    text: "Ok",
-                    style: "cancel",
-                },
-            ],
-            {
-                cancelable: false,
-            },
-        );
+        alert(message);
     };
 
     /**
@@ -195,7 +184,8 @@ export default function SignUp() {
 
         try {
             await persistUserToDB(verifiedUser.attributes);
-            signIn(verifiedUser.username);
+            // Navigate to Dashboard
+            console.log("Navigate to Dashboard")
         } catch (err) {
             // Do something
         }
@@ -243,19 +233,22 @@ export default function SignUp() {
                 {errorMessage.length > 0 ? <p className="text-red my-2">{errorMessage} </p> : null}
                 <button
                     onClick={signUpHandler}
-                    className="mt-4 bg-primary rounded-3xl py-2 px-10 w-1/6 text-white font-medium hover:bg-darkPrimary hidden sm:block">Sign up
+                    className="mt-4 bg-primary rounded-3xl py-2 px-10 w-1/6 text-white font-medium hover:bg-darkPrimary hidden sm:block">Sign
+                    up
                 </button>
             </form>
-            <p className="text-center mt-8 font-light">Don't have a Fittree account? <a rel="noreferrer" href="/signin" className="cursor-pointer"><span className="font-bold">Sign in</span></a></p>
+            <p className="text-center mt-8 font-light">Don't have a Fittree account? <a rel="noreferrer" href="/signin"
+                                                                                        className="cursor-pointer"><span
+                className="font-bold">Sign in</span></a></p>
             <a rel="noreferrer" href="/" className="cursor-pointer">
                 <span className="text-center mt-4 font-light block">Go to home</span>
             </a>
             <button
                 onClick={signUpHandler}
-                    className="flex flex-row items-center justify-center bg-primary rounded-md w-14 h-14 sm:w-20 sm:h-20 fixed bottom-0 right-0 mr-8 mb-8 hover:bg-darkPrimary sm:hidden">
+                className="flex flex-row items-center justify-center bg-primary rounded-md w-14 h-14 sm:w-20 sm:h-20 fixed bottom-0 right-0 mr-8 mb-8 hover:bg-darkPrimary sm:hidden">
                 <CheckIcon/>
             </button>
-            {isLoading ? <Loading message={"Signing you up"} /> : null}
+            {isLoading ? <Loading message={"Signing you up"}/> : null}
             {cognitoUser ? (
                 <VerifyAuth
                     testID="VerifyAuthScreen_Modal"
