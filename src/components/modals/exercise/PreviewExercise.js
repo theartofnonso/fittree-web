@@ -39,8 +39,9 @@ const PreviewExercise = ({exercise, close}) => {
                     {videos()}
                 </div> : null
             }
-            <div>
-                <p className="my-4 font-light break-words whitespace-pre-line">{exercise.description}</p>
+            <div className="my-4">
+                <p className="font-semibold text-xl text-left">{exercise.title}</p>
+                <p className="mt-4 font-light break-words whitespace-pre-line text-sm">{exercise.description}</p>
             </div>
             <div>
                 <div className="mb-4">
