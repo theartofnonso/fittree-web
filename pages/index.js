@@ -11,13 +11,19 @@ export default function App() {
 
     return (
         <div className="container mx-auto">
-            <div className="ml-8 sm:ml-10">
-                <a rel="noreferrer" href="/" target="_blank" className="lg:hidden">
-                    <FittrSmallIcon/>
-                </a>
-                <a rel="noreferrer" href="/" target="_blank" className="hidden lg:block">
-                    <FittrBigIcon/>
-                </a>
+            <div className="mx-8 sm:mx-10 flex flex-row items-center place-content-between">
+                <div>
+                    <a rel="noreferrer" href="/" target="_blank" className="lg:hidden">
+                        <FittrSmallIcon/>
+                    </a>
+                    <a rel="noreferrer" href="/" target="_blank" className="hidden lg:block">
+                        <FittrBigIcon/>
+                    </a>
+                </div>
+                <div className="flex flex-row bg-primary h-10 rounded-3xl place-content-between">
+                    <a rel="noreferrer" href="/signin" className="flex flex-row items-center font-medium text-secondary rounded-3xl h-full hover:bg-secondary hover:text-primary px-3 cursor-pointer">Sign In</a>
+                    <a rel="noreferrer" href="/signup" className="flex flex-row items-center font-medium text-secondary rounded-3xl h-full hover:bg-secondary hover:text-primary px-3 cursor-pointer">Sign Up </a>
+                </div>
             </div>
 
             <div className="flex flex-col items-center my-2 sm:my-4">
