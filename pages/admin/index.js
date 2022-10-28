@@ -205,11 +205,11 @@ export default function Dashboard({username}) {
                     </button>
                 </div>
                 <div className="flex flex-col items-center">
-                    <div className="rounded-full w-1/4 sm:w-1/6 md:w-24 overflow-hidden mb-2">
+                    <div className="rounded-full w-24 overflow-hidden mb-2">
                         <img src={"https://" + user.displayProfile} alt="Display profile" className="object-cover"/>
                     </div>
-                    <p className="font-semibold py-1 text-base sm:text-2xl md:text-lg">{user.preferred_username}</p>
-                    <p className="font-light py-1 text-sm sm:text-xl md:text-base">{user.displayBrief}</p>
+                    <p className="font-semibold py-1 text-base md:text-lg">{user.preferred_username}</p>
+                    <p className="font-light py-1 text-sm md:text-base">{user.displayBrief}</p>
                 </div>
                 <form className="my-4 flex flex-col items-center">
                     <input

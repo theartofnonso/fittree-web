@@ -101,7 +101,7 @@ export default function Exercises({username}) {
                         <div
 
                             className="flex flex-row rounded-full bg-secondary flex flex-row justify-start items-center px-4 py-2 hidden sm:flex">
-                            <a className="mr-2 hover:bg-primary" href="/admin">
+                            <a className="mr-2" href="/admin">
                                 <HomeIcon/>
                             </a>
                             <a rel="noreferrer" href="/admin/exercises">
@@ -151,16 +151,16 @@ export default function Exercises({username}) {
                         <EmptyState/>
                         <p className="font-normal mt-4">You don't have any exercises</p>
                     </div>}
+                {currentExercise ?
+                    <PreviewExercise
+                        exercise={currentExercise}
+                        close={closePreview}/> : null}
                 {showSnackBar ?
                     <div
                         className="absolute rounded-3xl bottom-0 left-0 ml-2 sm:ml-10 mb-8 p-2 flex flex-row justify-start items-center rounded bg-lightGreen w-1/2 sm:w-2/5">
                         <CheckIcon/>
                         <p className="ml-2 text-midnightGreen font-semibold">Link copied</p>
                     </div> : null}
-                {currentExercise ?
-                    <PreviewExercise
-                        exercise={currentExercise}
-                        close={closePreview}/> : null}
             </div>
             <div className="flex flex-row justify-center items-center">
                 <a rel="noreferrer" href="/" target="_blank" className="lg:hidden">
