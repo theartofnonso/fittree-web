@@ -14,8 +14,11 @@ import {
 } from "../src/utils/aws-utils/awsHelperFunctions";
 import {Auth} from "aws-amplify";
 import awsConstants from "../src/utils/aws-utils/awsConstants";
+import {useRouter} from "next/router";
 
 export default function SignUp() {
+
+    const router = useRouter()
 
     const [email, setEmail] = useState("");
 
@@ -186,6 +189,7 @@ export default function SignUp() {
             await persistUserToDB(verifiedUser.attributes);
             // Navigate to Dashboard
             console.log("Navigate to Dashboard")
+            await router.push('/admin')
         } catch (err) {
             // Do something
         }

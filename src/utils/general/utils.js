@@ -1,3 +1,5 @@
+import {generateShareableLink} from "../workout/workoutsHelperFunctions";
+
 /**
  * Validate email if it is of acceptable format
  * @param email

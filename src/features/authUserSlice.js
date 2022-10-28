@@ -1,11 +1,12 @@
 /* eslint-disable */
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { API, graphqlOperation } from "aws-amplify";
-import * as queries from "../../graphql/queries";
-import * as mutations from "../../graphql/mutations";
+import * as queries from "../graphql/queries";
+import * as mutations from "../graphql/mutations";
+import workoutsConstants from "../utils/workout/workoutsConstants";
 
 export const userSliceEnums = {
-  SLICE: "user",
+  SLICE: "authUser",
   STATUS_PENDING: "PENDING",
   STATUS_FULFILLED: "FULFILLED",
   STATUS_REJECTED: "REJECTED",
@@ -14,23 +15,23 @@ export const userSliceEnums = {
 };
 
 const initialState = {
-  user: null,
-  status: userSliceEnums.STATUS_IDLE,
+  profile: null,
+  status: workoutsConstants.profileStatus.LOADING,
 };
 
-const userSlice = createSlice({
+const authUserSlice = createSlice({
   name: userSliceEnums.SLICE,
   initialState,
   reducers: {},
   extraReducers: builder => {
     builder
       .addCase(fetchUser.fulfilled, (state, action) => {
-        state.status = userSliceEnums.STATUS_FULFILLED;
-        state.user = action.payload;
+        state.status = workoutsConstants.profileStatus.READY
+        state.profile = action.payload;
       })
       .addCase(updateUser.fulfilled, (state, action) => {
         state.status = userSliceEnums.STATUS_FULFILLED;
-        state.user = action.payload;
+        state.profile = action.payload;
       });
   },
 });
@@ -39,7 +40,7 @@ const userSlice = createSlice({
  * Get the user's data
  * @type {AsyncThunk<unknown, void, {}>}
  */
-export const fetchUser = createAsyncThunk("user/get", async (payload, { rejectWithValue }) => {
+export const fetchUser = createAsyncThunk("authUser/get", async (payload, { rejectWithValue }) => {
   const { username } = payload;
 
   try {
@@ -63,7 +64,7 @@ export const fetchUser = createAsyncThunk("user/get", async (payload, { rejectWi
  * Update user profile
  * @type {AsyncThunk<unknown, void, {}>}
  */
-export const updateUser = createAsyncThunk("user/update", async (payload, { rejectWithValue }) => {
+export const updateUser = createAsyncThunk("authUser/update", async (payload, { rejectWithValue }) => {
   try {
     const response = await API.graphql(
       graphqlOperation(mutations.updateCreator, {
@@ -82,7 +83,7 @@ export const updateUser = createAsyncThunk("user/update", async (payload, { reje
  * Delete user profile
  * @type {AsyncThunk<unknown, void, {}>}
  */
-export const deleteUser = createAsyncThunk("user/delete", async (payload, { rejectWithValue }) => {
+export const deleteUser = createAsyncThunk("authUser/delete", async (payload, { rejectWithValue }) => {
   try {
 
     const { id } = payload;
@@ -99,12 +100,10 @@ export const deleteUser = createAsyncThunk("user/delete", async (payload, { reje
   }
 });
 
-export const selectUser = state => state.user.user;
+export const selectAuthUser = state => state.authUser.profile;
 
-export const selectUserAuth = state => state.user.auth;
+export const selectAuthUserStatus = state => state.authUser.status;
 
-export const selectUserStatus = state => state.user.status;
+export const { userAdded } = authUserSlice.actions;
 
-export const { userAdded } = userSlice.actions;
-
-export default userSlice.reducer;
+export default authUserSlice.reducer;

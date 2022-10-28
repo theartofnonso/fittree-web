@@ -6,8 +6,12 @@ import Loading from "../src/components/utils/Loading";
 import {isEmailValid} from "../src/utils/general/utils";
 import VerifyAuth from "../src/components/modals/auth/verifyauth";
 import {getUserFromDB, persistUserToDB, retrieveCognitoUser} from "../src/utils/aws-utils/awsHelperFunctions";
+import {Auth} from "aws-amplify";
+import {useRouter} from "next/router";
 
 export default function SignIn() {
+
+    const router = useRouter()
 
     const [email, setEmail] = useState("");
 
@@ -93,13 +97,15 @@ export default function SignIn() {
     const onVerifyAuthHandler = async verifiedUser => {
 
         try {
-            const user = await getUserFromDB(email);
-            if (!user) {
-                await persistUserToDB(verifiedUser.attributes);
-            }
+            // const user = await getUserFromDB(email);
+            // console.log(user)
+            // if (!user) {
+            //     await persistUserToDB(verifiedUser.attributes);
+            // }
             // Navigate to Dashboard
-            console.log("Navigate to Dashboard")
+            await router.replace('/admin')
         } catch (err) {
+            console.log(err)
             // Do something
         }
 
