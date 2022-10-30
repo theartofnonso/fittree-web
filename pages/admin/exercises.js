@@ -31,12 +31,18 @@ export default function Exercises({username}) {
 
     const [currentExercise, setCurrentExercise] = useState(null)
 
+    /**
+     * Fetch auth users exercises
+     */
     useEffect(() => {
         if (username) {
             dispatch(listExercises({username}));
         }
     }, [username])
 
+    /**
+     * Load fetched exercises
+     */
     useEffect(() => {
         if (exercises) {
             setFilteredExercises(exercises)
@@ -61,20 +67,6 @@ export default function Exercises({username}) {
             setShowSnackBar(true)
         });
     }
-
-    /**
-     * Display exercise count
-     * @returns {JSX.Element}
-     */
-    const displayExerciseCount = () => {
-        let count = 0;
-        if (searchQuery) {
-            count = filteredExercises.filter(exercise => !exercise.empty).length;
-        } else {
-            count = exercises.filter(exercise => !exercise.empty).length;
-        }
-        return <p className="text-sm sm:text-md md:text-lg font-light">{`${count} exercises`}</p>;
-    };
 
     /**
      * Preview exercise information
@@ -136,8 +128,9 @@ export default function Exercises({username}) {
                         onChange={event => onChangeSearch(event.target.value.toLowerCase())}/>
                 </form>
 
-                {displayExerciseCount()}
-                {exercises.length > 0 ?
+                <p className="text-sm sm:text-md md:text-lg font-light">{`${filteredExercises.length} workouts`}</p>
+
+                {filteredExercises.length > 0 ?
                     <div className="mt-1 grid gap-0.5 grid-cols-2 sm:grid-cols-4">
                         {filteredExercises.map((item, index) => {
                             return (

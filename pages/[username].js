@@ -220,8 +220,9 @@ const CreatorProfile = () => {
                             value={searchQuery}
                             onChange={event => onChangeSearch(event.target.value.toLowerCase())}/>
                     </form>
+                    <p className="text-sm sm:text-md md:text-lg font-light">{`${filteredWorkouts.length} workouts`}</p>
 
-                    {workouts.length > 0 ?
+                    {filteredWorkouts.length > 0 ?
                         <div className="grid gap-0.5 grid-cols-2 sm:grid-cols-3">
                             {filteredWorkouts.map((item, index) => {
                                 return (

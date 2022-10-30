@@ -44,6 +44,9 @@ export default function Workouts({username}) {
 
     const [shouldPlayWorkout, setShouldPlayWorkout] = useState(false)
 
+    /**
+     * Fetch auth users exercises and workouts
+     */
     useEffect(() => {
         if (username) {
             dispatch(listExercises({username}));
@@ -51,6 +54,9 @@ export default function Workouts({username}) {
         }
     }, [username])
 
+    /**
+     * Load fetched workouts
+     */
     useEffect(() => {
         if (workouts) {
             const notLive = workouts.filter(item => !item.isLive)
@@ -59,7 +65,7 @@ export default function Workouts({username}) {
     }, [workouts]);
 
     /**
-     * Filter exercises
+     * Filter workouts
      * @param query
      */
     const onChangeSearch = query => {
@@ -124,20 +130,6 @@ export default function Workouts({username}) {
         });
     }
 
-    /**
-     * Display workouts count
-     * @returns {JSX.Element}
-     */
-    const displayDraftWorkoutsCount = () => {
-        let count = 0;
-        if (searchQuery) {
-            count = filteredWorkouts.filter(workout => !workout.empty && !workout.isLive).length;
-        } else {
-            count = workouts.filter(workout => !workout.empty && !workout.isLive).length;
-        }
-        return <p className="text-sm sm:text-md md:text-lg font-light">{`${count} workouts`}</p>;
-    };
-
     return (
         <>
             <div className="container mx-auto p-4 min-h-screen">
@@ -184,9 +176,10 @@ export default function Workouts({username}) {
                         onChange={event => onChangeSearch(event.target.value.toLowerCase())}/>
                 </form>
 
-                {displayDraftWorkoutsCount()}
-                {workouts.filter(workout => !workout.isLive).length > 0 ?
-                    <div className="grid gap-0.5 grid-cols-2 sm:grid-cols-3">
+                <p className="text-sm sm:text-md md:text-lg font-light">{`${filteredWorkouts.length} workouts`}</p>
+
+                {filteredWorkouts.filter(workout => !workout.isLive).length > 0 ?
+                    <div className="mt-1 grid gap-0.5 grid-cols-2 sm:grid-cols-3">
                         {filteredWorkouts.map((item, index) => {
                             return (
                                 <button key={index} onClick={() => previewWorkout(item)}>

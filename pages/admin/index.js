@@ -51,12 +51,18 @@ export default function Dashboard({username}) {
      */
     const [showSnackBar, setShowSnackBar] = useState(false)
 
+    /**
+     * Fetch user
+     */
     useEffect(() => {
         if (username) {
             dispatch(fetchUser({username}));
         }
     }, [username])
 
+    /**
+     * Load fetched exercises and workouts
+     */
     useEffect(() => {
         if (user) {
             dispatch(exercisesAdded(user.exercises.items));
@@ -64,9 +70,13 @@ export default function Dashboard({username}) {
         }
     }, [user]);
 
+    /**
+     * Filter workouts
+     */
     useEffect(() => {
         if (workouts) {
-            setFilteredWorkouts(workouts)
+            const isLive = workouts.filter(item => item.isLive)
+            setFilteredWorkouts(isLive)
         }
     }, [workouts]);
 
@@ -97,6 +107,7 @@ export default function Dashboard({username}) {
     const onChangeSearch = query => {
         setSearchQuery(query);
         const searchResult = searchExerciseOrWorkout(workouts, query)
+        console.log(searchResult.length)
         setFilteredWorkouts(searchResult);
     };
 
@@ -220,8 +231,11 @@ export default function Dashboard({username}) {
                         value={searchQuery}
                         onChange={event => onChangeSearch(event.target.value.toLowerCase())}/>
                 </form>
-                {workouts.length > 0 ?
-                    <div className="grid gap-0.5 grid-cols-2 sm:grid-cols-3">
+
+                <p className="text-sm sm:text-md md:text-lg font-light">{`${filteredWorkouts.length} workouts`}</p>
+
+                {filteredWorkouts.length > 0 ?
+                    <div className="mt-1 grid gap-0.5 grid-cols-2 sm:grid-cols-3">
                         {filteredWorkouts.map((item, index) => {
                             return (
                                 <button key={index} onClick={() => previewWorkout(item)}>
