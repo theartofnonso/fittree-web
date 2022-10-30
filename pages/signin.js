@@ -94,12 +94,10 @@ export default function SignIn() {
     const onVerifyAuthHandler = async verifiedUser => {
 
         try {
-            // const user = await getUserFromDB(email);
-            // console.log(user)
-            // if (!user) {
-            //     await persistUserToDB(verifiedUser.attributes);
-            // }
-            // Navigate to Dashboard
+            const user = await getUserFromDB(email);
+            if (!user) {
+                await persistUserToDB(verifiedUser.attributes);
+            }
             await router.replace('/admin')
         } catch (err) {
             console.log(err)

@@ -187,9 +187,7 @@ export default function SignUp() {
 
         try {
             await persistUserToDB(verifiedUser.attributes);
-            // Navigate to Dashboard
-            console.log("Navigate to Dashboard")
-            await router.push('/admin')
+            await router.replace('/admin')
         } catch (err) {
             // Do something
         }

@@ -1,11 +1,11 @@
 /* eslint-disable */
 import React from "react";
 import {FACEBOOK, INSTAGRAM, TIKTOK, TWITTER, YOUTUBE} from "../../utils/utilsConstants";
-import InstagramIcon from "../svg/instagram-line.svg";
-import FacebookIcon from "../svg/facebook-circle-line.svg";
-import TwitterIcon from "../svg/twitter-line.svg";
-import TikTokIcon from "../svg/tiktok-line.svg";
-import YoutubeIcon from "../svg/youtube-line.svg";
+import InstagramIcon from "../svg/instagram-primary-line.svg";
+import FacebookIcon from "../svg/facebook-circle-primary-line.svg";
+import TwitterIcon from "../svg/twitter-primary-line.svg";
+import TikTokIcon from "../svg/tiktok-primary-line.svg";
+import YoutubeIcon from "../svg/youtube-primary-line.svg";
 
 const Socials = ({profile}) => {
 
