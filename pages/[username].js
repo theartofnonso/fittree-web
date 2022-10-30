@@ -6,7 +6,7 @@ import {
     selectCreatorStatus,
     selectExercises,
     selectWorkouts
-} from "../src/features/CreatorProfileSlice";
+} from "../src/features/unauth/CreatorProfileSlice";
 import {useDispatch, useSelector} from "react-redux";
 import {searchExerciseOrWorkout} from "../src/utils/workoutAndExerciseUtils";
 import workoutsConstants from "../src/utils/workout/workoutsConstants";
@@ -33,7 +33,7 @@ import FittrBigIcon from "../src/components/svg/fittr.svg";
 const CreatorProfile = () => {
 
     /**
-     * Retrieve creator's username
+     * Retrieve unauth's username
      */
     const router = useRouter()
     const {username} = router.query
@@ -164,7 +164,7 @@ const CreatorProfile = () => {
     };
 
     /**
-     * Retrieve creator's profile
+     * Retrieve unauth's profile
      * @type {Dispatch<AnyAction>}
      */
     useEffect(() => {

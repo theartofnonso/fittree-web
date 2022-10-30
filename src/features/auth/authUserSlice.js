@@ -1,9 +1,9 @@
 /* eslint-disable */
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { API, graphqlOperation } from "aws-amplify";
-import * as queries from "../graphql/queries";
-import * as mutations from "../graphql/mutations";
-import workoutsConstants from "../utils/workout/workoutsConstants";
+import * as queries from "../../graphql/queries";
+import * as mutations from "../../graphql/mutations";
+import workoutsConstants from "../../utils/workout/workoutsConstants";
 
 export const userSliceEnums = {
   SLICE: "authUser",

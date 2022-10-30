@@ -7,7 +7,7 @@ import CheckIcon from "../../src/components/svg/check-green-24.svg";
 import FittrSmallIcon from "../../src/components/svg/fittr_small.svg";
 import FittrBigIcon from "../../src/components/svg/fittr.svg";
 import {useDispatch, useSelector} from "react-redux";
-import {listWorkouts, selectAllWorkouts} from "../../src/features/authUserWorkoutsSlice";
+import {listWorkouts, selectAllWorkouts} from "../../src/features/auth/authUserWorkoutsSlice";
 import {useEffect, useState} from "react";
 import {searchExerciseOrWorkout} from "../../src/utils/workoutAndExerciseUtils";
 import {
@@ -21,7 +21,7 @@ import PreviewWorkout from "../../src/components/modals/workout/PreviewWorkout";
 import workoutsConstants from "../../src/utils/workout/workoutsConstants";
 import PlayCircuitWorkout from "../../src/components/modals/workout/PlayCircuitWorkout";
 import PlayRepsAndSetsWorkout from "../../src/components/modals/workout/PlayRepsAndSetsWorkout";
-import {listExercises, selectAllExercises} from "../../src/features/authUserExercisesSlice";
+import {listExercises, selectAllExercises} from "../../src/features/auth/authUserExercisesSlice";
 
 export default function Workouts({username}) {
 

@@ -10,7 +10,7 @@ import {generateShareableLink} from "../../src/utils/workout/workoutsHelperFunct
 import {useEffect, useState} from "react";
 import {searchExerciseOrWorkout} from "../../src/utils/workoutAndExerciseUtils";
 import {useDispatch, useSelector} from "react-redux";
-import {listExercises, selectAllExercises} from "../../src/features/authUserExercisesSlice";
+import {listExercises, selectAllExercises} from "../../src/features/auth/authUserExercisesSlice";
 import ExerciseCard from "../../src/components/cards/ExerciseCard";
 import PreviewExercise from "../../src/components/modals/exercise/PreviewExercise";
 

@@ -1,9 +1,9 @@
 import {configureStore} from '@reduxjs/toolkit';
 
-import creatorProfileReducer from '../src/features/CreatorProfileSlice';
-import authUserReducer from '../src/features/authUserSlice.js';
-import authUserExercisesReducer from '../src/features/authUserExercisesSlice';
-import authUserWorkoutsReducer from '../src/features/authUserWorkoutsSlice';
+import creatorProfileReducer from '../src/features/unauth/CreatorProfileSlice';
+import authUserReducer from '../src/features/auth/authUserSlice.js';
+import authUserExercisesReducer from '../src/features/auth/authUserExercisesSlice';
+import authUserWorkoutsReducer from '../src/features/auth/authUserWorkoutsSlice';
 
 export default configureStore({
     reducer: {
