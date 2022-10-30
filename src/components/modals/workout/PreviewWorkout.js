@@ -27,9 +27,9 @@ const PreviewWorkout = ({workout, play, close}) => {
     return (
         <div
             className="container mx-auto px-2 sm:px-10 fixed top-0 right-0 bottom-0 left-0 h-full w-full bg-white overflow-y-scroll">
-            <button className="my-4" onClick={close}>
+            <div className="my-4" onClick={close}>
                 <CloseIcon/>
-            </button>
+            </div>
             <WorkoutCardBig workout={workout}/>
             <div className="overscroll-contain">
                 <p className="my-4 font-light break-words whitespace-pre-line">{workout.description}</p>
@@ -46,11 +46,12 @@ const PreviewWorkout = ({workout, play, close}) => {
                     )}
                 </div>
             </div>
-            <button onClick={playWorkout}
+            <div onClick={playWorkout}
                     className="flex flex-row items-center justify-center bg-primary rounded-md w-14 h-14 sm:w-20 sm:h-20 fixed bottom-0 right-0 mr-8 mb-8 hover:bg-darkPrimary sm:hidden">
                 <PlayIcon/>
-            </button>
+            </div>
             <button
+                type="button"
                 onClick={playWorkout}
                 className="mb-8 w-full bg-primary rounded-3xl py-2 px-10 text-white font-medium hover:bg-darkPrimary hidden sm:block">Play workout
             </button>

@@ -60,18 +60,18 @@ const PlayWorkout = props => {
 
             <div className="my-4 flex flex-row place-content-between">
                 {!props.isPaused ? <div>
-                    <button onClick={props.close}>
+                    <div onClick={props.close}>
                         <CloseIcon/>
-                    </button>
+                    </div>
                 </div> : null}
 
-                {!props.isPaused ? <div>
-                    <button className="mx-2" onClick={previewExercise}>
+                {!props.isPaused ? <div className="flex flex-row">
+                    <div className="mx-2" onClick={previewExercise}>
                         <InfoOutlinedIcon/>
-                    </button>
-                    <button className="mx-2" onClick={toggleWorkoutList}>
+                    </div>
+                    <div className="mx-2" onClick={toggleWorkoutList}>
                         <OrderPlayIcon/>
-                    </button>
+                    </div>
                 </div> : null}
             </div>
 
@@ -84,14 +84,14 @@ const PlayWorkout = props => {
             <div>
                 {!props.isPaused ?
                     <div className="mt-4 flex flex-row justify-center">
-                        <button className="mx-2" onClick={props.seekBackward}>
-                            <p>Prev</p>
+                        <button type="button" className="mx-2" onClick={props.seekBackward}>
+                            Prev
                         </button>
-                        <button className="mx-2" onClick={props.pause}>
+                        <button type="button" className="mx-2" onClick={props.pause}>
                             <PauseIcon/>
                         </button>
-                        <button className="mx-2" onClick={props.seekForward}>
-                            <p>Next</p>
+                        <button type="button" className="mx-2" onClick={props.seekForward}>
+                            Next
                         </button>
                     </div> : null}
                 <div>

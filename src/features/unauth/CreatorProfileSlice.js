@@ -1,8 +1,8 @@
 /* eslint-disable */
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {API, graphqlOperation} from "aws-amplify";
-import * as queries from "../graphql/queries";
-import workoutsConstants from "../utils/workout/workoutsConstants";
+import * as queries from "../../graphql/queries";
+import workoutsConstants from "../../utils/workout/workoutsConstants";
 
 const initialState = {
     profile: null,
@@ -39,11 +39,12 @@ const creatorProfileSlice = createSlice({
 });
 
 /**
- * Get the creator's data
+ * Get the unauth's data
  * @type {AsyncThunk<unknown, void, {}>}
  */
 export const fetchCreatorProfile = createAsyncThunk("creatorProfile/get", async (payload, {rejectWithValue}) => {
     const {username} = payload;
+
     try {
         const response = await API.graphql(graphqlOperation(queries.listCreators, {
                     filter: {

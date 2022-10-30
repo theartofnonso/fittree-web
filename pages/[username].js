@@ -6,7 +6,7 @@ import {
     selectCreatorStatus,
     selectExercises,
     selectWorkouts
-} from "../src/features/CreatorProfileSlice";
+} from "../src/features/unauth/CreatorProfileSlice";
 import {useDispatch, useSelector} from "react-redux";
 import {searchExerciseOrWorkout} from "../src/utils/workoutAndExerciseUtils";
 import workoutsConstants from "../src/utils/workout/workoutsConstants";
@@ -33,7 +33,7 @@ import FittrBigIcon from "../src/components/svg/fittr.svg";
 const CreatorProfile = () => {
 
     /**
-     * Retrieve creator's username
+     * Retrieve unauth's username
      */
     const router = useRouter()
     const {username} = router.query
@@ -164,7 +164,7 @@ const CreatorProfile = () => {
     };
 
     /**
-     * Retrieve creator's profile
+     * Retrieve unauth's profile
      * @type {Dispatch<AnyAction>}
      */
     useEffect(() => {
@@ -203,7 +203,7 @@ const CreatorProfile = () => {
                 <div className="container mx-auto p-4 min-h-screen">
 
                     <div className="mb-10 flex flex-row items-center place-content-between">
-                        <button onClick={copyShareableLink}>
+                        <button type="button" onClick={copyShareableLink}>
                             <ShareIcon/>
                         </button>
                         {displayAvatar()}
@@ -220,14 +220,15 @@ const CreatorProfile = () => {
                             value={searchQuery}
                             onChange={event => onChangeSearch(event.target.value.toLowerCase())}/>
                     </form>
+                    <p className="text-sm sm:text-md md:text-lg font-light">{`${filteredWorkouts.length} workouts`}</p>
 
-                    {workouts.length > 0 ?
+                    {filteredWorkouts.length > 0 ?
                         <div className="grid gap-0.5 grid-cols-2 sm:grid-cols-3">
                             {filteredWorkouts.map((item, index) => {
                                 return (
-                                    <button key={index} onClick={() => previewWorkout(item)}>
+                                    <div key={index} onClick={() => previewWorkout(item)}>
                                         <WorkoutCard workout={item}/>
-                                    </button>
+                                    </div>
                                 );
                             })}
                         </div> :
@@ -237,7 +238,7 @@ const CreatorProfile = () => {
                         </div>}
                     {showSnackBar ?
                         <div
-                            className="absolute rounded-3xl bottom-0 left-0 ml-2 sm:ml-10 mb-8 p-2 flex flex-row justify-start items-center rounded bg-lightGreen w-1/2 sm:w-2/5">
+                            className="fixed rounded-3xl bottom-0 left-0 ml-2 sm:ml-10 mb-8 p-2 flex flex-row justify-start items-center rounded bg-lightGreen w-1/2 sm:w-2/5">
                             <CheckIcon/>
                             <p className="ml-2 text-midnightGreen font-semibold">Link copied</p>
                         </div> : null}
@@ -249,10 +250,10 @@ const CreatorProfile = () => {
                     {shouldPlayWorkout ? getWorkoutPlayComponent() : null}
                 </div>
                 <div className="flex flex-row justify-center items-center">
-                    <a rel="noreferrer" href="/" target="_blank" className="lg:hidden">
+                    <a rel="noreferrer" href="/" className="lg:hidden">
                         <FittrSmallIcon/>
                     </a>
-                    <a rel="noreferrer" href="/" target="_blank" className="hidden lg:block">
+                    <a rel="noreferrer" href="/" className="hidden lg:block">
                         <FittrBigIcon/>
                     </a>
                 </div>

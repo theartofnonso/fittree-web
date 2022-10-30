@@ -11,13 +11,19 @@ export default function App() {
 
     return (
         <div className="container mx-auto">
-            <div className="ml-8 sm:ml-10">
-                <a rel="noreferrer" href="/" target="_blank" className="lg:hidden">
-                    <FittrSmallIcon/>
-                </a>
-                <a rel="noreferrer" href="/" target="_blank" className="hidden lg:block">
-                    <FittrBigIcon/>
-                </a>
+            <div className="mx-8 sm:mx-10 flex flex-row items-center place-content-between">
+                <div>
+                    <a rel="noreferrer" href="/" className="lg:hidden">
+                        <FittrSmallIcon/>
+                    </a>
+                    <a rel="noreferrer" href="/" className="hidden lg:block">
+                        <FittrBigIcon/>
+                    </a>
+                </div>
+                <div className="flex flex-row h-10 bg-primary rounded-3xl place-content-between hover:bg-darkPrimary">
+                    <a rel="noreferrer" href="/signin" className="flex flex-row items-center font-medium text-primary text-sm rounded-3xl h-full bg-secondary hover:bg-darkSecondary px-2 cursor-pointer">Sign In</a>
+                    <a rel="noreferrer" href="/signup" className="flex flex-row items-center font-medium text-secondary text-sm rounded-3xl h-full px-2 cursor-pointer">Sign Up </a>
+                </div>
             </div>
 
             <div className="flex flex-col items-center my-2 sm:my-4">
@@ -27,7 +33,7 @@ export default function App() {
                     <p className="font-normal text-xs my-1.5">Create, share and play workouts on any device</p>
                 </div>
                 <a rel="noreferrer" href={APP_STORE_URL} target="_blank"
-                   className="bg-primary rounded-3xl py-2 px-10 mt-6 text-white font-medium">Get it on
+                   className="bg-primary rounded-3xl py-2 px-10 mt-6 text-white font-medium hover:bg-darkPrimary">Get it on
                     IOS</a>
             </div>
 
@@ -53,6 +59,7 @@ export default function App() {
             </div>
             <div className="flex flex-col mx-6 sm:mx-8">
                 <button
+                    type="button"
                     className="accordion bg-primary w-full text-start px-3 py-5 my-2 rounded-lg font-semibold text-md text-white">What
                     is Fittree ?
                 </button>
@@ -64,6 +71,7 @@ export default function App() {
                 </div>
 
                 <button
+                    type="button"
                     className="accordion bg-primary w-full text-start px-3 py-5 my-2 rounded-lg font-semibold text-md text-white">Why
                     do I need Fittree ?
                 </button>
@@ -74,6 +82,7 @@ export default function App() {
                 </div>
 
                 <button
+                    type="button"
                     className="accordion bg-primary w-full text-start px-3 py-5 my-2 rounded-lg font-semibold text-md text-white">How
                     can I share my workouts ?
                 </button>
