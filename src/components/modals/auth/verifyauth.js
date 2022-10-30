@@ -133,12 +133,12 @@ export default function VerifyAuth(props) {
                     className="mt-4 bg-primary rounded-3xl py-2 px-10 w-1/6 text-white font-medium hover:bg-darkPrimary hidden sm:block">Verify
                 </button>
             </form>
-            <button className="text-center mt-4 font-light block" onClick={resendAuthCode}>Request new code</button>
-            <button className="text-center mt-4 font-light block" onClick={closeAuth}>Cancel</button>
-            <button
+            <button type="button" className="text-center mt-4 font-light block" onClick={resendAuthCode}>Request new code</button>
+            <button type="button" className="text-center mt-4 font-light block" onClick={closeAuth}>Cancel</button>
+            <div
                 className="flex flex-row items-center justify-center bg-primary rounded-md w-14 h-14 sm:w-20 sm:h-20 fixed bottom-0 right-0 mr-8 mb-8 hover:bg-darkPrimary sm:hidden">
                 <CheckIcon/>
-            </button>
+            </div>
             {isLoading ? <Loading message={"Verifying you"}/> : null}
         </div>
     )

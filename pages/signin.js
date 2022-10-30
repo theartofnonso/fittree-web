@@ -55,24 +55,21 @@ export default function SignIn() {
         }
 
         try {
-            const res = await retrieveCognitoUser(email);
-            if (res) {
-                if (!res.Enabled) {
+            const user = await retrieveCognitoUser(email);
+            if (user) {
+                if (!user.Enabled) {
                     setIsLoading(false);
                     setErrorMessage("Your account has been disabled, please contact dev@fittree.io");
-                    return;
+                } else {
+                    const currentUser = await Auth.signIn(email);
+                    setCognitoUser(currentUser);
+                    setIsLoading(false);
                 }
             }
         } catch (err) {
             setIsLoading(false);
-            setErrorMessage("You don't seem to have a Fittree account, please sign up instead ");
-            return;
+            setErrorMessage("You don't seem to have a Fittree account, please sign up instead");
         }
-
-        const currentUser = await Auth.signIn(email);
-        setCognitoUser(currentUser);
-
-        setIsLoading(false);
 
     };
 
@@ -145,6 +142,7 @@ export default function SignIn() {
                     onChange={event => onEnterEmailHandler(event.target.value.toLowerCase())}/>
                 {errorMessage.length > 0 ? <p className="text-red my-2">{errorMessage} </p> : null}
                 <button
+                    type="button"
                     onClick={signInHandler}
                     className="mt-4 bg-primary rounded-3xl py-2 px-4 w-1/6 text-white font-medium hover:bg-darkPrimary hidden sm:block">Sign
                     in
@@ -157,6 +155,7 @@ export default function SignIn() {
                 <span className="text-center mt-4 font-light block">Go to home</span>
             </a>
             <button
+                type="button"
                 onClick={signInHandler}
                 className="flex flex-row items-center justify-center bg-primary rounded-md w-14 h-14 sm:w-20 sm:h-20 fixed bottom-0 right-0 mr-8 mb-8 hover:bg-darkPrimary sm:hidden">
                 <CheckIcon/>
@@ -164,7 +163,6 @@ export default function SignIn() {
             {isLoading ? <Loading message={"Signing you in"}/> : null}
             {cognitoUser ? (
                 <VerifyAuth
-                    testID="VerifyAuthScreen_Modal"
                     onclose={onCloseVerifyAuthModalHandler}
                     onVerify={onVerifyAuthHandler}
                     cognitoUser={cognitoUser}

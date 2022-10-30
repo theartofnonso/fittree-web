@@ -203,7 +203,7 @@ const CreatorProfile = () => {
                 <div className="container mx-auto p-4 min-h-screen">
 
                     <div className="mb-10 flex flex-row items-center place-content-between">
-                        <button onClick={copyShareableLink}>
+                        <button type="button" onClick={copyShareableLink}>
                             <ShareIcon/>
                         </button>
                         {displayAvatar()}
@@ -226,9 +226,9 @@ const CreatorProfile = () => {
                         <div className="grid gap-0.5 grid-cols-2 sm:grid-cols-3">
                             {filteredWorkouts.map((item, index) => {
                                 return (
-                                    <button key={index} onClick={() => previewWorkout(item)}>
+                                    <div key={index} onClick={() => previewWorkout(item)}>
                                         <WorkoutCard workout={item}/>
-                                    </button>
+                                    </div>
                                 );
                             })}
                         </div> :

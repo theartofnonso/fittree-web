@@ -162,17 +162,6 @@ export default function Dashboard({username}) {
      * Display Avatar
      * @returns {JSX.Element}
      */
-    // const displayAvatar = () => {
-    //     if (user) {
-    //         return profile.displayProfile ?
-    //             <Avatar sx={{backgroundColor: "#ef7a75", width: 80, height: 80}} alt="Display Profile"
-    //                     src={"https://" + profile.displayProfile}/> :
-    //             <Avatar sx={{backgroundColor: "#ef7a75", width: 80, height: 80}} alt="Display profile"
-    //                     src={"https://" + profile.displayProfile}>
-    //                 {profile.preferred_username.slice(0, 1).toUpperCase()}
-    //             </Avatar>
-    //     }
-    // };
 
     /**
      * Creator page is still loading
@@ -188,10 +177,10 @@ export default function Dashboard({username}) {
         <>
             <div className="container mx-auto p-4 min-h-screen">
                 <div className="mb-10 flex flex-row items-center place-content-between">
-                    <div className="flex flex-row">
-                        <button className="mr-8" onClick={copyShareableLink}>
+                    <div className="flex flex-row items-center">
+                        <div className="mr-8" onClick={copyShareableLink}>
                             <ShareIcon/>
-                        </button>
+                        </div>
                         <div
                             className="flex flex-row rounded-full bg-secondary flex flex-row justify-start items-center px-4 py-2 hidden sm:flex">
                             <a className="mr-2 hover:text-gray" href="/admin">
@@ -211,9 +200,9 @@ export default function Dashboard({username}) {
                     <div className="rounded-full bg-primary flex flex-row justify-start items-center px-4">
                         <Socials profile={user}/>
                     </div>
-                    <button className="ml-8 sm:hidden" onClick={copyShareableLink}>
+                    <div className="ml-8 sm:hidden" onClick={copyShareableLink}>
                         <FunctionsIcon/>
-                    </button>
+                    </div>
                 </div>
                 <div className="flex flex-col items-center">
                     <div className="rounded-full w-24 overflow-hidden mb-2">
@@ -238,9 +227,9 @@ export default function Dashboard({username}) {
                     <div className="mt-1 grid gap-0.5 grid-cols-2 sm:grid-cols-3">
                         {filteredWorkouts.map((item, index) => {
                             return (
-                                <button key={index} onClick={() => previewWorkout(item)}>
+                                <div key={index} onClick={() => previewWorkout(item)}>
                                     <WorkoutCard workout={item}/>
-                                </button>
+                                </div>
                             );
                         })}
                     </div> :

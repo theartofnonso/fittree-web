@@ -146,9 +146,9 @@ export default function Workouts({username}) {
             <div className="container mx-auto p-4 min-h-screen">
                 <div className="mb-10 flex flex-row items-center place-content-between">
                     <div className="flex flex-row">
-                        <button className="mr-8" onClick={copyShareableLink}>
+                        <div className="mr-8" onClick={copyShareableLink}>
                             <ShareIcon/>
-                        </button>
+                        </div>
                         <div
 
                             className="flex flex-row rounded-full bg-secondary flex flex-row justify-start items-center px-4 py-2 hidden sm:flex">
@@ -166,9 +166,9 @@ export default function Workouts({username}) {
                             </a>
                         </div>
                     </div>
-                    <button className="ml-8 sm:hidden" onClick={copyShareableLink}>
+                    <div className="ml-8 sm:hidden" onClick={copyShareableLink}>
                         <FunctionsIcon/>
-                    </button>
+                    </div>
                 </div>
                 <div>
                     <p className="text-lg sm:text-2xl md:text-3xl font-medium">
@@ -193,9 +193,9 @@ export default function Workouts({username}) {
                     <div className="mt-1 grid gap-0.5 grid-cols-2 sm:grid-cols-3">
                         {filteredWorkouts.map((item, index) => {
                             return (
-                                <button key={index} onClick={() => previewWorkout(item)}>
+                                <div key={index} onClick={() => previewWorkout(item)}>
                                     <WorkoutCard workout={item}/>
-                                </button>
+                                </div>
                             );
                         })}
                     </div> :

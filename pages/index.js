@@ -59,6 +59,7 @@ export default function App() {
             </div>
             <div className="flex flex-col mx-6 sm:mx-8">
                 <button
+                    type="button"
                     className="accordion bg-primary w-full text-start px-3 py-5 my-2 rounded-lg font-semibold text-md text-white">What
                     is Fittree ?
                 </button>
@@ -70,6 +71,7 @@ export default function App() {
                 </div>
 
                 <button
+                    type="button"
                     className="accordion bg-primary w-full text-start px-3 py-5 my-2 rounded-lg font-semibold text-md text-white">Why
                     do I need Fittree ?
                 </button>
@@ -80,6 +82,7 @@ export default function App() {
                 </div>
 
                 <button
+                    type="button"
                     className="accordion bg-primary w-full text-start px-3 py-5 my-2 rounded-lg font-semibold text-md text-white">How
                     can I share my workouts ?
                 </button>
