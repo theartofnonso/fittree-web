@@ -238,7 +238,7 @@ const CreatorProfile = () => {
                         </div>}
                     {showSnackBar ?
                         <div
-                            className="absolute rounded-3xl bottom-0 left-0 ml-2 sm:ml-10 mb-8 p-2 flex flex-row justify-start items-center rounded bg-lightGreen w-1/2 sm:w-2/5">
+                            className="fixed rounded-3xl bottom-0 left-0 ml-2 sm:ml-10 mb-8 p-2 flex flex-row justify-start items-center rounded bg-lightGreen w-1/2 sm:w-2/5">
                             <CheckIcon/>
                             <p className="ml-2 text-midnightGreen font-semibold">Link copied</p>
                         </div> : null}
@@ -250,10 +250,10 @@ const CreatorProfile = () => {
                     {shouldPlayWorkout ? getWorkoutPlayComponent() : null}
                 </div>
                 <div className="flex flex-row justify-center items-center">
-                    <a rel="noreferrer" href="/" target="_blank" className="lg:hidden">
+                    <a rel="noreferrer" href="/" className="lg:hidden">
                         <FittrSmallIcon/>
                     </a>
-                    <a rel="noreferrer" href="/" target="_blank" className="hidden lg:block">
+                    <a rel="noreferrer" href="/" className="hidden lg:block">
                         <FittrBigIcon/>
                     </a>
                 </div>

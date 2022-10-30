@@ -123,7 +123,7 @@ export default function SignIn() {
         <div className="container mx-auto p-4 h-screen">
             <div className="flex flex-row items-center">
                 <div className="-ml-3">
-                    <a rel="noreferrer" href="/" target="_blank" className="lg:hidden">
+                    <a rel="noreferrer" href="/" className="lg:hidden">
                         <FittrSmallIcon/>
                     </a>
                     <a rel="noreferrer" href="/" target="_blank" className="hidden lg:block">
@@ -146,7 +146,7 @@ export default function SignIn() {
                 {errorMessage.length > 0 ? <p className="text-red my-2">{errorMessage} </p> : null}
                 <button
                     onClick={signInHandler}
-                    className="mt-4 bg-primary rounded-3xl py-2 px-10 w-1/6 text-white font-medium hover:bg-darkPrimary hidden sm:block">Sign
+                    className="mt-4 bg-primary rounded-3xl py-2 px-4 w-1/6 text-white font-medium hover:bg-darkPrimary hidden sm:block">Sign
                     in
                 </button>
             </form>
