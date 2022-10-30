@@ -65,7 +65,7 @@ const PlayWorkout = props => {
                     </div>
                 </div> : null}
 
-                {!props.isPaused ? <div>
+                {!props.isPaused ? <div className="flex flex-row">
                     <div className="mx-2" onClick={previewExercise}>
                         <InfoOutlinedIcon/>
                     </div>

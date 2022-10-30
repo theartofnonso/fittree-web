@@ -196,13 +196,13 @@ export default function Dashboard({username}) {
                                 <HomeIcon/>
                             </a>
                             <a rel="noreferrer" href="/admin/exercises">
-                                <p className="font-medium mx-2 text-gray1 cursor-pointer hover:text-gray">Exercises</p>
+                                <p className="font-normal mx-2 text-gray1 cursor-pointer hover:text-gray">Exercises</p>
                             </a>
                             <a rel="noreferrer" href="/admin/workouts">
-                                <p className="font-medium mx-2 text-gray1 cursor-pointer hover:text-gray">Workouts</p>
+                                <p className="font-normal mx-2 text-gray1 cursor-pointer hover:text-gray">Workouts</p>
                             </a>
                             <a rel="noreferrer" href="/admin/settings">
-                                <p className="font-medium mx-2 text-gray1 cursor-pointer hover:text-gray">Settings</p>
+                                <p className="font-normal mx-2 text-gray1 cursor-pointer hover:text-gray">Settings</p>
                             </a>
                         </div>
                     </div>

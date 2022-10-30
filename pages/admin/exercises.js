@@ -97,7 +97,7 @@ export default function Exercises({username}) {
         <>
             <div className="container mx-auto p-4 min-h-screen">
                 <div className="mb-10 flex flex-row items-center place-content-between">
-                    <div className="flex flex-row">
+                    <div className="flex flex-row items-center">
                         <div className="mr-8" onClick={copyShareableLink}>
                             <ShareIcon/>
                         </div>
@@ -108,13 +108,13 @@ export default function Exercises({username}) {
                                 <HomeIcon/>
                             </a>
                             <a rel="noreferrer" href="/admin/exercises">
-                                <p className="font-medium mx-2 text-gray1 cursor-pointer hover:text-gray">Exercises</p>
+                                <p className="font-semibold mx-2 text-gray1 cursor-pointer hover:text-gray">Exercises</p>
                             </a>
                             <a rel="noreferrer" href="/admin/workouts">
-                                <p className="font-medium mx-2 text-gray1 cursor-pointer hover:text-gray">Workouts</p>
+                                <p className="font-normal mx-2 text-gray1 cursor-pointer hover:text-gray">Workouts</p>
                             </a>
                             <a rel="noreferrer" href="/admin/settings">
-                                <p className="font-medium mx-2 text-gray1 cursor-pointer hover:text-gray">Settings</p>
+                                <p className="font-normal mx-2 text-gray1 cursor-pointer hover:text-gray">Settings</p>
                             </a>
                         </div>
                     </div>
@@ -139,7 +139,7 @@ export default function Exercises({username}) {
                         onChange={event => onChangeSearch(event.target.value.toLowerCase())}/>
                 </form>
 
-                <p className="text-sm sm:text-md md:text-lg font-light">{`${filteredExercises.length} workouts`}</p>
+                <p className="text-sm sm:text-md md:text-lg font-light">{`${filteredExercises.length} exercises`}</p>
 
                 {filteredExercises.length > 0 ?
                     <div className="mt-1 grid gap-0.5 grid-cols-2 sm:grid-cols-4">

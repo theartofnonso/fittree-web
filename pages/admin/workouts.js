@@ -145,7 +145,7 @@ export default function Workouts({username}) {
         <>
             <div className="container mx-auto p-4 min-h-screen">
                 <div className="mb-10 flex flex-row items-center place-content-between">
-                    <div className="flex flex-row">
+                    <div className="flex flex-row items-center">
                         <div className="mr-8" onClick={copyShareableLink}>
                             <ShareIcon/>
                         </div>
@@ -156,13 +156,13 @@ export default function Workouts({username}) {
                                 <HomeIcon/>
                             </a>
                             <a rel="noreferrer" href="/admin/exercises">
-                                <p className="font-medium mx-2 text-gray1 cursor-pointer hover:text-gray">Exercises</p>
+                                <p className="font-normal mx-2 text-gray1 cursor-pointer hover:text-gray">Exercises</p>
                             </a>
                             <a rel="noreferrer" href="/admin/workouts">
-                                <p className="font-medium mx-2 text-gray1 cursor-pointer hover:text-gray">Workouts</p>
+                                <p className="font-semibold mx-2 text-gray1 cursor-pointer hover:text-gray">Workouts</p>
                             </a>
                             <a rel="noreferrer" href="/admin/settings">
-                                <p className="font-medium mx-2 text-gray1 cursor-pointer hover:text-gray">Settings</p>
+                                <p className="font-normal mx-2 text-gray1 cursor-pointer hover:text-gray">Settings</p>
                             </a>
                         </div>
                     </div>
