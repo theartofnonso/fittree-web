@@ -7,8 +7,9 @@ import TwitterIcon from "../src/components/svg/twitter-primary-line.svg";
 import FittrBigIcon from "../src/components/svg/fittr.svg";
 import FittrSmallIcon from "../src/components/svg/fittr_small.svg";
 import Link from "next/link";
+import {withSSRContext} from "aws-amplify";
 
-export default function App() {
+export default function App({authenticated}) {
 
     return (
         <div className="container mx-auto">
@@ -25,18 +26,27 @@ export default function App() {
                         </a>
                     </Link>
                 </div>
-                <div className="flex flex-row h-10 bg-primary rounded-3xl place-content-between hover:bg-darkPrimary">
-                    <Link href="/signin">
-                        <a className="flex flex-row items-center font-medium text-primary text-sm rounded-3xl h-full bg-secondary hover:bg-darkSecondary px-2 cursor-pointer">
-                            Sign In
-                        </a>
-                    </Link>
-                    <Link href="/signup">
-                        <a
-                            className="flex flex-row items-center font-medium text-secondary text-sm rounded-3xl h-full px-2 cursor-pointer">
-                            Sign Up
-                        </a>
-                    </Link>
+                <div className="flex flex-row h-10 bg-primary rounded-3xl place-content-between">
+                    {authenticated ?
+                        <Link href="/admin">
+                            <a
+                                className="flex flex-row items-center font-medium text-secondary text-sm rounded-3xl h-full pl-5 pr-5 cursor-pointer hover:bg-darkPrimary">
+                                Admin
+                            </a>
+                        </Link> :
+                        <>
+                            <Link href="/signin">
+                                <a className="flex flex-row items-center font-medium text-primary text-sm rounded-3xl h-full bg-secondary hover:bg-darkSecondary px-4 cursor-pointer z-10">
+                                    Sign In
+                                </a>
+                            </Link>
+                            <Link href="/signup">
+                                <a
+                                    className="flex flex-row items-center font-medium text-secondary text-sm rounded-r-3xl h-full pl-5 pr-5 cursor-pointer hover:bg-darkPrimary -ml-4">
+                                    Sign Up
+                                </a>
+                            </Link>
+                        </>}
                 </div>
             </div>
 
@@ -125,4 +135,27 @@ export default function App() {
             </div>
         </div>
     );
+}
+
+export async function getServerSideProps(context) {
+
+    const {Auth} = withSSRContext(context)
+
+    try {
+
+        await Auth.currentAuthenticatedUser()
+
+        return {
+            props: {
+                authenticated: true,
+            }
+        }
+
+    } catch (err) {
+        return {
+            props: {
+                authenticated: false,
+            }
+        }
+    }
 }

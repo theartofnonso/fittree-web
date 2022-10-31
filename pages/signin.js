@@ -153,11 +153,11 @@ export default function SignIn() {
             </form>
             <p className="text-center mt-8 font-light">Don't have a Fittree account?&nbsp;
                 <Link href="/signup">
-                    <a className="font-bold cursor-pointer">Sign up</a>
+                    <a className="font-bold cursor-pointer hover:font-semibold">Sign up</a>
                 </Link>
             </p>
             <Link href="/">
-                <a className="text-center mt-4 font-light block cursor-pointer">Go to home</a>
+                <a className="text-center mt-4 font-light block cursor-pointer hover:font-semibold">Go to home</a>
             </Link>
             <button
                 type="button"

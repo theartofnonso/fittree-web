@@ -7,7 +7,6 @@ import {
     loadRepsAndSetsWorkout,
     sortWorkouts
 } from "../../src/utils/workout/workoutsHelperFunctions";
-import Socials from "../../src/components/views/Socials";
 import {useEffect, useState} from "react";
 import CheckIcon from "../../src/components/svg/check-green-24.svg";
 import {useDispatch, useSelector} from "react-redux";
@@ -26,6 +25,7 @@ import FittrSmallIcon from "../../src/components/svg/fittr_small.svg";
 import FittrBigIcon from "../../src/components/svg/fittr.svg";
 import HomeIcon from "../../src/components/svg/home-4-line.svg";
 import Link from "next/link";
+import Profile from "../../src/components/views/Profile";
 
 export default function Dashboard({username}) {
 
@@ -160,20 +160,6 @@ export default function Dashboard({username}) {
     }
 
     /**
-     * Display Avatar
-     * @returns {JSX.Element}
-     */
-    const displayAvatar = () => {
-        if (user.displayProfile) {
-            return (
-                <img src={"https://" + user.displayProfile} alt="Display profile" className="object-cover"/>)
-        } else {
-            const initials = user.preferred_username.substring(0,1).toUpperCase()
-            return (<p className="text-3xl text-white font-semibold">{initials}</p>)
-        }
-    };
-
-    /**
      * Creator page is still loading
      */
     if (status === workoutsConstants.profileStatus.LOADING) {
@@ -213,16 +199,7 @@ export default function Dashboard({username}) {
                         <FunctionsIcon/>
                     </div>
                 </div>
-                <div className="flex flex-col items-center">
-                    <div className="rounded-full w-24 h-24 overflow-hidden mb-2 bg-primary flex flex-row items-center justify-center">
-                        {displayAvatar()}
-                    </div>
-                    <p className="font-semibold text-base md:text-lg">{user.preferred_username}</p>
-                    <p className="font-light py-1 text-sm md:text-base text-center break-words whitespace-pre-line">{user.displayBrief}</p>
-                </div>
-                <div className="flex flex-row justify-center items-center px-4">
-                    <Socials profile={user}/>
-                </div>
+                <Profile user={user}/>
                 <form className="my-4 flex flex-col items-center">
                     <input
                         className="border-gray w-5/6 bg-secondary h-14 sm:h-18 shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"

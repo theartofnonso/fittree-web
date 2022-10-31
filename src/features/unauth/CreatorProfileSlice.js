@@ -46,14 +46,17 @@ export const fetchCreatorProfile = createAsyncThunk("creatorProfile/get", async 
     const {username} = payload;
 
     try {
-        const response = await API.graphql(graphqlOperation(queries.listCreators, {
-                    filter: {
-                        preferred_username: {
-                            eq: username.trim(),
+        const response = await API.graphql({
+                ...graphqlOperation(queries.listCreators, {
+                        filter: {
+                            preferred_username: {
+                                eq: username.trim(),
+                            },
                         },
                     },
-                },
-            ),
+                ),
+                authMode: 'AWS_IAM'
+            }
         )
         const creators = response.data.listCreators.items
         return creators.length > 0 ? creators[0] : null

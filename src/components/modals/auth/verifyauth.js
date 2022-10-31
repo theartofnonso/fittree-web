@@ -6,6 +6,7 @@ import Loading from "../../utils/Loading";
 import awsConstants from "../../../utils/aws-utils/awsConstants";
 import {Auth} from "aws-amplify";
 import Link from "next/link";
+import {intervalDurationSummary} from "../../../utils/workout/workoutsHelperFunctions";
 
 const TIME_LEFT = 180000;
 
@@ -92,10 +93,8 @@ export default function VerifyAuth(props) {
             setTimeLeft(TIME_LEFT)
             setEnteredCodeCode("");
             setErrorMessage("");
-            setIsLoading(true);
             const user = await Auth.signIn(props.email);
             props.onRefreshCognitoUser(user);
-            setIsLoading(false);
         }
     };
 
@@ -135,8 +134,12 @@ export default function VerifyAuth(props) {
                     onChange={event => onEnterCodeHandler(event.target.value.toLowerCase())}/>
                 {errorMessage.length > 0 ? <p className="text-red my-2">{errorMessage} </p> : null}
             </form>
-            <button type="button" className="text-center mt-4 font-light block" onClick={resendAuthCode}>Request new code</button>
-            <button type="button" className="text-center mt-4 font-light block" onClick={closeAuth}>Cancel</button>
+            {timeLeft === 0 ?
+                <button type="button" className="text-center mt-4 font-light block" onClick={resendAuthCode}>Request new code </button> :
+                <p className="text-left mt-4 font-light block">wait <span className="font-semibold">{intervalDurationSummary(timeLeft)}</span> until next code</p>
+            }
+
+            <button type="button" className="text-center mt-4 font-light block hover:font-semibold" onClick={closeAuth}>Cancel</button>
             {isLoading ? <Loading message={"Verifying you"}/> : null}
         </div>
     )
