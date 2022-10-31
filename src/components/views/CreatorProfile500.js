@@ -9,9 +9,9 @@ const CreatorProfile500 = ({username}) => {
             <p>
                 We are unable to load {username}'s page
             </p>
-            <a rel="noreferrer" href="/" target="_blank" className="absolute bottom-0 mb-10">
+            <Link href="/" target="_blank" className="absolute bottom-0 mb-10">
                 <FittrIcon/>
-            </a>
+            </Link>
         </div>
     );
 };

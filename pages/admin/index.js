@@ -25,6 +25,7 @@ import PlayRepsAndSetsWorkout from "../../src/components/modals/workout/PlayReps
 import FittrSmallIcon from "../../src/components/svg/fittr_small.svg";
 import FittrBigIcon from "../../src/components/svg/fittr.svg";
 import HomeIcon from "../../src/components/svg/home-4-line.svg";
+import Link from "next/link";
 
 export default function Dashboard({username}) {
 
@@ -192,18 +193,20 @@ export default function Dashboard({username}) {
                         </div>
                         <div
                             className="flex flex-row rounded-full bg-secondary flex flex-row justify-start items-center px-4 py-2 hidden sm:flex">
-                            <a className="mr-2 hover:text-gray" href="/admin">
-                                <HomeIcon/>
-                            </a>
-                            <a rel="noreferrer" href="/admin/exercises">
-                                <p className="font-normal mx-2 text-gray1 cursor-pointer hover:text-gray">Exercises</p>
-                            </a>
-                            <a rel="noreferrer" href="/admin/workouts">
-                                <p className="font-normal mx-2 text-gray1 cursor-pointer hover:text-gray">Workouts</p>
-                            </a>
-                            <a rel="noreferrer" href="/admin/settings">
-                                <p className="font-normal mx-2 text-gray1 cursor-pointer hover:text-gray">Settings</p>
-                            </a>
+                            <Link href="/admin">
+                                <a className="mr-2 hover:text-gray">
+                                    <HomeIcon/>
+                                </a>
+                            </Link>
+                            <Link href="/admin/exercises">
+                                <a className="font-normal mx-2 text-gray1 cursor-pointer hover:text-gray">Exercises</a>
+                            </Link>
+                            <Link href="/admin/workouts">
+                                <a className="font-normal mx-2 text-gray1 cursor-pointer hover:text-gray">Workouts</a>
+                            </Link>
+                            <Link href="/admin/settings">
+                                <a className="font-normal mx-2 text-gray1 cursor-pointer hover:text-gray">Settings</a>
+                            </Link>
                         </div>
                     </div>
                     <div className="ml-8 sm:hidden" onClick={copyShareableLink}>
@@ -260,12 +263,16 @@ export default function Dashboard({username}) {
                     </div> : null}
             </div>
             <div className="flex flex-row justify-center items-center">
-                <a rel="noreferrer" href="/" className="lg:hidden">
-                    <FittrSmallIcon/>
-                </a>
-                <a rel="noreferrer" href="/" className="hidden lg:block">
-                    <FittrBigIcon/>
-                </a>
+                <Link href="/">
+                    <a className="lg:hidden">
+                        <FittrSmallIcon/>
+                    </a>
+                </Link>
+                <Link href="/">
+                    <a className="hidden lg:block">
+                        <FittrBigIcon/>
+                    </a>
+                </Link>
             </div>
         </>
     )
