@@ -111,12 +111,16 @@ export default function App() {
                     <p className="font-medium">hello@fittree.io</p>
                 </div>
                 <div className="flex flex-row place-content-around">
-                    <div className="mx-2">
-                        <InstagramIcon/>
-                    </div>
-                    <div className="mx-2">
-                        <TwitterIcon/>
-                    </div>
+                    <Link href="https://instagram.com/fittree.io">
+                        <a target="_blank" className="mx-2">
+                            <InstagramIcon/>
+                        </a>
+                    </Link>
+                    <Link href="https://twitter.com/fittreeio">
+                        <a target="_blank" className="mx-2">
+                            <TwitterIcon/>
+                        </a>
+                    </Link>
                 </div>
             </div>
         </div>
