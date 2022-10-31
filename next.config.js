@@ -7,9 +7,9 @@ const nextConfig = {
 const ContentSecurityPolicy = `
   default-src 'self';
   script-src 'self';
-  connect-src 'self' https://cognito-identity.eu-west-2.amazonaws.com  https://vcjfyfujgnafzidkrjmnsdwuai.appsync-api.eu-west-2.amazonaws.com/graphql https://vitals.vercel-insights.com/v1/vitals https://o1400007.ingest.sentry.io;
-  img-src 'self' data: https://d2ez6lox3k9lt0.cloudfront.net;
-  media-src 'self' https://d2ez6lox3k9lt0.cloudfront.net;
+  connect-src 'self' https://cognito-identity.eu-west-2.amazonaws.com  https://vcjfyfujgnafzidkrjmnsdwuai.appsync-api.eu-west-2.amazonaws.com/graphql https://fr46ydrsrra53jtay5oxtuxxq4.appsync-api.eu-west-2.amazonaws.com/graphql https://o1400007.ingest.sentry.io;
+  img-src 'self' data: https://d2ez6lox3k9lt0.cloudfront.net https://d26u7w064jxl38.cloudfront.net;
+  media-src 'self' https://d2ez6lox3k9lt0.cloudfront.net https://d26u7w064jxl38.cloudfront.net;
   style-src 'self' https://fonts.googleapis.com;
   font-src 'self' https://fonts.gstatic.com;  
 `
