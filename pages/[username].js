@@ -24,12 +24,12 @@ import PlayCircuitWorkout from "../src/components/modals/workout/PlayCircuitWork
 import ShareIcon from "../src/components/svg/share-box-line.svg";
 import WorkoutCard from "../src/components/cards/WorkoutCard";
 import PreviewWorkout from "../src/components/modals/workout/PreviewWorkout";
-import Socials from "../src/components/views/Socials";
 import CheckIcon from "../src/components/svg/check-green-24.svg";
 import EmptyState from "../src/components/svg/empty_state.svg";
 import FittrSmallIcon from "../src/components/svg/fittr_small.svg";
 import FittrBigIcon from "../src/components/svg/fittr.svg";
 import Link from "next/link";
+import Profile from "../src/components/views/Profile";
 
 const CreatorProfile = () => {
 
@@ -149,22 +149,6 @@ const CreatorProfile = () => {
     }
 
     /**
-     * Display Avatar
-     * @returns {JSX.Element}
-     */
-    const displayAvatar = () => {
-        if (profile) {
-            return (
-                <div className="rounded-full bg-primary flex flex-row justify-start items-center">
-                    <Socials profile={profile}/>
-                    <p className="text-white font-bold mx-2">{profile.preferred_username}</p>
-                    {profile.displayProfile ? <img src={"https://" + profile.displayProfile} alt="Display profile"
-                                                   className="h-10 rounded-full"/> : null}
-                </div>)
-        }
-    };
-
-    /**
      * Retrieve unauth's profile
      * @type {Dispatch<AnyAction>}
      */
@@ -204,14 +188,11 @@ const CreatorProfile = () => {
                 <div className="container mx-auto p-4 min-h-screen">
 
                     <div className="mb-10 flex flex-row items-center place-content-between">
-                        <button type="button" onClick={copyShareableLink}>
+                        <div onClick={copyShareableLink}>
                             <ShareIcon/>
-                        </button>
-                        {displayAvatar()}
+                        </div>
                     </div>
-                    <div className="flex flex-col items-center">
-                        <p className="font-light py-1 text-sm sm:text-xl md:text-base">{profile.displayBrief}</p>
-                    </div>
+                    <Profile user={profile}/>
                     <form className="my-4 flex flex-col items-center">
                         <input
                             className="border-gray w-5/6 bg-secondary h-14 sm:h-18 shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
