@@ -13,24 +13,39 @@ const Socials = ({profile}) => {
     return (
         <div className="flex flex-row justify-center my-2">
             {profile.instagram ?
-                <Link href={INSTAGRAM + profile.instagram} target="_blank" className="mx-2">
-                    <InstagramIcon/></Link> : null}
+                <Link href={INSTAGRAM + profile.instagram}>
+                    <a className="mx-2" target="_blank">
+                        <InstagramIcon/>
+                    </a>
+                </Link> : null}
 
             {profile.facebook ?
-                <Link href={FACEBOOK + profile.facebook} target="_blank" className="mx-2">
-                    <FacebookIcon/></Link> : null}
+                <Link href={FACEBOOK + profile.facebook}>
+                    <a className="mx-2" target="_blank">
+                        <FacebookIcon/>
+                    </a>
+                </Link> : null}
 
             {profile.twitter ?
-                <Link href={TWITTER + profile.twitter} target="_blank" className="mx-2">
-                    <TwitterIcon/></Link> : null}
+                <Link href={TWITTER + profile.twitter}>
+                    <a className="mx-2" target="_blank">
+                        <TwitterIcon/>
+                    </a>
+                </Link> : null}
 
             {profile.tiktok ?
-                <Link href={TIKTOK + profile.tiktok} target="_blank" className="mx-1">
-                    <TikTokIcon/></Link> : null}
+                <Link href={TIKTOK + profile.tiktok}>
+                    <a className="mx-1" target="_blank">
+                        <TikTokIcon/>
+                    </a>
+                </Link> : null}
 
             {profile.youtube ?
-                <Link href={YOUTUBE + profile.youtube} target="_blank" className="mx-2">
-                    <YoutubeIcon/></Link> : null}
+                <Link href={YOUTUBE + profile.youtube}>
+                    <a className="mx-2" target="_blank">
+                        <YoutubeIcon/>
+                    </a>
+                </Link> : null}
         </div>
     );
 };

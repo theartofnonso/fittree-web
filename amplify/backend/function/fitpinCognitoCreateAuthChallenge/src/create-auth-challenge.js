@@ -121,7 +121,7 @@ exports.handler = async event => {
 
 
   <!--[if !mso]><!-->
-  <Link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet" type="text/css">
   <!--<![endif]-->
 
 </head>
@@ -320,9 +320,9 @@ exports.handler = async event => {
                               <tbody>
                               <tr style="vertical-align: top">
                                 <td align="left" valign="middle" style="word-break: break-word;border-collapse: collapse !important;vertical-align: top">
-                                  <Link href="https://instagram.com/fittree.io" title="Instagram" target="_blank">
+                                  <link href="https://instagram.com/fittree.io" title="Instagram" target="_blank">
                                     <img src="https://d2ez6lox3k9lt0.cloudfront.net/public/fitpin-public/socials/instagram-line.png" alt="Instagram" title="Instagram" width="32" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: block !important;border: none;height: auto;float: none;max-width: 32px !important">
-                                  </Link>
+                                  </link>
                                 </td>
                               </tr>
                               </tbody>
@@ -334,9 +334,9 @@ exports.handler = async event => {
                               <tbody>
                               <tr style="vertical-align: top">
                                 <td align="left" valign="middle" style="word-break: break-word;border-collapse: collapse !important;vertical-align: top">
-                                  <Link href="https://twitter.com/fittreeio" title="Twitter" target="_blank">
+                                  <link href="https://twitter.com/fittreeio" title="Twitter" target="_blank">
                                     <img src="https://d2ez6lox3k9lt0.cloudfront.net/public/fitpin-public/socials/twitter-line.png" alt="Twitter" title="Twitter" width="32" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: block !important;border: none;height: auto;float: none;max-width: 32px !important">
-                                  </Link>
+                                  </link>
                                 </td>
                               </tr>
                               </tbody>

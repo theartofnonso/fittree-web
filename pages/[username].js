@@ -251,11 +251,15 @@ const CreatorProfile = () => {
                     {shouldPlayWorkout ? getWorkoutPlayComponent() : null}
                 </div>
                 <div className="flex flex-row justify-center items-center">
-                    <Link href="/" className="lg:hidden">
-                        <FittrSmallIcon/>
+                    <Link href="/">
+                        <a className="lg:hidden">
+                            <FittrSmallIcon/>
+                        </a>
                     </Link>
-                    <Link href="/" className="hidden lg:block">
-                        <FittrBigIcon/>
+                    <Link href="/">
+                        <a className="hidden lg:block">
+                            <FittrBigIcon/>
+                        </a>
                     </Link>
                 </div>
             </>
