@@ -29,6 +29,7 @@ import CheckIcon from "../src/components/svg/check-green-24.svg";
 import EmptyState from "../src/components/svg/empty_state.svg";
 import FittrSmallIcon from "../src/components/svg/fittr_small.svg";
 import FittrBigIcon from "../src/components/svg/fittr.svg";
+import Link from "next/link";
 
 const CreatorProfile = () => {
 
@@ -250,12 +251,12 @@ const CreatorProfile = () => {
                     {shouldPlayWorkout ? getWorkoutPlayComponent() : null}
                 </div>
                 <div className="flex flex-row justify-center items-center">
-                    <a rel="noreferrer" href="/" className="lg:hidden">
+                    <Link href="/" className="lg:hidden">
                         <FittrSmallIcon/>
-                    </a>
-                    <a rel="noreferrer" href="/" className="hidden lg:block">
+                    </Link>
+                    <Link href="/" className="hidden lg:block">
                         <FittrBigIcon/>
-                    </a>
+                    </Link>
                 </div>
             </>
 

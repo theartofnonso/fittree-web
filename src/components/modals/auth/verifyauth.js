@@ -109,12 +109,12 @@ export default function VerifyAuth(props) {
         <div className="container mx-auto p-4 fixed top-0 right-0 bottom-0 left-0 h-full w-screen bg-white">
             <div className="flex flex-row items-center">
                 <div className="-ml-3">
-                    <a rel="noreferrer" href="/" target="_blank" className="lg:hidden">
+                    <Link href="/" target="_blank" className="lg:hidden">
                         <FittrSmallIcon/>
-                    </a>
-                    <a rel="noreferrer" href="/" target="_blank" className="hidden lg:block">
+                    </Link>
+                    <Link href="/" target="_blank" className="hidden lg:block">
                         <FittrBigIcon/>
-                    </a>
+                    </Link>
                 </div>
             </div>
             <p className="text-lg sm:text-2xl md:text-3xl font-light leading-7 sm:leading-10">

@@ -15,6 +15,7 @@ import {
 import {Auth} from "aws-amplify";
 import awsConstants from "../src/utils/aws-utils/awsConstants";
 import {useRouter} from "next/router";
+import Link from "next/link";
 
 export default function SignUp() {
 
@@ -205,12 +206,12 @@ export default function SignUp() {
         <div className="container mx-auto p-4 h-screen">
             <div className="flex flex-row items-center">
                 <div className="-ml-3">
-                    <a rel="noreferrer" href="/" className="lg:hidden">
+                    <Link href="/" className="lg:hidden">
                         <FittrSmallIcon/>
-                    </a>
-                    <a rel="noreferrer" href="/" target="_blank" className="hidden lg:block">
+                    </Link>
+                    <Link href="/" target="_blank" className="hidden lg:block">
                         <FittrBigIcon/>
-                    </a>
+                    </Link>
                 </div>
             </div>
             <p className="text-lg sm:text-2xl md:text-3xl font-light leading-7 sm:leading-10">
@@ -240,12 +241,12 @@ export default function SignUp() {
                     up
                 </button>
             </form>
-            <p className="text-center mt-8 font-light">Don't have a Fittree account? <a rel="noreferrer" href="/signin"
+            <p className="text-center mt-8 font-light">Don't have a Fittree account? <Link href="/signin"
                                                                                         className="cursor-pointer"><span
-                className="font-bold">Sign in</span></a></p>
-            <a rel="noreferrer" href="/" className="cursor-pointer">
+                className="font-bold">Sign in</span></Link></p>
+            <Link href="/" className="cursor-pointer">
                 <span className="text-center mt-4 font-light block">Go to home</span>
-            </a>
+            </Link>
             <button
                 type="button"
                 onClick={signUpHandler}

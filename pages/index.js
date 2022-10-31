@@ -6,6 +6,7 @@ import InstagramIcon from "../src/components/svg/instagram-primary-line.svg";
 import TwitterIcon from "../src/components/svg/twitter-primary-line.svg";
 import FittrBigIcon from "../src/components/svg/fittr.svg";
 import FittrSmallIcon from "../src/components/svg/fittr_small.svg";
+import Link from "next/link";
 
 export default function App() {
 
@@ -13,16 +14,29 @@ export default function App() {
         <div className="container mx-auto">
             <div className="mx-8 sm:mx-10 flex flex-row items-center place-content-between">
                 <div>
-                    <a rel="noreferrer" href="/" className="lg:hidden">
-                        <FittrSmallIcon/>
-                    </a>
-                    <a rel="noreferrer" href="/" className="hidden lg:block">
-                        <FittrBigIcon/>
-                    </a>
+                    <Link href="/">
+                        <a className="lg:hidden">
+                            <FittrSmallIcon/>
+                        </a>
+                    </Link>
+                    <Link href="/">
+                        <a className="hidden lg:block">
+                            <FittrBigIcon/>
+                        </a>
+                    </Link>
                 </div>
                 <div className="flex flex-row h-10 bg-primary rounded-3xl place-content-between hover:bg-darkPrimary">
-                    <a rel="noreferrer" href="/signin" className="flex flex-row items-center font-medium text-primary text-sm rounded-3xl h-full bg-secondary hover:bg-darkSecondary px-2 cursor-pointer">Sign In</a>
-                    <a rel="noreferrer" href="/signup" className="flex flex-row items-center font-medium text-secondary text-sm rounded-3xl h-full px-2 cursor-pointer">Sign Up </a>
+                    <Link href="/signin">
+                        <a className="flex flex-row items-center font-medium text-primary text-sm rounded-3xl h-full bg-secondary hover:bg-darkSecondary px-2 cursor-pointer">
+                            Sign In
+                        </a>
+                    </Link>
+                    <Link href="/signup">
+                        <a
+                            className="flex flex-row items-center font-medium text-secondary text-sm rounded-3xl h-full px-2 cursor-pointer">
+                            Sign Up
+                        </a>
+                    </Link>
                 </div>
             </div>
 
@@ -32,9 +46,11 @@ export default function App() {
                     <p className="font-bold text-2xl sm:text-4xl">everywhere you go</p>
                     <p className="font-normal text-xs my-1.5">Create, share and play workouts on any device</p>
                 </div>
-                <a rel="noreferrer" href={APP_STORE_URL} target="_blank"
-                   className="bg-primary rounded-3xl py-2 px-10 mt-6 text-white font-medium hover:bg-darkPrimary">Get it on
-                    IOS</a>
+                <Link href={APP_STORE_URL}>
+                    <a className="bg-primary rounded-3xl py-2 px-10 mt-6 text-white font-medium hover:bg-darkPrimary">
+                        Get it on IOS
+                    </a>
+                </Link>
             </div>
 
             <div className="flex flex-col items-center">

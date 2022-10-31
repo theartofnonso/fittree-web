@@ -6,30 +6,31 @@ import FacebookIcon from "../svg/facebook-circle-primary-line.svg";
 import TwitterIcon from "../svg/twitter-primary-line.svg";
 import TikTokIcon from "../svg/tiktok-primary-line.svg";
 import YoutubeIcon from "../svg/youtube-primary-line.svg";
+import Link from "next/link";
 
 const Socials = ({profile}) => {
 
     return (
         <div className="flex flex-row justify-center my-2">
             {profile.instagram ?
-                <a rel="noreferrer" href={INSTAGRAM + profile.instagram} target="_blank" className="mx-2">
-                    <InstagramIcon/></a> : null}
+                <Link href={INSTAGRAM + profile.instagram} target="_blank" className="mx-2">
+                    <InstagramIcon/></Link> : null}
 
             {profile.facebook ?
-                <a rel="noreferrer" href={FACEBOOK + profile.facebook} target="_blank" className="mx-2">
-                    <FacebookIcon/></a> : null}
+                <Link href={FACEBOOK + profile.facebook} target="_blank" className="mx-2">
+                    <FacebookIcon/></Link> : null}
 
             {profile.twitter ?
-                <a rel="noreferrer" href={TWITTER + profile.twitter} target="_blank" className="mx-2">
-                    <TwitterIcon/></a> : null}
+                <Link href={TWITTER + profile.twitter} target="_blank" className="mx-2">
+                    <TwitterIcon/></Link> : null}
 
             {profile.tiktok ?
-                <a rel="noreferrer" href={TIKTOK + profile.tiktok} target="_blank" className="mx-1">
-                    <TikTokIcon/></a> : null}
+                <Link href={TIKTOK + profile.tiktok} target="_blank" className="mx-1">
+                    <TikTokIcon/></Link> : null}
 
             {profile.youtube ?
-                <a rel="noreferrer" href={YOUTUBE + profile.youtube} target="_blank" className="mx-2">
-                    <YoutubeIcon/></a> : null}
+                <Link href={YOUTUBE + profile.youtube} target="_blank" className="mx-2">
+                    <YoutubeIcon/></Link> : null}
         </div>
     );
 };
