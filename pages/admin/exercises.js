@@ -105,17 +105,19 @@ export default function Exercises({username}) {
                         <div
 
                             className="flex flex-row rounded-full bg-secondary flex flex-row justify-start items-center px-4 py-2 hidden sm:flex">
-                            <Link className="mr-2" href="/admin">
-                                <HomeIcon/>
+                            <Link href="/admin">
+                                <a className="mr-2">
+                                    <HomeIcon/>
+                                </a>
                             </Link>
                             <Link href="/admin/exercises">
-                                <p className="font-semibold mx-2 text-gray1 cursor-pointer hover:text-gray">Exercises</p>
+                                <a className="font-semibold mx-2 text-gray1 cursor-pointer hover:text-gray">Exercises</a>
                             </Link>
                             <Link href="/admin/workouts">
-                                <p className="font-normal mx-2 text-gray1 cursor-pointer hover:text-gray">Workouts</p>
+                                <a className="font-normal mx-2 text-gray1 cursor-pointer hover:text-gray">Workouts</a>
                             </Link>
                             <Link href="/admin/settings">
-                                <p className="font-normal mx-2 text-gray1 cursor-pointer hover:text-gray">Settings</p>
+                                <a className="font-normal mx-2 text-gray1 cursor-pointer hover:text-gray">Settings</a>
                             </Link>
                         </div>
                     </div>
@@ -168,11 +170,15 @@ export default function Exercises({username}) {
                     </div> : null}
             </div>
             <div className="flex flex-row justify-center items-center">
-                <Link href="/" className="lg:hidden">
-                    <FittrSmallIcon/>
+                <Link href="/">
+                    <a className="lg:hidden">
+                        <FittrSmallIcon/>
+                    </a>
                 </Link>
-                <Link href="/" className="hidden lg:block">
-                    <FittrBigIcon/>
+                <Link href="/">
+                    <a className="hidden lg:block">
+                        <FittrBigIcon/>
+                    </a>
                 </Link>
             </div>
         </>

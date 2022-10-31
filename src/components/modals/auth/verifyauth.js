@@ -5,6 +5,7 @@ import CheckIcon from "../../svg/check-fill.svg";
 import Loading from "../../utils/Loading";
 import awsConstants from "../../../utils/aws-utils/awsConstants";
 import {Auth} from "aws-amplify";
+import Link from "next/link";
 
 const TIME_LEFT = 180000;
 
@@ -109,11 +110,15 @@ export default function VerifyAuth(props) {
         <div className="container mx-auto p-4 fixed top-0 right-0 bottom-0 left-0 h-full w-screen bg-white">
             <div className="flex flex-row items-center">
                 <div className="-ml-3">
-                    <Link href="/" target="_blank" className="lg:hidden">
-                        <FittrSmallIcon/>
+                    <Link href="/">
+                        <a className="lg:hidden">
+                            <FittrSmallIcon/>
+                        </a>
                     </Link>
-                    <Link href="/" target="_blank" className="hidden lg:block">
-                        <FittrBigIcon/>
+                    <Link href="/">
+                        <a className="hidden lg:block">
+                            <FittrBigIcon/>
+                        </a>
                     </Link>
                 </div>
             </div>

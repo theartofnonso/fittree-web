@@ -119,11 +119,15 @@ export default function SignIn() {
         <div className="container mx-auto p-4 h-screen">
             <div className="flex flex-row items-center">
                 <div className="-ml-3">
-                    <Link href="/" className="lg:hidden">
-                        <FittrSmallIcon/>
+                    <Link href="/">
+                        <a className="lg:hidden">
+                            <FittrSmallIcon/>
+                        </a>
                     </Link>
-                    <Link href="/" target="_blank" className="hidden lg:block">
-                        <FittrBigIcon/>
+                    <Link href="/">
+                        <a className="hidden lg:block">
+                            <FittrBigIcon/>
+                        </a>
                     </Link>
                 </div>
             </div>
@@ -147,11 +151,13 @@ export default function SignIn() {
                     in
                 </button>
             </form>
-            <p className="text-center mt-8 font-light">Don't have a Fittree account? <Link href="/signup"
-                                                                                        className="cursor-pointer"><span
-                className="font-bold">Sign up</span></Link></p>
-            <Link href="/" className="cursor-pointer">
-                <span className="text-center mt-4 font-light block">Go to home</span>
+            <p className="text-center mt-8 font-light">Don't have a Fittree account?&nbsp;
+                <Link href="/signup">
+                    <a className="font-bold cursor-pointer">Sign up</a>
+                </Link>
+            </p>
+            <Link href="/">
+                <a className="text-center mt-4 font-light block cursor-pointer">Go to home</a>
             </Link>
             <button
                 type="button"
