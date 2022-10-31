@@ -11,8 +11,6 @@ import {withSSRContext} from "aws-amplify";
 
 export default function App({authenticated}) {
 
-    console.log(authenticated)
-
     return (
         <div className="container mx-auto">
             <div className="mx-8 sm:mx-10 flex flex-row items-center place-content-between">
@@ -144,7 +142,8 @@ export async function getServerSideProps(context) {
     const {Auth} = withSSRContext(context)
 
     try {
-        const user = await Auth.currentAuthenticatedUser()
+
+        await Auth.currentAuthenticatedUser()
 
         return {
             props: {
