@@ -22,7 +22,7 @@
       "function": {
         "fitpinCognitoCreateAuthChallenge": {
           "deploymentBucketName": "amplify-fitpin-dev-174333-deployment",
-          "s3Key": "amplify-builds/fitpinCognitoCreateAuthChallenge-384d505a716b78313962-build.zip"
+          "s3Key": "amplify-builds/fitpinCognitoCreateAuthChallenge-4f5361695a54506f6838-build.zip"
         },
         "fitpinCognitoDefineAuthChallenge": {
           "deploymentBucketName": "amplify-fitpin-dev-174333-deployment",
