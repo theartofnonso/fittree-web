@@ -6,7 +6,7 @@ import CloseIcon from "../../svg/close-line.svg";
 import InfoOutlinedIcon from "../../svg/information-line.svg";
 import OrderPlayIcon from "../../svg/order-play-line.svg";
 import PauseIcon from "../../svg/pause-mini-line.svg";
-import WorkoutList from "../../views/WorkoutList";
+import WorkoutSeeker from "../../views/WorkoutSeeker";
 import WorkoutExerciseCard from "../../cards/WorkoutExerciseCard";
 import PauseModal from "./PauseModal";
 import IntervalModal from "./IntervalModal";
@@ -108,7 +108,7 @@ const PlayWorkout = props => {
                     </div>
                 </div> : null}
             {showWorkoutList ?
-                <WorkoutList
+                <WorkoutSeeker
                     type={props.type}
                     close={() => setShowWorkoutList(false)}
                     list={props.data} progress={props.progress}/> : null}

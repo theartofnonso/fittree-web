@@ -1,37 +1,25 @@
 import {withSSRContext} from "aws-amplify";
-import ShareIcon from "../../src/components/svg/share-box-line.svg";
-import HomeIcon from "../../src/components/svg/home-4-line.svg";
-import FunctionsIcon from "../../src/components/svg/function-fill.svg";
-import EmptyState from "../../src/components/svg/empty_state.svg";
-import CheckIcon from "../../src/components/svg/check-green-24.svg";
-import FittrSmallIcon from "../../src/components/svg/fittr_small.svg";
-import FittrBigIcon from "../../src/components/svg/fittr.svg";
 import {useDispatch, useSelector} from "react-redux";
 import {listWorkouts, selectAllWorkouts} from "../../src/features/auth/authUserWorkoutsSlice";
 import {useEffect, useState} from "react";
 import {searchExerciseOrWorkout} from "../../src/utils/workoutAndExerciseUtils";
 import {
-    generateShareableLink,
     loadCircuitWorkout,
     loadRepsAndSetsWorkout,
-    sortWorkouts
 } from "../../src/utils/workout/workoutsHelperFunctions";
-import WorkoutCard from "../../src/components/cards/WorkoutCard";
 import PreviewWorkout from "../../src/components/modals/workout/PreviewWorkout";
 import workoutsConstants from "../../src/utils/workout/workoutsConstants";
 import PlayCircuitWorkout from "../../src/components/modals/workout/PlayCircuitWorkout";
 import PlayRepsAndSetsWorkout from "../../src/components/modals/workout/PlayRepsAndSetsWorkout";
 import {listExercises, selectAllExercises} from "../../src/features/auth/authUserExercisesSlice";
-import Link from "next/link";
+import NavBar from "../../src/components/views/NavBar";
+import PageDescription from "../../src/components/views/PageDescription";
+import Footer from "../../src/components/views/Footer";
+import WorkoutList from "../../src/components/views/WorkoutList";
 
 export default function Workouts({username}) {
 
     const dispatch = useDispatch();
-
-    /**
-     * Show snackbar for err message
-     */
-    const [showSnackBar, setShowSnackBar] = useState(false)
 
     const exercises = useSelector(selectAllExercises)
 
@@ -66,17 +54,6 @@ export default function Workouts({username}) {
     }, [workouts]);
 
     /**
-     * Hide Snackbar
-     */
-    useEffect(() => {
-        if (showSnackBar) {
-            setTimeout(() => {
-                setShowSnackBar(false)
-            }, 5000)
-        }
-    }, [showSnackBar])
-
-    /**
      * Filter workouts
      * @param query
      */
@@ -91,17 +68,6 @@ export default function Workouts({username}) {
      */
     const togglePlayWorkout = (shouldPlay) => {
         setShouldPlayWorkout(shouldPlay)
-    }
-
-    /**
-     * Preview a workout from the list
-     */
-    const previewWorkout = (selectedWorkout) => {
-        const enrichedWorkout = {
-            ...selectedWorkout,
-            workoutExercises: sortWorkouts(selectedWorkout, exercises),
-        };
-        setCurrentWorkout(enrichedWorkout);
     }
 
     /**
@@ -133,51 +99,11 @@ export default function Workouts({username}) {
         }
     }
 
-    /**
-     * copy shareable link
-     */
-    const copyShareableLink = () => {
-        navigator.clipboard.writeText(generateShareableLink(username)).then(() => {
-            setShowSnackBar(true)
-        });
-    }
-
     return (
         <>
             <div className="container mx-auto p-4 min-h-screen">
-                <div className="mb-10 flex flex-row items-center place-content-between">
-                    <div className="flex flex-row items-center">
-                        <div className="mr-8" onClick={copyShareableLink}>
-                            <ShareIcon/>
-                        </div>
-                        <div className="flex flex-row rounded-full bg-secondary flex flex-row justify-start items-center px-4 py-2 hidden sm:flex">
-                            <Link href="/admin">
-                                <a className="mr-2">
-                                    <HomeIcon/>
-                                </a>
-                            </Link>
-                            <Link href="/admin/exercises">
-                                <a className="font-normal mx-2 text-gray1 cursor-pointer hover:text-gray">Exercises</a>
-                            </Link>
-                            <Link href="/admin/workouts">
-                                <a className="font-semibold mx-2 text-gray1 cursor-pointer hover:text-gray">Workouts</a>
-                            </Link>
-                            <Link href="/admin/settings">
-                                <a className="font-normal mx-2 text-gray1 cursor-pointer hover:text-gray">Settings</a>
-                            </Link>
-                        </div>
-                    </div>
-                    <div className="ml-8 sm:hidden" onClick={copyShareableLink}>
-                        <FunctionsIcon/>
-                    </div>
-                </div>
-                <div>
-                    <p className="text-lg sm:text-2xl md:text-3xl font-medium">
-                        Workouts in draft</p>
-                    <p className="text-sm sm:text-md md:text-lg font-light">
-                        Find workouts yet to go live</p>
-                </div>
-
+                <NavBar username={username}/>
+                <PageDescription title="Workouts in draft" description="Find workouts yet to go live"/>
                 <form className="my-4 flex flex-col items-center">
                     <input
                         className="border-gray w-5/6 bg-secondary h-14 sm:h-18 shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
@@ -187,48 +113,19 @@ export default function Workouts({username}) {
                         value={searchQuery}
                         onChange={event => onChangeSearch(event.target.value.toLowerCase())}/>
                 </form>
-
-                <p className="text-sm sm:text-md md:text-lg font-light">{`${filteredWorkouts.length} workouts`}</p>
-
-                {filteredWorkouts.filter(workout => !workout.isLive).length > 0 ?
-                    <div className="mt-1 grid gap-0.5 grid-cols-2 sm:grid-cols-3">
-                        {filteredWorkouts.map((item, index) => {
-                            return (
-                                <div key={index} onClick={() => previewWorkout(item)}>
-                                    <WorkoutCard workout={item}/>
-                                </div>
-                            );
-                        })}
-                    </div> :
-                    <div className="flex flex-col justify-center items-center h-screen">
-                        <EmptyState/>
-                        <p className="font-normal mt-4">You don't have any workouts</p>
-                    </div>}
+                <WorkoutList username={username}
+                             workouts={filteredWorkouts}
+                             exercises={exercises}
+                             onSelectWorkout={(workout) => setCurrentWorkout(workout)}
+                             emptyListMessage="You don't have any workouts yet"/>
                 {currentWorkout && !shouldPlayWorkout ?
                     <PreviewWorkout
                         workout={currentWorkout}
                         play={() => togglePlayWorkout(true)}
                         close={closePreview}/> : null}
                 {shouldPlayWorkout ? getWorkoutPlayComponent() : null}
-                {showSnackBar ?
-                    <div
-                        className="fixed rounded-3xl bottom-0 left-0 ml-2 sm:ml-10 mb-8 p-2 flex flex-row justify-start items-center rounded bg-lightGreen w-1/2 sm:w-2/5">
-                        <CheckIcon/>
-                        <p className="ml-2 text-midnightGreen font-semibold">Link copied</p>
-                    </div> : null}
             </div>
-            <div className="flex flex-row justify-center items-center">
-                <Link href="/">
-                    <a className="lg:hidden">
-                        <FittrSmallIcon/>
-                    </a>
-                </Link>
-                <Link href="/">
-                    <a className="hidden lg:block">
-                        <FittrBigIcon/>
-                    </a>
-                </Link>
-            </div>
+            <Footer/>
         </>
     )
 }

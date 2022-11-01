@@ -1,6 +1,17 @@
 import {withSSRContext} from "aws-amplify";
+import NavBar from "../../src/components/views/NavBar";
+import Footer from "../../src/components/views/Footer";
 
-export default function Settings(props) {
+export default function Settings({username}) {
+
+    return (
+        <>
+            <div className="container mx-auto p-4 min-h-screen">
+                <NavBar username={username}/>
+            </div>
+            <Footer/>
+        </>
+    )
 
 }
 

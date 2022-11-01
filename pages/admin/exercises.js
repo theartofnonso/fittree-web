@@ -1,28 +1,18 @@
 import {withSSRContext} from "aws-amplify";
-import ShareIcon from "../../src/components/svg/share-box-line.svg";
-import HomeIcon from "../../src/components/svg/home-4-line.svg";
-import FunctionsIcon from "../../src/components/svg/function-fill.svg";
 import EmptyState from "../../src/components/svg/empty_state.svg";
-import CheckIcon from "../../src/components/svg/check-green-24.svg";
-import FittrSmallIcon from "../../src/components/svg/fittr_small.svg";
-import FittrBigIcon from "../../src/components/svg/fittr.svg";
-import {generateShareableLink} from "../../src/utils/workout/workoutsHelperFunctions";
 import {useEffect, useState} from "react";
 import {searchExerciseOrWorkout} from "../../src/utils/workoutAndExerciseUtils";
 import {useDispatch, useSelector} from "react-redux";
 import {listExercises, selectAllExercises} from "../../src/features/auth/authUserExercisesSlice";
 import ExerciseCard from "../../src/components/cards/ExerciseCard";
 import PreviewExercise from "../../src/components/modals/exercise/PreviewExercise";
-import Link from "next/link";
+import NavBar from "../../src/components/views/NavBar";
+import PageDescription from "../../src/components/views/PageDescription";
+import Footer from "../../src/components/views/Footer";
 
 export default function Exercises({username}) {
 
     const dispatch = useDispatch();
-
-    /**
-     * Show snackbar for err message
-     */
-    const [showSnackBar, setShowSnackBar] = useState(false)
 
     const exercises = useSelector(selectAllExercises);
 
@@ -51,17 +41,6 @@ export default function Exercises({username}) {
     }, [exercises]);
 
     /**
-     * Hide Snackbar
-     */
-    useEffect(() => {
-        if (showSnackBar) {
-            setTimeout(() => {
-                setShowSnackBar(false)
-            }, 5000)
-        }
-    }, [showSnackBar])
-
-    /**
      * Filter exercises
      * @param query
      */
@@ -70,15 +49,6 @@ export default function Exercises({username}) {
         const searchResult = searchExerciseOrWorkout(exercises, query);
         setFilteredExercises(searchResult);
     };
-
-    /**
-     * copy shareable link
-     */
-    const copyShareableLink = () => {
-        navigator.clipboard.writeText(generateShareableLink(username)).then(() => {
-            setShowSnackBar(true)
-        });
-    }
 
     /**
      * Preview exercise information
@@ -97,41 +67,8 @@ export default function Exercises({username}) {
     return (
         <>
             <div className="container mx-auto p-4 min-h-screen">
-                <div className="mb-10 flex flex-row items-center place-content-between">
-                    <div className="flex flex-row items-center">
-                        <div className="mr-8" onClick={copyShareableLink}>
-                            <ShareIcon/>
-                        </div>
-                        <div
-
-                            className="flex flex-row rounded-full bg-secondary flex flex-row justify-start items-center px-4 py-2 hidden sm:flex">
-                            <Link href="/admin">
-                                <a className="mr-2">
-                                    <HomeIcon/>
-                                </a>
-                            </Link>
-                            <Link href="/admin/exercises">
-                                <a className="font-semibold mx-2 text-gray1 cursor-pointer hover:text-gray">Exercises</a>
-                            </Link>
-                            <Link href="/admin/workouts">
-                                <a className="font-normal mx-2 text-gray1 cursor-pointer hover:text-gray">Workouts</a>
-                            </Link>
-                            <Link href="/admin/settings">
-                                <a className="font-normal mx-2 text-gray1 cursor-pointer hover:text-gray">Settings</a>
-                            </Link>
-                        </div>
-                    </div>
-                    <div className="ml-8 sm:hidden" onClick={copyShareableLink}>
-                        <FunctionsIcon/>
-                    </div>
-                </div>
-                <div>
-                    <p className="text-lg sm:text-2xl md:text-3xl font-medium">
-                        Exercises</p>
-                    <p className="text-sm sm:text-md md:text-lg font-light">
-                        Find all your exercises here</p>
-                </div>
-
+                <NavBar username={username}/>
+                <PageDescription title="Exercises" description="Find all your exercises here"/>
                 <form className="my-4 flex flex-col items-center">
                     <input
                         className="border-gray w-5/6 bg-secondary h-14 sm:h-18 shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
@@ -162,25 +99,8 @@ export default function Exercises({username}) {
                     <PreviewExercise
                         exercise={currentExercise}
                         close={closePreview}/> : null}
-                {showSnackBar ?
-                    <div
-                        className="fixed rounded-3xl bottom-0 left-0 ml-2 sm:ml-10 mb-8 p-2 flex flex-row justify-start items-center rounded bg-lightGreen w-1/2 sm:w-2/5">
-                        <CheckIcon/>
-                        <p className="ml-2 text-midnightGreen font-semibold">Link copied</p>
-                    </div> : null}
             </div>
-            <div className="flex flex-row justify-center items-center">
-                <Link href="/">
-                    <a className="lg:hidden">
-                        <FittrSmallIcon/>
-                    </a>
-                </Link>
-                <Link href="/">
-                    <a className="hidden lg:block">
-                        <FittrBigIcon/>
-                    </a>
-                </Link>
-            </div>
+            <Footer/>
         </>
     )
 }
