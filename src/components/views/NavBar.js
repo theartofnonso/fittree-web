@@ -52,16 +52,16 @@ const NavBar = ({username}) => {
 
     return (
         <>
-            <div className="mb-10 flex flex-row items-center place-content-between">
+            <div className="mb-8 flex flex-row items-center place-content-between">
                 <div className="cursor-pointer" onClick={copyShareableLink}>
                     <ShareIcon/>
                 </div>
                 {username ? <div className="relative cursor-pointer" onMouseOver={() => setShowMenuOptions(true)}
                                  onMouseLeave={() => setShowMenuOptions(false)}>
                     <FunctionsIcon/>
-                    {showMenuOptions ? <div className="absolute text-left right-0 w-52">
+                    {showMenuOptions ? <div className="absolute text-left right-0 w-52 z-10">
                         <div
-                            className="z-10 mt-2 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                            className="mt-2 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                             role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabIndex="-1">
                             <div className="py-2 hover:bg-secondary" role="none">
                                 <Link href="/admin">

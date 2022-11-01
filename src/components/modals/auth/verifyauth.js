@@ -57,7 +57,6 @@ export default function VerifyAuth(props) {
                 })
                 .then(cognitoUser => {
                     clearTimeout(timeoutID);
-                    setIsLoading(false);
                     props.onVerify(cognitoUser);
                 })
                 .catch(err => {
@@ -128,7 +127,7 @@ export default function VerifyAuth(props) {
                 <input
                     className="border-gray w-5/6 bg-secondary h-14 sm:h-18 shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
                     id="search"
-                    type="text"
+                    type="number"
                     placeholder="Enter code"
                     value={enteredCode}
                     onChange={event => onEnterCodeHandler(event.target.value.toLowerCase())}/>
