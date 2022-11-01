@@ -1,11 +1,15 @@
 /* eslint-disable */
-import React, {useState} from "react";
+import React from "react";
 import workoutsConstants from "../../utils/workout/workoutsConstants";
 import {loadCircuitWorkout, loadRepsAndSetsWorkout} from "../../utils/workout/workoutsHelperFunctions";
 import PlayCircuitWorkout from "../modals/workout/PlayCircuitWorkout";
 import PlayRepsAndSetsWorkout from "../modals/workout/PlayRepsAndSetsWorkout";
 
 const WorkoutPlayer = ({workout, shouldPlay, onEnd}) => {
+
+    if(!shouldPlay) {
+        return null;
+    }
 
     /**
      * Display appropriate workout play component
@@ -31,7 +35,7 @@ const WorkoutPlayer = ({workout, shouldPlay, onEnd}) => {
 
     return (
         <>
-            {shouldPlay ? getWorkoutPlayComponent() : null}
+            {getWorkoutPlayComponent()}
         </>
     );
 };

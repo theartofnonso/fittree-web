@@ -4,6 +4,10 @@ import CloseIcon from "../../svg/close-line.svg";
 
 const PreviewExercise = ({exercise, close}) => {
 
+    if(!exercise) {
+        return null;
+    }
+
     /**
      * Exercise videos
      */
