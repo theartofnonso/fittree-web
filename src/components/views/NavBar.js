@@ -52,29 +52,26 @@ const NavBar = ({username}) => {
                             role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabIndex="-1">
                             <div className="py-2 hover:bg-secondary" role="none">
                                 <Link href="/admin">
-                                    <a href="src/components/views/NavBar#"
-                                       className="text-gray-700 block px-4 py-2 text-md font-medium"
+                                    <a className="text-gray-700 block px-4 py-2 text-md font-medium"
                                        role="menuitem" tabIndex="-1"
                                        id="menu-item-6">Dashboard</a>
                                 </Link>
                             </div>
                             <div className="py-2 hover:bg-secondary" role="none">
                                 <Link href="/admin/exercises">
-                                    <a href="src/components/views/NavBar#"
-                                       className="text-gray-700 block px-4 py-2 text-md font-medium"
+                                    <a className="text-gray-700 block px-4 py-2 text-md font-medium"
                                        role="menuitem" tabIndex="-1"
                                        id="menu-item-6">Exercises</a>
                                 </Link>
                             </div>
                             <div className="py-2 hover:bg-secondary" role="none">
                                 <Link href="/admin/workouts">
-                                    <a href="src/components/views/NavBar#"
-                                       className="text-gray-700 block px-4 py-2 text-md font-medium"
+                                    <a className="text-gray-700 block px-4 py-2 text-md font-medium"
                                        role="menuitem" tabIndex="-1"
                                        id="menu-item-6">Workouts</a>
                                 </Link>
                             </div>
-                            <div className="py-2 hover:bg-secondary" role="none">
+                            <div className="py-2 hover:bg-darkPrimary bg-primary text-white rounded-b-md" role="none">
                                 <button type="button" className="text-gray-700 block px-4 py-2 text-md font-medium"
                                         role="menuitem" tabIndex="-1"
                                         id="menu-item-6" onClick={() => console.log("Sign out user")}>Sign out

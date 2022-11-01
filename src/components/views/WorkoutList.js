@@ -1,10 +1,13 @@
 /* eslint-disable */
-import React from "react";
+import React, {useState} from "react";
 import WorkoutCard from "../cards/WorkoutCard";
 import EmptyState from "../svg/empty_state.svg";
 import {sortWorkouts} from "../../utils/workout/workoutsHelperFunctions";
+import PreviewWorkout from "../modals/workout/PreviewWorkout";
 
-const WorkoutList = ({emptyListMessage, workouts, exercises, onSelectWorkout}) => {
+const WorkoutList = ({emptyListMessage, workouts, exercises}) => {
+
+    const [currentWorkout, setCurrentWorkout] = useState(null)
 
     /**
      * Preview a workout from the list
@@ -14,7 +17,14 @@ const WorkoutList = ({emptyListMessage, workouts, exercises, onSelectWorkout}) =
             ...selectedWorkout,
             workoutExercises: sortWorkouts(selectedWorkout, exercises),
         };
-        onSelectWorkout(enrichedWorkout);
+        setCurrentWorkout(enrichedWorkout);
+    }
+
+    /**
+     * Close the preview modal
+     */
+    const closePreview = () => {
+        setCurrentWorkout(null)
     }
 
     return (
@@ -34,6 +44,9 @@ const WorkoutList = ({emptyListMessage, workouts, exercises, onSelectWorkout}) =
                     <EmptyState/>
                     <p className="font-normal mt-4">{emptyListMessage}</p>
                 </div>}
+            <PreviewWorkout
+                workout={currentWorkout}
+                close={closePreview}/>
         </>
     );
 };

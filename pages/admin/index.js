@@ -7,7 +7,6 @@ import {fetchUser, selectAuthUser, selectAuthUserStatus} from "../../src/feature
 import {exercisesAdded, selectAllExercises} from "../../src/features/auth/authUserExercisesSlice";
 import {selectAllWorkouts, workoutsAdded} from "../../src/features/auth/authUserWorkoutsSlice";
 import {searchExerciseOrWorkout} from "../../src/utils/workoutAndExerciseUtils";
-import PreviewWorkout from "../../src/components/modals/workout/PreviewWorkout";
 import Profile from "../../src/components/views/Profile";
 import NavBar from "../../src/components/views/NavBar";
 import WorkoutList from "../../src/components/views/WorkoutList";
@@ -26,8 +25,6 @@ export default function Dashboard({username}) {
     const exercises = useSelector(selectAllExercises)
 
     const [filteredWorkouts, setFilteredWorkouts] = useState([]);
-
-    const [currentWorkout, setCurrentWorkout] = useState(null)
 
     const [searchQuery, setSearchQuery] = useState('');
 
@@ -104,11 +101,7 @@ export default function Dashboard({username}) {
                 <WorkoutList username={username}
                              workouts={filteredWorkouts}
                              exercises={exercises}
-                             onSelectWorkout={(workout) => setCurrentWorkout(workout)}
                              emptyListMessage="You don't have any workouts yet"/>
-                <PreviewWorkout
-                    workout={currentWorkout}
-                    close={closePreview}/>
             </div>
             <Footer/>
         </div>

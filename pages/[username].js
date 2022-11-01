@@ -13,7 +13,6 @@ import workoutsConstants from "../src/utils/workout/workoutsConstants";
 import CreatorProfile404 from "../src/components/views/CreatorProfile404";
 import CreatorProfile500 from "../src/components/views/CreatorProfile500";
 import CreatorProfileLoading from "../src/components/views/CreatorProfileLoading";
-import PreviewWorkout from "../src/components/modals/workout/PreviewWorkout";
 import Profile from "../src/components/views/Profile";
 import WorkoutList from "../src/components/views/WorkoutList";
 import Footer from "../src/components/views/Footer";
@@ -39,8 +38,6 @@ const CreatorProfile = () => {
 
     const [filteredWorkouts, setFilteredWorkouts] = useState(workouts);
 
-    const [currentWorkout, setCurrentWorkout] = useState(null)
-
     const [searchQuery, setSearchQuery] = React.useState('');
 
     /**
@@ -61,13 +58,6 @@ const CreatorProfile = () => {
         const searchResult = searchExerciseOrWorkout(workouts, query)
         setFilteredWorkouts(searchResult);
     };
-
-    /**
-     * Close the preview modal
-     */
-    const closePreview = () => {
-        setCurrentWorkout(null)
-    }
 
     /**
      * Retrieve unauth's profile
@@ -121,11 +111,7 @@ const CreatorProfile = () => {
                     <WorkoutList username={username}
                                  workouts={filteredWorkouts}
                                  exercises={exercises}
-                                 onSelectWorkout={(workout) => setCurrentWorkout(workout)}
                                  emptyListMessage="You don't have any workouts yet"/>
-                    <PreviewWorkout
-                        workout={currentWorkout}
-                        close={closePreview}/>
                     <Footer/>
                 </div>
             </>
