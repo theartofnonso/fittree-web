@@ -17,6 +17,8 @@ module.exports = {
       red: '#eb4034',
       gray: '#a6a6a6',
       gray1: '#727272',
+      gray2: 'rgba(237,237,237)',
+      grayOpacity6: 'rgba(166,166,166,0.3)',
       white: '#FFFFFF',
       black: '#000000',
       transparentBlack: 'rgba(0,0,0,1)',

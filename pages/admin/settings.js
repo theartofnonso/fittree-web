@@ -3,19 +3,24 @@ import NavBar from "../../src/components/views/NavBar";
 import Footer from "../../src/components/views/Footer";
 import {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {selectAuthUser} from "../../src/features/auth/authUserSlice";
+import {selectAuthUser, updateUser} from "../../src/features/auth/authUserSlice";
 import InstagramIcon from "../../src/components/svg/instagram-primary-line.svg";
 import YoutubeIcon from "../../src/components/svg/youtube-primary-line.svg";
 import TikTokIcon from "../../src/components/svg/tiktok-primary-line.svg";
 import TwitterIcon from "../../src/components/svg/twitter-primary-line.svg";
 import FacebookIcon from "../../src/components/svg/facebook-circle-primary-line.svg";
 import PageDescription from "../../src/components/views/PageDescription";
+import SuccessBar from "../../src/components/views/snackbars/SuccessBar";
+import ErrorBar from "../../src/components/views/snackbars/ErrorBar";
+import Avatar from "../../src/components/views/Avatar";
 
 export default function Settings({username}) {
 
     const dispatch = useDispatch();
 
     const user = useSelector(selectAuthUser);
+
+    const [bio, setBio] = useState(user ? user.displayBrief : "");
 
     const [instagram, setInstagram] = useState(user ? user.instagram : "");
 
@@ -28,45 +33,12 @@ export default function Settings({username}) {
     const [youtube, setYoutube] = useState(user ? user.youtube : "");
 
     /**
-     * Close this screen
+     * Show snackbar for err message
      */
-    const checkForAccidentalClose = () => {
+    const [showSuccessSnackBar, setSuccessShowSnackBar] = useState(false)
+    const [showErrorSnackBar, setShowErrorSnackBar] = useState(false)
 
-        if (user.instagram !== instagram.trim()) {
-            showCloseScreenAlert();
-            return;
-        }
-
-        if (user.facebook !== facebook.trim()) {
-            showCloseScreenAlert();
-            return;
-        }
-
-        if (user.twitter !== twitter.trim()) {
-            showCloseScreenAlert();
-            return;
-        }
-
-        /**
-         * Not supported at the moment
-         */
-        // if (user.spotify !== spotify) {
-        //   showCloseScreenAlert();
-        //   return;
-        // }
-
-        if (user.tiktok !== tiktok.trim()) {
-            showCloseScreenAlert();
-            return;
-        }
-
-        if (user.youtube !== youtube.trim()) {
-            showCloseScreenAlert();
-            return;
-        }
-
-        navigateBack();
-    };
+    const [snackbarMessage, setSnackbarMessage] = useState("");
 
     /**
      * Update the user profile
@@ -76,11 +48,11 @@ export default function Settings({username}) {
 
         try {
             await saveProfileHelper();
-            navigateBack();
+            setSuccessShowSnackBar(true)
+            setSnackbarMessage("Saved successfully")
         } catch (err) {
-            setLoadingStatus(userSliceEnums.STATUS_IDLE);
-            setErrSnackbarMessage("Oops! unable to update socials at this time");
-            setErrSnackbarVisible(true);
+            setShowErrorSnackBar(true)
+            setSnackbarMessage("Oops, unable to save your socials");
         }
     };
 
@@ -89,83 +61,117 @@ export default function Settings({username}) {
      * @returns {Promise<void>}
      */
     const saveProfileHelper = async () => {
-        if (loadingStatus === userSliceEnums.STATUS_IDLE) {
+        const payload = {
+            instagram: instagram.trim(),
+            facebook: facebook.trim(),
+            twitter: twitter.trim(),
+            tiktok: tiktok.trim(),
+            youtube: youtube.trim(),
+            displayBrief: bio.trim()
+        };
 
-            setLoadingStatus(userSliceEnums.STATUS_PENDING);
-
-            const payload = {
-                instagram: instagram.trim(),
-                facebook: facebook.trim(),
-                twitter: twitter.trim(),
-                tiktok: tiktok.trim(),
-                youtube: youtube.trim(),
-            };
-
-            /**
-             * Not supported at the moment
-             */
-            // if (spotify) {
-            //   payload.spotify = spotify;
-            // }
-
-
-            await dispatch(updateUser({id: user.id, ...payload})).unwrap();
-        }
+        await dispatch(updateUser({id: user.id, ...payload})).unwrap();
     };
 
 
     return (
         <>
-            <div className="container mx-auto p-4 min-h-screen">
-                <NavBar username={username}/>
-                <PageDescription title="Settings" description="Manage your social links "/>
-                <form className="flex flex-col">
-                    <div className="flex flex-row items-center">
-                        <InstagramIcon/>
-                        <input
-                            className="ml-4 my-4 border-gray w-56 bg-secondary shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
-                            type="text"
-                            value={instagram}
-                            onChange={(event) => setInstagram(event.target.value.toLowerCase())}
+            <div className="container mx-auto p-4 min-h-screen divide-y-2 divide-gray2">
+                <div>
+                    <NavBar username={username}/>
+                    <PageDescription title="Settings" description="Manage all your settings here"/>
+                    <div className="flex flex-col items-center">
+                        <div
+                            className="flex flex-col items-center">
+                            <Avatar user={user}/>
+                            <p className="font-semibold text-primary text-sm hover:font-bold cursor-pointer"> Change
+                                display profile</p>
+                        </div>
+                        <textarea
+                            className="border-none w-full h-56 bg-gray2 rounded py-4 px-3 mt-4 font-light text-dustBlack"
+                            placeholder="Tell your followers what you do"
+                            value={bio}
+                            maxLength={100}
+                            onChange={(event) => setBio(event.target.value.toLowerCase())}
                         />
                     </div>
-                    <div className="flex flex-row items-center">
-                        <FacebookIcon/>
-                        <input
-                            className="ml-4 my-4 border-gray w-56 bg-secondary shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
-                            type="text"
-                            value={facebook}
-                            onChange={(event) => setFacebook(event.target.value.toLowerCase())}
-                        />
+                </div>
+                <div className="mt-8">
+                    <div className="mt-8">
+                        <PageDescription title="Socials" description="Manage your social links "/>
+                        <form className="flex flex-col mt-2 w-3/5">
+                            <div className="my-4 flex flex-row items-center outline outline-1 outline-gray2 rounded-md">
+                                <div className="mx-4">
+                                    <InstagramIcon/>
+                                </div>
+                                <input
+                                    className="border-none w-full bg-gray2 rounded-r py-4 px-3 font-light text-dustBlack"
+                                    type="text"
+                                    value={instagram}
+                                    onChange={(event) => setInstagram(event.target.value.toLowerCase())}
+                                />
+                            </div>
+                            <div className="my-4 flex flex-row items-center outline outline-1 outline-gray2 rounded-md">
+                                <div className="mx-4">
+                                    <FacebookIcon/>
+                                </div>
+                                <input
+                                    className="border-none w-full bg-gray2 rounded-r py-4 px-3 font-light text-dustBlack"
+                                    type="text"
+                                    value={facebook}
+                                    onChange={(event) => setFacebook(event.target.value.toLowerCase())}
+                                />
+                            </div>
+                            <div className="my-4 flex flex-row items-center outline outline-1 outline-gray2 rounded-md">
+                                <div className="mx-4">
+                                    <TwitterIcon/>
+                                </div>
+                                <input
+                                    className="border-none w-full bg-gray2 rounded-r py-4 px-3 font-light text-dustBlack"
+                                    type="text"
+                                    value={twitter}
+                                    onChange={(event) => setTwitter(event.target.value.toLowerCase())}
+                                />
+                            </div>
+                            <div className="my-4 flex flex-row items-center outline outline-1 outline-gray2 rounded-md">
+                                <div className="mx-4">
+                                    <TikTokIcon/>
+                                </div>
+                                <input
+                                    className="border-none w-full bg-gray2 rounded-r py-4 px-3 font-light text-dustBlack"
+                                    type="text"
+                                    value={tiktok}
+                                    onChange={(event) => setTiktok(event.target.value.toLowerCase())}
+                                />
+                            </div>
+                            <div className="my-4 flex flex-row items-center outline outline-1 outline-gray2 rounded-md">
+                                <div className="mx-4">
+                                    <YoutubeIcon/>
+                                </div>
+                                <input
+                                    className="border-none w-full bg-gray2 rounded-r py-4 px-3 font-light text-dustBlack"
+                                    type="text"
+                                    value={youtube}
+                                    onChange={(event) => setYoutube(event.target.value.toLowerCase())}
+                                />
+                            </div>
+                        </form>
+                        <button
+                            type="button"
+                            onClick={saveProfile}
+                            className="mt-4 bg-primary rounded-3xl py-2 px-4 w-1/6 text-white font-medium hover:bg-darkPrimary hidden sm:block">Save
+                        </button>
                     </div>
-                    <div className="flex flex-row items-center">
-                        <TwitterIcon/>
-                        <input
-                            className="ml-4 my-4 border-gray w-56 bg-secondary shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
-                            type="text"
-                            value={twitter}
-                            onChange={(event) => setTwitter(event.target.value.toLowerCase())}
-                        />
-                    </div>
-                    <div className="flex flex-row items-center">
-                        <TikTokIcon/>
-                        <input
-                            className="ml-4 my-4 border-gray w-56 bg-secondary shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
-                            type="text"
-                            value={tiktok}
-                            onChange={(event) => setTiktok(event.target.value.toLowerCase())}
-                        />
-                    </div>
-                    <div className="flex flex-row items-center">
-                        <YoutubeIcon/>
-                        <input
-                            className="ml-4 my-4 border-gray w-56 bg-secondary shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
-                            type="text"
-                            value={youtube}
-                            onChange={(event) => setYoutube(event.target.value.toLowerCase())}
-                        />
-                    </div>
-                </form>
+                </div>
+                <SuccessBar
+                    open={showSuccessSnackBar}
+                    close={() => setSuccessShowSnackBar(false)}
+                    message={snackbarMessage}/>
+                <ErrorBar
+                    open={showErrorSnackBar}
+                    close={() => setShowErrorSnackBar(false)}
+                    message={snackbarMessage}/>
+
             </div>
             <Footer/>
         </>

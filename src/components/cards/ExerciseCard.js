@@ -1,7 +1,5 @@
 /* eslint-disable */
 import React from "react";
-import workoutsConstants from "../../utils/workout/workoutsConstants";
-import {timeOrReps, workoutDurationSummary} from "../../utils/workout/workoutsHelperFunctions";
 
 const ExerciseCard = ({exercise}) => {
 

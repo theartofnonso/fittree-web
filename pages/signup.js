@@ -16,6 +16,7 @@ import {Auth} from "aws-amplify";
 import awsConstants from "../src/utils/aws-utils/awsConstants";
 import {useRouter} from "next/router";
 import Link from "next/link";
+import ErrorBar from "../src/components/views/snackbars/ErrorBar";
 
 export default function SignUp() {
 
@@ -34,6 +35,13 @@ export default function SignUp() {
     const [canUsePreferredUsername, setCanUsePreferredUsername] = useState(false);
 
     const [canUseEmail, setCanUseEmail] = useState(false);
+
+    /**
+     * Show snackbar for err message
+     */
+    const [showSnackBar, setShowSnackBar] = useState(false)
+
+    const [snackbarMessage, setSnackbarMessage] = useState("");
 
     /**
      * Check that the entered email is a valid format
@@ -73,7 +81,9 @@ export default function SignUp() {
             setErrorMessage("Username must be at least 4 characters and not more than 15");
         } else if (!isValidPattern) {
             setErrorMessage("Username can only include words, periods and underscores");
-        } else {
+        } else if (isProprietaryName) {
+            setErrorMessage("Fittree is a proprietary name");
+        } {
             setErrorMessage("");
             checkIfPreferredUsernameExists(value);
         }
@@ -90,22 +100,20 @@ export default function SignUp() {
      */
     const signUpHandler = async () => {
         if (preferredUsernameName.trim().length === 0) {
-            showAlert("Please provide a username");
+            setShowSnackBar(true);
+            setSnackbarMessage("Please provide a username");
             return;
         }
 
         if (preferredUsernameName.trim().length < 4) {
-            showAlert("Username must be at least 4 characters and not more than 15");
+            setShowSnackBar(true);
+            setSnackbarMessage("Username must be at least 4 characters and not more than 15");
             return;
         }
 
         if (email.trim().length === 0) {
-            showAlert("Please provide an email");
-            return;
-        }
-
-        if (isProprietaryName(preferredUsernameName)) {
-            setErrorMessage("Fittree is a proprietary name");
+            setShowSnackBar(true);
+            setSnackbarMessage("Please provide an email");
             return;
         }
 
@@ -229,6 +237,7 @@ export default function SignUp() {
                     type="text"
                     placeholder={APP_NAME + ".io/username"}
                     value={preferredUsernameName}
+                    maxLength={15}
                     onChange={event => onEnterFitNameHandler(event.target.value.toLowerCase())}/>
                 <input
                     className="border-gray w-5/6 bg-secondary h-14 sm:h-18 shadow appearance-none border rounded w-full py-2 px-3 my-1 leading-tight focus:outline-none focus:shadow-outline"
@@ -270,6 +279,10 @@ export default function SignUp() {
                     email={email}
                 />
             ) : null}
+            <ErrorBar
+                open={showSnackBar}
+                close={() => setShowSnackBar(false)}
+                message={snackbarMessage}/>
         </div>
     )
 }

@@ -1,11 +1,11 @@
 import ShareIcon from "../svg/share-box-line.svg";
 import FunctionsIcon from "../svg/function-fill.svg";
 import Link from "next/link";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {generateShareableLink} from "../../utils/workout/workoutsHelperFunctions";
-import CheckIcon from "../svg/check-green-24.svg";
 import {useRouter} from "next/router";
 import {Auth} from "aws-amplify";
+import SuccessBar from "./snackbars/SuccessBar";
 
 const NavBar = ({username}) => {
 
@@ -38,17 +38,6 @@ const NavBar = ({username}) => {
         await Auth.signOut();
         await router.replace('/')
     }
-
-    /**
-     * Hide Snackbar
-     */
-    useEffect(() => {
-        if (showSnackBar) {
-            setTimeout(() => {
-                setShowSnackBar(false)
-            }, 5000)
-        }
-    }, [showSnackBar])
 
     return (
         <>
@@ -100,12 +89,10 @@ const NavBar = ({username}) => {
                     </div> : null}
                 </div> : null}
             </div>
-            {showSnackBar ?
-                <div
-                    className="fixed rounded-3xl bottom-0 left-0 ml-2 sm:ml-10 mb-8 p-2 flex flex-row justify-start items-center rounded bg-lightGreen w-1/2 sm:w-2/5">
-                    <CheckIcon/>
-                    <p className="ml-2 text-midnightGreen font-semibold">Link copied</p>
-                </div> : null}
+            <SuccessBar
+                open={showSnackBar}
+                close={() => setShowSnackBar(false)}
+                message="Link copied"/>
         </>
     )
 }
