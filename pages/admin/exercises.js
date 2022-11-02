@@ -73,7 +73,7 @@ export default function Exercises({username}) {
                     <input
                         className="border-gray w-5/6 bg-secondary h-14 sm:h-18 shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
                         id="search"
-                        type="text"
+                        type="search"
                         placeholder="Search exercises"
                         value={searchQuery}
                         onChange={event => onChangeSearch(event.target.value.toLowerCase())}/>
@@ -82,7 +82,7 @@ export default function Exercises({username}) {
                 <p className="text-sm sm:text-md md:text-lg font-light">{`${filteredExercises.length} exercises`}</p>
 
                 {filteredExercises.length > 0 ?
-                    <div className="mt-1 grid gap-0.5 grid-cols-2 sm:grid-cols-4">
+                    <div className="mt-1 grid gap-0.5 grid-cols-3 sm:grid-cols-5">
                         {filteredExercises.map((item, index) => {
                             return (
                                 <div key={index} onClick={() => previewExercise(item)}>

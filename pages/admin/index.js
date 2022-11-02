@@ -68,13 +68,6 @@ export default function Dashboard({username}) {
     };
 
     /**
-     * Close the preview modal
-     */
-    const closePreview = () => {
-        setCurrentWorkout(null)
-    }
-
-    /**
      * Creator page is still loading
      */
     if (status === workoutsConstants.profileStatus.LOADING) {
@@ -93,7 +86,7 @@ export default function Dashboard({username}) {
                     <input
                         className="border-gray w-5/6 bg-secondary h-14 sm:h-18 shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
                         id="search"
-                        type="text"
+                        type="search"
                         placeholder="Search workouts"
                         value={searchQuery}
                         onChange={event => onChangeSearch(event.target.value.toLowerCase())}/>

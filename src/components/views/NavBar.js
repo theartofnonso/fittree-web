@@ -1,11 +1,11 @@
 import ShareIcon from "../svg/share-box-line.svg";
 import FunctionsIcon from "../svg/function-fill.svg";
 import Link from "next/link";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {generateShareableLink} from "../../utils/workout/workoutsHelperFunctions";
-import CheckIcon from "../svg/check-green-24.svg";
 import {useRouter} from "next/router";
 import {Auth} from "aws-amplify";
+import SuccessBar from "./snackbars/SuccessBar";
 
 const NavBar = ({username}) => {
 
@@ -39,29 +39,18 @@ const NavBar = ({username}) => {
         await router.replace('/')
     }
 
-    /**
-     * Hide Snackbar
-     */
-    useEffect(() => {
-        if (showSnackBar) {
-            setTimeout(() => {
-                setShowSnackBar(false)
-            }, 5000)
-        }
-    }, [showSnackBar])
-
     return (
         <>
-            <div className="mb-10 flex flex-row items-center place-content-between">
+            <div className="mb-8 flex flex-row items-center place-content-between">
                 <div className="cursor-pointer" onClick={copyShareableLink}>
                     <ShareIcon/>
                 </div>
                 {username ? <div className="relative cursor-pointer" onMouseOver={() => setShowMenuOptions(true)}
                                  onMouseLeave={() => setShowMenuOptions(false)}>
                     <FunctionsIcon/>
-                    {showMenuOptions ? <div className="absolute text-left right-0 w-52">
+                    {showMenuOptions ? <div className="absolute text-left right-0 w-52 z-10">
                         <div
-                            className="z-10 mt-2 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                            className="mt-2 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                             role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabIndex="-1">
                             <div className="py-2 hover:bg-secondary" role="none">
                                 <Link href="/admin">
@@ -100,12 +89,10 @@ const NavBar = ({username}) => {
                     </div> : null}
                 </div> : null}
             </div>
-            {showSnackBar ?
-                <div
-                    className="fixed rounded-3xl bottom-0 left-0 ml-2 sm:ml-10 mb-8 p-2 flex flex-row justify-start items-center rounded bg-lightGreen w-1/2 sm:w-2/5">
-                    <CheckIcon/>
-                    <p className="ml-2 text-midnightGreen font-semibold">Link copied</p>
-                </div> : null}
+            <SuccessBar
+                open={showSnackBar}
+                close={() => setShowSnackBar(false)}
+                message="Link copied"/>
         </>
     )
 }

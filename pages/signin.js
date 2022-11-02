@@ -9,6 +9,7 @@ import {getUserFromDB, persistUserToDB, retrieveCognitoUser} from "../src/utils/
 import {Auth} from "aws-amplify";
 import {useRouter} from "next/router";
 import Link from "next/link";
+import ErrorBar from "../src/components/views/snackbars/ErrorBar";
 
 export default function SignIn() {
 
@@ -21,6 +22,13 @@ export default function SignIn() {
     const [isLoading, setIsLoading] = useState(false);
 
     const [cognitoUser, setCognitoUser] = useState(null);
+
+    /**
+     * Show snackbar for err message
+     */
+    const [showSnackBar, setShowSnackBar] = useState(false)
+
+    const [snackbarMessage, setSnackbarMessage] = useState("");
 
     /**
      * Check that the entered email is a valid format
@@ -51,34 +59,30 @@ export default function SignIn() {
         setIsLoading(true);
 
         if (email.trim().length === 0) {
-            showAlert("Please provide an email");
-            return;
-        }
-
-        try {
-            const user = await retrieveCognitoUser(email);
-            if (user) {
-                if (!user.Enabled) {
-                    setIsLoading(false);
-                    setErrorMessage("Your account has been disabled, please contact dev@fittree.io");
-                } else {
-                    const currentUser = await Auth.signIn(email);
-                    setCognitoUser(currentUser);
-                    setIsLoading(false);
-                }
-            }
-        } catch (err) {
             setIsLoading(false);
-            setErrorMessage("You don't seem to have a Fittree account, please sign up instead");
+            setShowSnackBar(true);
+            setSnackbarMessage("Please provide an email");
+        } else {
+            try {
+                const user = await retrieveCognitoUser(email);
+                if (user) {
+                    if (!user.Enabled) {
+                        setIsLoading(false);
+                        setShowSnackBar(true);
+                        setSnackbarMessage("Your account has been disabled, please contact hello@fittree.io")
+                    } else {
+                        const currentUser = await Auth.signIn(email);
+                        setCognitoUser(currentUser);
+                        setIsLoading(false);
+                    }
+                }
+            } catch (err) {
+                setIsLoading(false);
+                setShowSnackBar(true);
+                setSnackbarMessage("You don't seem to have a Fittree account, please sign up instead");
+            }
         }
 
-    };
-
-    /**
-     * Display alert for empty sign field information
-     */
-    const showAlert = message => {
-        alert(message);
     };
 
     /**
@@ -101,7 +105,6 @@ export default function SignIn() {
             }
             await router.replace('/admin')
         } catch (err) {
-            console.log(err)
             // Do something
         }
 
@@ -139,7 +142,7 @@ export default function SignIn() {
                 <input
                     className="border-gray w-5/6 bg-secondary h-14 sm:h-18 shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
                     id="search"
-                    type="text"
+                    type="email"
                     placeholder="Enter email"
                     value={email}
                     onChange={event => onEnterEmailHandler(event.target.value.toLowerCase())}/>
@@ -175,6 +178,10 @@ export default function SignIn() {
                     email={email}
                 />
             ) : null}
+            <ErrorBar
+                open={showSnackBar}
+                close={() => setShowSnackBar(false)}
+                message={snackbarMessage}/>
         </div>
     )
 }
