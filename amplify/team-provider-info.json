@@ -36,6 +36,9 @@
           "deploymentBucketName": "amplify-fitpin-dev-174333-deployment",
           "s3Key": "amplify-builds/fitpinCognitoVerifyAuthChallengeResponse-6f74696a43446477662b-build.zip"
         }
+      },
+      "api": {
+        "fitpinAppSync": {}
       }
     }
   }
