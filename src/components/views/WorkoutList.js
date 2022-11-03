@@ -5,7 +5,7 @@ import EmptyState from "../svg/empty_state.svg";
 import {sortWorkouts} from "../../utils/workout/workoutsHelperFunctions";
 import PreviewWorkout from "../modals/workout/PreviewWorkout";
 
-const WorkoutList = ({emptyListMessage, workouts, exercises}) => {
+const WorkoutList = ({emptyListMessage, workouts, exercises, showDuration}) => {
 
     const [currentWorkout, setCurrentWorkout] = useState(null)
 
@@ -35,7 +35,7 @@ const WorkoutList = ({emptyListMessage, workouts, exercises}) => {
                     {workouts.map((item, index) => {
                         return (
                             <div key={index} onClick={() => previewWorkout(item)}>
-                                <WorkoutCard workout={item}/>
+                                <WorkoutCard workout={item} showDuration={showDuration}/>
                             </div>
                         );
                     })}

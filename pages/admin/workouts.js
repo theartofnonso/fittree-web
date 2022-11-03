@@ -68,7 +68,8 @@ export default function Workouts({username}) {
                 <WorkoutList username={username}
                              workouts={filteredWorkouts}
                              exercises={exercises}
-                             emptyListMessage="You don't have any workouts yet"/>
+                             emptyListMessage="You don't have any workouts yet"
+                             showDuration={false}/>
             </div>
             <Footer/>
         </>

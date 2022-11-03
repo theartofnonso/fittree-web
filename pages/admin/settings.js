@@ -1,9 +1,9 @@
-import {withSSRContext} from "aws-amplify";
+import {Storage, withSSRContext} from "aws-amplify";
 import NavBar from "../../src/components/views/NavBar";
 import Footer from "../../src/components/views/Footer";
-import {useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {selectAuthUser, updateUser} from "../../src/features/auth/authUserSlice";
+import {fetchUser, selectAuthUser, selectAuthUserStatus, updateUser} from "../../src/features/auth/authUserSlice";
 import InstagramIcon from "../../src/components/svg/instagram-primary-line.svg";
 import YoutubeIcon from "../../src/components/svg/youtube-primary-line.svg";
 import TikTokIcon from "../../src/components/svg/tiktok-primary-line.svg";
@@ -13,31 +13,46 @@ import PageDescription from "../../src/components/views/PageDescription";
 import SuccessBar from "../../src/components/views/snackbars/SuccessBar";
 import ErrorBar from "../../src/components/views/snackbars/ErrorBar";
 import Avatar from "../../src/components/views/Avatar";
+import Compressor from 'compressorjs';
+import {generateCDNUrl, generateFileName} from "../../src/utils/general/utils";
+import awsConstants from "../../src/utils/aws-utils/awsConstants";
+import workoutsConstants from "../../src/utils/workout/workoutsConstants";
+import FittreeLoading from "../../src/components/views/FittreeLoading";
 
 export default function Settings({username}) {
+
+    const inputFileRef = useRef()
 
     const dispatch = useDispatch();
 
     const user = useSelector(selectAuthUser);
 
-    const [bio, setBio] = useState(user ? user.displayBrief : "");
+    const status = useSelector(selectAuthUserStatus)
 
-    const [instagram, setInstagram] = useState(user ? user.instagram : "");
+    /**
+     * Avatar URI
+     */
+    const [uri, setUri] = useState(null);
 
-    const [facebook, setFacebook] = useState(user ? user.facebook : "");
+    const [displayBrief, setDisplayBrief] = useState("");
 
-    const [twitter, setTwitter] = useState(user ? user.twitter : "");
+    const [instagram, setInstagram] = useState("");
 
-    const [tiktok, setTiktok] = useState(user ? user.tiktok : "");
+    const [facebook, setFacebook] = useState("");
 
-    const [youtube, setYoutube] = useState(user ? user.youtube : "");
+    const [twitter, setTwitter] = useState("");
+
+    const [tiktok, setTiktok] = useState("");
+
+    const [youtube, setYoutube] = useState("");
+
+    const [selectedFile, setSelectedFile] = useState();
 
     /**
      * Show snackbar for err message
      */
     const [showSuccessSnackBar, setSuccessShowSnackBar] = useState(false)
     const [showErrorSnackBar, setShowErrorSnackBar] = useState(false)
-
     const [snackbarMessage, setSnackbarMessage] = useState("");
 
     /**
@@ -61,18 +76,112 @@ export default function Settings({username}) {
      * @returns {Promise<void>}
      */
     const saveProfileHelper = async () => {
-        const payload = {
-            instagram: instagram.trim(),
-            facebook: facebook.trim(),
-            twitter: twitter.trim(),
-            tiktok: tiktok.trim(),
-            youtube: youtube.trim(),
-            displayBrief: bio.trim()
-        };
+
+        const data = []
+        data.push({key: "instagram", value: instagram.trim()})
+        data.push({key: "facebook", value: facebook.trim()})
+        data.push({key: "twitter", value: twitter.trim()})
+        data.push({key: "tiktok", value: tiktok.trim()})
+        data.push({key: "youtube", value: youtube.trim()})
+        data.push({key: "displayBrief", value: displayBrief.trim()})
+
+        const listOfChanges = data
+            .filter(item => user[item.key] !== item.value)
+
+        const payload = {}
+
+        listOfChanges.forEach(item => {
+            payload[item.key] = item.value
+        })
+
+        if (uri) {
+            payload.displayProfile = await uploadAvatar();
+        }
 
         await dispatch(updateUser({id: user.id, ...payload})).unwrap();
     };
 
+    /**
+     * Handle file upload
+     */
+    const selectFile = () => {
+        inputFileRef.current.click();
+    };
+
+    /**
+     * Handle selected file
+     * @param event
+     */
+    const handleSelectedFile = (event) => {
+        const file = event.target.files[0];
+        setSelectedFile(file);
+    };
+
+    /**
+     * Upload selected avatar
+     * @returns {Promise<string>}
+     */
+    const uploadAvatar = async () => {
+        const blobResponse = await fetch(uri);
+        const blob = await blobResponse.blob();
+
+        const thumbnailFileName = generateFileName("jpg");
+
+        const s3Response = await Storage.put(
+            awsConstants.awsStorage.folders.THUMBNAILS + "/" + thumbnailFileName,
+            blob,
+        );
+
+        return generateCDNUrl(s3Response.key);
+    };
+
+    /**
+     * Fetch user
+     */
+    useEffect(() => {
+        if (username) {
+            dispatch(fetchUser({username}));
+        }
+    }, [username])
+
+    /**
+     * Handle selected file
+     */
+    useEffect(() => {
+        if (selectedFile) {
+            new Compressor(selectedFile, {
+                quality: 0.6, // 0.6 can also be used, but its not recommended to go below.
+                success: (compressedFile) => {
+                    // compressedResult has the compressed file.
+                    // Use the compressed file to upload the images to your server.
+                    const objectURL = URL.createObjectURL(compressedFile);
+                    setUri(objectURL);
+                },
+            });
+            // return () => URL.revokeObjectURL(objectURL);
+        }
+    }, [selectedFile]);
+
+    /**
+     * Set User if available
+     */
+    useEffect(() => {
+        if (user) {
+            setDisplayBrief(user ? user.displayBrief : "")
+            setInstagram(user ? user.instagram : "")
+            setFacebook(user ? user.facebook : "")
+            setTwitter(user ? user.twitter : "")
+            setTiktok(user ? user.tiktok : "")
+            setYoutube(user ? user.youtube : "")
+        }
+    }, [user])
+
+    /**
+     * Creator page is still loading
+     */
+    if (status === workoutsConstants.profileStatus.LOADING) {
+        return <FittreeLoading/>
+    }
 
     return (
         <>
@@ -83,16 +192,17 @@ export default function Settings({username}) {
                     <div className="flex flex-col items-center">
                         <div
                             className="flex flex-col items-center">
-                            <Avatar user={user}/>
-                            <p className="font-semibold text-primary text-sm hover:font-bold cursor-pointer"> Change
+                            <Avatar user={user} uri={uri}/>
+                            <p onClick={selectFile}
+                               className="font-semibold text-primary text-sm hover:font-bold cursor-pointer"> Change
                                 display profile</p>
                         </div>
                         <textarea
                             className="border-none w-full h-56 bg-gray2 rounded py-4 px-3 mt-4 font-light text-dustBlack"
                             placeholder="Tell your followers what you do"
-                            value={bio}
+                            value={displayBrief}
                             maxLength={100}
-                            onChange={(event) => setBio(event.target.value.toLowerCase())}
+                            onChange={(event) => setDisplayBrief(event.target.value.toLowerCase())}
                         />
                     </div>
                 </div>
@@ -172,6 +282,8 @@ export default function Settings({username}) {
                     close={() => setShowErrorSnackBar(false)}
                     message={snackbarMessage}/>
 
+                <input type='file' id='file' accept="image/png, image/jpeg" ref={inputFileRef} style={{display: 'none'}}
+                       onChange={handleSelectedFile}/>
             </div>
             <Footer/>
         </>

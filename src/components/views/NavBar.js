@@ -52,7 +52,7 @@ const NavBar = ({username}) => {
                         <div
                             className="mt-2 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                             role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabIndex="-1">
-                            <div className="py-2 hover:bg-secondary" role="none">
+                            <div className="py-2 hover:bg-secondary rounded-t-md" role="none">
                                 <Link href="/admin">
                                     <a className="text-gray-700 block px-4 py-2 text-md font-medium"
                                        role="menuitem" tabIndex="-1"
@@ -80,11 +80,11 @@ const NavBar = ({username}) => {
                                        id="menu-item-6">Settings</a>
                                 </Link>
                             </div>
-                            <button type="button"
-                                    className="py-2 hover:bg-darkPrimary bg-primary w-full text-white rounded-b-md text-gray-700 block px-4 py-2 text-md text-left font-medium"
-                                    role="menuitem" tabIndex="-1"
-                                    id="menu-item-6" onClick={signOutHandler}>Sign out
-                            </button>
+                            <div
+                                className="py-2 hover:bg-darkPrimary bg-primary w-full text-white rounded-b-md text-gray-700 block px-4 py-2 text-md text-left font-medium"
+                                role="menuitem" tabIndex="-1"
+                                id="menu-item-6" onClick={signOutHandler}>Sign out
+                            </div>
                         </div>
                     </div> : null}
                 </div> : null}

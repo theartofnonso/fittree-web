@@ -12,7 +12,7 @@ import {searchExerciseOrWorkout} from "../src/utils/workoutAndExerciseUtils";
 import workoutsConstants from "../src/utils/workout/workoutsConstants";
 import CreatorProfile404 from "../src/components/views/CreatorProfile404";
 import CreatorProfile500 from "../src/components/views/CreatorProfile500";
-import CreatorProfileLoading from "../src/components/views/CreatorProfileLoading";
+import FittreeLoading from "../src/components/views/FittreeLoading";
 import Profile from "../src/components/views/Profile";
 import WorkoutList from "../src/components/views/WorkoutList";
 import Footer from "../src/components/views/Footer";
@@ -73,7 +73,7 @@ const CreatorProfile = () => {
         /**
          * Creator page is still loading
          */
-        return <CreatorProfileLoading/>
+        return <FittreeLoading/>
     } else if (status === workoutsConstants.profileStatus.FAILED) {
         /**
          * Backend error from server
@@ -111,7 +111,8 @@ const CreatorProfile = () => {
                     <WorkoutList username={username}
                                  workouts={filteredWorkouts}
                                  exercises={exercises}
-                                 emptyListMessage={username + " " + "doesn't have any workouts yet"}/>
+                                 emptyListMessage={username + " " + "doesn't have any workouts yet"}
+                                 showDuration={true}/>
                     <Footer/>
                 </div>
             </>
