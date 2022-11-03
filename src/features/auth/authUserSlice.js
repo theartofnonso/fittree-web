@@ -65,6 +65,7 @@ export const fetchUser = createAsyncThunk("authUser/get", async (payload, { reje
  * @type {AsyncThunk<unknown, void, {}>}
  */
 export const updateUser = createAsyncThunk("authUser/update", async (payload, { rejectWithValue }) => {
+
   try {
     const response = await API.graphql(
       graphqlOperation(mutations.updateCreator, {
@@ -73,6 +74,7 @@ export const updateUser = createAsyncThunk("authUser/update", async (payload, { 
         },
       }),
     );
+
     return response.data.updateCreator;
   } catch (err) {
     return rejectWithValue(err);
