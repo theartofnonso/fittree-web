@@ -1,16 +1,19 @@
 /* eslint-disable */
 import React from "react";
 
-const Avatar = ({user}) => {
+const Avatar = ({user, uri}) => {
 
     /**
      * Display Avatar
      * @returns {JSX.Element}
      */
     const displayAvatar = () => {
-        if (user.displayProfile) {
+        if(uri) {
             return (
-                <img src={"https://" + user.displayProfile} alt="Display profile" className="object-cover"/>)
+                <img src={uri} alt="Display profile" className="object-cover h-full w-full"/>)
+        } else if (user.displayProfile) {
+            return (
+                <img src={"https://" + user.displayProfile} alt="Display profile" className="object-cover h-full w-full"/>)
         } else {
             const initials = user.preferred_username.substring(0, 1).toUpperCase()
             return (<p className="text-3xl text-white font-semibold">{initials}</p>)

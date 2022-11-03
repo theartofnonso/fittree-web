@@ -1,10 +1,12 @@
-import {generateShareableLink} from "../workout/workoutsHelperFunctions";
-
 /**
  * Validate email if it is of acceptable format
  * @param email
  * @returns {boolean}
  */
+import awsmobile from "../../aws-exports";
+import awsConstants from "../aws-utils/awsConstants";
+import * as uuid from "uuid";
+
 export const isEmailValid = email => {
     const regex =
         /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
@@ -19,4 +21,31 @@ export const isEmailValid = email => {
 export const onlyPeriodsUnderscore = value => {
     const regex = /^[a-zA-Z._]+$/;
     return regex.test(value);
+};
+
+/**
+ * Returns a unique filename for a file
+ */
+export const generateFileName = fileType => {
+    const uuidString = uuid.v4().split('-').join('');
+    const randomChars = `${uuidString}AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz${new Date().getTime()}`;
+    let generatedRandomChars = '';
+    for (let i = 0; i < 50; i++) {
+        generatedRandomChars += randomChars.charAt(
+            Math.floor(Math.random() * randomChars.length),
+        );
+    }
+    return `${generatedRandomChars}.${fileType}`;
+};
+
+/**
+ * Handler function to handle successful upload
+ * @param key
+ */
+export const generateCDNUrl = key => {
+    const cdn =
+        awsmobile.aws_user_pools_id === awsConstants.amplifyUserPoolIds.PROD
+            ? awsConstants.awsStorage.cdn.PROD
+            : awsConstants.awsStorage.cdn.DEV;
+    return `${cdn}${awsConstants.awsStorage.accessLevel.PUBLIC}/${key}`;
 };

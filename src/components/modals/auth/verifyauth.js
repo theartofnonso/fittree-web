@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react";
 import FittrSmallIcon from "../../svg/fittr_small.svg";
 import FittrBigIcon from "../../svg/fittr.svg";
-import CheckIcon from "../../svg/check-fill.svg";
 import Loading from "../../utils/Loading";
 import awsConstants from "../../../utils/aws-utils/awsConstants";
 import {Auth} from "aws-amplify";
@@ -127,7 +126,7 @@ export default function VerifyAuth(props) {
                 <input
                     className="border-gray w-5/6 bg-secondary h-14 sm:h-18 shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
                     id="search"
-                    type="number"
+                    type="text"
                     placeholder="Enter code"
                     value={enteredCode}
                     onChange={event => onEnterCodeHandler(event.target.value.toLowerCase())}/>

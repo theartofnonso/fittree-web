@@ -2,7 +2,7 @@ import {withSSRContext} from "aws-amplify";
 import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import workoutsConstants from "../../src/utils/workout/workoutsConstants";
-import CreatorProfileLoading from "../../src/components/views/CreatorProfileLoading";
+import FittreeLoading from "../../src/components/views/FittreeLoading";
 import {fetchUser, selectAuthUser, selectAuthUserStatus} from "../../src/features/auth/authUserSlice";
 import {exercisesAdded, selectAllExercises} from "../../src/features/auth/authUserExercisesSlice";
 import {selectAllWorkouts, workoutsAdded} from "../../src/features/auth/authUserWorkoutsSlice";
@@ -71,7 +71,7 @@ export default function Dashboard({username}) {
      * Creator page is still loading
      */
     if (status === workoutsConstants.profileStatus.LOADING) {
-        return <CreatorProfileLoading/>
+        return <FittreeLoading/>
     }
 
     /**
@@ -94,7 +94,8 @@ export default function Dashboard({username}) {
                 <WorkoutList username={username}
                              workouts={filteredWorkouts}
                              exercises={exercises}
-                             emptyListMessage="You don't have any workouts yet"/>
+                             emptyListMessage="You don't have any workouts yet"
+                             showDuration={false}/>
             </div>
             <Footer/>
         </div>

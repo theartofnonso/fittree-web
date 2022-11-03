@@ -23,7 +23,7 @@ const SuccessBar = ({message, open, close}) => {
         <div
             className="fixed rounded-3xl bottom-0 left-0 ml-2 sm:ml-10 mb-8 p-2 flex flex-row justify-start items-center rounded bg-lightGreen w-1/2 sm:w-2/5">
             <CheckIcon/>
-            <p className="ml-2 text-white font-semibold">{message}</p>
+            <p className="ml-2 text-white font-normal">{message}</p>
         </div>
     );
 };
