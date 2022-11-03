@@ -85,7 +85,7 @@ export default function Exercises({username}) {
                     <div className="mt-1 grid gap-0.5 grid-cols-3 sm:grid-cols-5">
                         {filteredExercises.map((item, index) => {
                             return (
-                                <div key={index} onClick={() => previewExercise(item)}>
+                                <div key={index} onClick={() => previewExercise(item)} className="cursor-pointer">
                                     <ExerciseCard exercise={item}/>
                                 </div>
                             );

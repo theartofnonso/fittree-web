@@ -61,10 +61,10 @@ const IntervalModal = props => {
     return (
         <div className="px-5 sm:px-10 fixed top-0 right-0 bottom-0 left-0 h-full w-screen bg-transparentBlack9">
             <div className="my-4 flex flex-row justify-end">
-                <div className="mx-2" onClick={props.previewExercise}>
+                <div className="mx-2 cursor-pointer" onClick={props.previewExercise}>
                     <InfoOutlinedIcon/>
                 </div>
-                <div className="mx-2" onClick={props.toggleWorkoutList}>
+                <div className="mx-2 cursor-pointer" onClick={props.toggleWorkoutList}>
                     <OrderPlayIcon/>
                 </div>
             </div>
@@ -73,7 +73,7 @@ const IntervalModal = props => {
                     <div>
                         {displayIntervalMessage()}
                     </div>
-                    <div onClick={skipInterval}>
+                    <div onClick={skipInterval} className="cursor-pointer">
                         <SkipIcon/>
                     </div>
                 </div>

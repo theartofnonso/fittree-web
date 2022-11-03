@@ -60,19 +60,20 @@ const PlayWorkout = props => {
 
             <div className="my-4 flex flex-row place-content-between">
                 {!props.isPaused ? <div>
-                    <div onClick={props.close}>
+                    <div onClick={props.close} className="cursor-pointer">
                         <CloseIcon/>
                     </div>
                 </div> : null}
 
-                {!props.isPaused ? <div className="flex flex-row">
-                    <div className="mx-2" onClick={previewExercise}>
-                        <InfoOutlinedIcon/>
-                    </div>
-                    <div className="mx-2" onClick={toggleWorkoutList}>
-                        <OrderPlayIcon/>
-                    </div>
-                </div> : null}
+                {!props.isPaused ?
+                    <div className="flex flex-row">
+                        <div className="mx-2 cursor-pointer" onClick={previewExercise}>
+                            <InfoOutlinedIcon/>
+                        </div>
+                        <div className="mx-2 cursor-pointer" onClick={toggleWorkoutList}>
+                            <OrderPlayIcon/>
+                        </div>
+                    </div> : null}
             </div>
 
             <video key={props.workoutExercise.exercise.videoUrls[0]}
@@ -101,7 +102,7 @@ const PlayWorkout = props => {
                 </div>
             </div>
             {props.nextWorkoutExercise ?
-                <div className="flex flex-row justify-start sm:justify-end mt-4">
+                <div className="flex flex-row justify-start sm:justify-end mt-4" onClick={previewExercise}>
                     <div>
                         <p className="py-0.5">Up Next:</p>
                         <WorkoutExerciseCard workoutExercise={props.nextWorkoutExercise} type={props.type}/>
