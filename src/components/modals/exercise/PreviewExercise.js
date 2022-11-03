@@ -27,8 +27,8 @@ const PreviewExercise = ({exercise, close}) => {
 
     return (
         <div
-            className="container mx-auto px-2 sm:px-10 fixed top-0 right-0 bottom-0 left-0 h-full w-full bg-white overflow-y-scroll">
-            <div className="my-4" onClick={close}>
+            className="px-2 sm:px-10 fixed top-0 right-0 bottom-0 left-0 h-full w-full bg-white overflow-y-scroll">
+            <div className="my-4 cursor-pointer" onClick={close}>
                 <CloseIcon/>
             </div>
             {exercise.videoUrls.length > 1 ?
