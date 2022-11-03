@@ -297,7 +297,7 @@ exports.handler = async event => {
 
                         <div style="color: #ef7a75; line-height: 160%; text-align: center; word-wrap: break-word;">
                           <p style="font-size: 14px; line-height: 160%;"><span style="font-size: 20px; line-height: 32px; color: #ef7a75;"><strong>Get in touch</strong></span></p>
-                          <p style="font-size: 14px; line-height: 160%;"><span style="font-size: 16px; line-height: 25.6px; color: #000000;">dev@fittree.io</span></p>
+                          <p style="font-size: 14px; line-height: 160%;"><span style="font-size: 16px; line-height: 25.6px; color: #000000;">hello@fittree.io</span></p>
                         </div>
 
                       </td>
@@ -427,7 +427,7 @@ exports.handler = async event => {
           Data: `Fittree Verification Code: ${secretLoginCode}`,
         },
       },
-      Source: 'Fittree Verify <dev@fittree.io>',
+      Source: 'Fittree Verify <hello@fittree.io>',
     }).promise();
   } else {
     // re-use code generated in previous challenge

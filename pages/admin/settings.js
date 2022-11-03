@@ -132,6 +132,13 @@ export default function Settings({username}) {
             blob,
         );
 
+        /**
+         * Delete the workout thumbnail
+         */
+        const thumbnail = user.displayProfile.split("/")[3];
+        const key = "Thumbnails/" + thumbnail;
+        Storage.remove(key);
+
         return generateCDNUrl(s3Response.key);
     };
 
