@@ -6,34 +6,22 @@ import {
     selectCreatorStatus,
     selectExercises,
     selectWorkouts
-} from "../src/features/CreatorProfileSlice";
+} from "../src/features/unauth/CreatorProfileSlice";
 import {useDispatch, useSelector} from "react-redux";
 import {searchExerciseOrWorkout} from "../src/utils/workoutAndExerciseUtils";
 import workoutsConstants from "../src/utils/workout/workoutsConstants";
-import {
-    generateShareableLink,
-    loadCircuitWorkout,
-    loadRepsAndSetsWorkout,
-    sortWorkouts
-} from "../src/utils/workout/workoutsHelperFunctions";
 import CreatorProfile404 from "../src/components/views/CreatorProfile404";
 import CreatorProfile500 from "../src/components/views/CreatorProfile500";
-import CreatorProfileLoading from "../src/components/views/CreatorProfileLoading";
-import PlayRepsAndSetsWorkout from "../src/components/modals/workout/PlayRepsAndSetsWorkout";
-import PlayCircuitWorkout from "../src/components/modals/workout/PlayCircuitWorkout";
-import ShareIcon from "../src/components/svg/share-box-line.svg";
-import WorkoutCard from "../src/components/cards/WorkoutCard";
-import PreviewWorkout from "../src/components/modals/workout/PreviewWorkout";
-import Socials from "../src/components/views/Socials";
-import CheckIcon from "../src/components/svg/check-green-24.svg";
-import EmptyState from "../src/components/svg/empty_state.svg";
-import FittrSmallIcon from "../src/components/svg/fittr_small.svg";
-import FittrBigIcon from "../src/components/svg/fittr.svg";
+import FittreeLoading from "../src/components/views/FittreeLoading";
+import Profile from "../src/components/views/Profile";
+import WorkoutList from "../src/components/views/WorkoutList";
+import Footer from "../src/components/views/Footer";
+import NavBar from "../src/components/views/NavBar";
 
 const CreatorProfile = () => {
 
     /**
-     * Retrieve creator's username
+     * Retrieve unauth's username
      */
     const router = useRouter()
     const {username} = router.query
@@ -50,16 +38,7 @@ const CreatorProfile = () => {
 
     const [filteredWorkouts, setFilteredWorkouts] = useState(workouts);
 
-    const [currentWorkout, setCurrentWorkout] = useState(null)
-
-    const [shouldPlayWorkout, setShouldPlayWorkout] = useState(false)
-
     const [searchQuery, setSearchQuery] = React.useState('');
-
-    /**
-     * Show snackbar for err message
-     */
-    const [showSnackBar, setShowSnackBar] = useState(false)
 
     /**
      * Load workout into filtered workout
@@ -69,17 +48,6 @@ const CreatorProfile = () => {
             setFilteredWorkouts(workouts)
         }
     }, [workouts])
-
-    /**
-     * Hide Snackbar
-     */
-    useEffect(() => {
-        if (showSnackBar) {
-            setTimeout(() => {
-                setShowSnackBar(false)
-            }, 5000)
-        }
-    }, [showSnackBar])
 
     /**
      * Filter workout
@@ -92,79 +60,7 @@ const CreatorProfile = () => {
     };
 
     /**
-     * Play workout
-     */
-    const togglePlayWorkout = (shouldPlay) => {
-        setShouldPlayWorkout(shouldPlay)
-    }
-
-    /**
-     * Preview a workout from the list
-     */
-    const previewWorkout = (selectedWorkout) => {
-        const enrichedWorkout = {
-            ...selectedWorkout,
-            workoutExercises: sortWorkouts(selectedWorkout, exercises),
-        };
-        setCurrentWorkout(enrichedWorkout);
-    }
-
-    /**
-     * Close the preview modal
-     */
-    const closePreview = () => {
-        setCurrentWorkout(null)
-    }
-
-    /**
-     * Display appropriate workout play component
-     * @returns {JSX.Element}
-     */
-    const getWorkoutPlayComponent = () => {
-
-        if (currentWorkout.type === workoutsConstants.workoutType.CIRCUIT) {
-            const rounds = loadCircuitWorkout(currentWorkout);
-            return <PlayCircuitWorkout
-                workout={currentWorkout}
-                rounds={rounds}
-                end={() => togglePlayWorkout(false)}/>
-
-        } else {
-            const exercises = loadRepsAndSetsWorkout(currentWorkout);
-            return <PlayRepsAndSetsWorkout
-                workout={currentWorkout}
-                exercises={exercises}
-                end={() => togglePlayWorkout(false)}/>
-        }
-    }
-
-    /**
-     * copy shareable link
-     */
-    const copyShareableLink = () => {
-        navigator.clipboard.writeText(generateShareableLink(username)).then(() => {
-            setShowSnackBar(true)
-        });
-    }
-
-    /**
-     * Display Avatar
-     * @returns {JSX.Element}
-     */
-    const displayAvatar = () => {
-        if (profile) {
-            return (
-                <div className="rounded-full bg-primary flex flex-row justify-start items-center">
-                    <Socials profile={profile}/>
-                    <p className="text-white font-bold mx-2">{profile.preferred_username}</p>
-                    {profile.displayProfile ? <img src={"https://" + profile.displayProfile} alt="Display profile"
-                                                   className="h-10 rounded-full"/> : null}
-                </div>)
-        }
-    };
-
-    /**
-     * Retrieve creator's profile
+     * Retrieve unauth's profile
      * @type {Dispatch<AnyAction>}
      */
     useEffect(() => {
@@ -177,7 +73,7 @@ const CreatorProfile = () => {
         /**
          * Creator page is still loading
          */
-        return <CreatorProfileLoading/>
+        return <FittreeLoading/>
     } else if (status === workoutsConstants.profileStatus.FAILED) {
         /**
          * Backend error from server
@@ -201,16 +97,8 @@ const CreatorProfile = () => {
 
             <>
                 <div className="container mx-auto p-4 min-h-screen">
-
-                    <div className="mb-10 flex flex-row items-center place-content-between">
-                        <button onClick={copyShareableLink}>
-                            <ShareIcon/>
-                        </button>
-                        {displayAvatar()}
-                    </div>
-                    <div className="flex flex-col items-center">
-                        <p className="font-light py-1 text-sm sm:text-xl md:text-base">{profile.displayBrief}</p>
-                    </div>
+                    <NavBar/>
+                    <Profile user={profile}/>
                     <form className="my-4 flex flex-col items-center">
                         <input
                             className="border-gray w-5/6 bg-secondary h-14 sm:h-18 shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
@@ -220,41 +108,12 @@ const CreatorProfile = () => {
                             value={searchQuery}
                             onChange={event => onChangeSearch(event.target.value.toLowerCase())}/>
                     </form>
-
-                    {workouts.length > 0 ?
-                        <div className="grid gap-0.5 grid-cols-2 sm:grid-cols-3">
-                            {filteredWorkouts.map((item, index) => {
-                                return (
-                                    <button key={index} onClick={() => previewWorkout(item)}>
-                                        <WorkoutCard workout={item}/>
-                                    </button>
-                                );
-                            })}
-                        </div> :
-                        <div className="flex flex-col justify-center items-center h-screen">
-                            <EmptyState/>
-                            <p className="font-normal mt-4">{profile.preferred_username} has no workouts</p>
-                        </div>}
-                    {showSnackBar ?
-                        <div
-                            className="absolute rounded-3xl bottom-0 left-0 ml-2 sm:ml-10 mb-8 p-2 flex flex-row justify-start items-center rounded bg-lightGreen w-1/2 sm:w-2/5">
-                            <CheckIcon/>
-                            <p className="ml-2 text-midnightGreen font-semibold">Link copied</p>
-                        </div> : null}
-                    {currentWorkout && !shouldPlayWorkout ?
-                        <PreviewWorkout
-                            workout={currentWorkout}
-                            play={() => togglePlayWorkout(true)}
-                            close={closePreview}/> : null}
-                    {shouldPlayWorkout ? getWorkoutPlayComponent() : null}
-                </div>
-                <div className="flex flex-row justify-center items-center">
-                    <a rel="noreferrer" href="/" target="_blank" className="lg:hidden">
-                        <FittrSmallIcon/>
-                    </a>
-                    <a rel="noreferrer" href="/" target="_blank" className="hidden lg:block">
-                        <FittrBigIcon/>
-                    </a>
+                    <WorkoutList username={username}
+                                 workouts={filteredWorkouts}
+                                 exercises={exercises}
+                                 emptyListMessage={username + " " + "doesn't have any workouts yet"}
+                                 showDuration={true}/>
+                    <Footer/>
                 </div>
             </>
 

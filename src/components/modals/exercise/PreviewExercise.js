@@ -4,6 +4,10 @@ import CloseIcon from "../../svg/close-line.svg";
 
 const PreviewExercise = ({exercise, close}) => {
 
+    if(!exercise) {
+        return null;
+    }
+
     /**
      * Exercise videos
      */
@@ -23,10 +27,10 @@ const PreviewExercise = ({exercise, close}) => {
 
     return (
         <div
-            className="container mx-auto px-2 sm:px-10 fixed top-0 right-0 bottom-0 left-0 h-full w-full bg-white overflow-y-scroll">
-            <button className="my-4" onClick={close}>
+            className="px-2 sm:px-10 fixed top-0 right-0 bottom-0 left-0 h-full w-full bg-white overflow-y-scroll">
+            <div className="my-4 cursor-pointer" onClick={close}>
                 <CloseIcon/>
-            </button>
+            </div>
             {exercise.videoUrls.length > 1 ?
                 <div
                     className="flex flex-row justify-start rounded-md h-96 bg-dustBlack overflow-x-scroll pr-8 lg:pr-0">
@@ -39,8 +43,9 @@ const PreviewExercise = ({exercise, close}) => {
                     {videos()}
                 </div> : null
             }
-            <div>
-                <p className="my-4 font-light break-words whitespace-pre-line">{exercise.description}</p>
+            <div className="my-4">
+                <p className="font-semibold text-xl text-left">{exercise.title}</p>
+                <p className="mt-4 font-light break-words whitespace-pre-line text-sm">{exercise.description}</p>
             </div>
             <div>
                 <div className="mb-4">

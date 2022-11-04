@@ -6,18 +6,48 @@ import InstagramIcon from "../src/components/svg/instagram-primary-line.svg";
 import TwitterIcon from "../src/components/svg/twitter-primary-line.svg";
 import FittrBigIcon from "../src/components/svg/fittr.svg";
 import FittrSmallIcon from "../src/components/svg/fittr_small.svg";
+import Link from "next/link";
+import {withSSRContext} from "aws-amplify";
 
-export default function App() {
+export default function App({authenticated}) {
 
     return (
         <div className="container mx-auto">
-            <div className="ml-8 sm:ml-10">
-                <a rel="noreferrer" href="/" target="_blank" className="lg:hidden">
-                    <FittrSmallIcon/>
-                </a>
-                <a rel="noreferrer" href="/" target="_blank" className="hidden lg:block">
-                    <FittrBigIcon/>
-                </a>
+            <div className="mx-8 sm:mx-10 flex flex-row items-center place-content-between">
+                <div>
+                    <Link href="/">
+                        <a className="lg:hidden">
+                            <FittrSmallIcon/>
+                        </a>
+                    </Link>
+                    <Link href="/">
+                        <a className="hidden lg:block">
+                            <FittrBigIcon/>
+                        </a>
+                    </Link>
+                </div>
+                <div className="flex flex-row h-10 bg-primary rounded-3xl place-content-between">
+                    {authenticated ?
+                        <Link href="/admin">
+                            <a
+                                className="flex flex-row items-center font-medium text-secondary text-sm rounded-3xl h-full pl-5 pr-5 cursor-pointer hover:bg-darkPrimary">
+                                Admin
+                            </a>
+                        </Link> :
+                        <>
+                            <Link href="/signin">
+                                <a className="flex flex-row items-center font-medium text-primary text-sm rounded-3xl h-full bg-secondary hover:bg-darkSecondary px-4 cursor-pointer z-10">
+                                    Sign In
+                                </a>
+                            </Link>
+                            <Link href="/signup">
+                                <a
+                                    className="flex flex-row items-center font-medium text-secondary text-sm rounded-r-3xl h-full pl-5 pr-5 cursor-pointer hover:bg-darkPrimary -ml-4">
+                                    Sign Up
+                                </a>
+                            </Link>
+                        </>}
+                </div>
             </div>
 
             <div className="flex flex-col items-center my-2 sm:my-4">
@@ -26,9 +56,11 @@ export default function App() {
                     <p className="font-bold text-2xl sm:text-4xl">everywhere you go</p>
                     <p className="font-normal text-xs my-1.5">Create, share and play workouts on any device</p>
                 </div>
-                <a rel="noreferrer" href={APP_STORE_URL} target="_blank"
-                   className="bg-primary rounded-3xl py-2 px-10 mt-6 text-white font-medium">Get it on
-                    IOS</a>
+                <Link href={APP_STORE_URL}>
+                    <a className="bg-primary rounded-3xl py-2 px-10 mt-6 text-white font-medium hover:bg-darkPrimary">
+                        Get it on IOS
+                    </a>
+                </Link>
             </div>
 
             <div className="flex flex-col items-center">
@@ -53,6 +85,7 @@ export default function App() {
             </div>
             <div className="flex flex-col mx-6 sm:mx-8">
                 <button
+                    type="button"
                     className="accordion bg-primary w-full text-start px-3 py-5 my-2 rounded-lg font-semibold text-md text-white">What
                     is Fittree ?
                 </button>
@@ -64,6 +97,7 @@ export default function App() {
                 </div>
 
                 <button
+                    type="button"
                     className="accordion bg-primary w-full text-start px-3 py-5 my-2 rounded-lg font-semibold text-md text-white">Why
                     do I need Fittree ?
                 </button>
@@ -74,6 +108,7 @@ export default function App() {
                 </div>
 
                 <button
+                    type="button"
                     className="accordion bg-primary w-full text-start px-3 py-5 my-2 rounded-lg font-semibold text-md text-white">How
                     can I share my workouts ?
                 </button>
@@ -86,14 +121,41 @@ export default function App() {
                     <p className="font-medium">hello@fittree.io</p>
                 </div>
                 <div className="flex flex-row place-content-around">
-                    <div className="mx-2">
-                        <InstagramIcon/>
-                    </div>
-                    <div className="mx-2">
-                        <TwitterIcon/>
-                    </div>
+                    <Link href="https://instagram.com/fittree.io">
+                        <a target="_blank" className="mx-2">
+                            <InstagramIcon/>
+                        </a>
+                    </Link>
+                    <Link href="https://twitter.com/fittreeio">
+                        <a target="_blank" className="mx-2">
+                            <TwitterIcon/>
+                        </a>
+                    </Link>
                 </div>
             </div>
         </div>
     );
+}
+
+export async function getServerSideProps(context) {
+
+    const {Auth} = withSSRContext(context)
+
+    try {
+
+        await Auth.currentAuthenticatedUser()
+
+        return {
+            props: {
+                authenticated: true,
+            }
+        }
+
+    } catch (err) {
+        return {
+            props: {
+                authenticated: false,
+            }
+        }
+    }
 }

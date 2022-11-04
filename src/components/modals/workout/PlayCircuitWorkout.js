@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React, {useEffect, useState} from "react";
-import PlayWorkout from "./PlayWorkout";
+import WorkoutPlayerComponent from "./PlayWorkout";
 import workoutsConstants from "../../../utils/workout/workoutsConstants";
 
 const PlayCircuitWorkout = ({workout, rounds, end}) => {
@@ -131,7 +131,7 @@ const PlayCircuitWorkout = ({workout, rounds, end}) => {
     }
 
     return (
-        <PlayWorkout
+        <WorkoutPlayerComponent
             data={rounds}
             progress={{exerciseIndex, roundsIndex}}
             workoutExercise={getWorkoutExercise()}

@@ -1,6 +1,7 @@
 /* eslint-disable */
 import React from "react";
 import FittrIcon from "/src/components/svg/fittr.svg";
+import Link from "next/link";
 
 const CreatorProfile500 = ({username}) => {
 
@@ -9,9 +10,11 @@ const CreatorProfile500 = ({username}) => {
             <p>
                 We are unable to load {username}'s page
             </p>
-            <a rel="noreferrer" href="/" target="_blank" className="absolute bottom-0 mb-10">
-                <FittrIcon/>
-            </a>
+            <Link href="/">
+                <a className="absolute bottom-0 mb-10">
+                    <FittrIcon/>
+                </a>
+            </Link>
         </div>
     );
 };

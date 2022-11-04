@@ -2,7 +2,7 @@
 import React from "react";
 import FittrIconSmall from "../svg/fittr_symbol_small.svg";
 
-const CreatorProfileLoading = () => {
+const FittreeLoading = () => {
 
     return (
 
@@ -13,4 +13,4 @@ const CreatorProfileLoading = () => {
     );
 };
 
-export default CreatorProfileLoading;
+export default FittreeLoading;

@@ -8,7 +8,7 @@ const WorkoutCardBig = ({workout}) => {
             className={`relative h-96 rounded-lg flex flex-col justify-end text-white overflow-hidden`}>
             <img src={"https://" + workout.thumbnailUrl} alt="Display profile" className="object-cover lg:object-top h-full w-full"/>
             <div className="absolute top-0 right-0 bottom-0 left-0 bg-gradient-to-b from-transparentBlack1 to-transparentBlack"/>
-            <div className="absolute top-0 right-0 m-2 py-0.5 px-2 rounded-md bg-primary text-xs font-medium">
+            <div className="absolute top-0 right-0 m-2 py-0.5 px-2 rounded-full bg-primary text-xs font-medium">
                 <p>{workoutDurationSummary(workout.duration)}</p>
             </div>
             <div className="absolute flex flex-col items-start pl-2 pb-2">

@@ -6,7 +6,7 @@ import CloseIcon from "../../svg/close-line.svg";
 import InfoOutlinedIcon from "../../svg/information-line.svg";
 import OrderPlayIcon from "../../svg/order-play-line.svg";
 import PauseIcon from "../../svg/pause-mini-line.svg";
-import WorkoutList from "../../views/WorkoutList";
+import WorkoutSeeker from "../../views/WorkoutSeeker";
 import WorkoutExerciseCard from "../../cards/WorkoutExerciseCard";
 import PauseModal from "./PauseModal";
 import IntervalModal from "./IntervalModal";
@@ -60,19 +60,20 @@ const PlayWorkout = props => {
 
             <div className="my-4 flex flex-row place-content-between">
                 {!props.isPaused ? <div>
-                    <button onClick={props.close}>
+                    <div onClick={props.close} className="cursor-pointer">
                         <CloseIcon/>
-                    </button>
+                    </div>
                 </div> : null}
 
-                {!props.isPaused ? <div>
-                    <button className="mx-2" onClick={previewExercise}>
-                        <InfoOutlinedIcon/>
-                    </button>
-                    <button className="mx-2" onClick={toggleWorkoutList}>
-                        <OrderPlayIcon/>
-                    </button>
-                </div> : null}
+                {!props.isPaused ?
+                    <div className="flex flex-row">
+                        <div className="mx-2 cursor-pointer" onClick={previewExercise}>
+                            <InfoOutlinedIcon/>
+                        </div>
+                        <div className="mx-2 cursor-pointer" onClick={toggleWorkoutList}>
+                            <OrderPlayIcon/>
+                        </div>
+                    </div> : null}
             </div>
 
             <video key={props.workoutExercise.exercise.videoUrls[0]}
@@ -84,14 +85,14 @@ const PlayWorkout = props => {
             <div>
                 {!props.isPaused ?
                     <div className="mt-4 flex flex-row justify-center">
-                        <button className="mx-2" onClick={props.seekBackward}>
-                            <p>Prev</p>
+                        <button type="button" className="mx-2" onClick={props.seekBackward}>
+                            Prev
                         </button>
-                        <button className="mx-2" onClick={props.pause}>
+                        <button type="button" className="mx-2" onClick={props.pause}>
                             <PauseIcon/>
                         </button>
-                        <button className="mx-2" onClick={props.seekForward}>
-                            <p>Next</p>
+                        <button type="button" className="mx-2" onClick={props.seekForward}>
+                            Next
                         </button>
                     </div> : null}
                 <div>
@@ -101,14 +102,14 @@ const PlayWorkout = props => {
                 </div>
             </div>
             {props.nextWorkoutExercise ?
-                <div className="flex flex-row justify-start sm:justify-end mt-4">
+                <div className="flex flex-row justify-start sm:justify-end mt-4" onClick={previewExercise}>
                     <div>
                         <p className="py-0.5">Up Next:</p>
                         <WorkoutExerciseCard workoutExercise={props.nextWorkoutExercise} type={props.type}/>
                     </div>
                 </div> : null}
             {showWorkoutList ?
-                <WorkoutList
+                <WorkoutSeeker
                     type={props.type}
                     close={() => setShowWorkoutList(false)}
                     list={props.data} progress={props.progress}/> : null}
