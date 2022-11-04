@@ -202,6 +202,12 @@ export async function getServerSideProps(context) {
 
     } catch (err) {
         // Do nothing if user doesn't exist
+        return {
+            props: {
+                authenticated: false,
+                username: "",
+            }
+        }
     }
 }
 
