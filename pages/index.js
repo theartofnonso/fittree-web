@@ -83,37 +83,21 @@ export default function App({authenticated}) {
                     bodyOne="launch your workouts"
                     bodyTwo="with an improved experience"/>
             </div>
-            <div className="flex flex-col mx-6 sm:mx-8">
-                <button
-                    type="button"
-                    className="accordion bg-primary w-full text-start px-3 py-5 my-2 rounded-lg font-semibold text-md text-white">What
-                    is Fittree ?
-                </button>
-                <div className="p-3">
-                    <p>Fittree is a link to your workouts.
-                        All you need is a fittree.io/username to share with everyone, everywhere.
-                        Create awesome workouts and share them with your followers, clients, brand partners etc.
-                        Take your link everywhere your fitness brand exists.</p>
+            <div className="flex flex-col mx-8">
+                <div className="p-4 bg-secondary rounded-sm text-primary my-2">
+                    <p className="text-xl font-semibold mb-1">What is Fittree ?</p>
+                    <p className="text-justify">Fittree is a link to your workouts.
+                        All you need is a fittree.io/username to create awesome workouts and share them with your community.
+                    </p>
                 </div>
-
-                <button
-                    type="button"
-                    className="accordion bg-primary w-full text-start px-3 py-5 my-2 rounded-lg font-semibold text-md text-white">Why
-                    do I need Fittree ?
-                </button>
-                <div className="p-3">
-                    <p>It is simple, you have a brand (sense of value and reputation) to build, and we have the means to
-                        help you achieve that. Fittree is a fit-for-purpose link to the value you have to offer to your
+                <div className="p-4 bg-secondary rounded-sm text-primary my-2">
+                    <p className="text-xl font-semibold mb-1">Why do I need Fittree ?</p>
+                    <p className="text-justify">It is simple, Fittree is a fit-for-purpose platform for workouts you have to share with your
                         community.</p>
                 </div>
-
-                <button
-                    type="button"
-                    className="accordion bg-primary w-full text-start px-3 py-5 my-2 rounded-lg font-semibold text-md text-white">How
-                    can I share my workouts ?
-                </button>
-                <div className="p-3">
-                    <p>All you need is a fittree.io/username link.</p>
+                <div className="p-4 bg-secondary rounded-sm text-primary mt-2">
+                    <p className="text-xl font-semibold mb-1">How can I share my workouts ?</p>
+                    <p className="text-justify">All you need is a fittree.io/username link.</p>
                 </div>
             </div>
             <div className="flex flex-row my-4 mx-6 sm:mx-8 place-content-between">
