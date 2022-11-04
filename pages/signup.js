@@ -12,7 +12,7 @@ import {
     persistUserToDB,
     retrieveCognitoUser
 } from "../src/utils/aws-utils/awsHelperFunctions";
-import {Auth} from "aws-amplify";
+import {Auth, withSSRContext} from "aws-amplify";
 import awsConstants from "../src/utils/aws-utils/awsConstants";
 import {useRouter} from "next/router";
 import Link from "next/link";
@@ -317,4 +317,23 @@ export default function SignUp() {
             ) : null}
         </div>
     )
+}
+
+export async function getServerSideProps(context) {
+
+    const {Auth} = withSSRContext(context)
+
+    try {
+        await Auth.currentAuthenticatedUser()
+
+        return {
+            redirect: {
+                destination: "/admin",
+                permanent: false,
+            },
+        };
+
+    } catch (err) {
+       // Do nothing if user doesn't exist
+    }
 }
