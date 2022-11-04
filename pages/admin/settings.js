@@ -18,6 +18,7 @@ import {generateCDNUrl, generateFileName} from "../../src/utils/general/utils";
 import awsConstants from "../../src/utils/aws-utils/awsConstants";
 import workoutsConstants from "../../src/utils/workout/workoutsConstants";
 import FittreeLoading from "../../src/components/views/FittreeLoading";
+import {useLeavePageConfirm} from "../../src/utils/general/hooks";
 
 export default function Settings({username}) {
 
@@ -141,6 +142,35 @@ export default function Settings({username}) {
 
         return generateCDNUrl(s3Response.key);
     };
+
+    /**
+     * Determine if user is about to navigate when changes are unsaved
+     * @returns {boolean}
+     */
+    const shouldConfirmLeavePage = () => {
+
+        if(!user) return
+
+        const data = []
+
+        data.push({key: "instagram", value: instagram.trim()})
+        data.push({key: "facebook", value: facebook.trim()})
+        data.push({key: "twitter", value: twitter.trim()})
+        data.push({key: "tiktok", value: tiktok.trim()})
+        data.push({key: "youtube", value: youtube.trim()})
+        data.push({key: "displayBrief", value: displayBrief.trim()})
+
+        const listOfChanges = data
+            .filter(item => user[item.key] !== item.value)
+
+        if (uri) {
+            listOfChanges.push({})
+        }
+
+        return listOfChanges.length > 0
+    }
+
+    useLeavePageConfirm(shouldConfirmLeavePage(), "Are you sure you want to leave?")
 
     /**
      * Fetch user
