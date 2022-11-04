@@ -6,7 +6,7 @@ import Loading from "../src/components/utils/Loading";
 import {isEmailValid} from "../src/utils/general/utils";
 import VerifyAuth from "../src/components/modals/auth/verifyauth";
 import {getUserFromDB, persistUserToDB, retrieveCognitoUser} from "../src/utils/aws-utils/awsHelperFunctions";
-import {Auth} from "aws-amplify";
+import {Auth, withSSRContext} from "aws-amplify";
 import {useRouter} from "next/router";
 import Link from "next/link";
 import ErrorBar from "../src/components/views/snackbars/ErrorBar";
@@ -185,3 +185,23 @@ export default function SignIn() {
         </div>
     )
 }
+
+export async function getServerSideProps(context) {
+
+    const {Auth} = withSSRContext(context)
+
+    try {
+        await Auth.currentAuthenticatedUser()
+
+        return {
+            redirect: {
+                destination: "/admin",
+                permanent: false,
+            },
+        };
+
+    } catch (err) {
+        // Do nothing if user doesn't exist
+    }
+}
+
