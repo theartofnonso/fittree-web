@@ -8,6 +8,9 @@ import NavBar from "../../src/components/views/NavBar";
 import PageDescription from "../../src/components/views/PageDescription";
 import Footer from "../../src/components/views/Footer";
 import WorkoutList from "../../src/components/views/WorkoutList";
+import AddIcon from "../../src/components/svg/add-line-white.svg";
+import CreateWorkout from "../../src/components/modals/workout/CreateWorkout";
+import workoutsConstants from "../../src/utils/workout/workoutsConstants";
 
 export default function Workouts({username}) {
 
@@ -20,6 +23,10 @@ export default function Workouts({username}) {
     const [filteredWorkouts, setFilteredWorkouts] = useState(workouts);
 
     const [searchQuery, setSearchQuery] = useState("");
+
+    const [workoutParams, setWorkoutParams] = useState({});
+
+    const [openCreateWorkout, setOpenCreateWorkout] = useState(false)
 
     /**
      * Fetch auth users exercises and workouts
@@ -65,11 +72,21 @@ export default function Workouts({username}) {
                         value={searchQuery}
                         onChange={event => onChangeSearch(event.target.value.toLowerCase())}/>
                 </form>
+                <button
+                    type="button"
+                    onClick={() => setOpenCreateWorkout(true)}
+                    className="flex flex-row items-center justify-center bg-primary rounded-md hover:bg-darkPrimary text-white pl-1 pr-4 py-1 font-semibold">
+                    <AddIcon/>Create
+                </button>
                 <WorkoutList username={username}
                              workouts={filteredWorkouts}
                              exercises={exercises}
                              emptyListMessage="You don't have any workouts yet"
                              showDuration={false}/>
+                <CreateWorkout
+                    open={openCreateWorkout}
+                    close={() => setOpenCreateWorkout(false)}
+                    params={{workoutType: workoutsConstants.workoutType.CIRCUIT}}/>
             </div>
             <Footer/>
         </>
