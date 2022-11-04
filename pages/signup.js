@@ -16,7 +16,22 @@ import {Auth} from "aws-amplify";
 import awsConstants from "../src/utils/aws-utils/awsConstants";
 import {useRouter} from "next/router";
 import Link from "next/link";
-import ErrorBar from "../src/components/views/snackbars/ErrorBar";
+
+/**
+ * Sign up credential errors
+ */
+const errors = {
+    PATTERN: {name: "ERROR_EMAIL_PATTERN", message: "email is invalid, please check your email"},
+    RANGE: {name: "ERROR_LENGTH", message: "username must be at least 4 characters and not more than 15"},
+    UNSUPPORTED_CHAR: {
+        name: "ERROR_UNSUPPORTED_CHAR",
+        message: "username can only include words, periods and underscores"
+    },
+    EMPTY_EMAIL: {name: "ERR0R_EMPTY_EMAIL", message: "Please provide an email"},
+    PROPRIETARY_NAME: {name: "ERROR_PROPRIETARY_NAME", message: "Fittree is a proprietary name"},
+    PREFERRED_USERNAME_EXISTS: {name: "ERROR_PREFERRED_USERNAME_EXISTS", message: "username has been taken"},
+    EMAIL_EXISTS: {name: "ERROR_EMAIL_EXISTS", message: "email already exists"},
+}
 
 export default function SignUp() {
 
@@ -26,7 +41,7 @@ export default function SignUp() {
 
     const [preferredUsernameName, setPreferredUsernameName] = useState("");
 
-    const [errorMessage, setErrorMessage] = useState("");
+    const [errorMessages, setErrorMessages] = useState(new Set());
 
     const [isLoading, setIsLoading] = useState(false);
 
@@ -37,30 +52,52 @@ export default function SignUp() {
     const [canUseEmail, setCanUseEmail] = useState(false);
 
     /**
-     * Show snackbar for err message
+     * Add new error message
+     * @param err
      */
-    const [showSnackBar, setShowSnackBar] = useState(false)
+    const addError = (err) => {
+        setErrorMessages(prevValues => {
+            prevValues.add(err)
+            return new Set(prevValues);
+        })
+    }
 
-    const [snackbarMessage, setSnackbarMessage] = useState("");
+    /**
+     * Delete old error message
+     * @param err
+     */
+    const removeError = (err) => {
+        setErrorMessages(prevValues => {
+            prevValues.delete(err)
+            return new Set(prevValues);
+        })
+    }
 
     /**
      * Check that the entered email is a valid format
      * @param value
      */
     const onEnterEmailHandler = value => {
-        setEmail(value.trim());
 
-        if (value.length === 0) {
-            setErrorMessage("");
-            return;
+        setEmail(value);
+
+        /**
+         * Remove errors when field is empty
+         */
+        if (value === "") {
+            removeError(errors.PATTERN)
+            removeError(errors.EMAIL_EXISTS)
+            return
         }
 
         const isValid = isEmailValid(value);
-        if (isValid) {
-            checkIfUsernameExists(value);
+        if (!isValid) {
+            addError(errors.PATTERN)
         } else {
-            setErrorMessage("Email is invalid, please check your email");
+            removeError(errors.PATTERN)
+            checkIfUsernameExists(value);
         }
+
     };
 
     /**
@@ -68,56 +105,57 @@ export default function SignUp() {
      * @param value
      */
     const onEnterFitNameHandler = value => {
+
         setPreferredUsernameName(value);
+
+        /**
+         * Remove errors when field is empty
+         */
+        if (value === "") {
+            removeError(errors.RANGE)
+            removeError(errors.UNSUPPORTED_CHAR)
+            removeError(errors.PROPRIETARY_NAME)
+            return
+        }
+
+        checkIfPreferredUsernameExists(value);
+
         const isWithinRange = value.trim().length >= 4;
-        const isValidPattern = onlyPeriodsUnderscore(value.trim());
-
-        if (value.length === 0) {
-            setErrorMessage("");
-            return;
-        }
-
         if (!isWithinRange) {
-            setErrorMessage("Username must be at least 4 characters and not more than 15");
-        } else if (!isValidPattern) {
-            setErrorMessage("Username can only include words, periods and underscores");
-        } else if (isProprietaryName) {
-            setErrorMessage("Fittree is a proprietary name");
-        } {
-            setErrorMessage("");
-            checkIfPreferredUsernameExists(value);
+            addError(errors.RANGE)
+        } else {
+            removeError(errors.RANGE)
         }
+
+        const isValidPattern = onlyPeriodsUnderscore(value.trim());
+        if (!isValidPattern) {
+            addError(errors.UNSUPPORTED_CHAR)
+        } else {
+            removeError(errors.UNSUPPORTED_CHAR)
+        }
+
+        if (isProprietaryName(value)) {
+            addError(errors.PROPRIETARY_NAME)
+        } else {
+            removeError(errors.PROPRIETARY_NAME)
+        }
+
     };
 
     /**
      * Check if chosen name is FitPin proprietary
      */
-    const isProprietaryName = value => value.toLowerCase() === APP_NAME;
+    const isProprietaryName = value => value.toLowerCase() === APP_NAME.toLowerCase();
 
     /**
      * Sign Up new subscriber with email
      * @returns {Promise<void>}
      */
     const signUpHandler = async () => {
-        if (preferredUsernameName.trim().length === 0) {
-            setShowSnackBar(true);
-            setSnackbarMessage("Please provide a username");
-            return;
-        }
 
-        if (preferredUsernameName.trim().length < 4) {
-            setShowSnackBar(true);
-            setSnackbarMessage("Username must be at least 4 characters and not more than 15");
-            return;
-        }
+        const errorsLeft = Array.from(errorMessages).length
 
-        if (email.trim().length === 0) {
-            setShowSnackBar(true);
-            setSnackbarMessage("Please provide an email");
-            return;
-        }
-
-        if (canUsePreferredUsername && canUseEmail) {
+        if (errorsLeft === 0 && email && preferredUsernameName && canUseEmail && canUsePreferredUsername) {
             await signUpHelper();
         }
     };
@@ -128,10 +166,10 @@ export default function SignUp() {
     const checkIfPreferredUsernameExists = (preferredUsernameName) => {
         doesPreferredUsernameExists(preferredUsernameName).then(isExisting => {
             if (isExisting) {
-                setErrorMessage(preferredUsernameName + " is has been taken");
+                addError(errors.PREFERRED_USERNAME_EXISTS)
                 setCanUsePreferredUsername(false);
             } else {
-                setErrorMessage("");
+                removeError(errors.PREFERRED_USERNAME_EXISTS)
                 setCanUsePreferredUsername(true);
             }
         });
@@ -143,10 +181,10 @@ export default function SignUp() {
     const checkIfUsernameExists = (email) => {
         retrieveCognitoUser(email)
             .then(_ => {
-                setErrorMessage(email + " already exists");
+                addError(errors.EMAIL_EXISTS)
                 setCanUseEmail(false);
             }).catch(_ => {
-            setErrorMessage("");
+            removeError(errors.EMAIL_EXISTS)
             setCanUseEmail(true);
         });
     };
@@ -171,13 +209,6 @@ export default function SignUp() {
         } catch (err) {
             setIsLoading(false);
         }
-    };
-
-    /**
-     * Display alert for empty sign field information
-     */
-    const showAlert = message => {
-        alert(message);
     };
 
     /**
@@ -238,15 +269,20 @@ export default function SignUp() {
                     placeholder={APP_NAME + ".io/username"}
                     value={preferredUsernameName}
                     maxLength={15}
-                    onChange={event => onEnterFitNameHandler(event.target.value.toLowerCase())}/>
+                    onChange={event => onEnterFitNameHandler(event.target.value.trim().toLowerCase())}/>
                 <input
                     className="border-gray w-5/6 bg-secondary h-14 sm:h-18 shadow appearance-none border rounded w-full py-2 px-3 my-1 leading-tight focus:outline-none focus:shadow-outline"
                     id="search"
                     type="email"
                     placeholder="Enter email"
                     value={email}
-                    onChange={event => onEnterEmailHandler(event.target.value.toLowerCase())}/>
-                {errorMessage.length > 0 ? <p className="text-red my-2">{errorMessage} </p> : null}
+                    onChange={event => onEnterEmailHandler(event.target.value.trim().toLowerCase())}/>
+                <div className="flex flex-col text-right">
+                    {Array.from(errorMessages).map((errorMessage, index) => {
+                        return <p key={index}
+                                  className="text-red text-sm font-medium my-0.5">{errorMessage.message} </p>
+                    })}
+                </div>
                 <button
                     type="button"
                     onClick={signUpHandler}
@@ -279,10 +315,6 @@ export default function SignUp() {
                     email={email}
                 />
             ) : null}
-            <ErrorBar
-                open={showSnackBar}
-                close={() => setShowSnackBar(false)}
-                message={snackbarMessage}/>
         </div>
     )
 }
