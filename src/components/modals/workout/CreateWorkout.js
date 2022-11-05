@@ -16,23 +16,20 @@ import EditIcon from "../../svg/edit-2-line-white.svg";
 import PageDescription from "../../views/PageDescription";
 import BodyParts from "../../views/BodyParts";
 import Equipments from "../../views/Equipments";
+import ExerciseGallery from "../../views/ExerciseGallery";
 
 
-export default function CreateWorkout({params, open, close}) {
+export default function CreateWorkout({params, user, exercises, workoutToEdit, open, close}) {
 
-    if(!open) {
+    if (!open) {
         return null;
     }
 
     const router = useRouter()
 
-    const exercises = useSelector(selectAllExercises);
-
-    const user = useSelector(selectAuthUser);
-
     const dispatch = useDispatch();
 
-    const workout = useSelector(state => selectWorkoutById(state, params.id));
+    const workout = null //useSelector(state => selectWorkoutById(state, params.id));
 
     /**
      * Title
@@ -164,6 +161,11 @@ export default function CreateWorkout({params, open, close}) {
     const [thumbnailOptionsModalVisible, setThumbnailOptionsModalVisible] = useState(false);
 
     /**
+     * Handle opening and closing Exercise gallery
+     */
+    const [openExerciseGallery, setOpenExerciseGallery] = useState(false)
+
+    /**
      * Get the workout type
      * @returns {*}
      */
@@ -210,8 +212,8 @@ export default function CreateWorkout({params, open, close}) {
     /**
      * Close the modal
      */
-    const closeExercisesGalleryModal = selectedExerciseIds => {
-        setIsExerciseGalleryVisible(false);
+    const closeExercisesGallery = selectedExerciseIds => {
+        setOpenExerciseGallery(false);
         if (selectedExerciseIds.length > 0) {
             const selectedExerciseObjects = selectedExerciseIds.map(id => {
                 return {
@@ -442,7 +444,7 @@ export default function CreateWorkout({params, open, close}) {
      * Handle thumbnail display
      */
     const handleThumbnailDisplay = () => {
-        if(workout || uri) {
+        if (workout || uri) {
             setThumbnailOptionsModalVisible(true)
         } else {
             pickImage()
@@ -534,7 +536,7 @@ export default function CreateWorkout({params, open, close}) {
             };
 
             if (workout) {
-                return dispatch(updateWorkout({ ...workout, ...payload })).unwrap();
+                return dispatch(updateWorkout({...workout, ...payload})).unwrap();
             }
 
             return dispatch(createWorkout(payload)).unwrap();
@@ -707,25 +709,25 @@ export default function CreateWorkout({params, open, close}) {
         return totalExerciseDuration + totalExerciseInterval;
     };
 
-    // /**
-    //  * Display thumbnail
-    //  * @returns {JSX.Element|null}
-    //  */
-    // const displayThumbnail = () => {
-    //     if (removeThumbnail) {
-    //         return null;
-    //     }
-    //     if (uri) {
-    //         return <Image source={{ uri: uri }} style={styles.thumbnail} resizeMode="cover" />;
-    //     } else if (workout) {
-    //         return <Image source={{
-    //             uri: "https://" + workout.thumbnailUrl,
-    //             cache: "force-cache",
-    //         }} style={styles.thumbnail} resizeMode="cover" />;
-    //     }
-    //
-    //     return null;
-    // };
+    /**
+     * Display thumbnail
+     * @returns {JSX.Element|null}
+     */
+    const displayThumbnail = () => {
+        if (removeThumbnail) {
+            return null;
+        }
+        if (uri) {
+            return <Image source={{ uri: uri }} style={styles.thumbnail} resizeMode="cover" />;
+        } else if (workout) {
+            return <Image source={{
+                uri: "https://" + workout.thumbnailUrl,
+                cache: "force-cache",
+            }} style={styles.thumbnail} resizeMode="cover" />;
+        }
+
+        return null;
+    };
 
 
     return (
@@ -736,7 +738,7 @@ export default function CreateWorkout({params, open, close}) {
             <PageDescription
                 title={getWorkoutType() === workoutsConstants.workoutType.CIRCUIT ? workoutsConstants.workoutType.circuitInfo.title : workoutsConstants.workoutType.repsSetsInfo.title}
                 description="Curate exercises into a workout"/>
-            <form className="mt-4 flex flex-col">
+            <div className="mt-4 flex flex-col">
                 <input
                     className="appearance-none border-none w-5/6 bg-gray2 h-14 sm:h-18 rounded w-full py-2 px-3 my-2"
                     id="search"
@@ -768,11 +770,12 @@ export default function CreateWorkout({params, open, close}) {
                         </svg>
                     </div>
                 </div>
-                <BodyParts prevValues={selectedBodyParts} onSelect={selectBodyPartsHandler} />
+                <BodyParts prevValues={selectedBodyParts} onSelect={selectBodyPartsHandler}/>
                 <Equipments
                     prevEquipments={selectedEquipments}
-                    onSelect={selectEquipmentHandler} />
-                <table className="table-auto outline outline-gray2 outline-1 p-2 rounded-md mt-4 border-separate border-spacing-2">
+                    onSelect={selectEquipmentHandler}/>
+                <table
+                    className="table-auto outline outline-gray2 outline-1 p-2 rounded-md mt-4 border-separate border-spacing-2">
                     <thead className="">
                     <tr className="text-left">
                         <th>Title</th>
@@ -781,31 +784,59 @@ export default function CreateWorkout({params, open, close}) {
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>The Sliding Mr. Bones (Next Stop, Pottersville)</td>
-                        <td>Malcolm Lockyer</td>
-                        <td className="flex flex-row">
-                            <div className="bg-primary rounded hover:bg-darkPrimary p-0.5 m-1">
-                                <EditIcon/>
-                            </div>
-                            <div className="bg-primary rounded hover:bg-darkPrimary p-0.5 m-1">
-                                <CloseIconWhite/>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Witchy Woman</td>
-                        <td>The Eagles</td>
-                        <td>1972</td>
-                    </tr>
-                    <tr>
-                        <td>Shining Star</td>
-                        <td>Earth, Wind, and Fire</td>
-                        <td>1975</td>
-                    </tr>
+                    {selectedExercises.map((exercise, index) => {
+                        return (
+                            <tr key={index}>
+                                <td>{displayExerciseTitle(exercise)}</td>
+                                <td>{getWorkoutType() === workoutsConstants.workoutType.CIRCUIT ?
+                                    displayCircuitExerciseInfo(exercise) : displayRepsSetsExerciseInfo(exercise)}
+                                </td>
+                                <td className="flex flex-row">
+                                    <div className="bg-primary rounded hover:bg-darkPrimary p-0.5 m-1">
+                                        <EditIcon/>
+                                    </div>
+                                    <div className="bg-primary rounded hover:bg-darkPrimary p-0.5 m-1">
+                                        <CloseIconWhite/>
+                                    </div>
+                                </td>
+                            </tr>
+                        )
+                    })}
                     </tbody>
                 </table>
-            </form>
+                <ExerciseGallery open={openExerciseGallery}
+                                 close={closeExercisesGallery}
+                                 items={selectedExercises}/>
+                <button
+                    type="button"
+                    onClick={() => setOpenExerciseGallery(true)}
+                    className="flex flex-row items-center justify-center bg-primary rounded hover:bg-darkPrimary text-white py-1 w-40 mt-4 font-semibold">
+                    Select Exercise
+                </button>
+            </div>
+            {/*{selectedExercises.length > 0 ?*/}
+            {/*    <SelectCard title="Exercise Interval"*/}
+            {/*                value={displayInterval(exerciseInterval)}*/}
+            {/*                label="Exercise Interval"*/}
+            {/*                onPress={() => setExerciseIntervalModalVisible(true)} /> : null}*/}
+
+            {/*{(selectedExercises.length > 0) && getWorkoutType() === workoutsConstants.workoutType.CIRCUIT ?*/}
+            {/*    <SelectCard title="Rounds"*/}
+            {/*                value={rounds}*/}
+            {/*                label="Rounds"*/}
+            {/*                onPress={() => setRoundsModalVisible(true)} /> : null}*/}
+
+            {/*{rounds > 1 ?*/}
+            {/*    <SelectCard title="Rounds Interval"*/}
+            {/*                value={displayInterval(roundsInterval)}*/}
+            {/*                label="Rounds Interval"*/}
+            {/*                onPress={() => setRoundsIntervalModalVisible(true)} /> : null}*/}
+
+            {/*{(selectedExercises.length > 0) && getWorkoutType() === workoutsConstants.workoutType.REPS_SETS ?*/}
+            {/*    <SelectCard title="Sets Interval"*/}
+            {/*                value={displayInterval(setsInterval)}*/}
+            {/*                label="Sets Interval"*/}
+            {/*                onPress={() => setSetsIntervalModalVisible(true)} /> : null}*/}
 
             <button
                 type="button"

@@ -261,7 +261,7 @@ export default function SignUp() {
                 Sign up to start <span className="font-bold">creating</span>
                 <span className="font-bold block"> and sharing <span className="font-light">workouts</span></span>
             </p>
-            <form className="mt-4 flex flex-col items-end">
+            <div className="mt-4 flex flex-col items-end">
                 <input
                     className="border-gray w-5/6 bg-secondary h-14 sm:h-18 shadow appearance-none border rounded w-full py-2 px-3 my-1 leading-tight focus:outline-none focus:shadow-outline"
                     id="search"
@@ -289,7 +289,7 @@ export default function SignUp() {
                     className="mt-4 bg-primary rounded-3xl py-2 px-4 w-1/6 text-white font-medium hover:bg-darkPrimary hidden sm:block">Sign
                     up
                 </button>
-            </form>
+            </div>
             <p className="text-center mt-8 font-light">Don't have a Fittree account?&nbsp;
                 <Link href="/signin">
                     <a className="font-bold cursor-pointer hover:font-semibold">Sign in</a>

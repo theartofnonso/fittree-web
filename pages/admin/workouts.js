@@ -11,16 +11,19 @@ import WorkoutList from "../../src/components/views/WorkoutList";
 import AddIcon from "../../src/components/svg/add-line-white.svg";
 import CreateWorkout from "../../src/components/modals/workout/CreateWorkout";
 import workoutsConstants from "../../src/utils/workout/workoutsConstants";
+import {selectAuthUser} from "../../src/features/auth/authUserSlice";
 
 export default function Workouts({username}) {
 
     const dispatch = useDispatch();
 
+    const user = useSelector(selectAuthUser);
+
     const exercises = useSelector(selectAllExercises)
 
     const workouts = useSelector(selectAllWorkouts)
 
-    const [filteredWorkouts, setFilteredWorkouts] = useState(workouts);
+    const [filteredWorkouts, setFilteredWorkouts] = useState([]);
 
     const [searchQuery, setSearchQuery] = useState("");
 
@@ -54,16 +57,16 @@ export default function Workouts({username}) {
      */
     const onChangeSearch = query => {
         setSearchQuery(query);
-        const searchResult = searchExerciseOrWorkout(workouts, query);
+        const searchResult = searchExerciseOrWorkout(filteredWorkouts, query);
         setFilteredWorkouts(searchResult);
     };
 
     return (
         <>
-            <div className="container mx-auto p-4 min-h-screen">
+            <div className="container mx-auto p-4 h-screen">
                 <NavBar username={username}/>
                 <PageDescription title="Workouts in draft" description="Find workouts yet to go live"/>
-                <form className="my-4 flex flex-col items-center">
+                <div className="my-4 flex flex-col items-center">
                     <input
                         className="border-gray w-5/6 bg-secondary h-14 sm:h-18 shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
                         id="search"
@@ -71,7 +74,7 @@ export default function Workouts({username}) {
                         placeholder="Search workouts"
                         value={searchQuery}
                         onChange={event => onChangeSearch(event.target.value.toLowerCase())}/>
-                </form>
+                </div>
                 <button
                     type="button"
                     onClick={() => setOpenCreateWorkout(true)}
@@ -86,6 +89,8 @@ export default function Workouts({username}) {
                 <CreateWorkout
                     open={openCreateWorkout}
                     close={() => setOpenCreateWorkout(false)}
+                    user={user}
+                    exercises={exercises}
                     params={{workoutType: workoutsConstants.workoutType.CIRCUIT}}/>
             </div>
             <Footer/>
