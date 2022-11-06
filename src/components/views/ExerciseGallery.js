@@ -6,26 +6,24 @@ import {searchExerciseOrWorkout} from "../../utils/workoutAndExerciseUtils";
 import ExerciseGalleryList from "./ExerciseGalleryList";
 import CloseIcon from "../svg/close-line.svg";
 
-const ExerciseGallery = ({items, open, close}) => {
+const ExerciseGallery = ({selectedExercises, open, close}) => {
 
-    if(!open) {
+    if (!open) {
         return;
     }
 
     const exercises = useSelector(selectAllExercises);
 
-    const [filteredExercises, setFilteredExercises] = useState([]);
+    const [filteredExercises, setFilteredExercises] = useState(exercises);
 
     const [searchQuery, setSearchQuery] = useState("");
 
     /**
-     * Load fetched exercises
+     * Load unselected exercises
      */
     useEffect(() => {
-        if (exercises) {
-            const remainingExercises = exercises.filter(exercise => !items.some(selectedExercise => selectedExercise.exerciseId === exercise.id));
-            setFilteredExercises(remainingExercises)
-        }
+        const remainingExercises = exercises.filter(exercise => !selectedExercises.some(selectedExercise => selectedExercise.exerciseId === exercise.id));
+        setFilteredExercises(remainingExercises)
     }, [exercises]);
 
     /**
@@ -68,7 +66,7 @@ const ExerciseGallery = ({items, open, close}) => {
             <ExerciseGalleryList
                 onClick={onClickHandler}
                 exercises={filteredExercises}
-                          emptyListMessage="You don't have any exercises yet"/>
+                emptyListMessage="You don't have any exercises yet"/>
         </div>
     );
 };

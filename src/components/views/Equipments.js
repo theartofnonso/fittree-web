@@ -9,11 +9,10 @@ const Equipments = props => {
 
     const [selectedEquipments, setSelectedEquipments] = useState(props.prevEquipments);
 
-    const [equipments, setEquipments] = useState(listOfEquipments.equipments.slice(0, 8));
+    const [equipments, setEquipments] = useState(listOfEquipments.equipments.slice(0, 8).sort());
 
     useEffect(() => {
-        const remaining = remainingEquipments();
-        console.log(remaining.length)
+        const remaining = remainingEquipments().sort();
         setEquipments(remaining);
     }, [selectedEquipments]);
 

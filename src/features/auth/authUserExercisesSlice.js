@@ -177,9 +177,11 @@ export const batchDeleteExercises = createAsyncThunk("authUserExercises/deleteAl
 export const {
   selectAll: selectAllExercises,
   selectById: selectExerciseById,
-  selectIds: selectFitIds,
+  selectIds: selectExerciseIds,
 } = exercisesAdapter.getSelectors(state => state.authUserExercises);
 
 export const { exercisesAdded } = authUserExercisesSlice.actions;
+
+// export const selectUnselectedExercises = (state, selectedExercises) => state.authUserExercises.filter(exercise => !selectedExercises.some(selectedExercise => selectedExercise.exerciseId === exercise.id));
 
 export default authUserExercisesSlice.reducer;

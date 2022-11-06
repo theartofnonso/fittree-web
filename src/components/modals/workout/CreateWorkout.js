@@ -212,7 +212,7 @@ export default function CreateWorkout({params, user, exercises, workoutToEdit, o
     /**
      * Close the modal
      */
-    const closeExercisesGallery = selectedExerciseIds => {
+    const closeExerciseGallery = selectedExerciseIds => {
         setOpenExerciseGallery(false);
         if (selectedExerciseIds.length > 0) {
             const selectedExerciseObjects = selectedExerciseIds.map(id => {
@@ -805,8 +805,8 @@ export default function CreateWorkout({params, user, exercises, workoutToEdit, o
                     </tbody>
                 </table>
                 <ExerciseGallery open={openExerciseGallery}
-                                 close={closeExercisesGallery}
-                                 items={selectedExercises}/>
+                                 close={closeExerciseGallery}
+                                 selectedExercises={selectedExercises}/>
                 <button
                     type="button"
                     onClick={() => setOpenExerciseGallery(true)}
