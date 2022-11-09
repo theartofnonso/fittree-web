@@ -17,6 +17,8 @@ import PageDescription from "../../views/PageDescription";
 import BodyParts from "../../views/BodyParts";
 import Equipments from "../../views/Equipments";
 import ExerciseGallery from "../../views/ExerciseGallery";
+import InputValue from "../../views/InputValue";
+import InputTime from "../../views/snackbars/InputTime";
 
 
 export default function CreateWorkout({params, user, exercises, workoutToEdit, open, close}) {
@@ -83,12 +85,12 @@ export default function CreateWorkout({params, user, exercises, workoutToEdit, o
     /**
      * Rest interval after sets
      */
-    const [setsInterval, setSetsInterval] = useState(workout ? workout.setsInterval : utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_OF_ZERO);
+    const [setsInterval, setSetsInterval] = useState(workout ? workout.setsInterval : utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_MILLISECONDS);
 
     /**
      * Exercise interval
      */
-    const [exerciseInterval, setExerciseInterval] = useState(workout ? workout.exerciseInterval : utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_OF_ZERO);
+    const [exerciseInterval, setExerciseInterval] = useState(workout ? workout.exerciseInterval : utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_MILLISECONDS);
 
     /**
      * Thumbnail URI
@@ -246,7 +248,7 @@ export default function CreateWorkout({params, user, exercises, workoutToEdit, o
     /**
      * Remove Exercise from table
      */
-    const removeWorkoutExercise = () => {
+    const removeWorkoutExercise = (currentExercise) => {
         storeRemovedWorkoutExercises(currentExercise);
         const others = selectedExercises.filter(value => value.exerciseId !== currentExercise.exerciseId);
         setSelectedExercises(others);
@@ -729,7 +731,6 @@ export default function CreateWorkout({params, user, exercises, workoutToEdit, o
         return null;
     };
 
-
     return (
         <div className="px-2 sm:px-10 fixed top-0 right-0 bottom-0 left-0 w-full h-screen bg-white overflow-y-scroll ">
             <div className="my-4 cursor-pointer" onClick={close}>
@@ -779,7 +780,7 @@ export default function CreateWorkout({params, user, exercises, workoutToEdit, o
                     <thead className="">
                     <tr className="text-left">
                         <th>Title</th>
-                        <th>Information</th>
+                        <th>Reps/Sets</th>
                         <th></th>
                     </tr>
                     </thead>
@@ -795,7 +796,7 @@ export default function CreateWorkout({params, user, exercises, workoutToEdit, o
                                     <div className="bg-primary rounded hover:bg-darkPrimary p-0.5 m-1">
                                         <EditIcon/>
                                     </div>
-                                    <div className="bg-primary rounded hover:bg-darkPrimary p-0.5 m-1">
+                                    <div onClick={() => removeWorkoutExercise(exercise)} className="bg-primary rounded hover:bg-darkPrimary p-0.5 m-1">
                                         <CloseIconWhite/>
                                     </div>
                                 </td>
@@ -813,7 +814,28 @@ export default function CreateWorkout({params, user, exercises, workoutToEdit, o
                     className="flex flex-row items-center justify-center bg-primary rounded hover:bg-darkPrimary text-white py-1 w-40 mt-4 font-semibold">
                     Select Exercise
                 </button>
+                <InputTime title="Exercise Interval"
+                            value={exerciseInterval}
+                            open={selectedExercises.length > 1}
+                            onChange={(value) => setExerciseInterval(value)}/>
+                <InputValue title="Sets Interval"
+                            value={setsInterval}
+                            open={(selectedExercises.length > 0) && getWorkoutType() === workoutsConstants.workoutType.REPS_SETS}
+                            onChange={(value) => setSetsInterval(value)}
+                            isTime={true}/>
+                <div className={`${rounds > 1 ? "outline outline-gray2 outline-1 p-2 rounded-md mt-2" : ""}`}>
+                    <InputValue title="Rounds"
+                                value={rounds}
+                                open={(selectedExercises.length > 1) && getWorkoutType() === workoutsConstants.workoutType.CIRCUIT}
+                                onChange={(value) => setRounds(value)}
+                                isTime={false}/>
+                    <InputTime title="Rounds Interval"
+                               value={roundsInterval}
+                               open={rounds > 1}
+                               onChange={(value) => setRoundsInterval(value)}/>
+                </div>
             </div>
+
             {/*{selectedExercises.length > 0 ?*/}
             {/*    <SelectCard title="Exercise Interval"*/}
             {/*                value={displayInterval(exerciseInterval)}*/}

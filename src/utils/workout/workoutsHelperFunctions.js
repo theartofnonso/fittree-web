@@ -29,6 +29,43 @@ export const workoutDurationSummary = duration => {
 }
 
 /**
+ * Convert milliseconds to seconds or minutes
+ * @param duration
+ * @returns {{type: string, value: number}}
+ */
+export const convertMilliToSecondsOrMinutes = duration => {
+    const exactDurationInSeconds = Math.round(duration / 1000)
+    const exactDurationInMinutes = Math.round(duration / 60000)
+
+    if (exactDurationInSeconds >= 60) {
+        return {
+            value: exactDurationInMinutes,
+            type: workoutsConstants.duration.MINUTES
+        };
+    }
+    return {
+        value: exactDurationInSeconds,
+        type: workoutsConstants.duration.SECONDS
+    };
+}
+
+/**
+ * Convert seconds or minutes to milliseconds
+ * @param duration
+ * @returns {number}
+ */
+export const convertSecondsOrMinutesToMilli = duration => {
+    const exactDurationInSeconds = Math.round(duration * 1000)
+    const exactDurationInMinutes = Math.round(duration * 60000)
+
+    if (exactDurationInSeconds >= 60) {
+        return exactDurationInMinutes;
+    }
+
+    return exactDurationInSeconds
+}
+
+/**
  * Interval duration summary
  * @param duration
  * @returns {string}

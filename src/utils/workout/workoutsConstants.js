@@ -12,6 +12,11 @@ const exerciseInfo = {
   REPS: 'Reps',
 };
 
+const duration = {
+  MINUTES: "Mins",
+  SECONDS: "Secs"
+}
+
 /**
  * Intensity Levels
  * @type {{Beginner: string, Advanced: string, Intermediate: string}}
@@ -60,5 +65,6 @@ export default {
   profileStatus,
   playMessages,
   intensityLevels,
-  workoutType
+  workoutType,
+  duration
 };
