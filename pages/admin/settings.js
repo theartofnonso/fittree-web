@@ -10,8 +10,8 @@ import TikTokIcon from "../../src/components/svg/tiktok-primary-line.svg";
 import TwitterIcon from "../../src/components/svg/twitter-primary-line.svg";
 import FacebookIcon from "../../src/components/svg/facebook-circle-primary-line.svg";
 import PageDescription from "../../src/components/views/PageDescription";
-import SuccessBar from "../../src/components/views/snackbars/SuccessBar";
-import ErrorBar from "../../src/components/views/snackbars/ErrorBar";
+import Success from "../../src/components/views/snackbars/Success";
+import Error from "../../src/components/views/snackbars/Error";
 import Avatar from "../../src/components/views/Avatar";
 import Compressor from 'compressorjs';
 import {generateCDNUrl, generateFileName} from "../../src/utils/general/utils";
@@ -310,11 +310,11 @@ export default function Settings({username}) {
                         </button>
                     </div>
                 </div>
-                <SuccessBar
+                <Success
                     open={showSuccessSnackBar}
                     close={() => setSuccessShowSnackBar(false)}
                     message={snackbarMessage}/>
-                <ErrorBar
+                <Error
                     open={showErrorSnackBar}
                     close={() => setShowErrorSnackBar(false)}
                     message={snackbarMessage}/>

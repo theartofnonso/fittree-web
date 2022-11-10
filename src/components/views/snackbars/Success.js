@@ -2,7 +2,7 @@
 import React, {useEffect} from "react";
 import CheckIcon from "../../svg/check-green-24.svg";
 
-const SuccessBar = ({message, open, close}) => {
+const Success = ({message, open, close}) => {
 
     /**
      * Hide Snackbar
@@ -28,4 +28,4 @@ const SuccessBar = ({message, open, close}) => {
     );
 };
 
-export default SuccessBar;
+export default Success;

@@ -9,7 +9,7 @@ import {getUserFromDB, persistUserToDB, retrieveCognitoUser} from "../src/utils/
 import {Auth, withSSRContext} from "aws-amplify";
 import {useRouter} from "next/router";
 import Link from "next/link";
-import ErrorBar from "../src/components/views/snackbars/ErrorBar";
+import Error from "../src/components/views/snackbars/Error";
 
 export default function SignIn() {
 
@@ -178,7 +178,7 @@ export default function SignIn() {
                     email={email}
                 />
             ) : null}
-            <ErrorBar
+            <Error
                 open={showSnackBar}
                 close={() => setShowSnackBar(false)}
                 message={snackbarMessage}/>

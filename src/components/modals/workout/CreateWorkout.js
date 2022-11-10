@@ -22,6 +22,8 @@ import AddIcon from "../../svg/add-line-white.svg";
 import Compressor from "compressorjs";
 import {constructWorkoutMetadata} from "../../../schemas/workoutMetadata";
 import SelectDuration from "../../views/SelectDuration";
+import Error from "../../views/snackbars/Error";
+import Loading from "../../utils/Loading";
 
 
 export default function CreateWorkout({params, user, exercises, workoutToEdit, open, close}) {
@@ -113,13 +115,16 @@ export default function CreateWorkout({params, user, exercises, workoutToEdit, o
     /**
      * Show snackbar for err message
      */
-    const [errSnackbarVisible, setErrSnackbarVisible] = useState(false);
-    const [errSnackbarMessage, setErrSnackbarMessage] = useState("");
+    const [showSnackBar, setShowSnackBar] = useState(false)
+
+    const [snackbarMessage, setSnackbarMessage] = useState("");
 
     /**
      * Handle opening and closing Exercise gallery
      */
     const [openExerciseGallery, setOpenExerciseGallery] = useState(false)
+
+    const [isLoading, setIsLoading] = useState(false);
 
     /**
      * Handle selected file
@@ -289,15 +294,17 @@ export default function CreateWorkout({params, user, exercises, workoutToEdit, o
      * Perform sanity checks on required details and call createWorkoutHandler
      */
     const doCreateWorkout = async () => {
+        setIsLoading(true)
         if (title.trim().length === 0) {
-            showAlert("Please provide a title");
+            setShowSnackBar(true)
+            setSnackbarMessage("Please provide a title")
         } else {
             try {
                 await createWorkoutHelper();
             } catch (err) {
-                setLoadingStatus(userSliceEnums.STATUS_IDLE);
-                setErrSnackbarMessage("Oops! unable to create workout at this time");
-                setErrSnackbarVisible(true);
+                setIsLoading(false)
+                setShowSnackBar(true)
+                setSnackbarMessage("Oops! unable to create workout at this time")
             }
         }
     };
@@ -306,7 +313,7 @@ export default function CreateWorkout({params, user, exercises, workoutToEdit, o
      * Upload selected thumbnail
      * @returns {Promise<string>}
      */
-    const getThumbnailFromUri = async () => {
+    const convertUriToThumbnail = async () => {
         const blobResponse = await fetch(uri);
         const blob = await blobResponse.blob();
 
@@ -332,63 +339,36 @@ export default function CreateWorkout({params, user, exercises, workoutToEdit, o
      * Create a workout and upload it to DynamoDB
      */
     const createWorkoutHelper = async () => {
-        if (loadingStatus === userSliceEnums.STATUS_IDLE) {
 
-            setLoadingStatus(userSliceEnums.STATUS_PENDING);
+        let thumbnail = workout.thumbnailUrl;
 
-            let thumbnail;
-
-            if (workout && uri) {
-                thumbnail = await getThumbnailFromUri();
-            } else if (workout && !uri) {
-                /**
-                 * Check if user removed thumbnail
-                 */
-                thumbnail = removeThumbnail ? getDefaultThumbnail() : workout.thumbnailUrl;
-            } else if (!workout && uri) {
-                thumbnail = await getThumbnailFromUri();
-            } else {
-                thumbnail = getDefaultThumbnail();
-            }
-
-            const payload = {
-                creatorId: user.id,
-                title: capitaliseWords(title.trim()),
-                description: description.length > 0 ? description.trim() : utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_DESCRIPTION,
-                intensityLevel: intensityLevel ? intensityLevel : workoutsConstants.intensityLevels.Beginner,
-                bodyParts: selectedBodyParts.length > 0 ? displayEmptyBodyPartsInfo(selectedBodyParts) : [utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_BODYPART],
-                equipments: selectedEquipments.length > 0 ? displayEmptyEquipmentsInfo(selectedEquipments) : [utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_EQUIPMENT],
-                rounds: rounds > 0 ? rounds : utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_OF_ONE,
-                roundsInterval: roundsInterval > 0 ? roundsInterval : utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_OF_ZERO,
-                exerciseInterval: exerciseInterval > 0 ? exerciseInterval : utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_OF_ZERO,
-                setsInterval: setsInterval > 0 ? setsInterval : utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_OF_ZERO,
-                duration: getWorkoutType() === workoutsConstants.workoutType.CIRCUIT ? calCircuitDuration() : calRepsSetsDuration(),
-                workoutExercises: selectedExercises.map(item => JSON.stringify(item)),
-                thumbnailUrl: thumbnail,
-                preferred_username: user.preferred_username,
-                type: getWorkoutType() === workoutsConstants.workoutType.CIRCUIT ? workoutsConstants.workoutType.CIRCUIT : workoutsConstants.workoutType.REPS_SETS,
-            };
-
-            if (workout) {
-                return dispatch(updateWorkout({...workout, ...payload})).unwrap();
-            }
-
-            return dispatch(createWorkout(payload)).unwrap();
-
+        if (uri) {
+            thumbnail = await convertUriToThumbnail();
         }
-    };
 
-    /**
-     * Display alert for empty workout information
-     */
-    const showAlert = errorMessage => {
+        const payload = {
+            creatorId: user.id,
+            title: capitaliseWords(title.trim()),
+            description: description.length > 0 ? description.trim() : utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_DESCRIPTION,
+            intensityLevel: intensityLevel ? intensityLevel : workoutsConstants.intensityLevels.Beginner,
+            bodyParts: selectedBodyParts.length > 0 ? displayEmptyBodyPartsInfo(selectedBodyParts) : [utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_BODYPART],
+            equipments: selectedEquipments.length > 0 ? displayEmptyEquipmentsInfo(selectedEquipments) : [utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_EQUIPMENT],
+            rounds: rounds > 0 ? rounds : utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_OF_ONE,
+            roundsInterval: roundsInterval > 0 ? roundsInterval : utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_OF_ZERO,
+            exerciseInterval: exerciseInterval > 0 ? exerciseInterval : utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_OF_ZERO,
+            setsInterval: setsInterval > 0 ? setsInterval : utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_OF_ZERO,
+            duration: getWorkoutType() === workoutsConstants.workoutType.CIRCUIT ? calCircuitDuration() : calRepsSetsDuration(),
+            workoutExercises: selectedExercises.map(item => JSON.stringify(item)),
+            thumbnailUrl: thumbnail,
+            preferred_username: user.preferred_username,
+            type: getWorkoutType() === workoutsConstants.workoutType.CIRCUIT ? workoutsConstants.workoutType.CIRCUIT : workoutsConstants.workoutType.REPS_SETS,
+        };
 
-    };
+        if (workout) {
+            return dispatch(updateWorkout({...workout, ...payload})).unwrap();
+        }
 
-    /**
-     * Display alert for accidental close
-     */
-    const showCloseScreenAlert = () => {
+        return dispatch(createWorkout(payload)).unwrap();
 
     };
 
@@ -458,7 +438,6 @@ export default function CreateWorkout({params, user, exercises, workoutToEdit, o
             return <img src={"https://" + workout.thumbnailUrl} alt="Workout Thumbnail"
                         className="object-cover h-full w-full"/>
         }
-
         return null;
     };
 
@@ -595,8 +574,14 @@ export default function CreateWorkout({params, user, exercises, workoutToEdit, o
             </div>
             <button
                 type="button"
+                onClick={doCreateWorkout}
                 className="mt-2 mb-2 bg-primary rounded-3xl py-2 px-8 text-white font-semibold hover:bg-darkPrimary">Create
             </button>
+            {isLoading ? <Loading message={"Signing you in"}/> : null}
+            <Error
+                open={showSnackBar}
+                close={() => setShowSnackBar(false)}
+                message={snackbarMessage}/>
         </div>
     )
 }
