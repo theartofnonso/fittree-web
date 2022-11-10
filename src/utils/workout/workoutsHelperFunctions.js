@@ -31,38 +31,38 @@ export const workoutDurationSummary = duration => {
 /**
  * Convert milliseconds to seconds or minutes
  * @param duration
- * @returns {{type: string, value: number}}
+ * @returns {number}
  */
 export const convertMilliToSecondsOrMinutes = duration => {
-    const exactDurationInSeconds = Math.round(duration / 1000)
-    const exactDurationInMinutes = Math.round(duration / 60000)
+    const seconds = Math.round(duration / 1000)
+    const minutes = Math.round(duration / 60000)
 
-    if (exactDurationInSeconds >= 60) {
-        return {
-            value: exactDurationInMinutes,
-            type: workoutsConstants.duration.MINUTES
-        };
+    if (seconds >= 60) {
+        return minutes
     }
-    return {
-        value: exactDurationInSeconds,
-        type: workoutsConstants.duration.SECONDS
-    };
+    return seconds
 }
 
 /**
  * Convert seconds or minutes to milliseconds
- * @param duration
  * @returns {number}
+ * @param value
+ * @param type
  */
-export const convertSecondsOrMinutesToMilli = duration => {
-    const exactDurationInSeconds = Math.round(duration * 1000)
-    const exactDurationInMinutes = Math.round(duration * 60000)
+export const convertSecondsOrMinutesToMilli = (value, type) => {
 
-    if (exactDurationInSeconds >= 60) {
-        return exactDurationInMinutes;
+    const secondsToMilli = Math.round(value * 1000)
+    const minutesToMilli = Math.round(value * 60000)
+
+    if(type === workoutsConstants.duration.SECONDS) {
+        return secondsToMilli
     }
 
-    return exactDurationInSeconds
+    if (type === workoutsConstants.duration.MINUTES) {
+        return minutesToMilli
+    }
+
+
 }
 
 /**

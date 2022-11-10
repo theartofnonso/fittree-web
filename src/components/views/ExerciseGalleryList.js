@@ -24,7 +24,7 @@ const ExerciseGalleryList = ({emptyListMessage, exercises, onClick}) => {
 
     return (
         <>
-            <p className="text-sm sm:text-md md:text-lg font-light">{`${exercises.length} workouts`}</p>
+            <p className="text-sm sm:text-md md:text-lg font-light">{`${exercises.length} exercises`}</p>
             {exercises.length > 0 ?
                 <div className="mt-1 grid gap-0.5 grid-cols-2 sm:grid-cols-3">
                     {exercises.map((item, index) => {

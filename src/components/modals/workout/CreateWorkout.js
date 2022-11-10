@@ -1,11 +1,10 @@
-import React, {useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {useRouter} from "next/router";
-import {useDispatch, useSelector} from "react-redux";
-import {selectAllExercises} from "../../../features/auth/authUserExercisesSlice";
-import {selectAuthUser, userSliceEnums} from "../../../features/auth/authUserSlice";
-import {createWorkout, selectWorkoutById, updateWorkout} from "../../../features/auth/authUserWorkoutsSlice";
+import {useDispatch} from "react-redux";
+import {userSliceEnums} from "../../../features/auth/authUserSlice";
+import {createWorkout, updateWorkout} from "../../../features/auth/authUserWorkoutsSlice";
 import workoutsConstants from "../../../utils/workout/workoutsConstants";
-import {sortWorkouts, timeOrReps} from "../../../utils/workout/workoutsHelperFunctions";
+import {sortWorkouts} from "../../../utils/workout/workoutsHelperFunctions";
 import utilsConstants from "../../../utils/utilsConstants";
 import {capitaliseWords, generateCDNUrl, generateFileName} from "../../../utils/general/utils";
 import awsConstants from "../../../utils/aws-utils/awsConstants";
@@ -17,8 +16,12 @@ import PageDescription from "../../views/PageDescription";
 import BodyParts from "../../views/BodyParts";
 import Equipments from "../../views/Equipments";
 import ExerciseGallery from "../../views/ExerciseGallery";
-import InputValue from "../../views/InputValue";
-import InputTime from "../../views/snackbars/InputTime";
+import InputNumber from "../../views/InputValue";
+import InputTime from "../../views/InputTime";
+import AddIcon from "../../svg/add-line-white.svg";
+import Compressor from "compressorjs";
+import {constructWorkoutMetadata} from "../../../schemas/workoutMetadata";
+import SelectDuration from "../../views/SelectDuration";
 
 
 export default function CreateWorkout({params, user, exercises, workoutToEdit, open, close}) {
@@ -26,6 +29,8 @@ export default function CreateWorkout({params, user, exercises, workoutToEdit, o
     if (!open) {
         return null;
     }
+
+    const inputFileRef = useRef()
 
     const router = useRouter()
 
@@ -57,12 +62,10 @@ export default function CreateWorkout({params, user, exercises, workoutToEdit, o
      * Equipment
      */
     const [selectedEquipments, setSelectedEquipments] = useState(workout ? workout.equipments : []);
-    const [equipmentModalVisible, setEquipmentModalVisible] = useState(false);
 
     /**
      * Workout exercises
      */
-    const [currentExercise, setCurrentExercise] = useState(null);
     const [workoutExercisesCount, setWorkoutExercisesCount] = useState(0); // Needed to track changes
     const [selectedExercises, setSelectedExercises] = useState(() => {
         const workoutExercises = workout ? sortWorkouts(workout, exercises) : [];
@@ -70,7 +73,6 @@ export default function CreateWorkout({params, user, exercises, workoutToEdit, o
         return workoutExercises;
     });
     const [deletedExerciseIds, setDeletedExerciseIds] = useState([]);
-    const [isExerciseGalleryVisible, setIsExerciseGalleryVisible] = useState(false);
 
     /**
      * Number of rounds
@@ -95,7 +97,8 @@ export default function CreateWorkout({params, user, exercises, workoutToEdit, o
     /**
      * Thumbnail URI
      */
-    const [uri, setUri] = useState(null);
+    const [uri, setUri] = useState(workout ? workout.thumbnailUrl : null);
+    const [selectedFile, setSelectedFile] = useState();
 
     /**
      * Thumbnail display
@@ -108,64 +111,33 @@ export default function CreateWorkout({params, user, exercises, workoutToEdit, o
     const [loadingStatus, setLoadingStatus] = useState(userSliceEnums.STATUS_IDLE);
 
     /**
-     * Timers for a exercises in a workout
-     */
-    const [timeModalVisible, setTimeModalVisible] = useState(false);
-
-    /**
-     * Timers for a exercises in a workout
-     */
-    const [repsModalVisible, setRepsModalVisible] = useState(false);
-
-    /**
-     * Count modal
-     */
-    const [roundsModalVisible, setRoundsModalVisible] = useState(false);
-
-    /**
-     * Exercise Interval input modal
-     */
-    const [exerciseIntervalModalVisible, setExerciseIntervalModalVisible] =
-        useState(false);
-
-    /**
-     * Sets Interval input modal
-     */
-    const [setsIntervalModalVisible, setSetsIntervalModalVisible] =
-        useState(false);
-
-    /**
-     * Rounds Interval input modal
-     */
-    const [roundsIntervalModalVisible, setRoundsIntervalModalVisible] =
-        useState(false);
-
-    /**
-     * Sets count input modal
-     */
-    const [setsModalVisible, setSetsModalVisible] =
-        useState(false);
-
-    /**
      * Show snackbar for err message
      */
     const [errSnackbarVisible, setErrSnackbarVisible] = useState(false);
     const [errSnackbarMessage, setErrSnackbarMessage] = useState("");
 
     /**
-     * Options modal for setting either reps or time
-     */
-    const [tableOptionsModalVisible, setTableOptionsModalVisible] = useState(false);
-
-    /**
-     * Options modal
-     */
-    const [thumbnailOptionsModalVisible, setThumbnailOptionsModalVisible] = useState(false);
-
-    /**
      * Handle opening and closing Exercise gallery
      */
     const [openExerciseGallery, setOpenExerciseGallery] = useState(false)
+
+    /**
+     * Handle selected file
+     */
+    useEffect(() => {
+        if (selectedFile) {
+            new Compressor(selectedFile, {
+                quality: 0.6, // 0.6 can also be used, but its not recommended to go below.
+                success: (compressedFile) => {
+                    // compressedResult has the compressed file.
+                    // Use the compressed file to upload the images to your server.
+                    const objectURL = URL.createObjectURL(compressedFile);
+                    setUri(objectURL);
+                },
+            });
+            // return () => URL.revokeObjectURL(objectURL);
+        }
+    }, [selectedFile]);
 
     /**
      * Get the workout type
@@ -208,40 +180,18 @@ export default function CreateWorkout({params, user, exercises, workoutToEdit, o
      */
     const selectEquipmentHandler = values => {
         setSelectedEquipments(values);
-        setEquipmentModalVisible(false);
     };
 
     /**
-     * Close the modal
+     * Close the exercise gallery
      */
     const closeExerciseGallery = selectedExerciseIds => {
         setOpenExerciseGallery(false);
         if (selectedExerciseIds.length > 0) {
-            const selectedExerciseObjects = selectedExerciseIds.map(id => {
-                return {
-                    exerciseId: id,
-                    ...generateInitialValues(),
-                };
+            const selectedExercises = selectedExerciseIds.map(id => {
+                return constructWorkoutMetadata(id)
             });
-            setSelectedExercises(prevValues => [...prevValues, ...selectedExerciseObjects]);
-        }
-    };
-
-    /**
-     * Generate initial values for an exercise
-     */
-    const generateInitialValues = () => {
-        if (getWorkoutType() === workoutsConstants.workoutType.CIRCUIT) {
-            return {
-                repsOrTime: workoutsConstants.exerciseInfo.TIME,
-                repsOrTimeValue: utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_MILLISECONDS,
-            };
-        } else {
-            return {
-                repsOrTime: workoutsConstants.exerciseInfo.TIME,
-                repsOrTimeValue: utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_MILLISECONDS,
-                sets: utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_OF_ONE,
-            };
+            setSelectedExercises(prevValues => [...prevValues, ...selectedExercises]);
         }
     };
 
@@ -252,7 +202,6 @@ export default function CreateWorkout({params, user, exercises, workoutToEdit, o
         storeRemovedWorkoutExercises(currentExercise);
         const others = selectedExercises.filter(value => value.exerciseId !== currentExercise.exerciseId);
         setSelectedExercises(others);
-        setTableOptionsModalVisible(false);
         if (others.length <= 1) {
             setExerciseInterval(0);
         }
@@ -268,152 +217,20 @@ export default function CreateWorkout({params, user, exercises, workoutToEdit, o
     };
 
     /**
-     * Open the modal
+     *
+     * @param duration
+     * @param currentExercise
      */
-    const openWorkoutTableOptionsModal = exercise => {
-        setCurrentExercise(exercise);
-        setTableOptionsModalVisible(true);
-    };
-
-    /**
-     * Close the modal
-     */
-    const closeRepsOrTimeOptionsModal = () => {
-        setTableOptionsModalVisible(false);
-    };
-
-    /**
-     * Close the modal
-     */
-    const closeOptionsModal = () => {
-        setThumbnailOptionsModalVisible(false);
-    };
-
-    /**
-     * Open the modal
-     */
-    const openTimeModal = () => {
-        setTableOptionsModalVisible(false);
-        setTimeModalVisible(true);
-    };
-
-    /**
-     * Open the modal
-     */
-    const openRepsModal = () => {
-        setTableOptionsModalVisible(false);
-        setRepsModalVisible(true);
-    };
-
-    /**
-     * Update the exercises and close the modal
-     */
-    const selectTimeHandler = value => {
+    const onChangeDuration = (duration, currentExercise) => {
         const selectedExerciseObjects = selectedExercises.map(exercise => {
             if (exercise.exerciseId === currentExercise.exerciseId) {
-                return {
-                    ...exercise,
-                    repsOrTime: workoutsConstants.exerciseInfo.TIME,
-                    repsOrTimeValue: value,
-                };
+                return constructWorkoutMetadata(currentExercise.exerciseId, duration)
             }
             return exercise;
         });
+
         setSelectedExercises(selectedExerciseObjects);
-        setCurrentExercise(null);
-        setTimeModalVisible(false);
-    };
-
-    /**
-     * Update the exercises and close the modal
-     */
-    const selectRepsHandler = value => {
-        const selectedExerciseObjects = selectedExercises.map(exercise => {
-            if (exercise.exerciseId === currentExercise.exerciseId) {
-                return {
-                    ...exercise,
-                    repsOrTime: workoutsConstants.exerciseInfo.COUNT,
-                    repsOrTimeValue: value,
-                };
-            }
-            return exercise;
-        });
-        setSelectedExercises(selectedExerciseObjects);
-        setCurrentExercise(null);
-        setRepsModalVisible(false);
-    };
-
-    /**
-     * Set the rounds count
-     */
-    const selectRoundsHandler = value => {
-        if (value <= 1) {
-            setRoundsInterval(0);
-        }
-        setRounds(value);
-        setRoundsModalVisible(false);
-    };
-
-    /**
-     * Close the exercise seconds modal
-     * @param value
-     */
-    const selectExerciseIntervalModal = value => {
-        setExerciseIntervalModalVisible(false);
-        setExerciseInterval(value);
-    };
-
-    /**
-     * Close the rounds seconds modal
-     * @param data
-     */
-    const selectSetsIntervalModal = data => {
-        setSetsIntervalModalVisible(false);
-        setSetsInterval(data);
-    };
-
-    /**
-     * Close the rounds seconds modal
-     * @param data
-     */
-    const selectRoundsIntervalModal = data => {
-        setRoundsIntervalModalVisible(false);
-        setRoundsInterval(data);
-    };
-
-    /**
-     * Open the modal
-     */
-    const openSetsModal = () => {
-        if (currentExercise.repsOrTimeValue) {
-            setTableOptionsModalVisible(false);
-            setSetsModalVisible(true);
-        } else {
-            setTableOptionsModalVisible(false);
-            setErrSnackbarMessage("Please set Reps or duration first");
-            setErrSnackbarVisible(true);
-        }
-    };
-
-    /**
-     * Close the sets counts seconds modal
-     * @param value
-     */
-    const selectSetsHandler = value => {
-
-        const selectedExerciseObjects = selectedExercises.map(exercise => {
-            if (exercise.exerciseId === currentExercise.exerciseId) {
-                return {
-                    ...exercise,
-                    sets: value,
-                };
-            }
-            return exercise;
-        });
-        setSelectedExercises(selectedExerciseObjects);
-        setCurrentExercise(null);
-        setSetsModalVisible(false);
-    };
+    }
 
     /**
      * Handle select body part
@@ -432,6 +249,22 @@ export default function CreateWorkout({params, user, exercises, workoutToEdit, o
     };
 
     /**
+     * Handle file upload
+     */
+    const selectFile = () => {
+        inputFileRef.current.click();
+    };
+
+    /**
+     * Handle selected file
+     * @param event
+     */
+    const handleSelectedFile = (event) => {
+        const file = event.target.files[0];
+        setSelectedFile(file);
+    };
+
+    /**
      * Remove selected thumbnail
      */
     const removeThumbnailDisplay = () => {
@@ -439,7 +272,6 @@ export default function CreateWorkout({params, user, exercises, workoutToEdit, o
             setUri(null);
         }
         setRemoveThumbnail(true);
-        setThumbnailOptionsModalVisible(false);
     };
 
     /**
@@ -561,47 +393,6 @@ export default function CreateWorkout({params, user, exercises, workoutToEdit, o
     };
 
     /**
-     * Display exercise information for Circuits
-     * @param exercise
-     * @returns {string}
-     */
-    const displayCircuitExerciseInfo = (exercise) => {
-        let displayText = "Tap to set!";
-
-        if (exercise) {
-            if (exercise.repsOrTimeValue) {
-                if (exercise.repsOrTime === workoutsConstants.exerciseInfo.COUNT) {
-                    displayText = exercise.repsOrTimeValue + " " + timeOrReps(exercise.repsOrTime);
-                } else {
-                    if (exercise.repsOrTimeValue > 60000) {
-                        displayText = Math.floor(exercise.repsOrTimeValue / 60000) + " " + workoutsConstants.exerciseInfo.duration.MINS;
-                    } else {
-                        displayText = exercise.repsOrTimeValue / 1000 + " " + workoutsConstants.exerciseInfo.duration.SECS;
-                    }
-                }
-            }
-        }
-        return displayText;
-    };
-
-    /**
-     * Display exercise information for RepsSets
-     * @param exercise
-     */
-    const displayRepsSetsExerciseInfo = (exercise) => {
-        let displayText = "Tap to set!";
-
-        if (exercise) {
-            if (exercise.repsOrTimeValue) {
-                const setsInfo = exercise.sets ? exercise.sets + " set(s)" : " 1 set(s)";
-                displayText = displayCircuitExerciseInfo(exercise) + " x " + setsInfo;
-            }
-        }
-
-        return displayText;
-    };
-
-    /**
      * Helper function to display appropriate RepsOrTimeValue
      * @returns {number|*}
      * @param exercise
@@ -609,64 +400,6 @@ export default function CreateWorkout({params, user, exercises, workoutToEdit, o
     const displayExerciseTitle = (exercise) => {
         const foundExercise = exercises.find(item => item.id === exercise.exerciseId);
         return foundExercise.title;
-    };
-
-    /**
-     * Get previous value for Reps
-     * @returns {*|null}
-     */
-    const getPrevRepsValue = () => {
-        if (currentExercise) {
-            if (currentExercise.repsOrTime === workoutsConstants.exerciseInfo.COUNT && currentExercise.repsOrTimeValue) {
-                return currentExercise.repsOrTimeValue;
-            }
-        }
-        return 0;
-    };
-
-    /**
-     * Get previous value for time
-     * @returns {*|null}
-     */
-    const getPrevTimeValue = () => {
-        if (currentExercise) {
-            if (currentExercise.repsOrTime === workoutsConstants.exerciseInfo.TIME && currentExercise.repsOrTimeValue) {
-                return currentExercise.repsOrTimeValue;
-            }
-        }
-        return 0;
-    };
-
-    /**
-     * Get previous value for sets
-     * @returns {*|null}
-     */
-    const getPrevSetValue = () => {
-        if (currentExercise) {
-            if (currentExercise.sets) {
-                return currentExercise.sets;
-            }
-        }
-        return 0;
-    };
-
-    /**
-     * Helper function to display appropriate interval
-     */
-    const displayInterval = (interval) => {
-
-        let value;
-
-        if (interval) {
-            if (interval > 60000) {
-                value = Math.floor(interval / 60000) + " " + "minutes";
-            } else {
-                value = interval / 1000 + " " + "seconds";
-            }
-        } else {
-            value = "Tap to set";
-        }
-        return value;
     };
 
     /**
@@ -720,12 +453,10 @@ export default function CreateWorkout({params, user, exercises, workoutToEdit, o
             return null;
         }
         if (uri) {
-            return <Image source={{ uri: uri }} style={styles.thumbnail} resizeMode="cover" />;
+            return <img src={uri} alt="Workout Thumbnail" className="object-cover h-full w-full"/>;
         } else if (workout) {
-            return <Image source={{
-                uri: "https://" + workout.thumbnailUrl,
-                cache: "force-cache",
-            }} style={styles.thumbnail} resizeMode="cover" />;
+            return <img src={"https://" + workout.thumbnailUrl} alt="Workout Thumbnail"
+                        className="object-cover h-full w-full"/>
         }
 
         return null;
@@ -750,13 +481,14 @@ export default function CreateWorkout({params, user, exercises, workoutToEdit, o
                     onChange={event => setTitle(event.target.value.trim().toLowerCase())}/>
                 <textarea
                     className="appearance-none border-none w-full h-56 bg-gray2 rounded py-4 px-3 my-2 font-light "
-                    placeholder="Tell your followers what you do"
-                    value="Tell us more about this workout"
+                    placeholder="Tell us more about this workout"
+                    value={description}
                     maxLength={250}
                     onChange={event => setDescription(event.target.value.toLowerCase())}
                 />
                 <div className="relative border-none my-2">
                     <select
+                        value={intensityLevel}
                         onChange={(event) => setIntensityLevel(event.target.value)}
                         className="block appearance-none w-full bg-gray2 text-gray-700 py-3 px-4 pr-8 rounded "
                         id="grid-state">
@@ -780,7 +512,7 @@ export default function CreateWorkout({params, user, exercises, workoutToEdit, o
                     <thead className="">
                     <tr className="text-left">
                         <th>Title</th>
-                        <th>Reps/Sets</th>
+                        <th>Time/Reps</th>
                         <th></th>
                     </tr>
                     </thead>
@@ -789,14 +521,18 @@ export default function CreateWorkout({params, user, exercises, workoutToEdit, o
                         return (
                             <tr key={index}>
                                 <td>{displayExerciseTitle(exercise)}</td>
-                                <td>{getWorkoutType() === workoutsConstants.workoutType.CIRCUIT ?
-                                    displayCircuitExerciseInfo(exercise) : displayRepsSetsExerciseInfo(exercise)}
+                                <td>
+                                    <SelectDuration
+                                        onChange={(duration) => onChangeDuration(duration, exercise)}
+                                        prevDuration={exercise.duration}
+                                        showReps={true}/>
                                 </td>
-                                <td className="flex flex-row">
-                                    <div className="bg-primary rounded hover:bg-darkPrimary p-0.5 m-1">
+                                <td className="flex flex-row justify-end">
+                                    <div className="bg-primary rounded hover:bg-darkPrimary p-0.5 m-1" hidden>
                                         <EditIcon/>
                                     </div>
-                                    <div onClick={() => removeWorkoutExercise(exercise)} className="bg-primary rounded hover:bg-darkPrimary p-0.5 m-1">
+                                    <div onClick={() => removeWorkoutExercise(exercise)}
+                                         className="bg-primary rounded hover:bg-darkPrimary p-0.5 m-1">
                                         <CloseIconWhite/>
                                     </div>
                                 </td>
@@ -811,58 +547,55 @@ export default function CreateWorkout({params, user, exercises, workoutToEdit, o
                 <button
                     type="button"
                     onClick={() => setOpenExerciseGallery(true)}
-                    className="flex flex-row items-center justify-center bg-primary rounded hover:bg-darkPrimary text-white py-1 w-40 mt-4 font-semibold">
+                    className="flex flex-row items-center justify-center bg-primary rounded hover:bg-darkPrimary text-white py-1 w-40 mt-2 font-semibold">
                     Select Exercise
                 </button>
                 <InputTime title="Exercise Interval"
-                            value={exerciseInterval}
-                            open={selectedExercises.length > 1}
-                            onChange={(value) => setExerciseInterval(value)}/>
-                <InputValue title="Sets Interval"
-                            value={setsInterval}
-                            open={(selectedExercises.length > 0) && getWorkoutType() === workoutsConstants.workoutType.REPS_SETS}
-                            onChange={(value) => setSetsInterval(value)}
-                            isTime={true}/>
+                           value={exerciseInterval}
+                           open={selectedExercises.length > 1}
+                           onChange={(value) => setExerciseInterval(value)}/>
+                <InputNumber title="Sets Interval"
+                             value={setsInterval}
+                             open={(selectedExercises.length > 0) && getWorkoutType() === workoutsConstants.workoutType.REPS_SETS}
+                             onChange={(value) => setSetsInterval(value)}
+                             isTime={true}/>
                 <div className={`${rounds > 1 ? "outline outline-gray2 outline-1 p-2 rounded-md mt-2" : ""}`}>
-                    <InputValue title="Rounds"
-                                value={rounds}
-                                open={(selectedExercises.length > 1) && getWorkoutType() === workoutsConstants.workoutType.CIRCUIT}
-                                onChange={(value) => setRounds(value)}
-                                isTime={false}/>
+                    <InputNumber title="Rounds"
+                                 value={rounds}
+                                 open={(selectedExercises.length > 1) && getWorkoutType() === workoutsConstants.workoutType.CIRCUIT}
+                                 onChange={(value) => setRounds(value)}
+                                 isTime={false}/>
                     <InputTime title="Rounds Interval"
                                value={roundsInterval}
                                open={rounds > 1}
                                onChange={(value) => setRoundsInterval(value)}/>
                 </div>
+                <div className="my-4 relative h-60 w-60 rounded-lg overflow-hidden hover:bg-secondary cursor-pointer">
+                    {displayThumbnail()}
+                    <div
+                        className="flex flex-row items-center justify-center absolute top-0 right-0 bottom-0 left-0 bg-gradient-to-b from-transparentBlack1 to-transparentBlack hover:bg-transparentBlack1">
+                        {uri ?
+                            <button
+                                type="button"
+                                onClick={selectFile}
+                                className="flex flex-row items-center justify-center">
+                                <EditIcon/>
+                            </button> :
+                            <button
+                                type="button"
+                                onClick={selectFile}
+                                className="flex flex-row items-center justify-center">
+                                <AddIcon/>
+                            </button>}
+                    </div>
+                    <input type='file' id='file' accept="image/png, image/jpeg" ref={inputFileRef}
+                           style={{display: 'none'}}
+                           onChange={handleSelectedFile}/>
+                </div>
             </div>
-
-            {/*{selectedExercises.length > 0 ?*/}
-            {/*    <SelectCard title="Exercise Interval"*/}
-            {/*                value={displayInterval(exerciseInterval)}*/}
-            {/*                label="Exercise Interval"*/}
-            {/*                onPress={() => setExerciseIntervalModalVisible(true)} /> : null}*/}
-
-            {/*{(selectedExercises.length > 0) && getWorkoutType() === workoutsConstants.workoutType.CIRCUIT ?*/}
-            {/*    <SelectCard title="Rounds"*/}
-            {/*                value={rounds}*/}
-            {/*                label="Rounds"*/}
-            {/*                onPress={() => setRoundsModalVisible(true)} /> : null}*/}
-
-            {/*{rounds > 1 ?*/}
-            {/*    <SelectCard title="Rounds Interval"*/}
-            {/*                value={displayInterval(roundsInterval)}*/}
-            {/*                label="Rounds Interval"*/}
-            {/*                onPress={() => setRoundsIntervalModalVisible(true)} /> : null}*/}
-
-            {/*{(selectedExercises.length > 0) && getWorkoutType() === workoutsConstants.workoutType.REPS_SETS ?*/}
-            {/*    <SelectCard title="Sets Interval"*/}
-            {/*                value={displayInterval(setsInterval)}*/}
-            {/*                label="Sets Interval"*/}
-            {/*                onPress={() => setSetsIntervalModalVisible(true)} /> : null}*/}
-
             <button
                 type="button"
-                className="mt-4 bg-primary rounded-3xl py-2 px-8 text-white font-semibold hover:bg-darkPrimary">Create
+                className="mt-2 mb-2 bg-primary rounded-3xl py-2 px-8 text-white font-semibold hover:bg-darkPrimary">Create
             </button>
         </div>
     )

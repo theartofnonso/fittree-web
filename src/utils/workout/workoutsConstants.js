@@ -12,9 +12,14 @@ const exerciseInfo = {
   REPS: 'Reps',
 };
 
+/**
+ * Workout / Exercise duration
+ * @type {{SECONDS: string, MINUTES: string}}
+ */
 const duration = {
   MINUTES: "Mins",
-  SECONDS: "Secs"
+  SECONDS: "Secs",
+  REPS: 'Reps',
 }
 
 /**

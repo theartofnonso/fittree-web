@@ -64,7 +64,7 @@ const Equipments = props => {
                 className="appearance-none border-none w-5/6 bg-gray2 h-14 sm:h-18 rounded w-full py-2 px-3 my-2"
                 id="search"
                 type="text"
-                placeholder="What's the title "
+                placeholder="Search equipment "
                 value={enteredEquipment}
                 maxLength={35}
                 onChange={event => filterEquipments(event.target.value.trim())}/>
