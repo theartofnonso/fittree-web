@@ -302,6 +302,7 @@ export default function CreateWorkout({params, user, exercises, workoutToEdit, o
             try {
                 await createWorkoutHelper();
             } catch (err) {
+                console.log(err)
                 setIsLoading(false)
                 setShowSnackBar(true)
                 setSnackbarMessage("Oops! unable to create workout at this time")
@@ -340,9 +341,11 @@ export default function CreateWorkout({params, user, exercises, workoutToEdit, o
      */
     const createWorkoutHelper = async () => {
 
-        let thumbnail = workout.thumbnailUrl;
+        let thumbnail;
 
-        if (uri) {
+        if(workout) {
+            thumbnail = workout.thumbnailUrl;
+        } else {
             thumbnail = await convertUriToThumbnail();
         }
 
@@ -364,11 +367,13 @@ export default function CreateWorkout({params, user, exercises, workoutToEdit, o
             type: getWorkoutType() === workoutsConstants.workoutType.CIRCUIT ? workoutsConstants.workoutType.CIRCUIT : workoutsConstants.workoutType.REPS_SETS,
         };
 
-        if (workout) {
-            return dispatch(updateWorkout({...workout, ...payload})).unwrap();
-        }
+        console.log(payload)
 
-        return dispatch(createWorkout(payload)).unwrap();
+        // if (workout) {
+        //     return dispatch(updateWorkout({...workout, ...payload})).unwrap();
+        // }
+        //
+        // return dispatch(createWorkout(payload)).unwrap();
 
     };
 
@@ -457,13 +462,13 @@ export default function CreateWorkout({params, user, exercises, workoutToEdit, o
                     placeholder="What's the title "
                     value={title}
                     maxLength={35}
-                    onChange={event => setTitle(event.target.value.trim().toLowerCase())}/>
+                    onChange={event => setTitle(event.target.value)}/>
                 <textarea
                     className="appearance-none border-none w-full h-56 bg-gray2 rounded py-4 px-3 my-2 font-light "
                     placeholder="Tell us more about this workout"
                     value={description}
                     maxLength={250}
-                    onChange={event => setDescription(event.target.value.toLowerCase())}
+                    onChange={event => setDescription(event.target.value)}
                 />
                 <div className="relative border-none my-2">
                     <select
@@ -532,22 +537,20 @@ export default function CreateWorkout({params, user, exercises, workoutToEdit, o
                 <InputTime title="Exercise Interval"
                            value={exerciseInterval}
                            open={selectedExercises.length > 1}
-                           onChange={(value) => setExerciseInterval(value)}/>
+                           onSelectTime={(value) => setExerciseInterval(value)}/>
                 <InputNumber title="Sets Interval"
                              value={setsInterval}
                              open={(selectedExercises.length > 0) && getWorkoutType() === workoutsConstants.workoutType.REPS_SETS}
-                             onChange={(value) => setSetsInterval(value)}
-                             isTime={true}/>
+                             onSelectValue={(value) => setSetsInterval(value)}/>
                 <div className={`${rounds > 1 ? "outline outline-gray2 outline-1 p-2 rounded-md mt-2" : ""}`}>
                     <InputNumber title="Rounds"
                                  value={rounds}
                                  open={(selectedExercises.length > 1) && getWorkoutType() === workoutsConstants.workoutType.CIRCUIT}
-                                 onChange={(value) => setRounds(value)}
-                                 isTime={false}/>
+                                 onSelectValue={(value) => setRounds(value)}/>
                     <InputTime title="Rounds Interval"
                                value={roundsInterval}
                                open={rounds > 1}
-                               onChange={(value) => setRoundsInterval(value)}/>
+                               onSelectTime={(value) => setRoundsInterval(value)}/>
                 </div>
                 <div className="my-4 relative h-60 w-60 rounded-lg overflow-hidden hover:bg-secondary cursor-pointer">
                     {displayThumbnail()}
@@ -577,7 +580,7 @@ export default function CreateWorkout({params, user, exercises, workoutToEdit, o
                 onClick={doCreateWorkout}
                 className="mt-2 mb-2 bg-primary rounded-3xl py-2 px-8 text-white font-semibold hover:bg-darkPrimary">Create
             </button>
-            {isLoading ? <Loading message={"Signing you in"}/> : null}
+            {isLoading ? <Loading message={"Creating workout"}/> : null}
             <Error
                 open={showSnackBar}
                 close={() => setShowSnackBar(false)}

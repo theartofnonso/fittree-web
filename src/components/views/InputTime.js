@@ -12,10 +12,10 @@ const InputTime = (props) => {
 
     /**
      *
-     * @param value
+     * @param duration
      */
-    const onChange = (value) => {
-        console.log(value)
+    const onChange = (duration) => {
+        props.onSelectTime(duration)
     }
 
     return (

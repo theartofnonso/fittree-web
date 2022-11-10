@@ -33,7 +33,7 @@ export default function Settings({username}) {
     /**
      * Avatar URI
      */
-    const [uri, setUri] = useState(null);
+    const [uri, setUri] = useState("");
 
     const [displayBrief, setDisplayBrief] = useState("");
 
@@ -73,11 +73,10 @@ export default function Settings({username}) {
     };
 
     /**
-     * Helper function to update user profile
-     * @returns {Promise<void>}
+     * Return a list of changes
+     * @returns {*[]}
      */
-    const saveProfileHelper = async () => {
-
+    const getPageChanges = () => {
         const data = []
         data.push({key: "instagram", value: instagram.trim()})
         data.push({key: "facebook", value: facebook.trim()})
@@ -85,12 +84,21 @@ export default function Settings({username}) {
         data.push({key: "tiktok", value: tiktok.trim()})
         data.push({key: "youtube", value: youtube.trim()})
         data.push({key: "displayBrief", value: displayBrief.trim()})
+        data.push({key: "displayProfile", value: uri.split("//")[1]})
 
-        const listOfChanges = data
-            .filter(item => user[item.key] !== item.value)
+        return data
+            .filter(item => user[item.key] !== item.value);
+    }
+
+    /**
+     * Helper function to update user profile
+     * @returns {Promise<void>}
+     */
+    const saveProfileHelper = async () => {
 
         const payload = {}
 
+        const listOfChanges = getPageChanges();
         listOfChanges.forEach(item => {
             payload[item.key] = item.value
         })
@@ -149,24 +157,10 @@ export default function Settings({username}) {
      */
     const shouldConfirmLeavePage = () => {
 
-        if(!user) return
+        if(!user) return false
 
-        const data = []
-
-        data.push({key: "instagram", value: instagram.trim()})
-        data.push({key: "facebook", value: facebook.trim()})
-        data.push({key: "twitter", value: twitter.trim()})
-        data.push({key: "tiktok", value: tiktok.trim()})
-        data.push({key: "youtube", value: youtube.trim()})
-        data.push({key: "displayBrief", value: displayBrief.trim()})
-
-        const listOfChanges = data
-            .filter(item => user[item.key] !== item.value)
-
-        if (uri) {
-            listOfChanges.push({})
-        }
-
+        const listOfChanges = getPageChanges();
+        
         return listOfChanges.length > 0
     }
 
@@ -210,6 +204,7 @@ export default function Settings({username}) {
             setTwitter(user ? user.twitter : "")
             setTiktok(user ? user.tiktok : "")
             setYoutube(user ? user.youtube : "")
+            setUri(user ? "https://" + user.displayProfile : "")
         }
     }, [user])
 
