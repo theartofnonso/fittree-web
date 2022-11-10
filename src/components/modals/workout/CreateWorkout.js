@@ -24,6 +24,7 @@ import {constructWorkoutMetadata} from "../../../schemas/workoutMetadata";
 import SelectDuration from "../../views/SelectDuration";
 import Error from "../../views/snackbars/Error";
 import Loading from "../../utils/Loading";
+import {uploadAndDeleteS3} from "../../../utils/aws-utils/awsHelperFunctions";
 
 
 export default function CreateWorkout({params, user, exercises, workoutToEdit, open, close}) {
@@ -301,6 +302,7 @@ export default function CreateWorkout({params, user, exercises, workoutToEdit, o
         } else {
             try {
                 await createWorkoutHelper();
+                setIsLoading(false)
             } catch (err) {
                 console.log(err)
                 setIsLoading(false)
@@ -308,24 +310,6 @@ export default function CreateWorkout({params, user, exercises, workoutToEdit, o
                 setSnackbarMessage("Oops! unable to create workout at this time")
             }
         }
-    };
-
-    /**
-     * Upload selected thumbnail
-     * @returns {Promise<string>}
-     */
-    const convertUriToThumbnail = async () => {
-        const blobResponse = await fetch(uri);
-        const blob = await blobResponse.blob();
-
-        const thumbnailFileName = generateFileName("jpg");
-
-        const s3Response = await Storage.put(
-            awsConstants.awsStorage.folders.THUMBNAILS + "/" + thumbnailFileName,
-            blob,
-        );
-
-        return generateCDNUrl(s3Response.key);
     };
 
     /**
@@ -341,21 +325,21 @@ export default function CreateWorkout({params, user, exercises, workoutToEdit, o
      */
     const createWorkoutHelper = async () => {
 
-        let thumbnail;
+        let thumbnail = "s";
 
-        if(workout) {
-            thumbnail = workout.thumbnailUrl;
-        } else {
-            thumbnail = await convertUriToThumbnail();
-        }
+        // if(workout) {
+        //     thumbnail = workout.thumbnailUrl;
+        // } else {
+        //     thumbnail = await uploadAndDeleteS3(uri, awsConstants.awsStorage.folders.THUMBNAILS, null, "jpg")
+        // }
 
         const payload = {
             creatorId: user.id,
             title: capitaliseWords(title.trim()),
             description: description.length > 0 ? description.trim() : utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_DESCRIPTION,
             intensityLevel: intensityLevel ? intensityLevel : workoutsConstants.intensityLevels.Beginner,
-            bodyParts: selectedBodyParts.length > 0 ? displayEmptyBodyPartsInfo(selectedBodyParts) : [utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_BODYPART],
-            equipments: selectedEquipments.length > 0 ? displayEmptyEquipmentsInfo(selectedEquipments) : [utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_EQUIPMENT],
+            bodyParts: selectedBodyParts,
+            equipments: selectedEquipments,
             rounds: rounds > 0 ? rounds : utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_OF_ONE,
             roundsInterval: roundsInterval > 0 ? roundsInterval : utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_OF_ZERO,
             exerciseInterval: exerciseInterval > 0 ? exerciseInterval : utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_OF_ZERO,
@@ -394,7 +378,7 @@ export default function CreateWorkout({params, user, exercises, workoutToEdit, o
      * @returns {*}
      */
     const calcExerciseDuration = (totalDuration, exercise) => {
-        let exerciseDuration = exercise.repsOrTime === workoutsConstants.exerciseInfo.TIME ? exercise.repsOrTimeValue : exercise.repsOrTimeValue * 3000;
+        let exerciseDuration = exercise.duration.type === workoutsConstants.duration.REPS ? exercise.duration.value * 3000 : exercise.duration.value;
         if (getWorkoutType() === workoutsConstants.workoutType.REPS_SETS) {
             const duration = exerciseDuration * exercise.sets;
             const totalSetsInterval = (exercise.sets - 1) * setsInterval;

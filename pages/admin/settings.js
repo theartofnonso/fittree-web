@@ -19,6 +19,7 @@ import awsConstants from "../../src/utils/aws-utils/awsConstants";
 import workoutsConstants from "../../src/utils/workout/workoutsConstants";
 import FittreeLoading from "../../src/components/views/FittreeLoading";
 import {useLeavePageConfirm} from "../../src/utils/general/hooks";
+import {uploadAndDeleteS3} from "../../src/utils/aws-utils/awsHelperFunctions";
 
 export default function Settings({username}) {
 
@@ -104,7 +105,7 @@ export default function Settings({username}) {
         })
 
         if (uri) {
-            payload.displayProfile = await uploadAvatar();
+            payload.displayProfile = await uploadAndDeleteS3(uri, awsConstants.awsStorage.folders.THUMBNAILS, user.displayProfile, "jpg")
         }
 
         await dispatch(updateUser({id: user.id, ...payload})).unwrap();
@@ -127,31 +128,6 @@ export default function Settings({username}) {
     };
 
     /**
-     * Upload selected avatar
-     * @returns {Promise<string>}
-     */
-    const uploadAvatar = async () => {
-        const blobResponse = await fetch(uri);
-        const blob = await blobResponse.blob();
-
-        const thumbnailFileName = generateFileName("jpg");
-
-        const s3Response = await Storage.put(
-            awsConstants.awsStorage.folders.THUMBNAILS + "/" + thumbnailFileName,
-            blob,
-        );
-
-        /**
-         * Delete the workout thumbnail
-         */
-        const thumbnail = user.displayProfile.split("/")[3];
-        const key = "Thumbnails/" + thumbnail;
-        Storage.remove(key);
-
-        return generateCDNUrl(s3Response.key);
-    };
-
-    /**
      * Determine if user is about to navigate when changes are unsaved
      * @returns {boolean}
      */
@@ -160,7 +136,7 @@ export default function Settings({username}) {
         if(!user) return false
 
         const listOfChanges = getPageChanges();
-        
+
         return listOfChanges.length > 0
     }
 
