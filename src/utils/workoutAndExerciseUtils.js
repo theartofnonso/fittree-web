@@ -3,7 +3,6 @@
  * @param arr list of items to search through
  * @param query
  */
-import utilsConstants from "./utilsConstants";
 
 const searchExerciseOrWorkout = (arr, query) => {
   const filteredByEquipments = filterByEquipments(arr, query);
@@ -78,26 +77,6 @@ const filterByTitle = (arr, query) => {
   });
 };
 
-/**
- * Display body parts selected or empty
- * @returns {string[][]|*}
- */
-const displayEmptyBodyPartsInfo = (selectedBodyParts) => {
-  const bodyParts = selectedBodyParts.filter(item => item !== utilsConstants.defaults.DEFAULT_VALUE_BODYPART)
-  return bodyParts.length === 0 ? [utilsConstants.defaults.DEFAULT_VALUE_BODYPART] : bodyParts
-}
-
-/**
- * Display equipments selected or empty
- * @returns {string[][]|*}
- */
-const displayEmptyEquipmentsInfo = (selectedEquipments) => {
-  const equipments = selectedEquipments.filter(item => item !== utilsConstants.defaults.DEFAULT_VALUE_EQUIPMENT)
-  return equipments.length === 0 ? [utilsConstants.defaults.DEFAULT_VALUE_EQUIPMENT] : equipments
-}
-
 export {
   searchExerciseOrWorkout,
-  displayEmptyBodyPartsInfo,
-  displayEmptyEquipmentsInfo
 };

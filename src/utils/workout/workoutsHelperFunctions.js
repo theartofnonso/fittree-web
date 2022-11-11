@@ -86,9 +86,9 @@ export const intervalDurationSummary = duration => {
  * @param timeOrCount
  */
 export const timeOrReps = timeOrCount =>
-  timeOrCount === workoutsConstants.exerciseInfo.TIME
-    ? workoutsConstants.exerciseInfo.duration.SECS
-    : workoutsConstants.exerciseInfo.REPS;
+  timeOrCount === workoutsConstants.duration.REPS
+    ? workoutsConstants.exerciseInfo.REPS
+    : workoutsConstants.exerciseInfo.duration.SECS;
 
 /**
  * Load the exercises into the rounds array to play

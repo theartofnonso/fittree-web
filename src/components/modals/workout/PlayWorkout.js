@@ -30,12 +30,20 @@ const PlayWorkout = props => {
      * Display Reps or Time value
      * @returns {string}
      */
+    // const getRepsOrTimeValue = () => {
+    //     let repsOrTimeValue = props.workoutExercise.repsOrTimeValue;
+    //     if (props.workoutExercise.repsOrTime === workoutsConstants.exerciseInfo.TIME) {
+    //         repsOrTimeValue = props.extraData.exerciseDuration / 1000;
+    //     }
+    //     return repsOrTimeValue + " " + timeOrReps(props.workoutExercise.repsOrTime);
+    // };
+
     const getRepsOrTimeValue = () => {
-        let repsOrTimeValue = props.workoutExercise.repsOrTimeValue;
-        if (props.workoutExercise.repsOrTime === workoutsConstants.exerciseInfo.TIME) {
+        let repsOrTimeValue = props.workoutExercise.duration.value;
+        if (props.workoutExercise.duration.type !== workoutsConstants.duration.REPS) {
             repsOrTimeValue = props.extraData.exerciseDuration / 1000;
         }
-        return repsOrTimeValue + " " + timeOrReps(props.workoutExercise.repsOrTime);
+        return repsOrTimeValue + " " + timeOrReps(props.workoutExercise.duration.type);
     };
 
     /**

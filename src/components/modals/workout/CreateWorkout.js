@@ -1,14 +1,11 @@
 import React, {useEffect, useRef, useState} from "react";
-import {useRouter} from "next/router";
 import {useDispatch} from "react-redux";
-import {userSliceEnums} from "../../../features/auth/authUserSlice";
 import {createWorkout, updateWorkout} from "../../../features/auth/authUserWorkoutsSlice";
 import workoutsConstants from "../../../utils/workout/workoutsConstants";
 import {sortWorkouts} from "../../../utils/workout/workoutsHelperFunctions";
 import utilsConstants from "../../../utils/utilsConstants";
-import {capitaliseWords, generateCDNUrl, generateFileName} from "../../../utils/general/utils";
+import {capitaliseWords} from "../../../utils/general/utils";
 import awsConstants from "../../../utils/aws-utils/awsConstants";
-import {displayEmptyBodyPartsInfo, displayEmptyEquipmentsInfo} from "../../../utils/workoutAndExerciseUtils";
 import CloseIcon from "../../svg/close-line.svg";
 import CloseIconWhite from "../../svg/close-line-white.svg";
 import EditIcon from "../../svg/edit-2-line-white.svg";
@@ -34,8 +31,6 @@ export default function CreateWorkout({params, user, exercises, workoutToEdit, o
     }
 
     const inputFileRef = useRef()
-
-    const router = useRouter()
 
     const dispatch = useDispatch();
 
@@ -85,7 +80,7 @@ export default function CreateWorkout({params, user, exercises, workoutToEdit, o
     /**
      * Rest interval after sets
      */
-    const [roundsInterval, setRoundsInterval] = useState(workout ? workout.roundsInterval : utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_OF_ZERO);
+    const [roundsInterval, setRoundsInterval] = useState(workout ? workout.roundsInterval : utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_MILLISECONDS);
 
     /**
      * Rest interval after sets
@@ -107,11 +102,6 @@ export default function CreateWorkout({params, user, exercises, workoutToEdit, o
      * Thumbnail display
      */
     const [removeThumbnail, setRemoveThumbnail] = useState(false);
-
-    /**
-     * Loading state
-     */
-    const [loadingStatus, setLoadingStatus] = useState(userSliceEnums.STATUS_IDLE);
 
     /**
      * Show snackbar for err message
@@ -303,6 +293,7 @@ export default function CreateWorkout({params, user, exercises, workoutToEdit, o
             try {
                 await createWorkoutHelper();
                 setIsLoading(false)
+                close()
             } catch (err) {
                 console.log(err)
                 setIsLoading(false)
@@ -325,13 +316,13 @@ export default function CreateWorkout({params, user, exercises, workoutToEdit, o
      */
     const createWorkoutHelper = async () => {
 
-        let thumbnail = "s";
+        let thumbnail;
 
-        // if(workout) {
-        //     thumbnail = workout.thumbnailUrl;
-        // } else {
-        //     thumbnail = await uploadAndDeleteS3(uri, awsConstants.awsStorage.folders.THUMBNAILS, null, "jpg")
-        // }
+        if (workout) {
+            thumbnail = workout.thumbnailUrl;
+        } else {
+            thumbnail = await uploadAndDeleteS3(uri, awsConstants.awsStorage.folders.THUMBNAILS, null, "jpg")
+        }
 
         const payload = {
             creatorId: user.id,
@@ -353,11 +344,11 @@ export default function CreateWorkout({params, user, exercises, workoutToEdit, o
 
         console.log(payload)
 
-        // if (workout) {
-        //     return dispatch(updateWorkout({...workout, ...payload})).unwrap();
-        // }
-        //
-        // return dispatch(createWorkout(payload)).unwrap();
+        if (workout) {
+            return dispatch(updateWorkout({...workout, ...payload})).unwrap();
+        }
+
+        return dispatch(createWorkout(payload)).unwrap();
 
     };
 

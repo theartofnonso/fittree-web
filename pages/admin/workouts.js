@@ -1,9 +1,9 @@
 import {withSSRContext} from "aws-amplify";
 import {useDispatch, useSelector} from "react-redux";
-import {listWorkouts, selectAllWorkouts} from "../../src/features/auth/authUserWorkoutsSlice";
+import {selectAllWorkouts, workoutsAdded} from "../../src/features/auth/authUserWorkoutsSlice";
 import {useEffect, useState} from "react";
 import {searchExerciseOrWorkout} from "../../src/utils/workoutAndExerciseUtils";
-import {listExercises, selectAllExercises} from "../../src/features/auth/authUserExercisesSlice";
+import {exercisesAdded, selectAllExercises} from "../../src/features/auth/authUserExercisesSlice";
 import NavBar from "../../src/components/views/NavBar";
 import PageDescription from "../../src/components/views/PageDescription";
 import Footer from "../../src/components/views/Footer";
@@ -11,7 +11,7 @@ import WorkoutList from "../../src/components/views/WorkoutList";
 import AddIcon from "../../src/components/svg/add-line-white.svg";
 import CreateWorkout from "../../src/components/modals/workout/CreateWorkout";
 import workoutsConstants from "../../src/utils/workout/workoutsConstants";
-import {selectAuthUser} from "../../src/features/auth/authUserSlice";
+import {fetchUser, selectAuthUser} from "../../src/features/auth/authUserSlice";
 
 export default function Workouts({username}) {
 
@@ -32,14 +32,23 @@ export default function Workouts({username}) {
     const [openCreateWorkout, setOpenCreateWorkout] = useState(false)
 
     /**
-     * Fetch auth users exercises and workouts
+     * Fetch user
      */
     useEffect(() => {
         if (username) {
-            dispatch(listExercises({username}));
-            dispatch(listWorkouts({username}));
+            dispatch(fetchUser({username}));
         }
     }, [username])
+
+    /**
+     * Load fetched exercises and workouts
+     */
+    useEffect(() => {
+        if (user) {
+            dispatch(exercisesAdded(user.exercises.items));
+            dispatch(workoutsAdded(user.workouts.items));
+        }
+    }, [user]);
 
     /**
      * Load fetched workouts

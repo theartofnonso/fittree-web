@@ -1,4 +1,4 @@
-import {Storage, withSSRContext} from "aws-amplify";
+import {withSSRContext} from "aws-amplify";
 import NavBar from "../../src/components/views/NavBar";
 import Footer from "../../src/components/views/Footer";
 import {useEffect, useRef, useState} from "react";
@@ -14,7 +14,6 @@ import Success from "../../src/components/views/snackbars/Success";
 import Error from "../../src/components/views/snackbars/Error";
 import Avatar from "../../src/components/views/Avatar";
 import Compressor from 'compressorjs';
-import {generateCDNUrl, generateFileName} from "../../src/utils/general/utils";
 import awsConstants from "../../src/utils/aws-utils/awsConstants";
 import workoutsConstants from "../../src/utils/workout/workoutsConstants";
 import FittreeLoading from "../../src/components/views/FittreeLoading";
@@ -133,7 +132,7 @@ export default function Settings({username}) {
      */
     const shouldConfirmLeavePage = () => {
 
-        if(!user) return false
+        if (!user) return false
 
         const listOfChanges = getPageChanges();
 

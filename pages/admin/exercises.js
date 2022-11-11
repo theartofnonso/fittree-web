@@ -2,15 +2,18 @@ import {withSSRContext} from "aws-amplify";
 import {useEffect, useState} from "react";
 import {searchExerciseOrWorkout} from "../../src/utils/workoutAndExerciseUtils";
 import {useDispatch, useSelector} from "react-redux";
-import {listExercises, selectAllExercises} from "../../src/features/auth/authUserExercisesSlice";
+import {exercisesAdded, selectAllExercises} from "../../src/features/auth/authUserExercisesSlice";
 import NavBar from "../../src/components/views/NavBar";
 import PageDescription from "../../src/components/views/PageDescription";
 import Footer from "../../src/components/views/Footer";
 import ExerciseList from "../../src/components/views/ExerciseList";
+import {fetchUser, selectAuthUser} from "../../src/features/auth/authUserSlice";
 
 export default function Exercises({username}) {
 
     const dispatch = useDispatch();
+
+    const user = useSelector(selectAuthUser);
 
     const exercises = useSelector(selectAllExercises);
 
@@ -18,14 +21,24 @@ export default function Exercises({username}) {
 
     const [searchQuery, setSearchQuery] = useState("");
 
+
     /**
-     * Fetch auth users exercises
+     * Fetch user
      */
     useEffect(() => {
         if (username) {
-            dispatch(listExercises({username}));
+            dispatch(fetchUser({username}));
         }
     }, [username])
+
+    /**
+     * Load fetched exercises and workouts
+     */
+    useEffect(() => {
+        if (user) {
+            dispatch(exercisesAdded(user.exercises.items));
+        }
+    }, [user]);
 
     /**
      * Load fetched exercises
