@@ -8,13 +8,18 @@ import PreviewExercise from "../exercise/PreviewExercise";
 import WorkoutPlayer from "../../views/WorkoutPlayer";
 import OverflowIcon from "../../svg/overflow.svg";
 import CreateWorkout from "./CreateWorkout";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {selectAllExercises} from "../../../features/auth/authUserExercisesSlice";
 import {selectAuthUser} from "../../../features/auth/authUserSlice";
-import {selectWorkoutById} from "../../../features/auth/authUserWorkoutsSlice";
+import {deleteWorkout, selectWorkoutById, updateWorkout} from "../../../features/auth/authUserWorkoutsSlice";
 import {sortWorkouts} from "../../../utils/workout/workoutsHelperFunctions";
+import Loading from "../../utils/Loading";
+import Error from "../../views/snackbars/Error";
+import Success from "../../views/snackbars/Success";
 
 const PreviewWorkout = ({workoutId, close, isAuthUser}) => {
+
+    const dispatch = useDispatch();
 
     const exercises = useSelector(selectAllExercises)
 
@@ -43,6 +48,18 @@ const PreviewWorkout = ({workoutId, close, isAuthUser}) => {
     const [showMenuOptions, setShowMenuOptions] = useState(false)
 
     const [openCreateWorkout, setOpenCreateWorkout] = useState(false)
+
+    const [isLoading, setIsLoading] = useState(false);
+
+    const [loadingMessage, setLoadingMessage] = useState("")
+
+    /**
+     * Show snackbar for err message
+     */
+    const [showSuccessSnackBar, setSuccessShowSnackBar] = useState(false)
+    const [showErrorSnackBar, setShowErrorSnackBar] = useState(false)
+    const [snackbarMessage, setSnackbarMessage] = useState("");
+
 
     /**
      * Only set the workout when one from store changes
@@ -79,6 +96,74 @@ const PreviewWorkout = ({workoutId, close, isAuthUser}) => {
         setCurrentExercise(exercise)
     }
 
+    /**
+     * Delete workout
+     * @returns {Promise<void>}
+     */
+    const deleteWorkoutHelper = async () => {
+        return dispatch(deleteWorkout(workout)).unwrap();
+    };
+
+    /**
+     * Delete the workout
+     */
+    const doDeleteWorkout = async () => {
+        if(!workout.isLive) {
+            setIsLoading(true)
+            setLoadingMessage("Deleting workout")
+            try {
+                await deleteWorkoutHelper();
+                setIsLoading(false)
+                close()
+            } catch (err) {
+                setIsLoading(false)
+                setShowErrorSnackBar(true)
+                setSnackbarMessage("Oops! unable to delete workout at this moment")
+            }
+        } else {
+            setShowErrorSnackBar(true)
+            setSnackbarMessage("Remove workout from live before deleting it")
+        }
+
+    };
+
+    /**
+     * Handle going live with a workout or removing it
+     * @returns {Promise<boolean>}
+     */
+    const goLiveOrRemoveHelper = async () => {
+        const isLive = !workout.isLive
+        const updatedWorkout = {...workout, isLive};
+        delete updatedWorkout.workoutExercises;
+        await dispatch(updateWorkout({
+            id: workout.id,
+            ...updatedWorkout,
+            publishedAt: isLive ? new Date().toISOString() : null,
+        })).unwrap();
+        return isLive
+    }
+
+    /**
+     * Go live with workout or remove it
+     */
+    const doGoLiveOrRemoveWorkout = async () => {
+        setIsLoading(true)
+        setLoadingMessage("Going live with workout")
+        try {
+            const isLive = await goLiveOrRemoveHelper();
+            setIsLoading(false)
+            if(isLive) {
+                setSuccessShowSnackBar(true)
+                setSnackbarMessage("Workout is live")
+            }
+        } catch (err) {
+            setIsLoading(false)
+            setShowErrorSnackBar(true)
+            setSnackbarMessage("Oops! unable to go live with workout")
+        }
+    };
+
+
     return (
         <>
             <div
@@ -96,12 +181,19 @@ const PreviewWorkout = ({workoutId, close, isAuthUser}) => {
                                     className="mt-2 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                                     role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabIndex="-1">
                                     <div
+                                        onClick={doGoLiveOrRemoveWorkout}
+                                        className="py-2 hover:bg-secondary w-full rounded-b-md text-gray-700 block px-4 py-2 text-md text-left font-medium"
+                                        role="menuitem" tabIndex="-1"
+                                        id="menu-item-6">{workout.isLive ? "Remove" : "Go live"}
+                                    </div>
+                                    <div
                                         onClick={() => setOpenCreateWorkout(true)}
                                         className="py-2 hover:bg-secondary w-full rounded-b-md text-gray-700 block px-4 py-2 text-md text-left font-medium"
                                         role="menuitem" tabIndex="-1"
                                         id="menu-item-6">Edit
                                     </div>
                                     <div
+                                        onClick={doDeleteWorkout}
                                         className="py-2 hover:bg-darkPrimary bg-primary w-full text-white rounded-b-md text-gray-700 block px-4 py-2 text-md text-left font-medium"
                                         role="menuitem" tabIndex="-1"
                                         id="menu-item-6">Delete
@@ -110,7 +202,7 @@ const PreviewWorkout = ({workoutId, close, isAuthUser}) => {
                             </div> : null}
                         </div> : null}
                 </div>
-                <WorkoutCardBig workout={workout} showDuration={isAuthUser}/>
+                <WorkoutCardBig workout={workout} isAuthUser={isAuthUser}/>
                 <div className="overscroll-contain">
                     <p className="my-4 font-light break-words whitespace-pre-line">{workout.description}</p>
                 </div>
@@ -140,6 +232,18 @@ const PreviewWorkout = ({workoutId, close, isAuthUser}) => {
                 <PreviewExercise
                     exercise={currentExercise}
                     close={() => setCurrentExercise(null)}/>
+
+                {isLoading ? <Loading message={loadingMessage}/> : null}
+
+                <Success
+                    open={showSuccessSnackBar}
+                    close={() => setSuccessShowSnackBar(false)}
+                    message={snackbarMessage}/>
+
+                <Error
+                    open={showErrorSnackBar}
+                    close={() => setShowErrorSnackBar(false)}
+                    message={snackbarMessage}/>
             </div>
 
             <CreateWorkout

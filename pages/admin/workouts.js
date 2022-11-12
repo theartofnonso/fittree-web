@@ -92,7 +92,7 @@ export default function Workouts({username}) {
                     open={openCreateWorkout}
                     close={() => setOpenCreateWorkout(false)}
                     user={user}
-                    params={null}/>
+                    params={{}}/>
             </div>
             <Footer/>
         </>

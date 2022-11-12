@@ -17,7 +17,7 @@ import InputNumber from "../../views/InputValue";
 import InputTime from "../../views/InputTime";
 import AddIcon from "../../svg/add-line-white.svg";
 import Compressor from "compressorjs";
-import {constructWorkoutMetadata} from "../../../schemas/workoutMetadata";
+import {constructWorkoutExercises} from "../../../schemas/workoutExercises";
 import SelectDuration from "../../views/SelectDuration";
 import Error from "../../views/snackbars/Error";
 import Loading from "../../utils/Loading";
@@ -44,27 +44,27 @@ export default function CreateWorkout({params, open, close}) {
     /**
      * Title
      */
-    const [title, setTitle] = useState(workout.title || "");
+    const [title, setTitle] = useState(workout ? workout.title : "");
 
     /**
      * Description
      */
-    const [description, setDescription] = useState(workout.description || "");
+    const [description, setDescription] = useState(workout ? workout.description : "");
 
     /**
      * Intensity Level
      */
-    const [intensityLevel, setIntensityLevel] = useState(workout.intensityLevel || workoutsConstants.intensityLevels.Beginner);
+    const [intensityLevel, setIntensityLevel] = useState(workout ? workout.intensityLevel : workoutsConstants.intensityLevels.Beginner);
 
     /**
      * Body Parts
      */
-    const [selectedBodyParts, setSelectedBodyParts] = useState(workout.bodyParts || []);
+    const [selectedBodyParts, setSelectedBodyParts] = useState(workout ? workout.bodyParts : []);
 
     /**
      * Equipment
      */
-    const [selectedEquipments, setSelectedEquipments] = useState(workout.equipments || []);
+    const [selectedEquipments, setSelectedEquipments] = useState(workout ? workout.equipments : []);
 
     /**
      * Workout exercises
@@ -80,22 +80,22 @@ export default function CreateWorkout({params, open, close}) {
     /**
      * Number of rounds
      */
-    const [rounds, setRounds] = useState(workout.rounds || utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_OF_ONE);
+    const [rounds, setRounds] = useState(workout ? workout.rounds : utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_OF_ONE);
 
     /**
      * Rest interval after sets
      */
-    const [roundsInterval, setRoundsInterval] = useState(workout.roundsInterval || utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_MILLISECONDS);
+    const [roundsInterval, setRoundsInterval] = useState(workout ? workout.roundsInterval : utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_MILLISECONDS);
 
     /**
      * Rest interval after sets
      */
-    const [setsInterval, setSetsInterval] = useState(workout.setsInterval || utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_MILLISECONDS);
+    const [setsInterval, setSetsInterval] = useState(workout ? workout.setsInterval : utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_MILLISECONDS);
 
     /**
      * Exercise interval
      */
-    const [exerciseInterval, setExerciseInterval] = useState(workout.exerciseInterval || utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_MILLISECONDS);
+    const [exerciseInterval, setExerciseInterval] = useState(workout ? workout.exerciseInterval : utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_MILLISECONDS);
 
     /**
      * Thumbnail URI
@@ -190,7 +190,7 @@ export default function CreateWorkout({params, open, close}) {
         setOpenExerciseGallery(false);
         if (selectedExerciseIds.length > 0) {
             const selectedExercises = selectedExerciseIds.map(id => {
-                return constructWorkoutMetadata(id)
+                return constructWorkoutExercises(id)
             });
             setSelectedExercises(prevValues => [...prevValues, ...selectedExercises]);
         }
@@ -225,7 +225,7 @@ export default function CreateWorkout({params, open, close}) {
     const onChangeDuration = (duration, currentExercise) => {
         const selectedExerciseObjects = selectedExercises.map(exercise => {
             if (exercise.exerciseId === currentExercise.exerciseId) {
-                return constructWorkoutMetadata(currentExercise.exerciseId, duration)
+                return constructWorkoutExercises(currentExercise.exerciseId, duration)
             }
             return exercise;
         });
@@ -290,11 +290,11 @@ export default function CreateWorkout({params, open, close}) {
      * Perform sanity checks on required details and call createWorkoutHandler
      */
     const doCreateWorkout = async () => {
-        setIsLoading(true)
         if (title.trim().length === 0) {
             setShowSnackBar(true)
             setSnackbarMessage("Please provide a title")
         } else {
+            setIsLoading(true)
             try {
                 await createWorkoutHelper();
                 setIsLoading(false)
@@ -302,7 +302,8 @@ export default function CreateWorkout({params, open, close}) {
             } catch (err) {
                 setIsLoading(false)
                 setShowSnackBar(true)
-                setSnackbarMessage("Oops! unable to create workout at this time")
+                const message = workout ? "Oops! unable to edit workout at this moment" : "Oops! unable to create workout at this moment"
+                setSnackbarMessage(message)
             }
         }
     };
@@ -316,15 +317,38 @@ export default function CreateWorkout({params, open, close}) {
     };
 
     /**
+     * Calculate workout duration
+     * @returns {*}
+     */
+    const calWorkoutDuration = () => {
+        if(selectedExercises.length > 0) {
+         return getWorkoutType() === workoutsConstants.workoutType.CIRCUIT ? calCircuitDuration() : calRepsSetsDuration()
+        }
+        return 0
+    }
+
+
+    /**
      * Create a workout and upload it to DynamoDB
      */
     const createWorkoutHelper = async () => {
 
-        let thumbnail;
+        let thumbnail = "";
 
-        if (workout) {
-            thumbnail = workout.thumbnailUrl;
-        } else {
+        /**
+         * User has replaced old thumbnail
+         */
+        if (workout && uri) {
+            thumbnail = await uploadAndDeleteS3(uri, awsConstants.awsStorage.folders.THUMBNAILS, workout.thumbnailUrl, "jpg")
+        } else if (workout && !uri) {
+            /**
+             * User not changing thumbnail
+             */
+            thumbnail = workout.thumbnailUrl
+        } else if(!workout && uri) {
+            /**
+             * User has chosen thumbnail for the first time
+             */
             thumbnail = await uploadAndDeleteS3(uri, awsConstants.awsStorage.folders.THUMBNAILS, null, "jpg")
         }
 
@@ -339,12 +363,14 @@ export default function CreateWorkout({params, open, close}) {
             roundsInterval: roundsInterval > 0 ? roundsInterval : utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_OF_ZERO,
             exerciseInterval: exerciseInterval > 0 ? exerciseInterval : utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_OF_ZERO,
             setsInterval: setsInterval > 0 ? setsInterval : utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_OF_ZERO,
-            duration: getWorkoutType() === workoutsConstants.workoutType.CIRCUIT ? calCircuitDuration() : calRepsSetsDuration(),
+            duration: calWorkoutDuration(),
             workoutExercises: selectedExercises.map(item => JSON.stringify(item)),
             thumbnailUrl: thumbnail,
             preferred_username: user.preferred_username,
             type: getWorkoutType() === workoutsConstants.workoutType.CIRCUIT ? workoutsConstants.workoutType.CIRCUIT : workoutsConstants.workoutType.REPS_SETS,
         };
+
+        console.log(payload)
 
         if (workout) {
             return dispatch(updateWorkout({...workout, ...payload})).unwrap();
@@ -556,7 +582,7 @@ export default function CreateWorkout({params, open, close}) {
             <button
                 type="button"
                 onClick={doCreateWorkout}
-                className="mt-2 mb-2 bg-primary rounded-3xl py-2 px-8 text-white font-semibold hover:bg-darkPrimary">Create
+                className="mt-2 mb-2 bg-primary rounded-3xl py-2 px-8 text-white font-semibold hover:bg-darkPrimary">{workout ? "Update workout" : "Create workout"}
             </button>
             {isLoading ? <Loading message={"Creating workout"}/> : null}
             <Error

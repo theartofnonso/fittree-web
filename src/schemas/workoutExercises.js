@@ -5,7 +5,7 @@ import workoutsConstants from "../utils/workout/workoutsConstants";
  * This class represents an exercise information in a workout
  */
 const defaultDuration = constructDuration(5000, workoutsConstants.duration.SECONDS)
-export const constructWorkoutMetadata = (exerciseId, duration = defaultDuration, sets = 1) => {
+export const constructWorkoutExercises = (exerciseId, duration = defaultDuration, sets = 1) => {
     return {
         exerciseId,
         duration: duration,
@@ -13,23 +13,23 @@ export const constructWorkoutMetadata = (exerciseId, duration = defaultDuration,
     }
 }
 
-export const updateExerciseId = (exerciseId, WorkoutMetadata) => {
+export const updateExerciseId = (exerciseId, workoutExercises) => {
     return {
-        ...WorkoutMetadata,
+        ...workoutExercises,
         exerciseId
     }
 }
 
-export const updateDuration = (duration, WorkoutMetadata) => {
+export const updateDuration = (duration, workoutExercises) => {
     return {
-        ...WorkoutMetadata,
+        ...workoutExercises,
         duration: duration
     }
 }
 
-export const updateSets = (sets, WorkoutMetadata) => {
+export const updateSets = (sets, workoutExercises) => {
     return {
-        ...WorkoutMetadata,
+        ...workoutExercises,
         sets
     }
 }

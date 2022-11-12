@@ -24,7 +24,7 @@ const Error = ({message, open, close}) => {
         <div
             className="fixed rounded-3xl bottom-0 left-0 ml-2 sm:ml-10 mb-8 p-2 flex flex-row justify-start items-center rounded bg-red w-1/2 sm:w-2/5">
             <CloseIcon/>
-            <p className="ml-2 text-white font-normal">{message}</p>
+            <p className="ml-2 text-white font-normal text-sm">{message}</p>
         </div>
     );
 };

@@ -173,13 +173,13 @@ export default function Settings({username}) {
      */
     useEffect(() => {
         if (user) {
-            setDisplayBrief(user ? user.displayBrief : "")
-            setInstagram(user ? user.instagram : "")
-            setFacebook(user ? user.facebook : "")
-            setTwitter(user ? user.twitter : "")
-            setTiktok(user ? user.tiktok : "")
-            setYoutube(user ? user.youtube : "")
-            setUri(user ? "https://" + user.displayProfile : "")
+            setDisplayBrief(user.displayBrief || "")
+            setInstagram(user.instagram || "")
+            setFacebook(user.facebook || "")
+            setTwitter(user.twitter || "")
+            setTiktok(user.tiktok || "")
+            setYoutube(user.youtube || "")
+            setUri(user .displayProfile ? "https://" + user.displayProfile : "")
         }
     }, [user])
 

@@ -5,9 +5,6 @@ import * as AWS from "aws-sdk";
 import awsmobile from "../../aws-exports";
 import * as queries from "../../graphql/queries";
 import {generateCDNUrl, generateFileName} from "../general/utils";
-import awsConstants from "./awsConstants";
-
-const logger = new Logger("AWS Helper Functions");
 
 /**
  * Persist User Cognito details to the DB
