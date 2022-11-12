@@ -2,29 +2,23 @@
 import React, {useState} from "react";
 import WorkoutCard from "../cards/WorkoutCard";
 import EmptyState from "../svg/empty_state.svg";
-import {sortWorkouts} from "../../utils/workout/workoutsHelperFunctions";
 import PreviewWorkout from "../modals/workout/PreviewWorkout";
+const WorkoutList = ({emptyListMessage, workouts, isAuthUser}) => {
 
-const WorkoutList = ({emptyListMessage, workouts, exercises, showDuration}) => {
-
-    const [currentWorkout, setCurrentWorkout] = useState(null)
+    const [workout, setWorkout] = useState(null)
 
     /**
      * Preview a workout from the list
      */
     const previewWorkout = (selectedWorkout) => {
-        const enrichedWorkout = {
-            ...selectedWorkout,
-            workoutExercises: sortWorkouts(selectedWorkout, exercises),
-        };
-        setCurrentWorkout(enrichedWorkout);
+        setWorkout(selectedWorkout);
     }
 
     /**
      * Close the preview modal
      */
     const closePreview = () => {
-        setCurrentWorkout(null)
+        setWorkout(null)
     }
 
     return (
@@ -35,7 +29,7 @@ const WorkoutList = ({emptyListMessage, workouts, exercises, showDuration}) => {
                     {workouts.map((item, index) => {
                         return (
                             <div key={index} onClick={() => previewWorkout(item)}>
-                                <WorkoutCard workout={item} showDuration={showDuration}/>
+                                <WorkoutCard workout={item} isAuthUser={isAuthUser}/>
                             </div>
                         );
                     })}
@@ -44,9 +38,10 @@ const WorkoutList = ({emptyListMessage, workouts, exercises, showDuration}) => {
                     <EmptyState/>
                     <p className="font-normal mt-4">{emptyListMessage}</p>
                 </div>}
-            <PreviewWorkout
-                workout={currentWorkout}
-                close={closePreview}/>
+            {workout ? <PreviewWorkout
+                isAuthUser={isAuthUser}
+                workoutId={workout.id}
+                close={closePreview}/> : null}
         </>
     );
 };

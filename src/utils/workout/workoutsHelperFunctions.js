@@ -139,4 +139,19 @@ export const sortWorkouts = (workout, exercises) =>
         .filter(workoutExercise => workoutExercise !== null)
         .sort((a, b) => a.index - b.index);
 
+/**
+ * Display either a workout duration or live status
+ */
+export const workoutTagDisplay = (isAuthUser, workout) => {
+    if(isAuthUser) {
+        if(workout.isLive) {
+            return 'Live'
+        } else {
+            return 'Draft'
+        }
+    } else {
+        return workoutDurationSummary(workout.duration)
+    }
+}
+
 export const generateShareableLink = username => 'https://www.fittree.io/' + username;

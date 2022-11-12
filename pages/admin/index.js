@@ -95,7 +95,7 @@ export default function Dashboard({username}) {
                              workouts={filteredWorkouts}
                              exercises={exercises}
                              emptyListMessage="You don't have any workouts yet"
-                             showDuration={false}/>
+                             isAuthUser={true}/>
             </div>
             <Footer/>
         </div>

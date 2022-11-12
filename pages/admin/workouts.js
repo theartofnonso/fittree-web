@@ -10,7 +10,6 @@ import Footer from "../../src/components/views/Footer";
 import WorkoutList from "../../src/components/views/WorkoutList";
 import AddIcon from "../../src/components/svg/add-line-white.svg";
 import CreateWorkout from "../../src/components/modals/workout/CreateWorkout";
-import workoutsConstants from "../../src/utils/workout/workoutsConstants";
 import {fetchUser, selectAuthUser} from "../../src/features/auth/authUserSlice";
 
 export default function Workouts({username}) {
@@ -19,15 +18,11 @@ export default function Workouts({username}) {
 
     const user = useSelector(selectAuthUser);
 
-    const exercises = useSelector(selectAllExercises)
-
     const workouts = useSelector(selectAllWorkouts)
 
     const [filteredWorkouts, setFilteredWorkouts] = useState([]);
 
     const [searchQuery, setSearchQuery] = useState("");
-
-    const [workoutParams, setWorkoutParams] = useState({});
 
     const [openCreateWorkout, setOpenCreateWorkout] = useState(false)
 
@@ -87,20 +82,17 @@ export default function Workouts({username}) {
                 <button
                     type="button"
                     onClick={() => setOpenCreateWorkout(true)}
-                    className="flex flex-row items-center justify-center bg-primary rounded-md hover:bg-darkPrimary text-white pl-1 pr-4 py-1 font-semibold">
+                    className="flex flex-row items-center justify-center bg-primary rounded-md hover:bg-darkPrimary text-white pl-1 pr-4 py-1 mb-4 font-semibold">
                     <AddIcon/>Create
                 </button>
-                <WorkoutList username={username}
-                             workouts={filteredWorkouts}
-                             exercises={exercises}
+                <WorkoutList workouts={filteredWorkouts}
                              emptyListMessage="You don't have any workouts yet"
-                             showDuration={false}/>
+                             isAuthUser={true}/>
                 <CreateWorkout
                     open={openCreateWorkout}
                     close={() => setOpenCreateWorkout(false)}
                     user={user}
-                    exercises={exercises}
-                    params={{workoutType: workoutsConstants.workoutType.CIRCUIT}}/>
+                    params={null}/>
             </div>
             <Footer/>
         </>

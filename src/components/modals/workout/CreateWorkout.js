@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from "react";
-import {useDispatch} from "react-redux";
-import {createWorkout, updateWorkout} from "../../../features/auth/authUserWorkoutsSlice";
+import {useDispatch, useSelector} from "react-redux";
+import {createWorkout, selectWorkoutById, updateWorkout} from "../../../features/auth/authUserWorkoutsSlice";
 import workoutsConstants from "../../../utils/workout/workoutsConstants";
 import {sortWorkouts} from "../../../utils/workout/workoutsHelperFunctions";
 import utilsConstants from "../../../utils/utilsConstants";
@@ -22,44 +22,49 @@ import SelectDuration from "../../views/SelectDuration";
 import Error from "../../views/snackbars/Error";
 import Loading from "../../utils/Loading";
 import {uploadAndDeleteS3} from "../../../utils/aws-utils/awsHelperFunctions";
+import {selectAuthUser} from "../../../features/auth/authUserSlice";
+import {selectAllExercises} from "../../../features/auth/authUserExercisesSlice";
 
-
-export default function CreateWorkout({params, user, exercises, workoutToEdit, open, close}) {
+export default function CreateWorkout({params, open, close}) {
 
     if (!open) {
         return null;
     }
 
+    const user = useSelector(selectAuthUser);
+
     const inputFileRef = useRef()
 
     const dispatch = useDispatch();
 
-    const workout = null //useSelector(state => selectWorkoutById(state, params.id));
+    const exercises = useSelector(selectAllExercises)
+
+    const workout = useSelector(state => selectWorkoutById(state, params.workoutId));
 
     /**
      * Title
      */
-    const [title, setTitle] = useState(workout ? workout.title : "");
+    const [title, setTitle] = useState(workout.title || "");
 
     /**
      * Description
      */
-    const [description, setDescription] = useState(workout ? workout.description : "");
+    const [description, setDescription] = useState(workout.description || "");
 
     /**
      * Intensity Level
      */
-    const [intensityLevel, setIntensityLevel] = useState(workout ? workout.intensityLevel : workoutsConstants.intensityLevels.Beginner);
+    const [intensityLevel, setIntensityLevel] = useState(workout.intensityLevel || workoutsConstants.intensityLevels.Beginner);
 
     /**
      * Body Parts
      */
-    const [selectedBodyParts, setSelectedBodyParts] = useState(workout ? workout.bodyParts : []);
+    const [selectedBodyParts, setSelectedBodyParts] = useState(workout.bodyParts || []);
 
     /**
      * Equipment
      */
-    const [selectedEquipments, setSelectedEquipments] = useState(workout ? workout.equipments : []);
+    const [selectedEquipments, setSelectedEquipments] = useState(workout.equipments || []);
 
     /**
      * Workout exercises
@@ -75,27 +80,27 @@ export default function CreateWorkout({params, user, exercises, workoutToEdit, o
     /**
      * Number of rounds
      */
-    const [rounds, setRounds] = useState(workout ? workout.rounds : utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_OF_ONE);
+    const [rounds, setRounds] = useState(workout.rounds || utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_OF_ONE);
 
     /**
      * Rest interval after sets
      */
-    const [roundsInterval, setRoundsInterval] = useState(workout ? workout.roundsInterval : utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_MILLISECONDS);
+    const [roundsInterval, setRoundsInterval] = useState(workout.roundsInterval || utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_MILLISECONDS);
 
     /**
      * Rest interval after sets
      */
-    const [setsInterval, setSetsInterval] = useState(workout ? workout.setsInterval : utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_MILLISECONDS);
+    const [setsInterval, setSetsInterval] = useState(workout.setsInterval || utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_MILLISECONDS);
 
     /**
      * Exercise interval
      */
-    const [exerciseInterval, setExerciseInterval] = useState(workout ? workout.exerciseInterval : utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_MILLISECONDS);
+    const [exerciseInterval, setExerciseInterval] = useState(workout.exerciseInterval || utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_MILLISECONDS);
 
     /**
      * Thumbnail URI
      */
-    const [uri, setUri] = useState(workout ? workout.thumbnailUrl : null);
+    const [uri, setUri] = useState(null);
     const [selectedFile, setSelectedFile] = useState();
 
     /**
@@ -295,7 +300,6 @@ export default function CreateWorkout({params, user, exercises, workoutToEdit, o
                 setIsLoading(false)
                 close()
             } catch (err) {
-                console.log(err)
                 setIsLoading(false)
                 setShowSnackBar(true)
                 setSnackbarMessage("Oops! unable to create workout at this time")
@@ -341,8 +345,6 @@ export default function CreateWorkout({params, user, exercises, workoutToEdit, o
             preferred_username: user.preferred_username,
             type: getWorkoutType() === workoutsConstants.workoutType.CIRCUIT ? workoutsConstants.workoutType.CIRCUIT : workoutsConstants.workoutType.REPS_SETS,
         };
-
-        console.log(payload)
 
         if (workout) {
             return dispatch(updateWorkout({...workout, ...payload})).unwrap();
@@ -409,6 +411,7 @@ export default function CreateWorkout({params, user, exercises, workoutToEdit, o
      * @returns {JSX.Element|null}
      */
     const displayThumbnail = () => {
+
         if (removeThumbnail) {
             return null;
         }

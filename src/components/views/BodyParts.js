@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React, {useEffect, useState} from "react";
 
-const BodyParts = ({oldValues, onSelect}) => {
+const BodyParts = ({prevValues, onSelect}) => {
 
     const bodyParts = [
         "Abs",
@@ -21,11 +21,7 @@ const BodyParts = ({oldValues, onSelect}) => {
     /**
      * Body Parts
      */
-    const [selectedBodyParts, setSelectedBodyParts] = useState(new Set());
-
-    useEffect(() => {
-        setSelectedBodyParts(_ => new Set(oldValues));
-    }, [])
+    const [selectedBodyParts, setSelectedBodyParts] = useState(new Set(prevValues) || new Set());
 
     useEffect(() => {
         onSelect(Array.from(selectedBodyParts))
@@ -36,7 +32,6 @@ const BodyParts = ({oldValues, onSelect}) => {
      * @param value
      */
     const selectBodyPartsHandler = value => {
-
         setSelectedBodyParts(prevValues => {
             if (prevValues.has(value)) {
                 prevValues.delete(value);

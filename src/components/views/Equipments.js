@@ -7,7 +7,7 @@ const Equipments = props => {
 
     const [enteredEquipment, setEnteredEquipment] = useState("");
 
-    const [selectedEquipments, setSelectedEquipments] = useState(props.prevEquipments);
+    const [selectedEquipments, setSelectedEquipments] = useState(props.prevEquipments || []);
 
     const [equipments, setEquipments] = useState(listOfEquipments.equipments.slice(0, 8).sort());
 
@@ -33,7 +33,9 @@ const Equipments = props => {
      */
     const selectEquipmentHandler = value => {
         if (!selectedEquipments.includes(value)) {
-            setSelectedEquipments(prevValues => [...prevValues, value]);
+            const newEquipments = [...selectedEquipments, value]
+            setSelectedEquipments(newEquipments);
+            props.onSelect(newEquipments)
         }
     };
 
@@ -42,9 +44,9 @@ const Equipments = props => {
      * @param value
      */
     const removeEquipmentHandler = value => {
-        setSelectedEquipments(prevValues => [
-            ...prevValues.filter(item => item !== value),
-        ]);
+        const newEquipments = [...selectedEquipments.filter(item => item !== value)]
+        setSelectedEquipments(newEquipments);
+        props.onSelect(newEquipments)
     };
 
     /**
