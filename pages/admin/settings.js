@@ -10,8 +10,6 @@ import TikTokIcon from "../../src/components/svg/tiktok-primary-line.svg";
 import TwitterIcon from "../../src/components/svg/twitter-primary-line.svg";
 import FacebookIcon from "../../src/components/svg/facebook-circle-primary-line.svg";
 import PageDescription from "../../src/components/views/PageDescription";
-import Success from "../../src/components/views/snackbars/Success";
-import Error from "../../src/components/views/snackbars/Error";
 import Avatar from "../../src/components/views/Avatar";
 import Compressor from 'compressorjs';
 import awsConstants from "../../src/utils/aws-utils/awsConstants";
@@ -19,6 +17,7 @@ import workoutsConstants from "../../src/utils/workout/workoutsConstants";
 import FittreeLoading from "../../src/components/views/FittreeLoading";
 import {useLeavePageConfirm} from "../../src/utils/general/hooks";
 import {uploadAndDeleteS3} from "../../src/utils/aws-utils/awsHelperFunctions";
+import {SnackBar, SnackBarType} from "../../src/components/views/SnackBar";
 
 export default function Settings({username}) {
 
@@ -52,8 +51,8 @@ export default function Settings({username}) {
     /**
      * Show snackbar for err message
      */
-    const [showSuccessSnackBar, setSuccessShowSnackBar] = useState(false)
-    const [showErrorSnackBar, setShowErrorSnackBar] = useState(false)
+    const [showSnackBar, setShowSnackBar] = useState(false)
+    const [snackbarType, setSnackbarType] = useState("")
     const [snackbarMessage, setSnackbarMessage] = useState("");
 
     /**
@@ -62,13 +61,19 @@ export default function Settings({username}) {
      */
     const saveProfile = async () => {
 
-        try {
-            await saveProfileHelper();
-            setSuccessShowSnackBar(true)
-            setSnackbarMessage("Saved successfully")
-        } catch (err) {
-            setShowErrorSnackBar(true)
-            setSnackbarMessage("Oops, unable to save your socials");
+        const listOfChanges = getPageChanges();
+
+        if(listOfChanges.length > 0) {
+            try {
+                await saveProfileHelper();
+                setShowSnackBar(true)
+                setSnackbarType(SnackBarType.SUCCESS)
+                setSnackbarMessage("Saved successfully")
+            } catch (err) {
+                setShowSnackBar(true)
+                setSnackbarType(SnackBarType.ERROR)
+                setSnackbarMessage("Oops, unable to save your socials at this time");
+            }
         }
     };
 
@@ -103,7 +108,7 @@ export default function Settings({username}) {
             payload[item.key] = item.value
         })
 
-        if (uri) {
+        if (payload.displayProfile) {
             payload.displayProfile = await uploadAndDeleteS3(uri, awsConstants.awsStorage.folders.THUMBNAILS, user.displayProfile, "jpg")
         }
 
@@ -179,7 +184,7 @@ export default function Settings({username}) {
             setTwitter(user.twitter || "")
             setTiktok(user.tiktok || "")
             setYoutube(user.youtube || "")
-            setUri(user .displayProfile ? "https://" + user.displayProfile : "")
+            setUri(user.displayProfile ? "https://" + user.displayProfile : "")
         }
     }, [user])
 
@@ -276,18 +281,16 @@ export default function Settings({username}) {
                         <button
                             type="button"
                             onClick={saveProfile}
-                            className="mt-4 bg-primary rounded-3xl py-2 px-4 w-1/6 text-white font-medium hover:bg-darkPrimary hidden sm:block">Save
+                            className="mt-4 bg-primary rounded-3xl py-2 px-4 w-1/6 text-white font-medium hover:bg-darkPrimary block">Save
                         </button>
                     </div>
                 </div>
-                <Success
-                    open={showSuccessSnackBar}
-                    close={() => setSuccessShowSnackBar(false)}
-                    message={snackbarMessage}/>
-                <Error
-                    open={showErrorSnackBar}
-                    close={() => setShowErrorSnackBar(false)}
-                    message={snackbarMessage}/>
+
+                <SnackBar
+                    open={showSnackBar}
+                    close={() => setShowSnackBar(false)}
+                    message={snackbarMessage}
+                    type={snackbarType}/>
 
                 <input type='file' id='file' accept="image/png, image/jpeg" ref={inputFileRef} style={{display: 'none'}}
                        onChange={handleSelectedFile}/>

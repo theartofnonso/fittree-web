@@ -9,6 +9,7 @@ import awsConstants from "../../../utils/aws-utils/awsConstants";
 import CloseIcon from "../../svg/close-line.svg";
 import CloseIconWhite from "../../svg/close-line-white.svg";
 import EditIcon from "../../svg/edit-2-line-white.svg";
+import DeleteIcon from "../../svg/delete-bin-white-line.svg";
 import PageDescription from "../../views/PageDescription";
 import BodyParts from "../../views/BodyParts";
 import Equipments from "../../views/Equipments";
@@ -19,11 +20,11 @@ import AddIcon from "../../svg/add-line-white.svg";
 import Compressor from "compressorjs";
 import {constructWorkoutExercises} from "../../../schemas/workoutExercises";
 import SelectDuration from "../../views/SelectDuration";
-import Error from "../../views/snackbars/Error";
 import Loading from "../../utils/Loading";
 import {uploadAndDeleteS3} from "../../../utils/aws-utils/awsHelperFunctions";
 import {selectAuthUser} from "../../../features/auth/authUserSlice";
 import {selectAllExercises} from "../../../features/auth/authUserExercisesSlice";
+import {SnackBar, SnackBarType} from "../../views/SnackBar";
 
 export default function CreateWorkout({params, open, close}) {
 
@@ -109,11 +110,13 @@ export default function CreateWorkout({params, open, close}) {
     const [removeThumbnail, setRemoveThumbnail] = useState(false);
 
     /**
-     * Show snackbar for err message
+     * Show snackbar message
      */
     const [showSnackBar, setShowSnackBar] = useState(false)
 
     const [snackbarMessage, setSnackbarMessage] = useState("");
+
+    const [snackbarType, setSnackbarType] = useState("")
 
     /**
      * Handle opening and closing Exercise gallery
@@ -256,6 +259,13 @@ export default function CreateWorkout({params, open, close}) {
         inputFileRef.current.click();
     };
 
+    // /**
+    //  * Remove thumbnail
+    //  */
+    // const removeThumbnail = () => {
+    //     inputFileRef.current.click();
+    // };
+
     /**
      * Handle selected file
      * @param event
@@ -292,6 +302,7 @@ export default function CreateWorkout({params, open, close}) {
     const doCreateWorkout = async () => {
         if (title.trim().length === 0) {
             setShowSnackBar(true)
+            setSnackbarType(SnackBarType.WARN)
             setSnackbarMessage("Please provide a title")
         } else {
             setIsLoading(true)
@@ -302,6 +313,7 @@ export default function CreateWorkout({params, open, close}) {
             } catch (err) {
                 setIsLoading(false)
                 setShowSnackBar(true)
+                setSnackbarType(SnackBarType.ERROR)
                 const message = workout ? "Oops! unable to edit workout at this moment" : "Oops! unable to create workout at this moment"
                 setSnackbarMessage(message)
             }
@@ -560,13 +572,22 @@ export default function CreateWorkout({params, open, close}) {
                     {displayThumbnail()}
                     <div
                         className="flex flex-row items-center justify-center absolute top-0 right-0 bottom-0 left-0 bg-gradient-to-b from-transparentBlack1 to-transparentBlack hover:bg-transparentBlack1">
-                        {uri ?
-                            <button
-                                type="button"
-                                onClick={selectFile}
-                                className="flex flex-row items-center justify-center">
-                                <EditIcon/>
-                            </button> :
+                        {uri || workout ?
+                            <div className="flex flex-row">
+                                <button
+                                    type="button"
+                                    onClick={selectFile}
+                                    className="flex flex-row items-center justify-center mx-4">
+                                    <EditIcon/>
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={selectFile}
+                                    className="flex flex-row items-center justify-center mx-4">
+                                    <DeleteIcon/>
+                                </button>
+                            </div>
+                            :
                             <button
                                 type="button"
                                 onClick={selectFile}
@@ -585,10 +606,11 @@ export default function CreateWorkout({params, open, close}) {
                 className="mt-2 mb-2 bg-primary rounded-3xl py-2 px-8 text-white font-semibold hover:bg-darkPrimary">{workout ? "Update workout" : "Create workout"}
             </button>
             {isLoading ? <Loading message={"Creating workout"}/> : null}
-            <Error
+            <SnackBar
                 open={showSnackBar}
                 close={() => setShowSnackBar(false)}
-                message={snackbarMessage}/>
+                message={snackbarMessage}
+                type={snackbarType}/>
         </div>
     )
 }

@@ -9,7 +9,7 @@ import {getUserFromDB, persistUserToDB, retrieveCognitoUser} from "../src/utils/
 import {Auth, withSSRContext} from "aws-amplify";
 import {useRouter} from "next/router";
 import Link from "next/link";
-import Error from "../src/components/views/snackbars/Error";
+import {SnackBar, SnackBarType} from "../src/components/views/SnackBar";
 
 export default function SignIn() {
 
@@ -29,6 +29,8 @@ export default function SignIn() {
     const [showSnackBar, setShowSnackBar] = useState(false)
 
     const [snackbarMessage, setSnackbarMessage] = useState("");
+
+    const [snackbarType, setSnackbarType] = useState("")
 
     /**
      * Check that the entered email is a valid format
@@ -56,19 +58,19 @@ export default function SignIn() {
      */
     const signInHandler = async () => {
 
-        setIsLoading(true);
-
         if (email.trim().length === 0) {
-            setIsLoading(false);
             setShowSnackBar(true);
+            setSnackbarType(SnackBarType.WARN)
             setSnackbarMessage("Please provide an email");
         } else {
+            setIsLoading(true);
             try {
                 const user = await retrieveCognitoUser(email);
                 if (user) {
                     if (!user.Enabled) {
                         setIsLoading(false);
                         setShowSnackBar(true);
+                        setSnackbarType(SnackBarType.ERROR)
                         setSnackbarMessage("Your account has been disabled, please contact hello@fittree.io")
                     } else {
                         const currentUser = await Auth.signIn(email);
@@ -79,6 +81,7 @@ export default function SignIn() {
             } catch (err) {
                 setIsLoading(false);
                 setShowSnackBar(true);
+                setSnackbarType(SnackBarType.ERROR)
                 setSnackbarMessage("You don't seem to have a Fittree account, please sign up instead");
             }
         }
@@ -178,10 +181,11 @@ export default function SignIn() {
                     email={email}
                 />
             ) : null}
-            <Error
+            <SnackBar
                 open={showSnackBar}
                 close={() => setShowSnackBar(false)}
-                message={snackbarMessage}/>
+                message={snackbarMessage}
+                type={snackbarType}/>
         </div>
     )
 }

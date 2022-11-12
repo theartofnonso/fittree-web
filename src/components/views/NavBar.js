@@ -5,7 +5,7 @@ import {useState} from "react";
 import {generateShareableLink} from "../../utils/workout/workoutsHelperFunctions";
 import {useRouter} from "next/router";
 import {Auth} from "aws-amplify";
-import Success from "./snackbars/Success";
+import {SnackBar, SnackBarType} from "./SnackBar";
 
 const NavBar = ({username}) => {
 
@@ -89,10 +89,11 @@ const NavBar = ({username}) => {
                     </div> : null}
                 </div> : null}
             </div>
-            <Success
+            <SnackBar
                 open={showSnackBar}
                 close={() => setShowSnackBar(false)}
-                message="Link copied"/>
+                message={"Link copied"}
+                type={SnackBarType.INFO}/>
         </>
     )
 }

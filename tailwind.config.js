@@ -28,6 +28,8 @@ module.exports = {
       dustBlack: '#282828',
       lightGreen: '#80e876',
       midnightGreen: '#2a4f27',
+      blue: '#2099f5',
+      yellow: '#f5b820'
     },
     extend: {
     },

@@ -14,8 +14,7 @@ import {selectAuthUser} from "../../../features/auth/authUserSlice";
 import {deleteWorkout, selectWorkoutById, updateWorkout} from "../../../features/auth/authUserWorkoutsSlice";
 import {sortWorkouts} from "../../../utils/workout/workoutsHelperFunctions";
 import Loading from "../../utils/Loading";
-import Error from "../../views/snackbars/Error";
-import Success from "../../views/snackbars/Success";
+import {SnackBar, SnackBarType} from "../../views/SnackBar";
 
 const PreviewWorkout = ({workoutId, close, isAuthUser}) => {
 
@@ -54,10 +53,10 @@ const PreviewWorkout = ({workoutId, close, isAuthUser}) => {
     const [loadingMessage, setLoadingMessage] = useState("")
 
     /**
-     * Show snackbar for err message
+     * Show snackbar
      */
-    const [showSuccessSnackBar, setSuccessShowSnackBar] = useState(false)
-    const [showErrorSnackBar, setShowErrorSnackBar] = useState(false)
+    const [showSnackBar, setShowSnackBar] = useState(false)
+    const [snackbarType, setSnackbarType] = useState("")
     const [snackbarMessage, setSnackbarMessage] = useState("");
 
 
@@ -117,11 +116,13 @@ const PreviewWorkout = ({workoutId, close, isAuthUser}) => {
                 close()
             } catch (err) {
                 setIsLoading(false)
-                setShowErrorSnackBar(true)
+                setShowSnackBar(true)
+                setSnackbarType(SnackBarType.ERROR)
                 setSnackbarMessage("Oops! unable to delete workout at this moment")
             }
         } else {
-            setShowErrorSnackBar(true)
+            setShowSnackBar(true)
+            setSnackbarType(SnackBarType.WARN)
             setSnackbarMessage("Remove workout from live before deleting it")
         }
 
@@ -153,12 +154,14 @@ const PreviewWorkout = ({workoutId, close, isAuthUser}) => {
             const isLive = await goLiveOrRemoveHelper();
             setIsLoading(false)
             if(isLive) {
-                setSuccessShowSnackBar(true)
+                setShowSnackBar(true)
+                setSnackbarType(SnackBarType.SUCCESS)
                 setSnackbarMessage("Workout is live")
             }
         } catch (err) {
             setIsLoading(false)
-            setShowErrorSnackBar(true)
+            setShowSnackBar(true)
+            setSnackbarType(SnackBarType.ERROR)
             setSnackbarMessage("Oops! unable to go live with workout")
         }
     };
@@ -235,15 +238,11 @@ const PreviewWorkout = ({workoutId, close, isAuthUser}) => {
 
                 {isLoading ? <Loading message={loadingMessage}/> : null}
 
-                <Success
-                    open={showSuccessSnackBar}
-                    close={() => setSuccessShowSnackBar(false)}
-                    message={snackbarMessage}/>
-
-                <Error
-                    open={showErrorSnackBar}
-                    close={() => setShowErrorSnackBar(false)}
-                    message={snackbarMessage}/>
+                <SnackBar
+                    open={showSnackBar}
+                    close={() => setShowSnackBar(false)}
+                    message={snackbarMessage}
+                    type={snackbarType}/>
             </div>
 
             <CreateWorkout
