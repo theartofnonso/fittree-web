@@ -4,7 +4,7 @@ import {useSelector} from "react-redux";
 import {selectAllExercises} from "../../features/auth/authUserExercisesSlice";
 import {searchExerciseOrWorkout} from "../../utils/workoutAndExerciseUtils";
 import ExerciseGalleryList from "./ExerciseGalleryList";
-import CloseIcon from "../svg/close-line.svg";
+import CloseIcon from "../../assets/svg/close-line.svg";
 
 const ExerciseGallery = ({selectedExercises, open, close}) => {
 

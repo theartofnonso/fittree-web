@@ -2,11 +2,11 @@
 import React, {useEffect, useState} from "react";
 import WorkoutCardBig from "../../cards/WorkoutCardBig";
 import WorkoutExerciseCard from "../../cards/WorkoutExerciseCard";
-import CloseIcon from "../../svg/close-line.svg";
-import PlayIcon from "../../svg/play-mini-fill.svg";
+import CloseIcon from "../../../assets/svg/close-line.svg";
+import PlayIcon from "../../../assets/svg/play-mini-fill.svg";
 import PreviewExercise from "../exercise/PreviewExercise";
 import WorkoutPlayer from "../../views/WorkoutPlayer";
-import OverflowIcon from "../../svg/overflow.svg";
+import OverflowIcon from "../../../assets/svg/overflow.svg";
 import CreateWorkout from "./CreateWorkout";
 import {useDispatch, useSelector} from "react-redux";
 import {selectAllExercises} from "../../../features/auth/authUserExercisesSlice";

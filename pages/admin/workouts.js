@@ -8,7 +8,7 @@ import NavBar from "../../src/components/views/NavBar";
 import PageDescription from "../../src/components/views/PageDescription";
 import Footer from "../../src/components/views/Footer";
 import WorkoutList from "../../src/components/views/WorkoutList";
-import AddIcon from "../../src/components/svg/add-line-white.svg";
+import AddIcon from "../../src/assets/svg/add-line-white.svg";
 import CreateWorkout from "../../src/components/modals/workout/CreateWorkout";
 import {fetchUser, selectAuthUser} from "../../src/features/auth/authUserSlice";
 

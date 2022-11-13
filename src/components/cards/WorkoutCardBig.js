@@ -6,8 +6,10 @@ const WorkoutCardBig = ({workout, isAuthUser}) => {
     return (
         <div
             className={`relative h-96 rounded-lg flex flex-col justify-end text-white overflow-hidden`}>
-            <img src={"https://" + workout.thumbnailUrl} alt="Display profile" className="object-cover lg:object-top h-full w-full"/>
-            <div className="absolute top-0 right-0 bottom-0 left-0 bg-gradient-to-b from-transparentBlack1 to-transparentBlack"/>
+            <img src={workout.thumbnailUrl ? "https://" + workout.thumbnailUrl : "/wallpaper.jpg"} alt="Display profile"
+                 className="object-cover lg:object-top h-full w-full"/>
+            <div
+                className="absolute top-0 right-0 bottom-0 left-0 bg-gradient-to-b from-transparentBlack1 to-transparentBlack"/>
             <div className="absolute top-0 right-0 m-2 py-0.5 px-2 rounded-full bg-primary text-xs font-medium">
                 <p>{workoutTagDisplay(isAuthUser, workout)}</p>
             </div>
@@ -21,7 +23,8 @@ const WorkoutCardBig = ({workout, isAuthUser}) => {
                     {workout.equipments.map((item, index) => <p key={index} className="mr-2">{item}</p>)}
                 </div>
             </div>
-            <img src={"https://" + workout.thumbnailUrl} alt="Display profile" className="rounded-lg absolute right-0 bottom-0 mr-2 mb-2 h-24 w-24 hidden sm:block"/>
+            {workout.thumbnailUrl ? <img src={"https://" + workout.thumbnailUrl} alt="Display profile"
+                                         className="rounded-lg absolute right-0 bottom-0 mr-2 mb-2 h-24 w-24 hidden sm:block"/> : null}
         </div>
     );
 };

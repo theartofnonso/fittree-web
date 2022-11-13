@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React from "react";
-import FittrIcon from "/src/components/svg/fittr.svg";
+import FittrIcon from "/src/assets/svg/fittr.svg";
 import Link from "next/link";
 
 const CreatorProfile500 = ({username}) => {

@@ -32,6 +32,9 @@ module.exports = {
       yellow: '#f5b820'
     },
     extend: {
+      backgroundImage: {
+        'thumbnail': "url('/wallpaper.jpg')",
+      },
     },
   },
   plugins: [],

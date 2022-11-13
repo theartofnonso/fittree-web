@@ -1,5 +1,5 @@
-import ShareIcon from "../svg/share-box-line.svg";
-import FunctionsIcon from "../svg/function-fill.svg";
+import ShareIcon from "../../assets/svg/share-box-line.svg";
+import FunctionsIcon from "../../assets/svg/function-fill.svg";
 import Link from "next/link";
 import {useState} from "react";
 import {generateShareableLink} from "../../utils/workout/workoutsHelperFunctions";

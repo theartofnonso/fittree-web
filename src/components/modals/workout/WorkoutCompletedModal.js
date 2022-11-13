@@ -1,5 +1,5 @@
 import React from 'react';
-import CheckIcon from "../../svg/check.svg";
+import CheckIcon from "../../../assets/svg/check.svg";
 
 const WorkoutCompletedModal = props => {
 

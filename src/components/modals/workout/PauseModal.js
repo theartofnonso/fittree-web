@@ -1,8 +1,8 @@
 /* eslint-disable */
 import React from "react";
-import PlayArrowIcon from "../../svg/play-mini-fill.svg";
-import InfoOutlinedIcon from "../../svg/information-white-line.svg";
-import OrderPlayIcon from "../../svg/order-play-white-line.svg";
+import PlayArrowIcon from "../../../assets/svg/play-mini-fill.svg";
+import InfoOutlinedIcon from "../../../assets/svg/information-white-line.svg";
+import OrderPlayIcon from "../../../assets/svg/order-play-white-line.svg";
 
 const PauseModal = props => {
 

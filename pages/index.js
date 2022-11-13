@@ -2,10 +2,10 @@ import React from "react";
 import MockRight from "../src/components/views/mocks/MockRight";
 import MockLeft from "../src/components/views/mocks/MockLeft";
 import {APP_STORE_URL} from "../src/utils/utilsConstants";
-import InstagramIcon from "../src/components/svg/instagram-primary-line.svg";
-import TwitterIcon from "../src/components/svg/twitter-primary-line.svg";
-import FittrBigIcon from "../src/components/svg/fittr.svg";
-import FittrSmallIcon from "../src/components/svg/fittr_small.svg";
+import InstagramIcon from "../src/assets/svg/instagram-primary-line.svg";
+import TwitterIcon from "../src/assets/svg/twitter-primary-line.svg";
+import FittrBigIcon from "../src/assets/svg/fittr.svg";
+import FittrSmallIcon from "../src/assets/svg/fittr_small.svg";
 import Link from "next/link";
 import {withSSRContext} from "aws-amplify";
 

@@ -1,9 +1,9 @@
 /* eslint-disable */
 import React, {useEffect} from "react";
-import CloseIcon from "../svg/close-line-white.svg";
-import CheckIcon from "../svg/check-green-24.svg";
-import WarningIcon from "../svg/error-warning-line.svg";
-import InfoIcon from "../svg/information-white-line.svg";
+import CloseIcon from "../../assets/svg/close-line-white.svg";
+import CheckIcon from "../../assets/svg/check-green-24.svg";
+import WarningIcon from "../../assets/svg/error-warning-line.svg";
+import InfoIcon from "../../assets/svg/information-white-line.svg";
 
 const SnackBarType =  {
     ERROR: "Error",

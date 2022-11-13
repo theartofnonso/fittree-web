@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React from "react";
-import CloseIcon from "../../svg/close-line.svg";
+import CloseIcon from "../../../assets/svg/close-line.svg";
 
 const PreviewExercise = ({exercise, close}) => {
 

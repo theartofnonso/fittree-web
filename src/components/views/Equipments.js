@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React, {useEffect, useState} from "react";
 import listOfEquipments from "../../assets/equipments.json";
-import CloseIcon from "../svg/close-line.svg";
+import CloseIcon from "../../assets/svg/close-line.svg";
 
 const Equipments = props => {
 

@@ -2,10 +2,10 @@
 import React, {useEffect, useState} from "react";
 import workoutsConstants from "../../../utils/workout/workoutsConstants";
 import {timeOrReps} from "../../../utils/workout/workoutsHelperFunctions";
-import CloseIcon from "../../svg/close-line.svg";
-import InfoOutlinedIcon from "../../svg/information-line.svg";
-import OrderPlayIcon from "../../svg/order-play-line.svg";
-import PauseIcon from "../../svg/pause-mini-line.svg";
+import CloseIcon from "../../../assets/svg/close-line.svg";
+import InfoOutlinedIcon from "../../../assets/svg/information-line.svg";
+import OrderPlayIcon from "../../../assets/svg/order-play-line.svg";
+import PauseIcon from "../../../assets/svg/pause-mini-line.svg";
 import WorkoutSeeker from "../../views/WorkoutSeeker";
 import WorkoutExerciseCard from "../../cards/WorkoutExerciseCard";
 import PauseModal from "./PauseModal";

@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React, {useState} from "react";
 import WorkoutCard from "../cards/WorkoutCard";
-import EmptyState from "../svg/empty_state.svg";
+import EmptyState from "../../assets/svg/empty_state.svg";
 import PreviewWorkout from "../modals/workout/PreviewWorkout";
 const WorkoutList = ({emptyListMessage, workouts, isAuthUser}) => {
 

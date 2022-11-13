@@ -1,7 +1,7 @@
 import React, {useState} from "react";
-import FittrSmallIcon from "../src/components/svg/fittr_small.svg";
-import FittrBigIcon from "../src/components/svg/fittr.svg";
-import CheckIcon from "../src/components/svg/check-fill.svg";
+import FittrSmallIcon from "../src/assets/svg/fittr_small.svg";
+import FittrBigIcon from "../src/assets/svg/fittr.svg";
+import CheckIcon from "../src/assets/svg/check-fill.svg";
 import Loading from "../src/components/utils/Loading";
 import {isEmailValid} from "../src/utils/general/utils";
 import VerifyAuth from "../src/components/modals/auth/verifyauth";

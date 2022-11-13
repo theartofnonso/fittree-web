@@ -1,22 +1,22 @@
 import React, {useEffect, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {createWorkout, updateWorkout, selectWorkoutById} from "../../../features/auth/authUserWorkoutsSlice";
+import {createWorkout, selectWorkoutById, updateWorkout} from "../../../features/auth/authUserWorkoutsSlice";
 import workoutsConstants from "../../../utils/workout/workoutsConstants";
 import {sortWorkouts} from "../../../utils/workout/workoutsHelperFunctions";
 import utilsConstants from "../../../utils/utilsConstants";
 import {capitaliseWords} from "../../../utils/general/utils";
 import awsConstants from "../../../utils/aws-utils/awsConstants";
-import CloseIcon from "../../svg/close-line.svg";
-import CloseIconWhite from "../../svg/close-line-white.svg";
-import EditIcon from "../../svg/edit-2-line-white.svg";
-import DeleteIcon from "../../svg/delete-bin-white-line.svg";
+import CloseIcon from "../../../assets/svg/close-line.svg";
+import CloseIconWhite from "../../../assets/svg/close-line-white.svg";
+import EditIcon from "../../../assets/svg/edit-2-line-white.svg";
+import DeleteIcon from "../../../assets/svg/delete-bin-white-line.svg";
 import PageDescription from "../../views/PageDescription";
 import BodyParts from "../../views/BodyParts";
 import Equipments from "../../views/Equipments";
 import ExerciseGallery from "../../views/ExerciseGallery";
 import InputValue from "../../views/InputValue";
 import InputTime from "../../views/InputTime";
-import AddIcon from "../../svg/add-line-white.svg";
+import AddIcon from "../../../assets/svg/add-line-white.svg";
 import Compressor from "compressorjs";
 import {constructWorkoutExercises, updateDuration, updateSets} from "../../../schemas/workoutExercises";
 import SelectDuration from "../../views/SelectDuration";
@@ -102,7 +102,7 @@ export default function CreateWorkout({params, open, close}) {
     /**
      * Thumbnail URI
      */
-    const [uri, setUri] = useState(workout ? workout.thumbnailUrl : null);
+    const [uri, setUri] = useState(workout ? workout.thumbnailUrl : "");
     const [selectedFile, setSelectedFile] = useState();
 
     /**
@@ -305,14 +305,6 @@ export default function CreateWorkout({params, open, close}) {
     };
 
     /**
-     * Upload default thumbnail
-     * @returns {Promise<string>}
-     */
-    const getDefaultThumbnail = () => {
-
-    };
-
-    /**
      * Calculate workout duration
      * @returns {*}
      */
@@ -332,20 +324,31 @@ export default function CreateWorkout({params, open, close}) {
         let thumbnail = "";
 
         /**
-         * User has replaced old thumbnail
+         * User is editing a workout and is yet to change the thumbnail
          */
-        if (uri && uri !== workout.thumbnailUrl) {
-            thumbnail = await uploadAndDeleteS3(uri, awsConstants.awsStorage.folders.THUMBNAILS, workout.thumbnailUrl, "jpg")
-        } else if (uri === workout.thumbnailUrl) {
+        if (workout && workout.thumbnailUrl) {
             /**
-             * User has not changed thumbnail
+             * User has selected new thumbnail
              */
-            thumbnail = workout.thumbnailUrl
-        } else if (!workout && uri) {
+            if (uri && uri !== workout.thumbnailUrl) {
+                thumbnail = await uploadAndDeleteS3(uri, awsConstants.awsStorage.folders.THUMBNAILS, workout.thumbnailUrl, "jpg")
+                /**
+                 * Set thumnbnail to workout.thumbnailUrl
+                 */
+            } else {
+                thumbnail = workout.thumbnailUrl
+            }
             /**
-             * User has chosen thumbnail for the first time
+             * User is creating new workout with fresh thumbnail
+             * @type {string}
              */
-            thumbnail = await uploadAndDeleteS3(uri, awsConstants.awsStorage.folders.THUMBNAILS, null, "jpg")
+        } else {
+            /**
+             * User has selected a new thumbnail
+             */
+            if (uri) {
+                thumbnail = await uploadAndDeleteS3(uri, awsConstants.awsStorage.folders.THUMBNAILS, null, "jpg")
+            }
         }
 
         const payload = {
@@ -425,6 +428,17 @@ export default function CreateWorkout({params, open, close}) {
         const totalExerciseInterval = (selectedExercises.length - 1) * exerciseInterval;
         return totalExerciseDuration + totalExerciseInterval;
     };
+
+    /**
+     * Format URI to correct form for displaying
+     */
+    const formatThumbnailUri = (uri) => {
+        let formattedUri = uri;
+        if(!uri.startsWith("blob")) {
+            formattedUri =  "https://" + uri
+        }
+        return formattedUri
+    }
 
     return (
         <div className="px-2 sm:px-10 fixed top-0 right-0 bottom-0 left-0 w-full h-screen bg-white overflow-y-scroll ">
@@ -536,7 +550,7 @@ export default function CreateWorkout({params, open, close}) {
                                onSelectTime={(duration) => setRoundsInterval(duration.value)}/>
                 </div>
                 <div className="my-4 relative h-60 w-60 rounded-lg overflow-hidden hover:bg-secondary cursor-pointer">
-                    <img src={uri ? uri : "https://" + uri} alt="Workout Thumbnail"
+                    <img src={formatThumbnailUri(uri)} alt="Workout Thumbnail"
                          className="object-cover h-full w-full"/>
                     <div
                         className="flex flex-row items-center justify-center absolute top-0 right-0 bottom-0 left-0 bg-gradient-to-b from-transparentBlack1 to-transparentBlack hover:bg-transparentBlack1">

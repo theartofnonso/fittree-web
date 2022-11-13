@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React, {useState} from "react";
-import EmptyState from "../svg/empty_state.svg";
+import EmptyState from "../../assets/svg/empty_state.svg";
 import ExerciseCard from "../cards/ExerciseCard";
 import PreviewExercise from "../modals/exercise/PreviewExercise";
 
