@@ -13,23 +13,23 @@ export const constructWorkoutExercises = (exerciseId, duration = defaultDuration
     }
 }
 
-export const updateExerciseId = (exerciseId, workoutExercises) => {
+export const updateExerciseId = (exerciseId, workoutExercise) => {
     return {
-        ...workoutExercises,
+        ...workoutExercise,
         exerciseId
     }
 }
 
-export const updateDuration = (duration, workoutExercises) => {
+export const updateDuration = (duration, workoutExercise) => {
     return {
-        ...workoutExercises,
+        ...workoutExercise,
         duration: duration
     }
 }
 
-export const updateSets = (sets, workoutExercises) => {
+export const updateSets = (sets, workoutExercise) => {
     return {
-        ...workoutExercises,
+        ...workoutExercise,
         sets
     }
 }

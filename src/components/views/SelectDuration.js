@@ -40,7 +40,7 @@ const SelectDuration = ({prevDuration, showReps, onChange}) => {
                                 onChange(constructDuration(event.target.value, duration.type))
                         }
                     }}
-                    className="appearance-none bg-gray2 text-gray-700 py-4 px-4 pr-8"
+                    className="appearance-none bg-gray2 text-gray-700 py-4 px-2 pr-6 rounded-l"
                     id="grid-state">
                     {Array(59).fill(0).map((item, index) => {
                         const durationNumber = index + 1
@@ -71,7 +71,7 @@ const SelectDuration = ({prevDuration, showReps, onChange}) => {
                                 onChange(constructDuration(duration.value, event.target.value))
                         }
                     }}
-                    className="block appearance-none w-full bg-gray2 text-gray-700 h-full px-4 pr-8 rounded-r "
+                    className="block appearance-none w-full bg-gray2 text-gray-700 h-full px-2 pr-6 rounded-r "
                     id="grid-state">
                     <option value={workoutsConstants.duration.SECONDS}>{workoutsConstants.duration.SECONDS}</option>
                     <option value={workoutsConstants.duration.MINUTES}>{workoutsConstants.duration.MINUTES}</option>

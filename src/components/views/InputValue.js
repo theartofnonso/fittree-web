@@ -1,13 +1,20 @@
 /* eslint-disable */
-import React, {useState} from "react";
+import React from "react";
+import SelectValue from "./SelectValue";
 
-const InputNumber = (props) => {
+const InputValue = (props) => {
 
-    if(!props.open) {
+    if (!props.open) {
         return
     }
 
-    const [value, setValue] = useState(props.value)
+    /**
+     *
+     * @param duration
+     */
+    const onChange = (duration) => {
+        props.onSelectValue(duration)
+    }
 
     return (
         <div
@@ -15,18 +22,9 @@ const InputNumber = (props) => {
             <div className="my-2 flex flex-row place-content-around items-center">
                 <p className="p-2">{props.title}</p>
             </div>
-            <input
-                min="1"
-                className="border-none bg-gray2 rounded-r py-4 px-3 font-light text-dustBlack w-16"
-                type="number"
-                value={value}
-                onChange={(event) => {
-                    setValue(event.target.value)
-                    props.onSelectValue(event.target.value)
-                }}
-            />
+            <SelectValue prevValue={props.value} onChange={onChange}/>
         </div>
     );
 };
 
-export default InputNumber;
+export default InputValue;

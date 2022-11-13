@@ -14,17 +14,18 @@ import PageDescription from "../../views/PageDescription";
 import BodyParts from "../../views/BodyParts";
 import Equipments from "../../views/Equipments";
 import ExerciseGallery from "../../views/ExerciseGallery";
-import InputNumber from "../../views/InputValue";
+import InputValue from "../../views/InputValue";
 import InputTime from "../../views/InputTime";
 import AddIcon from "../../svg/add-line-white.svg";
 import Compressor from "compressorjs";
-import {constructWorkoutExercises} from "../../../schemas/workoutExercises";
+import {constructWorkoutExercises, updateDuration, updateSets} from "../../../schemas/workoutExercises";
 import SelectDuration from "../../views/SelectDuration";
 import Loading from "../../utils/Loading";
 import {uploadAndDeleteS3} from "../../../utils/aws-utils/awsHelperFunctions";
 import {selectAuthUser} from "../../../features/auth/authUserSlice";
 import {selectAllExercises} from "../../../features/auth/authUserExercisesSlice";
 import {SnackBar, SnackBarType} from "../../views/SnackBar";
+import SelectValue from "../../views/SelectValue";
 
 export default function CreateWorkout({params, open, close}) {
 
@@ -221,14 +222,30 @@ export default function CreateWorkout({params, open, close}) {
     };
 
     /**
-     *
+     * Update the workout exercise duration
      * @param duration
      * @param currentExercise
      */
     const onChangeDuration = (duration, currentExercise) => {
         const selectedExerciseObjects = selectedExercises.map(exercise => {
             if (exercise.exerciseId === currentExercise.exerciseId) {
-                return constructWorkoutExercises(currentExercise.exerciseId, duration)
+                return updateDuration(duration, currentExercise)
+            }
+            return exercise;
+        });
+
+        setSelectedExercises(selectedExerciseObjects);
+    }
+
+    /**
+     * Update the workout exercise set
+     * @param sets
+     * @param currentExercise
+     */
+    const onChangeSets = (sets, currentExercise) => {
+        const selectedExerciseObjects = selectedExercises.map(exercise => {
+            if (exercise.exerciseId === currentExercise.exerciseId) {
+                return updateSets(sets, currentExercise)
             }
             return exercise;
         });
@@ -333,8 +350,8 @@ export default function CreateWorkout({params, open, close}) {
      * @returns {*}
      */
     const calWorkoutDuration = () => {
-        if(selectedExercises.length > 0) {
-         return getWorkoutType() === workoutsConstants.workoutType.CIRCUIT ? calCircuitDuration() : calRepsSetsDuration()
+        if (selectedExercises.length > 0) {
+            return getWorkoutType() === workoutsConstants.workoutType.CIRCUIT ? calCircuitDuration() : calRepsSetsDuration()
         }
         return 0
     }
@@ -357,7 +374,7 @@ export default function CreateWorkout({params, open, close}) {
              * User not changing thumbnail
              */
             thumbnail = workout.thumbnailUrl
-        } else if(!workout && uri) {
+        } else if (!workout && uri) {
             /**
              * User has chosen thumbnail for the first time
              */
@@ -381,8 +398,6 @@ export default function CreateWorkout({params, open, close}) {
             preferred_username: user.preferred_username,
             type: getWorkoutType() === workoutsConstants.workoutType.CIRCUIT ? workoutsConstants.workoutType.CIRCUIT : workoutsConstants.workoutType.REPS_SETS,
         };
-
-        console.log(payload)
 
         if (workout) {
             return dispatch(updateWorkout({...workout, ...payload})).unwrap();
@@ -513,6 +528,7 @@ export default function CreateWorkout({params, open, close}) {
                     <tr className="text-left">
                         <th>Title</th>
                         <th>Time/Reps</th>
+                        {getWorkoutType() === workoutsConstants.workoutType.REPS_SETS ? <th>Sets</th> : null}
                         <th></th>
                     </tr>
                     </thead>
@@ -527,10 +543,11 @@ export default function CreateWorkout({params, open, close}) {
                                         prevDuration={exercise.duration}
                                         showReps={true}/>
                                 </td>
+                                {getWorkoutType() === workoutsConstants.workoutType.REPS_SETS ?
+                                    <td>
+                                        <SelectValue onChange={(sets) => onChangeSets(sets, exercise)} prevValue={exercise.sets}/>
+                                    </td> : null}
                                 <td className="flex flex-row justify-end">
-                                    <div className="bg-primary rounded hover:bg-darkPrimary p-0.5 m-1" hidden>
-                                        <EditIcon/>
-                                    </div>
                                     <div onClick={() => removeWorkoutExercise(exercise)}
                                          className="bg-primary rounded hover:bg-darkPrimary p-0.5 m-1">
                                         <CloseIconWhite/>
@@ -554,15 +571,15 @@ export default function CreateWorkout({params, open, close}) {
                            value={exerciseInterval}
                            open={selectedExercises.length > 1}
                            onSelectTime={(value) => setExerciseInterval(value)}/>
-                <InputNumber title="Sets Interval"
-                             value={setsInterval}
-                             open={(selectedExercises.length > 0) && getWorkoutType() === workoutsConstants.workoutType.REPS_SETS}
-                             onSelectValue={(value) => setSetsInterval(value)}/>
+                <InputTime title="Sets Interval"
+                           value={setsInterval}
+                           open={(selectedExercises.length > 0) && getWorkoutType() === workoutsConstants.workoutType.REPS_SETS}
+                           onSelectValue={(value) => setSetsInterval(value)}/>
                 <div className={`${rounds > 1 ? "outline outline-gray2 outline-1 p-2 rounded-md mt-2" : ""}`}>
-                    <InputNumber title="Rounds"
-                                 value={rounds}
-                                 open={(selectedExercises.length > 1) && getWorkoutType() === workoutsConstants.workoutType.CIRCUIT}
-                                 onSelectValue={(value) => setRounds(value)}/>
+                    <InputValue title="Rounds"
+                                value={rounds}
+                                open={(selectedExercises.length > 1) && getWorkoutType() === workoutsConstants.workoutType.CIRCUIT}
+                                onSelectValue={(value) => setRounds(value)}/>
                     <InputTime title="Rounds Interval"
                                value={roundsInterval}
                                open={rounds > 1}
