@@ -201,7 +201,7 @@ export default function Settings({username}) {
                 <div>
                     <NavBar username={username}/>
                     <PageDescription title="Settings" description="Manage all your settings here"/>
-                    <div className="flex flex-col items-center">
+                    <div className="flex flex-col items-center mt-6">
                         <div
                             className="flex flex-col items-center">
                             <Avatar user={user} uri={uri}/>
