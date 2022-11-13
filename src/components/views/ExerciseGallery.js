@@ -50,7 +50,7 @@ const ExerciseGallery = ({selectedExercises, open, close}) => {
     };
 
     return (
-        <div className="px-2 sm:px-10 fixed top-0 right-0 bottom-0 left-0 w-full h-screen bg-white overflow-y-scroll ">
+        <div className="px-2 sm:px-10 fixed top-0 right-0 bottom-0 left-0 w-full h-screen bg-white overflow-y-scroll z-10">
             <div className="my-4 cursor-pointer" onClick={onCloseFitsGalleryHandler}>
                 <CloseIcon/>
             </div>

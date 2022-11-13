@@ -294,7 +294,6 @@ export default function CreateWorkout({params, open, close}) {
                 setIsLoading(false)
                 close()
             } catch (err) {
-                console.log(err)
                 setIsLoading(false)
                 setShowSnackBar(true)
                 setSnackbarType(SnackBarType.ERROR)

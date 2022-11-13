@@ -11,6 +11,7 @@ import WorkoutList from "../../src/components/views/WorkoutList";
 import AddIcon from "../../src/assets/svg/add-line-white.svg";
 import CreateWorkout from "../../src/components/modals/workout/CreateWorkout";
 import {fetchUser, selectAuthUser} from "../../src/features/auth/authUserSlice";
+import workoutsConstants from "../../src/utils/workout/workoutsConstants";
 
 export default function Workouts({username}) {
 
@@ -25,6 +26,8 @@ export default function Workouts({username}) {
     const [searchQuery, setSearchQuery] = useState("");
 
     const [openCreateWorkout, setOpenCreateWorkout] = useState(false)
+
+    const [workoutType, setWorkoutType] = useState(workoutsConstants.workoutType.CIRCUIT)
 
     /**
      * Fetch user
@@ -79,12 +82,26 @@ export default function Workouts({username}) {
                         value={searchQuery}
                         onChange={event => onChangeSearch(event.target.value.toLowerCase())}/>
                 </div>
-                <button
-                    type="button"
-                    onClick={() => setOpenCreateWorkout(true)}
-                    className="flex flex-row items-center justify-center bg-primary rounded-md hover:bg-darkPrimary text-white pl-1 pr-4 py-1 mb-4 font-semibold">
-                    <AddIcon/>Create
-                </button>
+                <div className="flex flex-row">
+                    <button
+                        type="button"
+                        onClick={() => {
+                            setWorkoutType(workoutsConstants.workoutType.CIRCUIT)
+                            setOpenCreateWorkout(true)
+                        }}
+                        className="flex flex-row items-center justify-center bg-primary rounded-md hover:bg-darkPrimary text-white pl-1 pr-3 py-1 mb-4 mr-2 font-semibold text-sm">
+                        <AddIcon/>Create Circuits
+                    </button>
+                    <button
+                        type="button"
+                        onClick={() => {
+                            setWorkoutType(workoutsConstants.workoutType.REPS_SETS)
+                            setOpenCreateWorkout(true)
+                        }}
+                        className="flex flex-row items-center justify-center bg-primary rounded-md hover:bg-darkPrimary text-white pl-1 pr-3 py-1 mb-4 font-semibold text-sm">
+                        <AddIcon/>Create Reps and Sets
+                    </button>
+                </div>
                 <WorkoutList workouts={filteredWorkouts}
                              emptyListMessage="You don't have any workouts yet"
                              isAuthUser={true}/>
@@ -92,7 +109,7 @@ export default function Workouts({username}) {
                     open={openCreateWorkout}
                     close={() => setOpenCreateWorkout(false)}
                     user={user}
-                    params={{}}/>
+                    params={{workoutId: "", workoutType}}/>
             </div>
             <Footer/>
         </>
