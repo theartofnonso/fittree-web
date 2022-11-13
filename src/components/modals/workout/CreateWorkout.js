@@ -102,13 +102,8 @@ export default function CreateWorkout({params, open, close}) {
     /**
      * Thumbnail URI
      */
-    const [uri, setUri] = useState(null);
+    const [uri, setUri] = useState(workout ? workout.thumbnailUrl : null );
     const [selectedFile, setSelectedFile] = useState();
-
-    /**
-     * Thumbnail display
-     */
-    const [removeThumbnail, setRemoveThumbnail] = useState(false);
 
     /**
      * Show snackbar message
@@ -262,26 +257,18 @@ export default function CreateWorkout({params, open, close}) {
     };
 
     /**
-     * Open image picker
-     * @returns {Promise<void>}
-     */
-    const pickImage = async () => {
-
-    };
-
-    /**
      * Handle file upload
      */
     const selectFile = () => {
         inputFileRef.current.click();
     };
 
-    // /**
-    //  * Remove thumbnail
-    //  */
-    // const removeThumbnail = () => {
-    //     inputFileRef.current.click();
-    // };
+    /**
+     * Remove thumbnail
+     */
+    const removeThumbnailFile = () => {
+        setUri(null)
+    };
 
     /**
      * Handle selected file
@@ -291,27 +278,6 @@ export default function CreateWorkout({params, open, close}) {
         const file = event.target.files[0];
         setSelectedFile(file);
     };
-
-    /**
-     * Remove selected thumbnail
-     */
-    const removeThumbnailDisplay = () => {
-        if (uri) {
-            setUri(null);
-        }
-        setRemoveThumbnail(true);
-    };
-
-    /**
-     * Handle thumbnail display
-     */
-    const handleThumbnailDisplay = () => {
-        if (workout || uri) {
-            setThumbnailOptionsModalVisible(true)
-        } else {
-            pickImage()
-        }
-    }
 
     /**
      * Perform sanity checks on required details and call createWorkoutHandler
@@ -367,11 +333,11 @@ export default function CreateWorkout({params, open, close}) {
         /**
          * User has replaced old thumbnail
          */
-        if (workout && uri) {
+        if (uri && uri !== workout.thumbnailUrl) {
             thumbnail = await uploadAndDeleteS3(uri, awsConstants.awsStorage.folders.THUMBNAILS, workout.thumbnailUrl, "jpg")
-        } else if (workout && !uri) {
+        } else if (uri === workout.thumbnailUrl) {
             /**
-             * User not changing thumbnail
+             * User has not changed thumbnail
              */
             thumbnail = workout.thumbnailUrl
         } else if (!workout && uri) {
@@ -457,24 +423,6 @@ export default function CreateWorkout({params, open, close}) {
         const totalExerciseDuration = selectedExercises.reduce(calcExerciseDuration, 0);
         const totalExerciseInterval = (selectedExercises.length - 1) * exerciseInterval;
         return totalExerciseDuration + totalExerciseInterval;
-    };
-
-    /**
-     * Display thumbnail
-     * @returns {JSX.Element|null}
-     */
-    const displayThumbnail = () => {
-
-        if (removeThumbnail) {
-            return null;
-        }
-        if (uri) {
-            return <img src={uri} alt="Workout Thumbnail" className="object-cover h-full w-full"/>;
-        } else if (workout) {
-            return <img src={"https://" + workout.thumbnailUrl} alt="Workout Thumbnail"
-                        className="object-cover h-full w-full"/>
-        }
-        return null;
     };
 
     return (
@@ -586,10 +534,10 @@ export default function CreateWorkout({params, open, close}) {
                                onSelectTime={(value) => setRoundsInterval(value)}/>
                 </div>
                 <div className="my-4 relative h-60 w-60 rounded-lg overflow-hidden hover:bg-secondary cursor-pointer">
-                    {displayThumbnail()}
+                    <img src={uri ? uri : "https://" + uri } alt="Workout Thumbnail" className="object-cover h-full w-full"/>
                     <div
                         className="flex flex-row items-center justify-center absolute top-0 right-0 bottom-0 left-0 bg-gradient-to-b from-transparentBlack1 to-transparentBlack hover:bg-transparentBlack1">
-                        {uri || workout ?
+                        {uri ?
                             <div className="flex flex-row">
                                 <button
                                     type="button"
@@ -599,7 +547,7 @@ export default function CreateWorkout({params, open, close}) {
                                 </button>
                                 <button
                                     type="button"
-                                    onClick={selectFile}
+                                    onClick={removeThumbnailFile}
                                     className="flex flex-row items-center justify-center mx-4">
                                     <DeleteIcon/>
                                 </button>
