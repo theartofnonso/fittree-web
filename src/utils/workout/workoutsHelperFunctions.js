@@ -154,4 +154,9 @@ export const workoutTagDisplay = (isAuthUser, workout) => {
     }
 }
 
+/**
+ * Check if workout is valid i.e contains exercises at minimum
+ */
+export const isValidWorkout = (workout) => workout.workoutExercises.length > 0
+
 export const generateShareableLink = username => 'https://www.fittree.io/' + username;

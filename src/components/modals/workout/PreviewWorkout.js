@@ -12,7 +12,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {selectAllExercises} from "../../../features/auth/authUserExercisesSlice";
 import {selectAuthUser} from "../../../features/auth/authUserSlice";
 import {deleteWorkout, selectWorkoutById, updateWorkout} from "../../../features/auth/authUserWorkoutsSlice";
-import {sortWorkouts} from "../../../utils/workout/workoutsHelperFunctions";
+import {isValidWorkout, sortWorkouts} from "../../../utils/workout/workoutsHelperFunctions";
 import Loading from "../../utils/Loading";
 import {SnackBar, SnackBarType} from "../../views/SnackBar";
 
@@ -78,7 +78,14 @@ const PreviewWorkout = ({workoutId, close, isAuthUser}) => {
      * Play the appropriate workout
      */
     const playWorkout = () => {
-        setShouldPlayWorkout(true)
+        const isValid = isValidWorkout(workout)
+        if(isValid) {
+            setShouldPlayWorkout(true)
+        } else {
+            setShowSnackBar(true)
+            setSnackbarType(SnackBarType.ERROR)
+            setSnackbarMessage("This workout has no exercises to play")
+        }
     };
 
     /**
@@ -133,6 +140,15 @@ const PreviewWorkout = ({workoutId, close, isAuthUser}) => {
      * @returns {Promise<boolean>}
      */
     const goLiveOrRemoveHelper = async () => {
+        if(!workout.isLive) {
+            const isValid = isValidWorkout(workout)
+            if(!isValid) {
+                setShowSnackBar(true)
+                setSnackbarType(SnackBarType.WARN)
+                setSnackbarMessage("Please add exercises before going live")
+                return false;
+            }
+        }
         const isLive = !workout.isLive
         const updatedWorkout = {...workout, isLive};
         delete updatedWorkout.workoutExercises;
