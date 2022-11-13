@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {createWorkout, selectWorkoutById, updateWorkout} from "../../../features/auth/authUserWorkoutsSlice";
+import {createWorkout, updateWorkout, selectWorkoutById} from "../../../features/auth/authUserWorkoutsSlice";
 import workoutsConstants from "../../../utils/workout/workoutsConstants";
 import {sortWorkouts} from "../../../utils/workout/workoutsHelperFunctions";
 import utilsConstants from "../../../utils/utilsConstants";
@@ -102,7 +102,7 @@ export default function CreateWorkout({params, open, close}) {
     /**
      * Thumbnail URI
      */
-    const [uri, setUri] = useState(workout ? workout.thumbnailUrl : null );
+    const [uri, setUri] = useState(workout ? workout.thumbnailUrl : null);
     const [selectedFile, setSelectedFile] = useState();
 
     /**
@@ -294,6 +294,7 @@ export default function CreateWorkout({params, open, close}) {
                 setIsLoading(false)
                 close()
             } catch (err) {
+                console.log(err)
                 setIsLoading(false)
                 setShowSnackBar(true)
                 setSnackbarType(SnackBarType.ERROR)
@@ -493,7 +494,8 @@ export default function CreateWorkout({params, open, close}) {
                                 </td>
                                 {getWorkoutType() === workoutsConstants.workoutType.REPS_SETS ?
                                     <td>
-                                        <SelectValue onChange={(sets) => onChangeSets(sets, exercise)} prevValue={exercise.sets}/>
+                                        <SelectValue onChange={(sets) => onChangeSets(sets, exercise)}
+                                                     prevValue={exercise.sets}/>
                                     </td> : null}
                                 <td className="flex flex-row justify-end">
                                     <div onClick={() => removeWorkoutExercise(exercise)}
@@ -518,11 +520,11 @@ export default function CreateWorkout({params, open, close}) {
                 <InputTime title="Exercise Interval"
                            value={exerciseInterval}
                            open={selectedExercises.length > 1}
-                           onSelectTime={(value) => setExerciseInterval(value)}/>
+                           onSelectTime={(duration) => setExerciseInterval(duration.value)}/>
                 <InputTime title="Sets Interval"
                            value={setsInterval}
                            open={(selectedExercises.length > 0) && getWorkoutType() === workoutsConstants.workoutType.REPS_SETS}
-                           onSelectValue={(value) => setSetsInterval(value)}/>
+                           onSelectTime={(duration) => setSetsInterval(duration.value)}/>
                 <div className={`${rounds > 1 ? "outline outline-gray2 outline-1 p-2 rounded-md mt-2" : ""}`}>
                     <InputValue title="Rounds"
                                 value={rounds}
@@ -531,10 +533,11 @@ export default function CreateWorkout({params, open, close}) {
                     <InputTime title="Rounds Interval"
                                value={roundsInterval}
                                open={rounds > 1}
-                               onSelectTime={(value) => setRoundsInterval(value)}/>
+                               onSelectTime={(duration) => setRoundsInterval(duration.value)}/>
                 </div>
                 <div className="my-4 relative h-60 w-60 rounded-lg overflow-hidden hover:bg-secondary cursor-pointer">
-                    <img src={uri ? uri : "https://" + uri } alt="Workout Thumbnail" className="object-cover h-full w-full"/>
+                    <img src={uri ? uri : "https://" + uri} alt="Workout Thumbnail"
+                         className="object-cover h-full w-full"/>
                     <div
                         className="flex flex-row items-center justify-center absolute top-0 right-0 bottom-0 left-0 bg-gradient-to-b from-transparentBlack1 to-transparentBlack hover:bg-transparentBlack1">
                         {uri ?
