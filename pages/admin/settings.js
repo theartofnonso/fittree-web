@@ -15,15 +15,18 @@ import Compressor from 'compressorjs';
 import awsConstants from "../../src/utils/aws-utils/awsConstants";
 import workoutsConstants from "../../src/utils/workout/workoutsConstants";
 import FittreeLoading from "../../src/components/views/FittreeLoading";
-import {useLeavePageConfirm} from "../../src/utils/general/hooks";
 import {uploadAndDeleteS3} from "../../src/utils/aws-utils/awsHelperFunctions";
 import {SnackBar, SnackBarType} from "../../src/components/views/SnackBar";
+import {useRouter} from "next/router";
+import Modal from "../../src/components/views/modal";
 
 export default function Settings({username}) {
 
     const inputFileRef = useRef()
 
     const dispatch = useDispatch();
+
+    const router = useRouter();
 
     const user = useSelector(selectAuthUser);
 
@@ -32,21 +35,25 @@ export default function Settings({username}) {
     /**
      * Avatar URI
      */
-    const [uri, setUri] = useState("");
+    const [uri, setUri] = useState(user ? user.displayProfile : "");
 
-    const [displayBrief, setDisplayBrief] = useState("");
+    const [displayBrief, setDisplayBrief] = useState(user ? user.displayBrief : "");
 
-    const [instagram, setInstagram] = useState("");
+    const [instagram, setInstagram] = useState(user ? user.instagram : "");
 
-    const [facebook, setFacebook] = useState("");
+    const [facebook, setFacebook] = useState(user ? user.facebook : "");
 
-    const [twitter, setTwitter] = useState("");
+    const [twitter, setTwitter] = useState(user ? user.twitter : "");
 
-    const [tiktok, setTiktok] = useState("");
+    const [tiktok, setTiktok] = useState(user ? user.tiktok : "");
 
-    const [youtube, setYoutube] = useState("");
+    const [youtube, setYoutube] = useState(user ? user.youtube : "");
 
     const [selectedFile, setSelectedFile] = useState();
+
+    const [openModal, setOpenModal] = useState(false)
+
+    const [urlToNavigateTo, setUrlToNavigateTo] = useState("")
 
     /**
      * Show snackbar for err message
@@ -54,6 +61,37 @@ export default function Settings({username}) {
     const [showSnackBar, setShowSnackBar] = useState(false)
     const [snackbarType, setSnackbarType] = useState("")
     const [snackbarMessage, setSnackbarMessage] = useState("");
+
+    /**
+     * Set User if available not available in state (possibly because user reloaded the page)
+     */
+    useEffect(() => {
+        if (user) {
+            setDisplayBrief(user.displayBrief || "")
+            setInstagram(user.instagram || "")
+            setFacebook(user.facebook || "")
+            setTwitter(user.twitter || "")
+            setTiktok(user.tiktok || "")
+            setYoutube(user.youtube || "")
+            setUri(user.displayProfile || "")
+        }
+    }, [user])
+
+    useEffect(() => {
+        const handleRouteChange = (url, { shallow }) => {
+            setUrlToNavigateTo(url)
+            const shouldConfirm = hasChanges()
+            setOpenModal(shouldConfirm)
+        }
+
+        router.events.on('routeChangeStart', handleRouteChange)
+
+        // If the component is unmounted, unsubscribe
+        // from the event with the `off` method:
+        return () => {
+            router.events.off('routeChangeStart', handleRouteChange)
+        }
+    }, [])
 
     /**
      * Update the user profile
@@ -76,6 +114,37 @@ export default function Settings({username}) {
             }
         }
     };
+
+    /**
+     * Return a list of changes
+     * @returns {boolean}
+     */
+    const hasChanges = () => {
+
+        const {instagram: _instagram,
+            facebook: _facebook,
+            twitter: _twitter,
+            tiktok: _tiktok,
+            youtube: _youtube,
+            displayBrief: _displayBrief,
+            displayProfile: _displayProfile} = user
+
+        const changes = {
+            instagram: _instagram,
+            facebook: _facebook,
+            twitter: _twitter,
+            tiktok: _tiktok,
+            youtube: _youtube,
+            displayBrief: _displayBrief,
+            displayProfile: _displayProfile
+        }
+
+        for (const property in changes) {
+            if(changes[property]) {
+                return true
+            }
+        }
+    }
 
     /**
      * Return a list of changes
@@ -132,21 +201,6 @@ export default function Settings({username}) {
     };
 
     /**
-     * Determine if user is about to navigate when changes are unsaved
-     * @returns {boolean}
-     */
-    const shouldConfirmLeavePage = () => {
-
-        if (!user) return false
-
-        const listOfChanges = getPageChanges();
-
-        return listOfChanges.length > 0
-    }
-
-    useLeavePageConfirm(shouldConfirmLeavePage(), "Are you sure you want to leave?")
-
-    /**
      * Fetch user
      */
     useEffect(() => {
@@ -174,19 +228,11 @@ export default function Settings({username}) {
     }, [selectedFile]);
 
     /**
-     * Set User if available
+     * Navigate from Settings
      */
-    useEffect(() => {
-        if (user) {
-            setDisplayBrief(user.displayBrief || "")
-            setInstagram(user.instagram || "")
-            setFacebook(user.facebook || "")
-            setTwitter(user.twitter || "")
-            setTiktok(user.tiktok || "")
-            setYoutube(user.youtube || "")
-            setUri(user.displayProfile ? "https://" + user.displayProfile : "")
-        }
-    }, [user])
+    const closeScreen = async () => {
+        await router.push(urlToNavigateTo)
+    }
 
     /**
      * Creator page is still loading
@@ -285,6 +331,13 @@ export default function Settings({username}) {
                         </button>
                     </div>
                 </div>
+
+                <Modal
+                    open={openModal}
+                    title={"Unsaved changes"}
+                    message={"You have unsaved changes. Are you sure you want to leave?"}
+                    actionPositive={{title: "No", action: () => setOpenModal(false)}}
+                    actionNegative={{title: "Yes", action: closeScreen}}/>
 
                 <SnackBar
                     open={showSnackBar}

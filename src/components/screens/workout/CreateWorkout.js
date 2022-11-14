@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {createWorkout, selectWorkoutById, updateWorkout} from "../../../features/auth/authUserWorkoutsSlice";
 import workoutsConstants from "../../../utils/workout/workoutsConstants";
-import {sortWorkouts} from "../../../utils/workout/workoutsHelperFunctions";
+import {formatThumbnailUri, sortWorkouts} from "../../../utils/workout/workoutsHelperFunctions";
 import utilsConstants from "../../../utils/utilsConstants";
 import {capitaliseWords} from "../../../utils/general/utils";
 import awsConstants from "../../../utils/aws-utils/awsConstants";
@@ -26,6 +26,8 @@ import {selectAuthUser} from "../../../features/auth/authUserSlice";
 import {selectAllExercises} from "../../../features/auth/authUserExercisesSlice";
 import {SnackBar, SnackBarType} from "../../views/SnackBar";
 import SelectValue from "../../views/SelectValue";
+import {useLeavePageConfirm} from "../../../utils/general/hooks";
+import Modal from "../../views/modal";
 
 export default function CreateWorkout({params, open, close}) {
 
@@ -71,12 +73,7 @@ export default function CreateWorkout({params, open, close}) {
     /**
      * Workout exercises
      */
-    const [workoutExercisesCount, setWorkoutExercisesCount] = useState(0); // Needed to track changes
-    const [selectedExercises, setSelectedExercises] = useState(() => {
-        const workoutExercises = workout ? sortWorkouts(workout, exercises) : [];
-        setWorkoutExercisesCount(workoutExercises.length);
-        return workoutExercises;
-    });
+    const [selectedExercises, setSelectedExercises] = useState(() => workout ? sortWorkouts(workout, exercises) : []);
     const [deletedExerciseIds, setDeletedExerciseIds] = useState([]);
 
     /**
@@ -87,17 +84,17 @@ export default function CreateWorkout({params, open, close}) {
     /**
      * Rest interval after sets
      */
-    const [roundsInterval, setRoundsInterval] = useState(workout ? workout.roundsInterval : utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_MILLISECONDS);
+    const [roundsInterval, setRoundsInterval] = useState(workout ? workout.roundsInterval : utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_OF_ZERO);
 
     /**
      * Rest interval after sets
      */
-    const [setsInterval, setSetsInterval] = useState(workout ? workout.setsInterval : utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_MILLISECONDS);
+    const [setsInterval, setSetsInterval] = useState(workout ? workout.setsInterval : utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_OF_ZERO);
 
     /**
      * Exercise interval
      */
-    const [exerciseInterval, setExerciseInterval] = useState(workout ? workout.exerciseInterval : utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_MILLISECONDS);
+    const [exerciseInterval, setExerciseInterval] = useState(workout ? workout.exerciseInterval : utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_OF_ZERO);
 
     /**
      * Thumbnail URI
@@ -120,6 +117,8 @@ export default function CreateWorkout({params, open, close}) {
     const [openExerciseGallery, setOpenExerciseGallery] = useState(false)
 
     const [isLoading, setIsLoading] = useState(false);
+
+    const [openModal, setOpenModal] = useState(false)
 
     /**
      * Handle selected file
@@ -148,31 +147,105 @@ export default function CreateWorkout({params, open, close}) {
     };
 
     /**
-     * Check if workoutExercises have changes
+     * Return boolean for updates made to page when editing a workout
+     * @returns {boolean}
      */
-    const didWorkoutExerciseValuesChange = () => {
+    const hasPageBeenUpdated = () => {
 
         /**
-         *  Check if user removed any WorkoutExercises
+         * Extract necessary fields from workout
          */
-        if (deletedExerciseIds.length > 0) {
-            return true;
+        const {
+            title: _title,
+            description: _description,
+            intensityLevel: _intensityLevel,
+            bodyParts: _bodyParts,
+            equipments: _equipments,
+            workoutExercises: _workoutExercises,
+            exerciseInterval: _exerciseInterval,
+            setsInterval: _setsInterval,
+            rounds: _rounds,
+            roundsInterval: _roundsInterval,
+            thumbnailUrl: _thumbnailUrl}  = workout
+
+        const prevState = {
+            title: _title,
+            description: _description,
+            intensityLevel: _intensityLevel,
+            bodyParts: _bodyParts,
+            equipments: _equipments,
+            workoutExercises: _workoutExercises,
+            exerciseInterval: _exerciseInterval,
+            setsInterval: _setsInterval,
+            rounds: _rounds,
+            roundsInterval: _roundsInterval,
+            thumbnailUrl: _thumbnailUrl
         }
 
         /**
-         *  Check if user added any WorkoutExercises
+         * Capture recent changes
+         * @type {{intensityLevel: (string|*|string), equipments: (*|*[]), setsInterval: (number|*|number), workoutExercises: string[], description: (*|string), exerciseInterval: (number|*|number), roundsInterval: (number|*|number), title: (*|string), bodyParts: (*|*[]), rounds: (*|number)}}
          */
-        if (workoutExercisesCount !== selectedExercises.length) {
-            return true;
+        const changes = {
+            title: title,
+            description: description,
+            intensityLevel: intensityLevel,
+            bodyParts: selectedBodyParts,
+            equipments: selectedEquipments,
+            workoutExercises: selectedExercises.map(item => JSON.stringify(item)),
+            exerciseInterval: exerciseInterval,
+            setsInterval: setsInterval,
+            rounds: rounds,
+            roundsInterval: roundsInterval,
+            thumbnailUrl: uri
         }
-    };
+
+        /**
+         * Convert both objects to JSON for easy comparison and compare
+         * @type {string}
+         */
+        const prevStateJSON = JSON.stringify(prevState)
+        const changesJSON = JSON.stringify(changes)
+
+        return prevStateJSON !== changesJSON
+    }
+
+    /**
+     * Check recent changes to page when creating a new workout
+     * @returns {boolean}
+     */
+    const hasPageChanged = () => {
+        const changes = {
+            hasTitle: title !== "",
+            hasDescription: description !== "",
+            hasIntensityLevel: intensityLevel !== workoutsConstants.intensityLevels.Beginner,
+            hasExerciseInterval: exerciseInterval > 0 ,
+            hasSetsInterval: setsInterval > 0,
+            hasRounds: rounds > 1,
+            hasRoundsInterval: roundsInterval > 0,
+            hasBodyParts: selectedBodyParts.length > 0,
+            hasEquipments: selectedEquipments.length > 0,
+            hasWorkoutExercises: selectedExercises.length > 0,
+            hasUri: uri !== ""
+        }
+
+        for (const property in changes) {
+            if(changes[property]) {
+                return true
+            }
+        }
+        return false;
+    }
 
     /**
      * Close this screen
      */
-    const checkForAccidentalClose = () => {
+    const shouldConfirmLeavePage = () => workout ? hasPageBeenUpdated() : hasPageChanged()
 
-    };
+    /**
+     * Not certain if this function is necessary
+     */
+    useLeavePageConfirm(shouldConfirmLeavePage(), "Are you sure you want to leave?")
 
     /**
      * Store the selected equipment
@@ -314,7 +387,6 @@ export default function CreateWorkout({params, open, close}) {
         return 0
     }
 
-
     /**
      * Create a workout and upload it to DynamoDB
      */
@@ -429,19 +501,19 @@ export default function CreateWorkout({params, open, close}) {
     };
 
     /**
-     * Format URI to correct form for displaying
+     * Close the Create workout screen
      */
-    const formatThumbnailUri = (uri) => {
-        let formattedUri = uri;
-        if(!uri.startsWith("blob")) {
-            formattedUri =  "https://" + uri
-        }
-        return formattedUri
+    const closeScreen = () => {
+        setOpenModal(false)
+        close()
     }
 
     return (
         <div className="px-2 sm:px-10 fixed top-0 right-0 bottom-0 left-0 w-full h-screen bg-white overflow-y-scroll ">
-            <div className="my-4 cursor-pointer" onClick={close}>
+            <div className="my-4 cursor-pointer" onClick={() => {
+                const shouldConfirm = shouldConfirmLeavePage();
+                shouldConfirm ? setOpenModal(shouldConfirm) : close()
+            }}>
                 <CloseIcon/>
             </div>
             <PageDescription
@@ -586,6 +658,12 @@ export default function CreateWorkout({params, open, close}) {
                 onClick={doCreateWorkout}
                 className="mt-2 mb-2 bg-primary rounded-3xl py-2 px-8 text-white font-semibold hover:bg-darkPrimary">{workout ? "Update workout" : "Create workout"}
             </button>
+            <Modal
+                   open={openModal}
+                   title={"Unsaved changes"}
+                   message={"You have unsaved changes. Are you sure you want to leave?"}
+                   actionPositive={{title: "No", action: () => setOpenModal(false)}}
+                   actionNegative={{title: "Yes", action: closeScreen}}/>
             {isLoading ? <Loading message={"Creating workout"}/> : null}
             <SnackBar
                 open={showSnackBar}

@@ -155,6 +155,17 @@ export const workoutTagDisplay = (isAuthUser, workout) => {
 }
 
 /**
+ * Format URI to correct form for displaying
+ */
+export const formatThumbnailUri = (uri) => {
+    let formattedUri = uri;
+    if(!uri.startsWith("blob")) {
+        formattedUri =  "https://" + uri
+    }
+    return formattedUri
+}
+
+/**
  * Check if workout is valid i.e contains exercises at minimum
  */
 export const isValidWorkout = (workout) => workout.workoutExercises.length > 0

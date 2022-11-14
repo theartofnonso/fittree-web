@@ -2,7 +2,7 @@
 import React, {useState} from "react";
 import EmptyState from "../../assets/svg/empty_state.svg";
 import ExerciseCard from "../cards/ExerciseCard";
-import PreviewExercise from "../modals/exercise/PreviewExercise";
+import PreviewExercise from "../screens/exercise/PreviewExercise";
 
 const ExerciseGalleryList = ({emptyListMessage, exercises, onClick}) => {
 

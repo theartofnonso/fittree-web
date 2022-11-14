@@ -2,7 +2,7 @@
 import React, {useState} from "react";
 import WorkoutCard from "../cards/WorkoutCard";
 import EmptyState from "../../assets/svg/empty_state.svg";
-import PreviewWorkout from "../modals/workout/PreviewWorkout";
+import PreviewWorkout from "../screens/workout/PreviewWorkout";
 const WorkoutList = ({emptyListMessage, workouts, isAuthUser}) => {
 
     const [workout, setWorkout] = useState(null)

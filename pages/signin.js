@@ -4,7 +4,7 @@ import FittrBigIcon from "../src/assets/svg/fittr.svg";
 import CheckIcon from "../src/assets/svg/check-fill.svg";
 import Loading from "../src/components/utils/Loading";
 import {isEmailValid} from "../src/utils/general/utils";
-import VerifyAuth from "../src/components/modals/auth/verifyauth";
+import VerifyAuth from "../src/components/screens/auth/verifyauth";
 import {getUserFromDB, persistUserToDB, retrieveCognitoUser} from "../src/utils/aws-utils/awsHelperFunctions";
 import {Auth, withSSRContext} from "aws-amplify";
 import {useRouter} from "next/router";

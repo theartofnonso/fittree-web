@@ -1,5 +1,6 @@
 /* eslint-disable */
 import React from "react";
+import {formatThumbnailUri} from "../../utils/workout/workoutsHelperFunctions";
 
 const Avatar = ({user, uri}) => {
 
@@ -10,10 +11,7 @@ const Avatar = ({user, uri}) => {
     const displayAvatar = () => {
         if(uri) {
             return (
-                <img src={uri} alt="Display profile" className="object-cover h-full w-full"/>)
-        } else if (user.displayProfile) {
-            return (
-                <img src={"https://" + user.displayProfile} alt="Display profile" className="object-cover h-full w-full"/>)
+                <img src={formatThumbnailUri(uri)} alt="Display profile" className="object-cover h-full w-full"/>)
         } else {
             const initials = user.preferred_username.substring(0, 1).toUpperCase()
             return (<p className="text-3xl text-white font-semibold">{initials}</p>)

@@ -5,7 +5,7 @@ import CheckIcon from "../src/assets/svg/check-fill.svg";
 import Loading from "../src/components/utils/Loading";
 import {isEmailValid, onlyPeriodsUnderscore} from "../src/utils/general/utils";
 import {APP_NAME} from "../src/utils/utilsConstants";
-import VerifyAuth from "../src/components/modals/auth/verifyauth";
+import VerifyAuth from "../src/components/screens/auth/verifyauth";
 import {
     deleteCognitoUser,
     doesPreferredUsernameExists,
