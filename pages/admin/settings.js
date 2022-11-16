@@ -19,6 +19,7 @@ import {uploadAndDeleteS3} from "../../src/utils/aws-utils/awsHelperFunctions";
 import {SnackBar, SnackBarType} from "../../src/components/views/SnackBar";
 import {useRouter} from "next/router";
 import Modal from "../../src/components/views/modal";
+import {useLeavePageConfirm} from "../../src/utils/general/hooks";
 
 export default function Settings({username}) {
 
@@ -53,8 +54,6 @@ export default function Settings({username}) {
 
     const [openModal, setOpenModal] = useState(false)
 
-    const [urlToNavigateTo, setUrlToNavigateTo] = useState("")
-
     /**
      * Show snackbar for err message
      */
@@ -76,22 +75,6 @@ export default function Settings({username}) {
             setUri(user.displayProfile || "")
         }
     }, [user])
-
-    useEffect(() => {
-        const handleRouteChange = (url, { shallow }) => {
-            setUrlToNavigateTo(url)
-            const shouldConfirm = hasChanges()
-            setOpenModal(shouldConfirm)
-        }
-
-        router.events.on('routeChangeStart', handleRouteChange)
-
-        // If the component is unmounted, unsubscribe
-        // from the event with the `off` method:
-        return () => {
-            router.events.off('routeChangeStart', handleRouteChange)
-        }
-    }, [])
 
     /**
      * Update the user profile
@@ -117,37 +100,6 @@ export default function Settings({username}) {
 
     /**
      * Return a list of changes
-     * @returns {boolean}
-     */
-    const hasChanges = () => {
-
-        const {instagram: _instagram,
-            facebook: _facebook,
-            twitter: _twitter,
-            tiktok: _tiktok,
-            youtube: _youtube,
-            displayBrief: _displayBrief,
-            displayProfile: _displayProfile} = user
-
-        const changes = {
-            instagram: _instagram,
-            facebook: _facebook,
-            twitter: _twitter,
-            tiktok: _tiktok,
-            youtube: _youtube,
-            displayBrief: _displayBrief,
-            displayProfile: _displayProfile
-        }
-
-        for (const property in changes) {
-            if(changes[property]) {
-                return true
-            }
-        }
-    }
-
-    /**
-     * Return a list of changes
      * @returns {*[]}
      */
     const getPageChanges = () => {
@@ -158,11 +110,22 @@ export default function Settings({username}) {
         data.push({key: "tiktok", value: tiktok.trim()})
         data.push({key: "youtube", value: youtube.trim()})
         data.push({key: "displayBrief", value: displayBrief.trim()})
-        data.push({key: "displayProfile", value: uri.split("//")[1]})
+        data.push({key: "displayProfile", value: uri})
 
         return data
             .filter(item => user[item.key] !== item.value);
     }
+
+    /**
+     * Determine new changes differ from old settings
+     * @returns {boolean}
+     */
+    const hasSettingsChanged = () => getPageChanges().length > 0
+
+    /**
+     * Not certain if this function is necessary
+     */
+    useLeavePageConfirm(hasSettingsChanged(), "Are you sure you want to leave?")
 
     /**
      * Helper function to update user profile

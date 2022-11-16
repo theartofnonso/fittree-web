@@ -143,10 +143,10 @@ export default function CreateWorkout({params, close}) {
     };
 
     /**
-     * Return boolean for updates made to page when editing a workout
+     * Determine new changes differ from old workout
      * @returns {boolean}
      */
-    const hasPageBeenUpdated = () => {
+    const hasWorkoutChanged = () => {
 
         /**
          * Extract necessary fields from workout
@@ -207,10 +207,10 @@ export default function CreateWorkout({params, close}) {
     }
 
     /**
-     * Check recent changes to page when creating a new workout
+     * Check changes to page when creating a new workout
      * @returns {boolean}
      */
-    const hasPageChanged = () => {
+    const hasPageBeenPopulated = () => {
         const changes = {
             hasTitle: title !== "",
             hasDescription: description !== "",
@@ -236,7 +236,7 @@ export default function CreateWorkout({params, close}) {
     /**
      * Close this screen
      */
-    const shouldConfirmLeavePage = () => workout ? hasPageBeenUpdated() : hasPageChanged()
+    const shouldConfirmLeavePage = () => workout ? hasWorkoutChanged() : hasPageBeenPopulated()
 
     /**
      * Not certain if this function is necessary
@@ -391,7 +391,7 @@ export default function CreateWorkout({params, close}) {
         let thumbnail = "";
 
         /**
-         * User is editing a workout and is yet to change the thumbnail
+         * User is editing a workout
          */
         if (workout && workout.thumbnailUrl) {
             /**
@@ -400,13 +400,13 @@ export default function CreateWorkout({params, close}) {
             if (uri && uri !== workout.thumbnailUrl) {
                 thumbnail = await uploadAndDeleteS3(uri, awsConstants.awsStorage.folders.THUMBNAILS, workout.thumbnailUrl, "jpg")
                 /**
-                 * Set thumnbnail to workout.thumbnailUrl
+                 * reuse old thumbnail
                  */
             } else {
                 thumbnail = workout.thumbnailUrl
             }
             /**
-             * User is creating new workout with fresh thumbnail
+             * User is creating new workout
              * @type {string}
              */
         } else {
