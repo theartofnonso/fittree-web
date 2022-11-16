@@ -8,6 +8,7 @@ import PageDescription from "../../src/components/views/PageDescription";
 import Footer from "../../src/components/views/Footer";
 import ExerciseList from "../../src/components/views/ExerciseList";
 import {fetchUser, selectAuthUser} from "../../src/features/auth/authUserSlice";
+import AddIcon from "../../src/assets/svg/add-line-white.svg";
 
 export default function Exercises({username}) {
 
@@ -20,6 +21,8 @@ export default function Exercises({username}) {
     const [filteredExercises, setFilteredExercises] = useState([]);
 
     const [searchQuery, setSearchQuery] = useState("");
+
+    const [openCreateExercise, setOpenCreateExercise] = useState(false)
 
 
     /**
@@ -72,6 +75,13 @@ export default function Exercises({username}) {
                         placeholder="Search exercises"
                         value={searchQuery}
                         onChange={event => onChangeSearch(event.target.value.toLowerCase())}/>
+                </div>
+                <div className="flex flex-row">
+                    <button
+                        type="button"
+                        className="flex flex-row items-center justify-center bg-primary rounded-md hover:bg-darkPrimary text-white pl-1 pr-3 py-1 mb-4 mr-2 font-semibold text-sm">
+                        <AddIcon/>Create Exercise
+                    </button>
                 </div>
                 <ExerciseList exercises={filteredExercises}
                               emptyListMessage="You don't have any exercises yet"/>
