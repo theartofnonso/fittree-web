@@ -29,11 +29,7 @@ import SelectValue from "../../views/SelectValue";
 import {useLeavePageConfirm} from "../../../utils/general/hooks";
 import Modal from "../../views/modal";
 
-export default function CreateWorkout({params, open, close}) {
-
-    if (!open) {
-        return null;
-    }
+export default function CreateWorkout({params, close}) {
 
     const user = useSelector(selectAuthUser);
 

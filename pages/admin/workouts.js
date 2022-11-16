@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {selectAllWorkouts, workoutsAdded} from "../../src/features/auth/authUserWorkoutsSlice";
 import {useEffect, useState} from "react";
 import {searchExerciseOrWorkout} from "../../src/utils/workoutAndExerciseUtils";
-import {exercisesAdded, selectAllExercises} from "../../src/features/auth/authUserExercisesSlice";
+import {exercisesAdded} from "../../src/features/auth/authUserExercisesSlice";
 import NavBar from "../../src/components/views/NavBar";
 import PageDescription from "../../src/components/views/PageDescription";
 import Footer from "../../src/components/views/Footer";
@@ -102,14 +102,15 @@ export default function Workouts({username}) {
                         <AddIcon/>Create Reps and Sets
                     </button>
                 </div>
-                <WorkoutList workouts={filteredWorkouts}
-                             emptyListMessage="You don't have any workouts yet"
-                             isAuthUser={true}/>
-                <CreateWorkout
-                    open={openCreateWorkout}
-                    close={() => setOpenCreateWorkout(false)}
-                    user={user}
-                    params={{workoutId: "", workoutType}}/>
+                <WorkoutList
+                    workouts={filteredWorkouts}
+                    emptyListMessage="You don't have any workouts yet"
+                    isAuthUser={true}/>
+                {openCreateWorkout ?
+                    <CreateWorkout
+                        close={() => setOpenCreateWorkout(false)}
+                        user={user}
+                        params={{workoutId: "", workoutType}}/> : null}
             </div>
             <Footer/>
         </>

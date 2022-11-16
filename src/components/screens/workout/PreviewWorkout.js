@@ -15,6 +15,7 @@ import {deleteWorkout, selectWorkoutById, updateWorkout} from "../../../features
 import {isValidWorkout, sortWorkouts} from "../../../utils/workout/workoutsHelperFunctions";
 import Loading from "../../utils/Loading";
 import {SnackBar, SnackBarType} from "../../views/SnackBar";
+import workoutsConstants from "../../../utils/workout/workoutsConstants";
 
 const PreviewWorkout = ({workoutId, close, isAuthUser}) => {
 
@@ -79,7 +80,7 @@ const PreviewWorkout = ({workoutId, close, isAuthUser}) => {
      */
     const playWorkout = () => {
         const isValid = isValidWorkout(workout)
-        if(isValid) {
+        if (isValid) {
             setShouldPlayWorkout(true)
         } else {
             setShowSnackBar(true)
@@ -114,7 +115,7 @@ const PreviewWorkout = ({workoutId, close, isAuthUser}) => {
      * Delete the workout
      */
     const doDeleteWorkout = async () => {
-        if(!workout.isLive) {
+        if (!workout.isLive) {
             setIsLoading(true)
             setLoadingMessage("Deleting workout")
             try {
@@ -140,9 +141,9 @@ const PreviewWorkout = ({workoutId, close, isAuthUser}) => {
      * @returns {Promise<boolean>}
      */
     const goLiveOrRemoveHelper = async () => {
-        if(!workout.isLive) {
+        if (!workout.isLive) {
             const isValid = isValidWorkout(workout)
-            if(!isValid) {
+            if (!isValid) {
                 setShowSnackBar(true)
                 setSnackbarType(SnackBarType.WARN)
                 setSnackbarMessage("Please add exercises before going live")
@@ -169,7 +170,7 @@ const PreviewWorkout = ({workoutId, close, isAuthUser}) => {
         try {
             const isLive = await goLiveOrRemoveHelper();
             setIsLoading(false)
-            if(isLive) {
+            if (isLive) {
                 setShowSnackBar(true)
                 setSnackbarType(SnackBarType.SUCCESS)
                 setSnackbarMessage("Workout is live")
@@ -226,7 +227,16 @@ const PreviewWorkout = ({workoutId, close, isAuthUser}) => {
                     <p className="my-4 font-light break-words whitespace-pre-line">{workout.description}</p>
                 </div>
                 <div className="pb-2">
-                    <p className="mb-2 font-semibold">{workout.workoutExercises.length} exercises</p>
+                    <div className="flex flex-row items-center mb-4">
+                        <div
+                            className={`flex flex-row items-center px-2 outline outline-2 bg-secondary text-primary ${workout.type === workoutsConstants.workoutType.CIRCUIT ? "rounded-l" : "rounded"} text-xs font-semibold`}>{workout.workoutExercises.length} exercises
+                        </div>
+                        {workout.type === workoutsConstants.workoutType.CIRCUIT ?
+                            <div
+                                className="flex flex-row items-center ml-1.5 px-2 outline outline-2 bg-secondary text-primary rounded-r text-xs font-semibold">
+                                {workout.rounds} Rounds
+                            </div> : null}
+                    </div>
                     <div>
                         {workout.workoutExercises.map((workoutExercise, index) =>
                             <WorkoutExerciseCard
@@ -261,12 +271,12 @@ const PreviewWorkout = ({workoutId, close, isAuthUser}) => {
                     type={snackbarType}/>
             </div>
 
-            <CreateWorkout
-                open={openCreateWorkout}
-                close={() => setOpenCreateWorkout(false)}
-                user={user}
-                exercises={exercises}
-                params={{workoutId: workout.id, workoutType: workout.type}}/>
+            {openCreateWorkout ?
+                <CreateWorkout
+                    close={() => setOpenCreateWorkout(false)}
+                    user={user}
+                    exercises={exercises}
+                    params={{workoutId: workout.id, workoutType: workout.type}}/> : null}
 
             <WorkoutPlayer workout={workout}
                            shouldPlay={shouldPlayWorkout}
