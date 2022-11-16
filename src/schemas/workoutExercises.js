@@ -23,7 +23,7 @@ export const updateExerciseId = (exerciseId, workoutExercise) => {
 export const updateDuration = (duration, workoutExercise) => {
     return {
         ...workoutExercise,
-        duration: duration
+        duration
     }
 }
 

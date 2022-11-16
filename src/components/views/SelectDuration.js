@@ -43,7 +43,7 @@ const SelectDuration = ({prevDuration, showReps, onChange}) => {
                     className="appearance-none bg-gray2 text-gray-700 py-4 px-2 pr-6 rounded-l"
                     id="grid-state">
                     {Array(59).fill(0).map((item, index) => {
-                        const durationNumber = index + 1
+                        const durationNumber = index
                         return <option value={durationNumber} key={durationNumber}>{durationNumber}</option>
                     })}
                 </select>

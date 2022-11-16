@@ -15,7 +15,7 @@ const SelectValue = ({prevValue, onChange}) => {
                 value={value}
                 onChange={(event) => {
                     setValue(event.target.value)
-                    onChange(event.target.value)
+                    onChange(parseInt(event.target.value))
                 }}
             />
 
