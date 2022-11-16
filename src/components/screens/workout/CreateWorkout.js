@@ -114,7 +114,7 @@ export default function CreateWorkout({params, close}) {
 
     const [isLoading, setIsLoading] = useState(false);
 
-    const [openModal, setOpenModal] = useState(false)
+    const [openExitScreenModal, setOpenExitScreenModal] = useState(false)
 
     /**
      * Handle selected file
@@ -326,7 +326,7 @@ export default function CreateWorkout({params, close}) {
     };
 
     /**
-     * Handle file upload
+     * Open file explorer
      */
     const selectFile = () => {
         inputFileRef.current.click();
@@ -500,7 +500,7 @@ export default function CreateWorkout({params, close}) {
      * Close the Create workout screen
      */
     const closeScreen = () => {
-        setOpenModal(false)
+        setOpenExitScreenModal(false)
         close()
     }
 
@@ -508,7 +508,7 @@ export default function CreateWorkout({params, close}) {
         <div className="px-2 sm:px-10 fixed top-0 right-0 bottom-0 left-0 w-full h-screen bg-white overflow-y-scroll ">
             <div className="my-4 cursor-pointer" onClick={() => {
                 const shouldConfirm = shouldConfirmLeavePage();
-                shouldConfirm ? setOpenModal(shouldConfirm) : close()
+                shouldConfirm ? setOpenExitScreenModal(shouldConfirm) : close()
             }}>
                 <CloseIcon/>
             </div>
@@ -655,12 +655,12 @@ export default function CreateWorkout({params, close}) {
                 className="mt-2 mb-2 bg-primary rounded-3xl py-2 px-8 text-white font-semibold hover:bg-darkPrimary">{workout ? "Update workout" : "Create workout"}
             </button>
             <Modal
-                   open={openModal}
+                   open={openExitScreenModal}
                    title={"Unsaved changes"}
                    message={"You have unsaved changes. Are you sure you want to leave?"}
-                   actionPositive={{title: "No", action: () => setOpenModal(false)}}
+                   actionPositive={{title: "No", action: () => setOpenExitScreenModal(false)}}
                    actionNegative={{title: "Yes", action: closeScreen}}/>
-            {isLoading ? <Loading message={"Creating workout"}/> : null}
+            {isLoading ? <Loading message={workout ? "Updating workout" : "Creating workout"}/> : null}
             <SnackBar
                 open={showSnackBar}
                 close={() => setShowSnackBar(false)}

@@ -9,6 +9,8 @@ import Footer from "../../src/components/views/Footer";
 import ExerciseList from "../../src/components/views/ExerciseList";
 import {fetchUser, selectAuthUser} from "../../src/features/auth/authUserSlice";
 import AddIcon from "../../src/assets/svg/add-line-white.svg";
+import CreateWorkout from "../../src/components/screens/workout/CreateWorkout";
+import CreateExercise from "../../src/components/screens/exercise/CreateExercise";
 
 export default function Exercises({username}) {
 
@@ -79,12 +81,18 @@ export default function Exercises({username}) {
                 <div className="flex flex-row">
                     <button
                         type="button"
+                        onClick={() => setOpenCreateExercise(true)}
                         className="flex flex-row items-center justify-center bg-primary rounded-md hover:bg-darkPrimary text-white pl-1 pr-3 py-1 mb-4 mr-2 font-semibold text-sm">
                         <AddIcon/>Create Exercise
                     </button>
                 </div>
                 <ExerciseList exercises={filteredExercises}
                               emptyListMessage="You don't have any exercises yet"/>
+                {openCreateExercise ?
+                    <CreateExercise
+                        close={() => setOpenCreateExercise(false)}
+                        user={user}
+                        params={{workoutId: ""}}/> : null}
             </div>
             <Footer/>
         </>
