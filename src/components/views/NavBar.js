@@ -41,7 +41,7 @@ const NavBar = ({username}) => {
 
     return (
         <>
-            <div className="mb-8 flex flex-row items-center place-content-between">
+            <div className="mb-6 flex flex-row items-center place-content-between">
                 <div className="cursor-pointer" onClick={copyShareableLink}>
                     <ShareIcon/>
                 </div>

@@ -47,7 +47,7 @@ const SelectVideoCarousel = ({onSelect}) => {
             {uris.map((uri, index) => {
                 return (
                     <div
-                        className={`relative flex-none sm:flex-1 rounded-md w-5/6 sm:w-full h-full object-cover ${index !== 0 && index !== videos.length - 1 ? "mx-1" : null}`}>
+                        className={`relative flex-none sm:flex-1 rounded-md w-5/6 sm:w-full h-full object-cover ${index !== 0 && index !== uris.length - 1 ? "mx-1" : null}`}>
                         <video key={index}
                                autoPlay
                                playsInline loop>
@@ -66,7 +66,6 @@ const SelectVideoCarousel = ({onSelect}) => {
                                     </button>
                                     <button
                                         type="button"
-                                        onClick={() => selectFile(index)}
                                         className="flex flex-row items-center justify-center mx-4">
                                         <DeleteIcon/>
                                     </button>
@@ -74,11 +73,12 @@ const SelectVideoCarousel = ({onSelect}) => {
                                 :
                                 <button
                                     type="button"
+                                    onClick={() => selectFile(index)}
                                     className="flex flex-row items-center justify-center">
                                     <AddIcon/>
                                 </button>}
                         </div>
-                        <input type='file' id='file' accept="video/*"
+                        <input type='file' id='file' accept="video/*" ref={inputFileRef}
                                style={{display: 'none'}}
                                onChange={handleSelectedFile}/>
                     </div>
