@@ -59,14 +59,6 @@ export default function CreateExercise({params, close}) {
      * Equipment
      */
     const [selectedEquipments, setSelectedEquipments] = useState(exercise ? exercise.equipments : []);
-    const [equipmentModalVisible, setEquipmentModalVisible] = useState(false);
-
-    /**
-     * Video URIs
-     */
-    const [uris, setUris] = useState([null, null, null]);
-    const [currentUriIndex, setCurrentUriIndex] = useState(-1)
-    const [selectedFile, setSelectedFile] = useState();
 
     /**
      * Show snackbar message
@@ -80,16 +72,6 @@ export default function CreateExercise({params, close}) {
     const [isLoading, setIsLoading] = useState(false);
 
     const [openExitScreenModal, setOpenExitScreenModal] = useState(false)
-
-    /**
-     * Handle selected file
-     */
-    useEffect(() => {
-        if (selectedFile) {
-            // Trim video and strip off audio
-            setUris[currentUriIndex](selectedFile);
-        }
-    }, [selectedFile]);
 
     // /**
     //  * Determine new changes differ from old workout
@@ -209,23 +191,6 @@ export default function CreateExercise({params, close}) {
     };
 
     /**
-     * Open file explorer
-     */
-    const selectFile = (index) => {
-        setCurrentUriIndex(index)
-        inputFileRef.current.click();
-    };
-
-    /**
-     * Handle selected file
-     * @param event
-     */
-    const handleSelectedFile = (event) => {
-        const file = event.target.files[0];
-        setSelectedFile(file);
-    };
-
-    /**
      * Close the Create workout screen
      */
     const closeScreen = () => {
@@ -246,42 +211,7 @@ export default function CreateExercise({params, close}) {
                 title="Create Exercise"
                 description="Create an 8 seconds exercise to demonstrate the movement"/>
             <div className="my-4">
-                <SelectVideoCarousel videos={uris}/>
-                {/*{uris.map((item, index) => {*/}
-                {/*    return (*/}
-                {/*        <div key={index} className="inline-block grow w-64 h-64 mr-2 relative h-60 rounded-lg overflow-hidden hover:bg-secondary cursor-pointer">*/}
-                {/*            <img src={uris[0]} alt="Exercise video"*/}
-                {/*                 className="object-cover h-full w-full"/>*/}
-                {/*            <div*/}
-                {/*                className="flex flex-row items-center justify-center absolute top-0 right-0 bottom-0 left-0 bg-gradient-to-b from-transparentBlack1 to-transparentBlack hover:bg-transparentBlack1">*/}
-                {/*                {uris[0] ?*/}
-                {/*                    <div className="flex flex-row">*/}
-                {/*                        <button*/}
-                {/*                            type="button"*/}
-                {/*                            onClick={() => selectFile(index)}*/}
-                {/*                            className="flex flex-row items-center justify-center mx-4">*/}
-                {/*                            <EditIcon/>*/}
-                {/*                        </button>*/}
-                {/*                        <button*/}
-                {/*                            type="button"*/}
-                {/*                            className="flex flex-row items-center justify-center mx-4">*/}
-                {/*                            <DeleteIcon/>*/}
-                {/*                        </button>*/}
-                {/*                    </div>*/}
-                {/*                    :*/}
-                {/*                    <button*/}
-                {/*                        type="button"*/}
-                {/*                        onClick={() => selectFile(index)}*/}
-                {/*                        className="flex flex-row items-center justify-center">*/}
-                {/*                        <AddIcon/>*/}
-                {/*                    </button>}*/}
-                {/*            </div>*/}
-                {/*            <input type='file' id='file' accept="video/*" ref={inputFileRef}*/}
-                {/*                   style={{display: 'none'}}*/}
-                {/*                   onChange={handleSelectedFile}/>*/}
-                {/*        </div>*/}
-                {/*    )*/}
-                {/*})}*/}
+                <SelectVideoCarousel onSelect={(video) => console.log(video)}/>
             </div>
             <div className="mt-2 flex flex-col">
                 <input
