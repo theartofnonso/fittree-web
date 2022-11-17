@@ -5,11 +5,11 @@ const VideoCarousel = ({videos}) => {
 
     return (
         <div
-            className={`flex flex-row ${videos.length > 1 ? "justify-start" : "justify-center"} rounded-md h-96 overflow-x-auto`}>
+            className={`flex flex-row ${videos.length > 1 ? "justify-start" : "justify-center"} rounded-md h-96 overflow-x-auto bg-grayOpacity6`}>
             {videos.map((video, index) => {
                 return (
                     <video key={index}
-                           className={`rounded-md w-5/6 sm:w-full h-full object-cover ${index !== 0  && index !== videos.length -1 ? "mx-1" : null}`}
+                           className={`h-96 h-full object-cover ${index !== 0  && index !== videos.length -1 ? "mx-1" : null}`}
                            autoPlay
                            playsInline loop>
                         <source src={`https://${video}`} type="video/mp4"/>
