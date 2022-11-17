@@ -4,9 +4,7 @@ import {
     fetchCreatorProfile,
     selectCreator,
     selectCreatorStatus,
-    selectExercises,
-    selectWorkouts
-} from "../src/features/unauth/CreatorProfileSlice";
+} from "../src/features/unauth/creatorProfileSlice";
 import {useDispatch, useSelector} from "react-redux";
 import {searchExerciseOrWorkout} from "../src/utils/workoutAndExerciseUtils";
 import workoutsConstants from "../src/utils/workout/workoutsConstants";
@@ -17,6 +15,8 @@ import Profile from "../src/components/views/Profile";
 import WorkoutList from "../src/components/views/WorkoutList";
 import Footer from "../src/components/views/Footer";
 import NavBar from "../src/components/views/NavBar";
+import {exercisesAdded} from "../src/features/unauth/unAuthExercisesSlice";
+import {selectAllWorkouts, workoutsAdded} from "../src/features/unauth/unAuthWorkoutsSlice";
 
 const CreatorProfile = () => {
 
@@ -32,13 +32,31 @@ const CreatorProfile = () => {
 
     const status = useSelector(selectCreatorStatus)
 
-    const workouts = useSelector(selectWorkouts)
-
-    const exercises = useSelector(selectExercises)
+    const workouts = useSelector(selectAllWorkouts)
 
     const [filteredWorkouts, setFilteredWorkouts] = useState(workouts);
 
     const [searchQuery, setSearchQuery] = React.useState('');
+
+    /**
+     * Retrieve unauth's profile
+     * @type {Dispatch<AnyAction>}
+     */
+    useEffect(() => {
+        if (username) {
+            dispatch(fetchCreatorProfile({username}));
+        }
+    }, [username])
+
+    /**
+     * Load fetched exercises and workouts
+     */
+    useEffect(() => {
+        if (profile) {
+            dispatch(exercisesAdded(profile.exercises.items));
+            dispatch(workoutsAdded(profile.workouts.items));
+        }
+    }, [profile]);
 
     /**
      * Load workout into filtered workout
@@ -58,16 +76,6 @@ const CreatorProfile = () => {
         const searchResult = searchExerciseOrWorkout(filteredWorkouts, query)
         setFilteredWorkouts(searchResult);
     };
-
-    /**
-     * Retrieve unauth's profile
-     * @type {Dispatch<AnyAction>}
-     */
-    useEffect(() => {
-        if (username) {
-            dispatch(fetchCreatorProfile({username: username}));
-        }
-    }, [username])
 
     if (status === workoutsConstants.profileStatus.LOADING) {
         /**
@@ -108,11 +116,10 @@ const CreatorProfile = () => {
                             value={searchQuery}
                             onChange={event => onChangeSearch(event.target.value.toLowerCase())}/>
                     </div>
-                    <WorkoutList username={username}
-                                 workouts={filteredWorkouts}
-                                 exercises={exercises}
-                                 emptyListMessage={username + " " + "doesn't have any workouts yet"}
-                                 isAuthUser={false}/>
+                    <WorkoutList
+                        workouts={filteredWorkouts}
+                        emptyListMessage={username + " " + "doesn't have any workouts yet"}
+                        isAuthUser={false}/>
                     <Footer/>
                 </div>
             </>

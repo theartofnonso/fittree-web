@@ -8,7 +8,7 @@ const Profile = ({user}) => {
     return (
         <>
             <div className="flex flex-col items-center">
-                <Avatar user={user}/>
+                <Avatar user={user} uri={user.displayProfile}/>
                 <p className="font-semibold text-base md:text-lg">{user.preferred_username}</p>
                 <p className="font-light py-1 text-sm md:text-base text-center break-words whitespace-pre-line">{user.displayBrief}</p>
             </div>

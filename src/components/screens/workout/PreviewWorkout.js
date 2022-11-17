@@ -9,25 +9,29 @@ import WorkoutPlayer from "../../views/WorkoutPlayer";
 import OverflowIcon from "../../../assets/svg/overflow.svg";
 import CreateWorkout from "./CreateWorkout";
 import {useDispatch, useSelector} from "react-redux";
-import {selectAllExercises} from "../../../features/auth/authUserExercisesSlice";
+import {selectAllExercises} from "../../../features/auth/authExercisesSlice";
 import {selectAuthUser} from "../../../features/auth/authUserSlice";
-import {deleteWorkout, selectWorkoutById, updateWorkout} from "../../../features/auth/authUserWorkoutsSlice";
+import {deleteWorkout, selectWorkoutById, updateWorkout} from "../../../features/auth/authWorkoutsSlice";
+import {selectWorkoutById as unauthSelectWorkoutById} from "../../../features/unauth/unAuthWorkoutsSlice"
 import {isValidWorkout, sortWorkouts} from "../../../utils/workout/workoutsHelperFunctions";
 import Loading from "../../utils/Loading";
 import {SnackBar, SnackBarType} from "../../views/SnackBar";
 import workoutsConstants from "../../../utils/workout/workoutsConstants";
+import {selectExercises} from "../../../features/unauth/creatorProfileSlice";
 
 const PreviewWorkout = ({workoutId, close, isAuthUser}) => {
 
     const dispatch = useDispatch();
 
-    const exercises = useSelector(selectAllExercises)
+    const exercises = isAuthUser ? useSelector(selectAllExercises) : useSelector(selectExercises)
 
     /**
      * Monitors the workout from store
      * @type {unknown}
      */
-    const workoutFromStore = useSelector(state => selectWorkoutById(state, workoutId));
+    const workoutFromStore = isAuthUser ? useSelector(state => selectWorkoutById(state, workoutId)) : useSelector(state => unauthSelectWorkoutById(state, workoutId));
+
+    console.log(workoutFromStore)
 
     const [workout, setWorkout] = useState(() => {
         return {

@@ -1,6 +1,6 @@
 import React, {useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {selectExerciseById} from "../../../features/auth/authUserExercisesSlice";
+import {selectExerciseById} from "../../../features/auth/authExercisesSlice";
 import CloseIcon from "../../../assets/svg/close-line.svg";
 import PageDescription from "../../views/PageDescription";
 import BodyParts from "../../views/BodyParts";

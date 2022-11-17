@@ -1,9 +1,9 @@
 import {withSSRContext} from "aws-amplify";
 import {useDispatch, useSelector} from "react-redux";
-import {selectAllWorkouts, workoutsAdded} from "../../src/features/auth/authUserWorkoutsSlice";
+import {selectAllWorkouts, workoutsAdded} from "../../src/features/auth/authWorkoutsSlice";
 import {useEffect, useState} from "react";
 import {searchExerciseOrWorkout} from "../../src/utils/workoutAndExerciseUtils";
-import {exercisesAdded} from "../../src/features/auth/authUserExercisesSlice";
+import {exercisesAdded} from "../../src/features/auth/authExercisesSlice";
 import NavBar from "../../src/components/views/NavBar";
 import PageDescription from "../../src/components/views/PageDescription";
 import Footer from "../../src/components/views/Footer";

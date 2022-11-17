@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React, {useEffect, useState} from "react";
 import {useSelector} from "react-redux";
-import {selectAllExercises} from "../../features/auth/authUserExercisesSlice";
+import {selectAllExercises} from "../../features/auth/authExercisesSlice";
 import {searchExerciseOrWorkout} from "../../utils/workoutAndExerciseUtils";
 import ExerciseGalleryList from "./ExerciseGalleryList";
 import CloseIcon from "../../assets/svg/close-line.svg";

@@ -5,7 +5,7 @@ import * as queries from "../../graphql/queries";
 import * as mutations from "../../graphql/mutations";
 
 export const exercisesSliceEnums = {
-  SLICE: "authUserExercises",
+  SLICE: "authExercises",
   STATUS_PENDING: "PENDING",
   STATUS_FULFILLED: "FULFILLED",
   STATUS_UNFULFILLED: "UNFULFILLED",
@@ -21,7 +21,7 @@ const initialState = exercisesAdapter.getInitialState({
   status: exercisesSliceEnums.STATUS_IDLE,
 });
 
-const authUserExercisesSlice = createSlice({
+const authExercisesSlice = createSlice({
   name: exercisesSliceEnums.SLICE,
   initialState,
   reducers: {
@@ -59,7 +59,7 @@ const authUserExercisesSlice = createSlice({
  * Fetch exercises from DyanmoDB
  * @type {AsyncThunk<unknown, void, {}>}
  */
-export const listExercises = createAsyncThunk("authUserExercises/getAll", async (payload, { rejectWithValue }) => {
+export const listExercises = createAsyncThunk("authExercises/getAll", async (payload, { rejectWithValue }) => {
   try {
     const response = await API.graphql(graphqlOperation(queries.listExercises));
     return response.data.listExercises.items;
@@ -72,7 +72,7 @@ export const listExercises = createAsyncThunk("authUserExercises/getAll", async 
  * Persist a fit to DataStore
  * @type {AsyncThunk<unknown, void, {}>}
  */
-export const createExercise = createAsyncThunk("authUserExercises/create", async (payload, { rejectWithValue }) => {
+export const createExercise = createAsyncThunk("authExercises/create", async (payload, { rejectWithValue }) => {
 
   try {
     const response = await API.graphql(
@@ -93,7 +93,7 @@ export const createExercise = createAsyncThunk("authUserExercises/create", async
  * Update a fit to DataStore
  * @type {AsyncThunk<unknown, void, {}>}
  */
-export const updateExercise = createAsyncThunk("authUserExercises/update", async (payload, { rejectWithValue }) => {
+export const updateExercise = createAsyncThunk("authExercises/update", async (payload, { rejectWithValue }) => {
 
   try {
     const response = await API.graphql(
@@ -113,7 +113,7 @@ export const updateExercise = createAsyncThunk("authUserExercises/update", async
  * Delete and persist a fit to DataStore
  * @type {AsyncThunk<unknown, void, {}>}
  */
-export const deleteExercise = createAsyncThunk("authUserExercises/delete", async (payload, { rejectWithValue }) => {
+export const deleteExercise = createAsyncThunk("authExercises/delete", async (payload, { rejectWithValue }) => {
 
 
   try {
@@ -150,7 +150,7 @@ export const deleteExercise = createAsyncThunk("authUserExercises/delete", async
  * Batch delete exercises and their corresponding videos
  * @type {AsyncThunk<unknown, void, {}>}
  */
-export const batchDeleteExercises = createAsyncThunk("authUserExercises/deleteAll", async (payload, { rejectWithValue }) => {
+export const batchDeleteExercises = createAsyncThunk("authExercises/deleteAll", async (payload, { rejectWithValue }) => {
 
   const { exercises } = payload;
 
@@ -178,10 +178,10 @@ export const {
   selectAll: selectAllExercises,
   selectById: selectExerciseById,
   selectIds: selectExerciseIds,
-} = exercisesAdapter.getSelectors(state => state.authUserExercises);
+} = exercisesAdapter.getSelectors(state => state.authExercises);
 
-export const { exercisesAdded } = authUserExercisesSlice.actions;
+export const { exercisesAdded } = authExercisesSlice.actions;
 
 // export const selectUnselectedExercises = (state, selectedExercises) => state.authUserExercises.filter(exercise => !selectedExercises.some(selectedExercise => selectedExercise.exerciseId === exercise.id));
 
-export default authUserExercisesSlice.reducer;
+export default authExercisesSlice.reducer;

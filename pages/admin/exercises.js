@@ -2,7 +2,7 @@ import {withSSRContext} from "aws-amplify";
 import {useEffect, useState} from "react";
 import {searchExerciseOrWorkout} from "../../src/utils/workoutAndExerciseUtils";
 import {useDispatch, useSelector} from "react-redux";
-import {exercisesAdded, selectAllExercises} from "../../src/features/auth/authUserExercisesSlice";
+import {exercisesAdded, selectAllExercises} from "../../src/features/auth/authExercisesSlice";
 import NavBar from "../../src/components/views/NavBar";
 import PageDescription from "../../src/components/views/PageDescription";
 import Footer from "../../src/components/views/Footer";

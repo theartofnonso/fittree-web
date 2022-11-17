@@ -2,7 +2,7 @@
 import {createEntityAdapter, createSlice} from "@reduxjs/toolkit";
 
 export const exercisesSliceEnums = {
-    SLICE: "exercises",
+    SLICE: "unAuthExercises",
     STATUS_PENDING: "PENDING",
     STATUS_FULFILLED: "FULFILLED",
     STATUS_UNFULFILLED: "UNFULFILLED",
@@ -18,7 +18,7 @@ const initialState = exercisesAdapter.getInitialState({
     status: exercisesSliceEnums.STATUS_IDLE,
 });
 
-const exercisesSlice = createSlice({
+const unAuthExercisesSlice = createSlice({
     name: exercisesSliceEnums.SLICE,
     initialState,
     reducers: {
@@ -32,8 +32,8 @@ export const {
     selectAll: selectAllExercises,
     selectById: selectExerciseById,
     selectIds: selectFitIds,
-} = exercisesAdapter.getSelectors(state => state.exercises);
+} = exercisesAdapter.getSelectors(state => state.unAuthExercises);
 
-export const {exercisesAdded} = exercisesSlice.actions;
+export const {exercisesAdded} = unAuthExercisesSlice.actions;
 
-export default exercisesSlice.reducer;
+export default unAuthExercisesSlice.reducer;

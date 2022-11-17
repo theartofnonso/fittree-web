@@ -4,8 +4,8 @@ import {useDispatch, useSelector} from "react-redux";
 import workoutsConstants from "../../src/utils/workout/workoutsConstants";
 import FittreeLoading from "../../src/components/views/FittreeLoading";
 import {fetchUser, selectAuthUser, selectAuthUserStatus} from "../../src/features/auth/authUserSlice";
-import {exercisesAdded, selectAllExercises} from "../../src/features/auth/authUserExercisesSlice";
-import {selectAllWorkouts, workoutsAdded} from "../../src/features/auth/authUserWorkoutsSlice";
+import {exercisesAdded} from "../../src/features/auth/authExercisesSlice";
+import {selectAllWorkouts, workoutsAdded} from "../../src/features/auth/authWorkoutsSlice";
 import {searchExerciseOrWorkout} from "../../src/utils/workoutAndExerciseUtils";
 import Profile from "../../src/components/views/Profile";
 import NavBar from "../../src/components/views/NavBar";
@@ -21,8 +21,6 @@ export default function Dashboard({username}) {
     const status = useSelector(selectAuthUserStatus)
 
     const workouts = useSelector(selectAllWorkouts);
-
-    const exercises = useSelector(selectAllExercises)
 
     const [filteredWorkouts, setFilteredWorkouts] = useState([]);
 
@@ -91,11 +89,10 @@ export default function Dashboard({username}) {
                         value={searchQuery}
                         onChange={event => onChangeSearch(event.target.value.toLowerCase())}/>
                 </div>
-                <WorkoutList username={username}
-                             workouts={filteredWorkouts}
-                             exercises={exercises}
-                             emptyListMessage="You don't have any workouts yet"
-                             isAuthUser={true}/>
+                <WorkoutList
+                    workouts={filteredWorkouts}
+                    emptyListMessage="You don't have any workouts yet"
+                    isAuthUser={true}/>
             </div>
             <Footer/>
         </div>

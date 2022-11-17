@@ -7,18 +7,14 @@ import workoutsConstants from "../../utils/workout/workoutsConstants";
 const initialState = {
     profile: null,
     status: workoutsConstants.profileStatus.LOADING,
-    liveWorkouts: [],
-    exercises: []
+    // liveWorkouts: [],
+    // exercises: []
 };
 
 const creatorProfileSlice = createSlice({
     name: 'creatorProfile',
     initialState,
-    reducers: {
-        workoutAdded: (state, action) => {
-            state.currentWorkout = action.payload;
-        },
-    },
+    reducers: {},
     extraReducers: builder => {
         builder
             .addCase(fetchCreatorProfile.fulfilled, (state, action) => {
