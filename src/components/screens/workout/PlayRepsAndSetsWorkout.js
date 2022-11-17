@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React, {useEffect, useState} from "react";
-import PlayWorkout from "./PlayWorkout";
+import PlayWorkout from "./WorkoutPlayer";
 import workoutsConstants from "../../../utils/workout/workoutsConstants";
 
 const PlayRepsSetsWorkout = ({workout, exercises, end}) => {

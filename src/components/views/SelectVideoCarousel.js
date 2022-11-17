@@ -58,7 +58,6 @@ const SelectVideoCarousel = ({onSelect}) => {
         <div
             className={`flex flex-row rounded-md h-96 overflow-x-auto`}>
             {uris.map((uri, index) => {
-                console.log(uri)
                 return (
                     <div
                         key={index}

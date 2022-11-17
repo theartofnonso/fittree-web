@@ -5,7 +5,7 @@ import WorkoutExerciseCard from "../../cards/WorkoutExerciseCard";
 import CloseIcon from "../../../assets/svg/close-line.svg";
 import PlayIcon from "../../../assets/svg/play-mini-fill.svg";
 import PreviewExercise from "../exercise/PreviewExercise";
-import WorkoutPlayer from "../../views/WorkoutPlayer";
+import PlayWorkout from "./PlayWorkout";
 import OverflowIcon from "../../../assets/svg/overflow.svg";
 import CreateWorkout from "./CreateWorkout";
 import {useDispatch, useSelector} from "react-redux";
@@ -30,8 +30,6 @@ const PreviewWorkout = ({workoutId, close, isAuthUser}) => {
      * @type {unknown}
      */
     const workoutFromStore = isAuthUser ? useSelector(state => selectWorkoutById(state, workoutId)) : useSelector(state => unauthSelectWorkoutById(state, workoutId));
-
-    console.log(workoutFromStore)
 
     const [workout, setWorkout] = useState(() => {
         return {
@@ -282,9 +280,9 @@ const PreviewWorkout = ({workoutId, close, isAuthUser}) => {
                     exercises={exercises}
                     params={{workoutId: workout.id, workoutType: workout.type}}/> : null}
 
-            <WorkoutPlayer workout={workout}
-                           shouldPlay={shouldPlayWorkout}
-                           onEnd={stopWorkout}/>
+            <PlayWorkout workout={workout}
+                         shouldPlay={shouldPlayWorkout}
+                         onEnd={stopWorkout}/>
         </>
     );
 };
