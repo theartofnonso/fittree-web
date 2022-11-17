@@ -3,12 +3,12 @@ import React, {useEffect, useRef, useState} from "react";
 import EditIcon from "../../assets/svg/edit-2-line-white.svg";
 import DeleteIcon from "../../assets/svg/delete-bin-white-line.svg";
 import AddIcon from "../../assets/svg/add-line-white.svg";
+import ReactPlayer from "react-player";
 
 const SelectVideoCarousel = ({onSelect}) => {
 
     const inputFileRef = useRef()
-
-    const videoRef = useRef()
+    const videoRef = useRef();
 
     /**
      * Video URIs
@@ -23,7 +23,7 @@ const SelectVideoCarousel = ({onSelect}) => {
     useEffect(() => {
         let objectURL;
         if (selectedFile) {
-            // Trim video and strip off audio
+            //Trim video and strip off audio
             setUris(prevValues => {
                 prevValues[currentUriIndex] = URL.createObjectURL(selectedFile)
                 return [...prevValues]
@@ -32,6 +32,10 @@ const SelectVideoCarousel = ({onSelect}) => {
         return () => URL.revokeObjectURL(objectURL);
     }, [selectedFile]);
 
+    videoRef.current?.load();
+
+    console.log(videoRef)
+
     /**
      * Open file explorer
      */
@@ -39,11 +43,6 @@ const SelectVideoCarousel = ({onSelect}) => {
         setCurrentUriIndex(index)
         inputFileRef.current.click();
     };
-
-    // useEffect(() => {
-    //     console.log("Hi")
-    //     videoRef.current?.load();
-    // }, [uris[currentUriIndex]]);
 
     /**
      * Handle selected file
@@ -61,17 +60,19 @@ const SelectVideoCarousel = ({onSelect}) => {
                 return (
                     <div
                         key={index}
-                        className={`relative flex-none sm:flex-1 rounded-md w-5/6 sm:w-full h-full object-cover ${index !== 0 && index !== uris.length - 1 ? "mx-1" : null}`}>
-                        <video
-                               ref={videoRef}
-                               autoPlay
-                               className="w-full h-full object-cover"
-                               playsInline loop>
-                            <source src={uri} type="video/mp4,video/x-m4v,video/*"/>
-                            Your browser does not support the video tag.
-                        </video>
+                        className={`bg-grayOpacity6 relative flex-none sm:flex-1 rounded-md overflow-y-hidden w-96 ${index !== 0 && index !== uris.length - 1 ? "mx-1" : null}`}>
+                        <ReactPlayer
+                            className='bg-grayOpacity6'
+                            url={uri}
+                            muted={false}
+                            playing={true}
+                            loop={true}
+                            controls={true}
+                            width='100%'
+                            height='100%'
+                        />
                         <div
-                            className="flex flex-row items-center justify-center absolute top-0 right-0 bottom-0 left-0 bg-gradient-to-b from-transparentBlack1 to-transparentBlack hover:bg-transparentBlack1">
+                            className="rounded-md flex flex-row items-center justify-center absolute w-1/2 h-12 ml-auto mr-auto mt-auto mb-auto left-0 right-0 top-0 bottom-0">
                             {uri ?
                                 <div className="flex flex-row">
                                     <button
