@@ -79,7 +79,7 @@ const PlayWorkout = props => {
             </div>
 
             <VideoCarousel videos={[props.workoutExercise.exercise.videoUrls[0]]}/>
-            
+
             <div>
                 {!props.isPaused ?
                     <div className="mt-4 flex flex-row justify-center">
