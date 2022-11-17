@@ -8,6 +8,8 @@ const SelectVideoCarousel = ({onSelect}) => {
 
     const inputFileRef = useRef()
 
+    const videoRef = useRef()
+
     /**
      * Video URIs
      */
@@ -19,6 +21,7 @@ const SelectVideoCarousel = ({onSelect}) => {
      * Handle selected file
      */
     useEffect(() => {
+        let objectURL;
         if (selectedFile) {
             // Trim video and strip off audio
             setUris(prevValues => {
@@ -26,6 +29,7 @@ const SelectVideoCarousel = ({onSelect}) => {
                 return [...prevValues]
             });
         }
+        return () => URL.revokeObjectURL(objectURL);
     }, [selectedFile]);
 
     /**
@@ -35,6 +39,11 @@ const SelectVideoCarousel = ({onSelect}) => {
         setCurrentUriIndex(index)
         inputFileRef.current.click();
     };
+
+    // useEffect(() => {
+    //     console.log("Hi")
+    //     videoRef.current?.load();
+    // }, [uris[currentUriIndex]]);
 
     /**
      * Handle selected file
@@ -49,11 +58,14 @@ const SelectVideoCarousel = ({onSelect}) => {
         <div
             className={`flex flex-row rounded-md h-96 overflow-x-auto`}>
             {uris.map((uri, index) => {
+                console.log(uri)
                 return (
                     <div
                         key={index}
                         className={`relative flex-none sm:flex-1 rounded-md w-5/6 sm:w-full h-full object-cover ${index !== 0 && index !== uris.length - 1 ? "mx-1" : null}`}>
-                        <video autoPlay
+                        <video
+                               ref={videoRef}
+                               autoPlay
                                className="w-full h-full object-cover"
                                playsInline loop>
                             <source src={uri} type="video/mp4,video/x-m4v,video/*"/>

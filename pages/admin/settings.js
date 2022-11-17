@@ -3,7 +3,7 @@ import NavBar from "../../src/components/views/NavBar";
 import Footer from "../../src/components/views/Footer";
 import {useEffect, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {fetchUser, selectAuthUser, selectAuthUserStatus, updateUser} from "../../src/features/auth/authUserSlice";
+import {fetchUser, selectAuthUser, updateUser} from "../../src/features/auth/authUserSlice";
 import InstagramIcon from "../../src/assets/svg/instagram-primary-line.svg";
 import YoutubeIcon from "../../src/assets/svg/youtube-primary-line.svg";
 import TikTokIcon from "../../src/assets/svg/tiktok-primary-line.svg";
@@ -25,8 +25,6 @@ export default function Settings({username}) {
     const dispatch = useDispatch();
 
     const user = useSelector(selectAuthUser);
-
-    const status = useSelector(selectAuthUserStatus)
 
     /**
      * Avatar URI
@@ -171,18 +169,19 @@ export default function Settings({username}) {
      * Handle selected file
      */
     useEffect(() => {
+        let objectURL;
         if (selectedFile) {
             new Compressor(selectedFile, {
                 quality: 0.6, // 0.6 can also be used, but its not recommended to go below.
                 success: (compressedFile) => {
                     // compressedResult has the compressed file.
                     // Use the compressed file to upload the images to your server.
-                    const objectURL = URL.createObjectURL(compressedFile);
+                    objectURL = URL.createObjectURL(compressedFile);
                     setUri(objectURL);
                 },
             });
-            // return () => URL.revokeObjectURL(objectURL);
         }
+        return () => URL.revokeObjectURL(objectURL);
     }, [selectedFile]);
     /**
      * Creator page is still loading
@@ -292,7 +291,7 @@ export default function Settings({username}) {
                         message={snackbarMessage}
                         type={snackbarType}/>
 
-                    <input type='file' id='file' accept="image/png, image/jpeg" ref={inputFileRef}
+                    <input type='file' id='file' accept=".png, .jpeg, .jpg" ref={inputFileRef}
                            style={{display: 'none'}}
                            onChange={handleSelectedFile}/>
                 </div>

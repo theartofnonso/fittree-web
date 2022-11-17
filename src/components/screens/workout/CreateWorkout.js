@@ -120,18 +120,19 @@ export default function CreateWorkout({params, close}) {
      * Handle selected file
      */
     useEffect(() => {
+        let objectURL;
         if (selectedFile) {
             new Compressor(selectedFile, {
                 quality: 0.6, // 0.6 can also be used, but its not recommended to go below.
                 success: (compressedFile) => {
                     // compressedResult has the compressed file.
                     // Use the compressed file to upload the images to your server.
-                    const objectURL = URL.createObjectURL(compressedFile);
+                    objectURL = URL.createObjectURL(compressedFile);
                     setUri(objectURL);
                 },
             });
-            // return () => URL.revokeObjectURL(objectURL);
         }
+        return () => URL.revokeObjectURL(objectURL);
     }, [selectedFile]);
 
     /**
