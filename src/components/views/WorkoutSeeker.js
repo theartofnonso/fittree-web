@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React from "react";
-import CloseIcon from "../svg/close-line-white.svg";
+import CloseIcon from "../../assets/svg/close-line-white.svg";
 import workoutsConstants from "../../utils/workout/workoutsConstants";
 
 const WorkoutSeeker = ({close, type, list, progress}) => {

@@ -49,3 +49,16 @@ export const generateCDNUrl = key => {
             : awsConstants.awsStorage.cdn.DEV;
     return `${cdn}${awsConstants.awsStorage.accessLevel.PUBLIC}/${key}`;
 };
+
+export /**
+ * Force capitlisation of words in a string
+ * @param string
+ */
+const capitaliseWords = string => {
+    const words = string.split(' ');
+
+    for (let i = 0; i < words.length; i++) {
+        words[i] = words[i][0].toUpperCase() + words[i].substr(1);
+    }
+    return words.join(' ');
+};

@@ -1,9 +1,9 @@
 /* eslint-disable */
 import React, {useEffect, useState} from "react";
 import workoutsConstants from "../../../utils/workout/workoutsConstants";
-import InfoOutlinedIcon from "../../svg/information-white-line.svg";
-import OrderPlayIcon from "../../svg/order-play-white-line.svg";
-import SkipIcon from "../../svg/skip-forward-fill.svg";
+import InfoOutlinedIcon from "../../../assets/svg/information-white-line.svg";
+import OrderPlayIcon from "../../../assets/svg/order-play-white-line.svg";
+import SkipIcon from "../../../assets/svg/skip-forward-fill.svg";
 import {intervalDurationSummary} from "../../../utils/workout/workoutsHelperFunctions";
 
 const IntervalModal = props => {

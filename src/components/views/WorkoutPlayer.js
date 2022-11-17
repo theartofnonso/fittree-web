@@ -2,8 +2,8 @@
 import React from "react";
 import workoutsConstants from "../../utils/workout/workoutsConstants";
 import {loadCircuitWorkout, loadRepsAndSetsWorkout} from "../../utils/workout/workoutsHelperFunctions";
-import PlayCircuitWorkout from "../modals/workout/PlayCircuitWorkout";
-import PlayRepsAndSetsWorkout from "../modals/workout/PlayRepsAndSetsWorkout";
+import PlayCircuitWorkout from "../screens/workout/PlayCircuitWorkout";
+import PlayRepsAndSetsWorkout from "../screens/workout/PlayRepsAndSetsWorkout";
 
 const WorkoutPlayer = ({workout, shouldPlay, onEnd}) => {
 

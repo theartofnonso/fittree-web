@@ -1,11 +1,11 @@
-import ShareIcon from "../svg/share-box-line.svg";
-import FunctionsIcon from "../svg/function-fill.svg";
+import ShareIcon from "../../assets/svg/share-box-line.svg";
+import FunctionsIcon from "../../assets/svg/function-fill.svg";
 import Link from "next/link";
 import {useState} from "react";
 import {generateShareableLink} from "../../utils/workout/workoutsHelperFunctions";
 import {useRouter} from "next/router";
 import {Auth} from "aws-amplify";
-import SuccessBar from "./snackbars/SuccessBar";
+import {SnackBar, SnackBarType} from "./SnackBar";
 
 const NavBar = ({username}) => {
 
@@ -41,7 +41,7 @@ const NavBar = ({username}) => {
 
     return (
         <>
-            <div className="mb-8 flex flex-row items-center place-content-between">
+            <div className="mb-6 flex flex-row items-center place-content-between">
                 <div className="cursor-pointer" onClick={copyShareableLink}>
                     <ShareIcon/>
                 </div>
@@ -89,10 +89,11 @@ const NavBar = ({username}) => {
                     </div> : null}
                 </div> : null}
             </div>
-            <SuccessBar
+            <SnackBar
                 open={showSnackBar}
                 close={() => setShowSnackBar(false)}
-                message="Link copied"/>
+                message={"Link copied"}
+                type={SnackBarType.INFO}/>
         </>
     )
 }

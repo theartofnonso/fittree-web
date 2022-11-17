@@ -97,7 +97,6 @@ export const deleteUser = createAsyncThunk("authUser/delete", async (payload, { 
     );
 
   } catch (err) {
-    console.log(err)
     // Do nothing for now
   }
 });

@@ -1,41 +1,35 @@
 /* eslint-disable */
 import React, {useState} from "react";
 import WorkoutCard from "../cards/WorkoutCard";
-import EmptyState from "../svg/empty_state.svg";
-import {sortWorkouts} from "../../utils/workout/workoutsHelperFunctions";
-import PreviewWorkout from "../modals/workout/PreviewWorkout";
+import EmptyState from "../../assets/svg/empty_state.svg";
+import PreviewWorkout from "../screens/workout/PreviewWorkout";
+const WorkoutList = ({emptyListMessage, workouts, isAuthUser}) => {
 
-const WorkoutList = ({emptyListMessage, workouts, exercises, showDuration}) => {
-
-    const [currentWorkout, setCurrentWorkout] = useState(null)
+    const [workout, setWorkout] = useState(null)
 
     /**
      * Preview a workout from the list
      */
     const previewWorkout = (selectedWorkout) => {
-        const enrichedWorkout = {
-            ...selectedWorkout,
-            workoutExercises: sortWorkouts(selectedWorkout, exercises),
-        };
-        setCurrentWorkout(enrichedWorkout);
+        setWorkout(selectedWorkout);
     }
 
     /**
      * Close the preview modal
      */
     const closePreview = () => {
-        setCurrentWorkout(null)
+        setWorkout(null)
     }
 
     return (
         <>
-            <p className="text-sm sm:text-md md:text-lg font-light">{`${workouts.length} workouts`}</p>
+            <p className="text-sm sm:text-md md:text-lg font-light">{`${workouts.length} workouts`} </p>
             {workouts.length > 0 ?
-                <div className="mt-1 grid gap-0.5 grid-cols-2 sm:grid-cols-3">
+                <div className="mt-1 grid gap-1 grid-cols-2 sm:grid-cols-3">
                     {workouts.map((item, index) => {
                         return (
                             <div key={index} onClick={() => previewWorkout(item)}>
-                                <WorkoutCard workout={item} showDuration={showDuration}/>
+                                <WorkoutCard workout={item} isAuthUser={isAuthUser}/>
                             </div>
                         );
                     })}
@@ -44,9 +38,10 @@ const WorkoutList = ({emptyListMessage, workouts, exercises, showDuration}) => {
                     <EmptyState/>
                     <p className="font-normal mt-4">{emptyListMessage}</p>
                 </div>}
-            <PreviewWorkout
-                workout={currentWorkout}
-                close={closePreview}/>
+            {workout ? <PreviewWorkout
+                isAuthUser={isAuthUser}
+                workoutId={workout.id}
+                close={closePreview}/> : null}
         </>
     );
 };

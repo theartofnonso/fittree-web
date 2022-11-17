@@ -133,9 +133,9 @@ export const deleteWorkout = createAsyncThunk("authUserWorkouts/delete", async (
     /**
      * Delete the workout thumbnail
      */
-    const thumbnail = thumbnailUrl.split("/")[3];
-    const key = "Thumbnails/" + thumbnail;
-    await Storage.remove(key);
+    const toBeDeletedFileName = thumbnailUrl.split("/")[3];
+    const toBeDeletedKey = "Thumbnails/" + toBeDeletedFileName;
+    await Storage.remove(toBeDeletedKey);
 
     return payload;
 

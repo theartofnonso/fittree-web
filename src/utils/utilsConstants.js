@@ -20,3 +20,20 @@ export const APP_STORE_URL = 'https://apps.apple.com/gb/app/fittree-for-creators
  * Messages
  */
 export const PAUSED_ERROR_MESSAGE = 'Something has gone wrong'
+
+/**
+ * Default values for exerices and workouts
+ * @type {{DEFAULT_VALUE_MILLISECONDS: number, DEFAULT_VALUE_OF_ONE: number, DEFAULT_VALUE_OF_ZERO: number, DEFAULT_VALUE_DESCRIPTION: string, DEFAULT_VALUE_BODYPART: string, DEFAULT_VALUE_EQUIPMENT: string}}
+ */
+const workoutsExerciseDefaults = {
+    DEFAULT_VALUE_OF_ZERO: 0,
+    DEFAULT_VALUE_OF_ONE: 1,
+    DEFAULT_VALUE_MILLISECONDS: 5000,
+    DEFAULT_VALUE_DESCRIPTION: 'No description',
+    DEFAULT_VALUE_BODYPART: 'Full Body',
+    DEFAULT_VALUE_EQUIPMENT: 'No Equipment',
+};
+
+export default {
+    workoutsExerciseDefaults,
+};

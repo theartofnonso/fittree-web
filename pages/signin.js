@@ -1,15 +1,15 @@
 import React, {useState} from "react";
-import FittrSmallIcon from "../src/components/svg/fittr_small.svg";
-import FittrBigIcon from "../src/components/svg/fittr.svg";
-import CheckIcon from "../src/components/svg/check-fill.svg";
+import FittrSmallIcon from "../src/assets/svg/fittr_small.svg";
+import FittrBigIcon from "../src/assets/svg/fittr.svg";
+import CheckIcon from "../src/assets/svg/check-fill.svg";
 import Loading from "../src/components/utils/Loading";
 import {isEmailValid} from "../src/utils/general/utils";
-import VerifyAuth from "../src/components/modals/auth/verifyauth";
+import VerifyAuth from "../src/components/screens/auth/verifyauth";
 import {getUserFromDB, persistUserToDB, retrieveCognitoUser} from "../src/utils/aws-utils/awsHelperFunctions";
 import {Auth, withSSRContext} from "aws-amplify";
 import {useRouter} from "next/router";
 import Link from "next/link";
-import ErrorBar from "../src/components/views/snackbars/ErrorBar";
+import {SnackBar, SnackBarType} from "../src/components/views/SnackBar";
 
 export default function SignIn() {
 
@@ -29,6 +29,8 @@ export default function SignIn() {
     const [showSnackBar, setShowSnackBar] = useState(false)
 
     const [snackbarMessage, setSnackbarMessage] = useState("");
+
+    const [snackbarType, setSnackbarType] = useState("")
 
     /**
      * Check that the entered email is a valid format
@@ -56,19 +58,19 @@ export default function SignIn() {
      */
     const signInHandler = async () => {
 
-        setIsLoading(true);
-
         if (email.trim().length === 0) {
-            setIsLoading(false);
             setShowSnackBar(true);
+            setSnackbarType(SnackBarType.WARN)
             setSnackbarMessage("Please provide an email");
         } else {
+            setIsLoading(true);
             try {
                 const user = await retrieveCognitoUser(email);
                 if (user) {
                     if (!user.Enabled) {
                         setIsLoading(false);
                         setShowSnackBar(true);
+                        setSnackbarType(SnackBarType.ERROR)
                         setSnackbarMessage("Your account has been disabled, please contact hello@fittree.io")
                     } else {
                         const currentUser = await Auth.signIn(email);
@@ -79,6 +81,7 @@ export default function SignIn() {
             } catch (err) {
                 setIsLoading(false);
                 setShowSnackBar(true);
+                setSnackbarType(SnackBarType.ERROR)
                 setSnackbarMessage("You don't seem to have a Fittree account, please sign up instead");
             }
         }
@@ -138,7 +141,7 @@ export default function SignIn() {
                 Sign in to continue <span className="font-bold">creating</span>
                 <span className="font-bold block"> and sharing <span className="font-light">workouts</span></span>
             </p>
-            <form className="mt-4 flex flex-col items-end">
+            <div className="mt-4 flex flex-col items-end">
                 <input
                     className="border-gray w-5/6 bg-secondary h-14 sm:h-18 shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
                     id="search"
@@ -153,7 +156,7 @@ export default function SignIn() {
                     className="mt-4 bg-primary rounded-3xl py-2 px-4 w-1/6 text-white font-medium hover:bg-darkPrimary hidden sm:block">Sign
                     in
                 </button>
-            </form>
+            </div>
             <p className="text-center mt-8 font-light">Don't have a Fittree account?&nbsp;
                 <Link href="/signup">
                     <a className="font-bold cursor-pointer hover:font-semibold">Sign up</a>
@@ -178,10 +181,11 @@ export default function SignIn() {
                     email={email}
                 />
             ) : null}
-            <ErrorBar
+            <SnackBar
                 open={showSnackBar}
                 close={() => setShowSnackBar(false)}
-                message={snackbarMessage}/>
+                message={snackbarMessage}
+                type={snackbarType}/>
         </div>
     )
 }

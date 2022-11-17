@@ -5,7 +5,7 @@ import workoutsConstants from "../../../utils/workout/workoutsConstants";
 
 const PlayCircuitWorkout = ({workout, rounds, end}) => {
 
-    const [exerciseDuration, setExerciseDuration] = useState(rounds[0][0].repsOrTimeValue);
+    const [exerciseDuration, setExerciseDuration] = useState(rounds[0][0].duration.value);
 
     const [roundsIndex, setRoundsIndex] = useState(0);
 
@@ -28,7 +28,7 @@ const PlayCircuitWorkout = ({workout, rounds, end}) => {
 
         if (!paused) {
             intervalId = setInterval(() => {
-                if (getWorkoutExercise().repsOrTime === workoutsConstants.exerciseInfo.TIME) {
+                if (getWorkoutExercise().duration.type !== workoutsConstants.duration.REPS) {
                     if (exerciseDuration === 0) {
                         clearInterval(intervalId);
                         seekForward();
@@ -57,14 +57,14 @@ const PlayCircuitWorkout = ({workout, rounds, end}) => {
             } else {
                 setRoundsIndex(nextRoundsIndex);
                 setExerciseIndex(0);
-                setExerciseDuration(rounds[nextRoundsIndex][0].repsOrTimeValue);
+                setExerciseDuration(rounds[nextRoundsIndex][0].duration.value);
                 setIntervalModalDescription(workoutsConstants.playMessages.NEXT_ROUND);
                 setIntervalModalTime(workout.roundsInterval);
                 setShowIntervalModal(true);
             }
         } else {
             setExerciseIndex(nextExerciseIndex);
-            setExerciseDuration(getWorkoutExercise().repsOrTimeValue);
+            setExerciseDuration(getWorkoutExercise().duration.value);
             setIntervalModalTime(workout.exerciseInterval);
             setShowIntervalModal(true);
         }

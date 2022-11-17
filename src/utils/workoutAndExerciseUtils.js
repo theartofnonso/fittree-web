@@ -3,6 +3,7 @@
  * @param arr list of items to search through
  * @param query
  */
+
 const searchExerciseOrWorkout = (arr, query) => {
   const filteredByEquipments = filterByEquipments(arr, query);
   const filteredByBodyParts = filterByBodyParts(arr, query);
@@ -76,4 +77,6 @@ const filterByTitle = (arr, query) => {
   });
 };
 
-export {searchExerciseOrWorkout};
+export {
+  searchExerciseOrWorkout,
+};

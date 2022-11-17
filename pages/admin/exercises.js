@@ -1,35 +1,49 @@
 import {withSSRContext} from "aws-amplify";
-import EmptyState from "../../src/components/svg/empty_state.svg";
 import {useEffect, useState} from "react";
 import {searchExerciseOrWorkout} from "../../src/utils/workoutAndExerciseUtils";
 import {useDispatch, useSelector} from "react-redux";
-import {listExercises, selectAllExercises} from "../../src/features/auth/authUserExercisesSlice";
-import ExerciseCard from "../../src/components/cards/ExerciseCard";
-import PreviewExercise from "../../src/components/modals/exercise/PreviewExercise";
+import {exercisesAdded, selectAllExercises} from "../../src/features/auth/authUserExercisesSlice";
 import NavBar from "../../src/components/views/NavBar";
 import PageDescription from "../../src/components/views/PageDescription";
 import Footer from "../../src/components/views/Footer";
+import ExerciseList from "../../src/components/views/ExerciseList";
+import {fetchUser, selectAuthUser} from "../../src/features/auth/authUserSlice";
+import AddIcon from "../../src/assets/svg/add-line-white.svg";
+import CreateWorkout from "../../src/components/screens/workout/CreateWorkout";
+import CreateExercise from "../../src/components/screens/exercise/CreateExercise";
 
 export default function Exercises({username}) {
 
     const dispatch = useDispatch();
 
+    const user = useSelector(selectAuthUser);
+
     const exercises = useSelector(selectAllExercises);
 
-    const [filteredExercises, setFilteredExercises] = useState(exercises);
+    const [filteredExercises, setFilteredExercises] = useState([]);
 
     const [searchQuery, setSearchQuery] = useState("");
 
-    const [currentExercise, setCurrentExercise] = useState(null)
+    const [openCreateExercise, setOpenCreateExercise] = useState(false)
+
 
     /**
-     * Fetch auth users exercises
+     * Fetch user
      */
     useEffect(() => {
         if (username) {
-            dispatch(listExercises({username}));
+            dispatch(fetchUser({username}));
         }
     }, [username])
+
+    /**
+     * Load fetched exercises and workouts
+     */
+    useEffect(() => {
+        if (user) {
+            dispatch(exercisesAdded(user.exercises.items));
+        }
+    }, [user]);
 
     /**
      * Load fetched exercises
@@ -46,30 +60,16 @@ export default function Exercises({username}) {
      */
     const onChangeSearch = query => {
         setSearchQuery(query);
-        const searchResult = searchExerciseOrWorkout(exercises, query);
+        const searchResult = searchExerciseOrWorkout(filteredExercises, query);
         setFilteredExercises(searchResult);
     };
-
-    /**
-     * Preview exercise information
-     */
-    const previewExercise = (selectedExercise) => {
-        setCurrentExercise(selectedExercise)
-    }
-
-    /**
-     * Close the preview modal
-     */
-    const closePreview = () => {
-        setCurrentExercise(null)
-    }
 
     return (
         <>
             <div className="container mx-auto p-4 min-h-screen">
                 <NavBar username={username}/>
                 <PageDescription title="Exercises" description="Find all your exercises here"/>
-                <form className="my-4 flex flex-col items-center">
+                <div className="my-4 flex flex-col items-center">
                     <input
                         className="border-gray w-5/6 bg-secondary h-14 sm:h-18 shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
                         id="search"
@@ -77,28 +77,22 @@ export default function Exercises({username}) {
                         placeholder="Search exercises"
                         value={searchQuery}
                         onChange={event => onChangeSearch(event.target.value.toLowerCase())}/>
-                </form>
-
-                <p className="text-sm sm:text-md md:text-lg font-light">{`${filteredExercises.length} exercises`}</p>
-
-                {filteredExercises.length > 0 ?
-                    <div className="mt-1 grid gap-0.5 grid-cols-3 sm:grid-cols-5">
-                        {filteredExercises.map((item, index) => {
-                            return (
-                                <div key={index} onClick={() => previewExercise(item)} className="cursor-pointer">
-                                    <ExerciseCard exercise={item}/>
-                                </div>
-                            );
-                        })}
-                    </div> :
-                    <div className="flex flex-col justify-center items-center h-screen">
-                        <EmptyState/>
-                        <p className="font-normal mt-4">You don't have any exercises</p>
-                    </div>}
-                {currentExercise ?
-                    <PreviewExercise
-                        exercise={currentExercise}
-                        close={closePreview}/> : null}
+                </div>
+                <div className="flex flex-row">
+                    <button
+                        type="button"
+                        onClick={() => setOpenCreateExercise(true)}
+                        className="flex flex-row items-center justify-center bg-primary rounded-md hover:bg-darkPrimary text-white pl-1 pr-3 py-1 mb-4 mr-2 font-semibold text-sm">
+                        <AddIcon/>Create Exercise
+                    </button>
+                </div>
+                <ExerciseList exercises={filteredExercises}
+                              emptyListMessage="You don't have any exercises yet"/>
+                {openCreateExercise ?
+                    <CreateExercise
+                        close={() => setOpenCreateExercise(false)}
+                        user={user}
+                        params={{workoutId: ""}}/> : null}
             </div>
             <Footer/>
         </>

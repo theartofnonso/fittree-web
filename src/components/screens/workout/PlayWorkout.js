@@ -2,16 +2,17 @@
 import React, {useEffect, useState} from "react";
 import workoutsConstants from "../../../utils/workout/workoutsConstants";
 import {timeOrReps} from "../../../utils/workout/workoutsHelperFunctions";
-import CloseIcon from "../../svg/close-line.svg";
-import InfoOutlinedIcon from "../../svg/information-line.svg";
-import OrderPlayIcon from "../../svg/order-play-line.svg";
-import PauseIcon from "../../svg/pause-mini-line.svg";
+import CloseIcon from "../../../assets/svg/close-line.svg";
+import InfoOutlinedIcon from "../../../assets/svg/information-line.svg";
+import OrderPlayIcon from "../../../assets/svg/order-play-line.svg";
+import PauseIcon from "../../../assets/svg/pause-mini-line.svg";
 import WorkoutSeeker from "../../views/WorkoutSeeker";
 import WorkoutExerciseCard from "../../cards/WorkoutExerciseCard";
 import PauseModal from "./PauseModal";
 import IntervalModal from "./IntervalModal";
 import PreviewExercise from "../exercise/PreviewExercise";
 import WorkoutCompletedModal from "./WorkoutCompletedModal";
+import VideoCarousel from "../../views/VideoCarousel";
 
 const PlayWorkout = props => {
 
@@ -27,15 +28,16 @@ const PlayWorkout = props => {
     }, [])
 
     /**
-     * Display Reps or Time value
+     * Display duration
      * @returns {string}
      */
+
     const getRepsOrTimeValue = () => {
-        let repsOrTimeValue = props.workoutExercise.repsOrTimeValue;
-        if (props.workoutExercise.repsOrTime === workoutsConstants.exerciseInfo.TIME) {
+        let repsOrTimeValue = props.workoutExercise.duration.value;
+        if (props.workoutExercise.duration.type !== workoutsConstants.duration.REPS) {
             repsOrTimeValue = props.extraData.exerciseDuration / 1000;
         }
-        return repsOrTimeValue + " " + timeOrReps(props.workoutExercise.repsOrTime);
+        return repsOrTimeValue + " " + timeOrReps(props.workoutExercise.duration.type);
     };
 
     /**
@@ -76,12 +78,8 @@ const PlayWorkout = props => {
                     </div> : null}
             </div>
 
-            <video key={props.workoutExercise.exercise.videoUrls[0]}
-                   className="rounded-md w-full h-96 sm:w-full sm:h-96 object-contain mr-2 bg-dustBlack" autoPlay
-                   playsInline loop>
-                <source src={`https://${props.workoutExercise.exercise.videoUrls[0]}`} type="video/mp4"/>
-                Your browser does not support the video tag.
-            </video>
+            <VideoCarousel videos={[props.workoutExercise.exercise.videoUrls[0]]}/>
+
             <div>
                 {!props.isPaused ?
                     <div className="mt-4 flex flex-row justify-center">

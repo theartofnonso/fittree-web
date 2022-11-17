@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
-import FittrSmallIcon from "../../svg/fittr_small.svg";
-import FittrBigIcon from "../../svg/fittr.svg";
+import FittrSmallIcon from "../../../assets/svg/fittr_small.svg";
+import FittrBigIcon from "../../../assets/svg/fittr.svg";
 import Loading from "../../utils/Loading";
 import awsConstants from "../../../utils/aws-utils/awsConstants";
 import {Auth} from "aws-amplify";

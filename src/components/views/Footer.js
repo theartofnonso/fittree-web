@@ -1,8 +1,8 @@
 /* eslint-disable */
 import React from "react";
 import Link from "next/link";
-import FittrSmallIcon from "../svg/fittr_small.svg";
-import FittrBigIcon from "../svg/fittr.svg";
+import FittrSmallIcon from "../../assets/svg/fittr_small.svg";
+import FittrBigIcon from "../../assets/svg/fittr.svg";
 
 const Footer = () => {
 

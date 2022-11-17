@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React from "react";
-import FittrIconSmall from "../svg/fittr_symbol_small.svg";
+import FittrIconSmall from "../../assets/svg/fittr_symbol_small.svg";
 
 const FittreeLoading = () => {
 

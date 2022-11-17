@@ -11,10 +11,10 @@ const WorkoutExerciseCard = ({workoutExercise, type, onClick}) => {
      */
     const displayRepsOrTime = () => {
         let exerciseInfo;
-        if (workoutExercise.repsOrTime === workoutsConstants.exerciseInfo.TIME) {
-            exerciseInfo = workoutExercise.repsOrTimeValue / 1000 + " " + timeOrReps(workoutExercise.repsOrTime);
+        if (workoutExercise.duration === workoutsConstants.duration.REPS) {
+            exerciseInfo = workoutExercise.duration.value + " " + timeOrReps(workoutExercise.duration.type);
         } else {
-            exerciseInfo = workoutExercise.repsOrTimeValue + " " + timeOrReps(workoutExercise.repsOrTime);
+            exerciseInfo = workoutExercise.duration.value / 1000 + " " + timeOrReps(workoutExercise.duration.type);
         }
         return type === workoutsConstants.workoutType.CIRCUIT ? exerciseInfo : exerciseInfo + " x " + workoutExercise.sets + " set(s)";
     };
