@@ -162,7 +162,8 @@ export default function CreateWorkout({params, close}) {
             setsInterval: _setsInterval,
             rounds: _rounds,
             roundsInterval: _roundsInterval,
-            thumbnailUrl: _thumbnailUrl}  = workout
+            thumbnailUrl: _thumbnailUrl
+        } = workout
 
         const prevState = {
             title: _title,
@@ -215,7 +216,7 @@ export default function CreateWorkout({params, close}) {
             hasTitle: title !== "",
             hasDescription: description !== "",
             hasIntensityLevel: intensityLevel !== workoutsConstants.intensityLevels.Beginner,
-            hasExerciseInterval: exerciseInterval > 0 ,
+            hasExerciseInterval: exerciseInterval > 0,
             hasSetsInterval: setsInterval > 0,
             hasRounds: rounds > 1,
             hasRoundsInterval: roundsInterval > 0,
@@ -226,7 +227,7 @@ export default function CreateWorkout({params, close}) {
         }
 
         for (const property in changes) {
-            if(changes[property]) {
+            if (changes[property]) {
                 return true
             }
         }
@@ -506,11 +507,13 @@ export default function CreateWorkout({params, close}) {
 
     return (
         <div className="px-2 sm:px-10 fixed top-0 right-0 bottom-0 left-0 w-full h-screen bg-white overflow-y-scroll ">
-            <div className="my-4 cursor-pointer" onClick={() => {
-                const shouldConfirm = shouldConfirmLeavePage();
-                shouldConfirm ? setOpenExitScreenModal(shouldConfirm) : close()
-            }}>
-                <CloseIcon/>
+            <div className="my-4 flex flex-row place-content-between">
+                <div className="cursor-pointer" onClick={() => {
+                    const shouldConfirm = shouldConfirmLeavePage();
+                    shouldConfirm ? setOpenExitScreenModal(shouldConfirm) : close()
+                }}>
+                    <CloseIcon/>
+                </div>
             </div>
             <PageDescription
                 title={getWorkoutType() === workoutsConstants.workoutType.CIRCUIT ? workoutsConstants.workoutType.circuitInfo.title : workoutsConstants.workoutType.repsSetsInfo.title}
@@ -655,11 +658,11 @@ export default function CreateWorkout({params, close}) {
                 className="mt-2 mb-2 bg-primary rounded-3xl py-2 px-8 text-white font-semibold hover:bg-darkPrimary">{workout ? "Update workout" : "Create workout"}
             </button>
             <Modal
-                   open={openExitScreenModal}
-                   title={"Unsaved changes"}
-                   message={"You have unsaved changes. Are you sure you want to leave?"}
-                   actionPositive={{title: "No", action: () => setOpenExitScreenModal(false)}}
-                   actionNegative={{title: "Yes", action: closeScreen}}/>
+                open={openExitScreenModal}
+                title={"Unsaved changes"}
+                message={"You have unsaved changes. Are you sure you want to leave?"}
+                actionPositive={{title: "No", action: () => setOpenExitScreenModal(false)}}
+                actionNegative={{title: "Yes", action: closeScreen}}/>
             {isLoading ? <Loading message={workout ? "Updating workout" : "Creating workout"}/> : null}
             <SnackBar
                 open={showSnackBar}

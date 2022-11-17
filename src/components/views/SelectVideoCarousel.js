@@ -3,6 +3,7 @@ import React, {useEffect, useRef, useState} from "react";
 import EditIcon from "../../assets/svg/edit-2-line-white.svg";
 import DeleteIcon from "../../assets/svg/delete-bin-white-line.svg";
 import AddIcon from "../../assets/svg/add-line-white.svg";
+
 const SelectVideoCarousel = ({onSelect}) => {
 
     const inputFileRef = useRef()
@@ -20,7 +21,10 @@ const SelectVideoCarousel = ({onSelect}) => {
     useEffect(() => {
         if (selectedFile) {
             // Trim video and strip off audio
-            setUris[currentUriIndex](selectedFile);
+            setUris(prevValues => {
+                prevValues[currentUriIndex] = URL.createObjectURL(selectedFile)
+                return [...prevValues]
+            });
         }
     }, [selectedFile]);
 
@@ -47,11 +51,12 @@ const SelectVideoCarousel = ({onSelect}) => {
             {uris.map((uri, index) => {
                 return (
                     <div
+                        key={index}
                         className={`relative flex-none sm:flex-1 rounded-md w-5/6 sm:w-full h-full object-cover ${index !== 0 && index !== uris.length - 1 ? "mx-1" : null}`}>
-                        <video key={index}
-                               autoPlay
+                        <video autoPlay
+                               className="w-full h-full object-cover"
                                playsInline loop>
-                            <source src={`https://${uris}`} type="video/mp4"/>
+                            <source src={uri} type="video/mp4,video/x-m4v,video/*"/>
                             Your browser does not support the video tag.
                         </video>
                         <div
@@ -78,7 +83,7 @@ const SelectVideoCarousel = ({onSelect}) => {
                                     <AddIcon/>
                                 </button>}
                         </div>
-                        <input type='file' id='file' accept="video/*" ref={inputFileRef}
+                        <input type='file' id='file' accept="video/mp4,video/x-m4v,video/*" ref={inputFileRef}
                                style={{display: 'none'}}
                                onChange={handleSelectedFile}/>
                     </div>

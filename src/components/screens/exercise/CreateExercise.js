@@ -1,32 +1,13 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {createExercise, selectExerciseById, updateExercise} from "../../../features/auth/authUserExercisesSlice";
-import workoutsConstants from "../../../utils/workout/workoutsConstants";
-import {formatThumbnailUri, sortWorkouts} from "../../../utils/workout/workoutsHelperFunctions";
-import utilsConstants from "../../../utils/utilsConstants";
-import {capitaliseWords} from "../../../utils/general/utils";
-import awsConstants from "../../../utils/aws-utils/awsConstants";
+import {selectExerciseById} from "../../../features/auth/authUserExercisesSlice";
 import CloseIcon from "../../../assets/svg/close-line.svg";
-import CloseIconWhite from "../../../assets/svg/close-line-white.svg";
-import EditIcon from "../../../assets/svg/edit-2-line-white.svg";
-import DeleteIcon from "../../../assets/svg/delete-bin-white-line.svg";
 import PageDescription from "../../views/PageDescription";
 import BodyParts from "../../views/BodyParts";
 import Equipments from "../../views/Equipments";
-import ExerciseGallery from "../../views/ExerciseGallery";
-import InputValue from "../../views/InputValue";
-import InputTime from "../../views/InputTime";
-import AddIcon from "../../../assets/svg/add-line-white.svg";
-import Compressor from "compressorjs";
-import {constructWorkoutExercises, updateDuration, updateSets} from "../../../schemas/workoutExercises";
-import SelectDuration from "../../views/SelectDuration";
 import Loading from "../../utils/Loading";
-import {uploadAndDeleteS3} from "../../../utils/aws-utils/awsHelperFunctions";
 import {selectAuthUser} from "../../../features/auth/authUserSlice";
-import {selectAllExercises} from "../../../features/auth/authUserExercisesSlice";
-import {SnackBar, SnackBarType} from "../../views/SnackBar";
-import SelectValue from "../../views/SelectValue";
-import {useLeavePageConfirm} from "../../../utils/general/hooks";
+import {SnackBar} from "../../views/SnackBar";
 import Modal from "../../views/modal";
 import SelectVideoCarousel from "../../views/SelectVideoCarousel";
 
@@ -200,12 +181,14 @@ export default function CreateExercise({params, close}) {
 
     return (
         <div className="px-2 sm:px-10 fixed top-0 right-0 bottom-0 left-0 w-full h-screen bg-white overflow-y-scroll">
-            <div className="my-4 cursor-pointer" onClick={() => {
-                // const shouldConfirm = shouldConfirmLeavePage();
-                // shouldConfirm ? setOpenExitScreenModal(shouldConfirm) : close()
-                close()
-            }}>
-                <CloseIcon/>
+            <div className="my-4 flex flex-row place-content-between">
+                <div className="cursor-pointer" onClick={() => {
+                    // const shouldConfirm = shouldConfirmLeavePage();
+                    // shouldConfirm ? setOpenExitScreenModal(shouldConfirm) : close()
+                    close()
+                }}>
+                    <CloseIcon/>
+                </div>
             </div>
             <PageDescription
                 title="Create Exercise"
@@ -239,11 +222,11 @@ export default function CreateExercise({params, close}) {
                 className="mt-4 mb-2 bg-primary rounded-3xl py-2 px-8 text-white font-semibold hover:bg-darkPrimary">{exercise ? "Update exercise" : "Create exercise"}
             </button>
             <Modal
-                   open={openExitScreenModal}
-                   title={"Unsaved changes"}
-                   message={"You have unsaved changes. Are you sure you want to leave?"}
-                   actionPositive={{title: "No", action: () => setOpenExitScreenModal(false)}}
-                   actionNegative={{title: "Yes", action: closeScreen}}/>
+                open={openExitScreenModal}
+                title={"Unsaved changes"}
+                message={"You have unsaved changes. Are you sure you want to leave?"}
+                actionPositive={{title: "No", action: () => setOpenExitScreenModal(false)}}
+                actionNegative={{title: "Yes", action: closeScreen}}/>
             {isLoading ? <Loading message={exercise ? "Updating exercise" : "Creating exercise"}/> : null}
             <SnackBar
                 open={showSnackBar}
