@@ -1,6 +1,6 @@
 /* eslint-disable */
 import * as mutations from "../../graphql/mutations";
-import {API, Auth, graphqlOperation, Logger, Storage} from "aws-amplify";
+import {API, Auth, graphqlOperation, Storage} from "aws-amplify";
 import * as AWS from "aws-sdk";
 import awsmobile from "../../aws-exports";
 import * as queries from "../../graphql/queries";

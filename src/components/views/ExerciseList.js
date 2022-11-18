@@ -4,22 +4,22 @@ import EmptyState from "../../assets/svg/empty_state.svg";
 import ExerciseCard from "../cards/ExerciseCard";
 import PreviewExercise from "../screens/exercise/PreviewExercise";
 
-const ExerciseList = ({emptyListMessage, exercises}) => {
+const ExerciseList = ({exercises, emptyListMessage, isAuthUser}) => {
 
-    const [currentExercise, setCurrentExercise] = useState(null)
+    const [exercise, setExercise] = useState(null)
 
     /**
      * Preview exercise information
      */
     const previewExercise = (selectedExercise) => {
-        setCurrentExercise(selectedExercise)
+        setExercise(selectedExercise)
     }
 
     /**
      * Close the preview modal
      */
     const closePreview = () => {
-        setCurrentExercise(null)
+        setExercise(null)
     }
 
     return (
@@ -39,9 +39,10 @@ const ExerciseList = ({emptyListMessage, exercises}) => {
                     <EmptyState/>
                     <p className="font-normal mt-4">{emptyListMessage}</p>
                 </div>}
-            <PreviewExercise
-                exercise={currentExercise}
-                close={closePreview}/>
+            {exercise ? <PreviewExercise
+                isAuthUser={isAuthUser}
+                exerciseId={exercise.id}
+                close={closePreview}/> : null}
         </>
     );
 };

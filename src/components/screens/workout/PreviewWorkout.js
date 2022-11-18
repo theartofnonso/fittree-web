@@ -10,20 +10,19 @@ import OverflowIcon from "../../../assets/svg/overflow.svg";
 import CreateWorkout from "./CreateWorkout";
 import {useDispatch, useSelector} from "react-redux";
 import {selectAllExercises} from "../../../features/auth/authExercisesSlice";
-import {selectAuthUser} from "../../../features/auth/authUserSlice";
+import {selectAllExercises as unAuthSelectAllExercises} from "../../../features/unauth/unAuthExercisesSlice";
 import {deleteWorkout, selectWorkoutById, updateWorkout} from "../../../features/auth/authWorkoutsSlice";
 import {selectWorkoutById as unauthSelectWorkoutById} from "../../../features/unauth/unAuthWorkoutsSlice"
 import {isValidWorkout, sortWorkouts} from "../../../utils/workout/workoutsHelperFunctions";
 import Loading from "../../utils/Loading";
 import {SnackBar, SnackBarType} from "../../views/SnackBar";
 import workoutsConstants from "../../../utils/workout/workoutsConstants";
-import {selectExercises} from "../../../features/unauth/creatorProfileSlice";
 
 const PreviewWorkout = ({workoutId, close, isAuthUser}) => {
 
     const dispatch = useDispatch();
 
-    const exercises = isAuthUser ? useSelector(selectAllExercises) : useSelector(selectExercises)
+    const exercises = isAuthUser ? useSelector(selectAllExercises) : useSelector(unAuthSelectAllExercises)
 
     /**
      * Monitors the workout from store
@@ -37,8 +36,6 @@ const PreviewWorkout = ({workoutId, close, isAuthUser}) => {
             workoutExercises: sortWorkouts(workoutFromStore, exercises),
         }
     })
-
-    const user = useSelector(selectAuthUser);
 
     const [currentExercise, setCurrentExercise] = useState(null)
 
@@ -261,7 +258,8 @@ const PreviewWorkout = ({workoutId, close, isAuthUser}) => {
                 </button>
 
                 <PreviewExercise
-                    exercise={currentExercise}
+                    isAuthUser={isAuthUser}
+                    exerciseId={currentExercise.id}
                     close={() => setCurrentExercise(null)}/>
 
                 {isLoading ? <Loading message={loadingMessage}/> : null}
@@ -276,8 +274,6 @@ const PreviewWorkout = ({workoutId, close, isAuthUser}) => {
             {openCreateWorkout ?
                 <CreateWorkout
                     close={() => setOpenCreateWorkout(false)}
-                    user={user}
-                    exercises={exercises}
                     params={{workoutId: workout.id, workoutType: workout.type}}/> : null}
 
             <PlayWorkout workout={workout}

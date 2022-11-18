@@ -9,7 +9,6 @@ import Footer from "../../src/components/views/Footer";
 import ExerciseList from "../../src/components/views/ExerciseList";
 import {fetchUser, selectAuthUser} from "../../src/features/auth/authUserSlice";
 import AddIcon from "../../src/assets/svg/add-line-white.svg";
-import CreateWorkout from "../../src/components/screens/workout/CreateWorkout";
 import CreateExercise from "../../src/components/screens/exercise/CreateExercise";
 
 export default function Exercises({username}) {
@@ -86,8 +85,10 @@ export default function Exercises({username}) {
                         <AddIcon/>Create Exercise
                     </button>
                 </div>
-                <ExerciseList exercises={filteredExercises}
-                              emptyListMessage="You don't have any exercises yet"/>
+                <ExerciseList
+                    isAuthUser={true}
+                    exercises={filteredExercises}
+                    emptyListMessage="You don't have any exercises yet"/>
                 {openCreateExercise ?
                     <CreateExercise
                         close={() => setOpenCreateExercise(false)}

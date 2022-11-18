@@ -351,7 +351,7 @@ export default function CreateWorkout({params, close}) {
     };
 
     /**
-     * Perform sanity checks on required details and call createWorkoutHandler
+     * Perform sanity checks on required details and call createWorkoutHelper
      */
     const doCreateWorkout = async () => {
         if (title.trim().length === 0) {

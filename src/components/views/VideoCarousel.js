@@ -9,7 +9,7 @@ const VideoCarousel = ({videos}) => {
             {videos.map((video, index) => {
                 return (
                     <video key={index}
-                           className={`h-96 h-full object-cover ${index !== 0  && index !== videos.length -1 ? "mx-1" : null}`}
+                           className={`h-96 h-full w-5/6 sm:w-auto object-cover ${index !== 0  && index !== videos.length -1 ? "mx-1" : null}`}
                            autoPlay
                            playsInline loop>
                         <source src={`https://${video}`} type="video/mp4"/>
