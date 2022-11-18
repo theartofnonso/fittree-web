@@ -130,12 +130,12 @@ export const deleteWorkout = createAsyncThunk("authWorkouts/delete", async (payl
       graphqlOperation(mutations.deleteWorkout, {
         input: { id },
       }),
-    );
+    )
 
     /**
      * Delete the workout thumbnail
      */
-    await uploadAndDeleteS3(null, awsConstants.awsStorage.folders.THUMBNAILS, thumbnailUrl, "jpg")
+    await uploadAndDeleteS3(null, awsConstants.awsStorage.folders.THUMBNAILS, thumbnailUrl || null, "jpg")
 
     return payload;
 

@@ -6,6 +6,8 @@ import PreviewExercise from "../screens/exercise/PreviewExercise";
 
 const ExerciseList = ({exercises, emptyListMessage}) => {
 
+    console.log(exercises)
+
     const [exercise, setExercise] = useState(null)
 
     /**

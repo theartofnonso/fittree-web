@@ -42,7 +42,6 @@ const authExercisesSlice = createSlice({
             })
             .addCase(createExercise.fulfilled, (state, action) => {
                 state.status = exercisesSliceEnums.STATUS_FULFILLED;
-                console.log("response", action.payload)
                 exercisesAdapter.addOne(state, action.payload);
             })
             .addCase(updateExercise.fulfilled, (state, action) => {

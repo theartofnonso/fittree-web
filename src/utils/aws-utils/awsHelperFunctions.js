@@ -130,14 +130,14 @@ const uploadAndDeleteS3 = async (toBeUploadedUri, key, toBeDeletedUri, type) => 
   /**
    * Upload a new file
    */
-  let s3Response;
   if(toBeUploadedUri) {
     const blobResponse = await fetch(toBeUploadedUri);
     const blob = await blobResponse.blob();
 
     const toBeUploadedFileName = generateFileName(type);
     const toBeUploadedKey = key + "/" + toBeUploadedFileName
-    s3Response = await Storage.put(toBeUploadedKey, blob);
+    const s3Response = await Storage.put(toBeUploadedKey, blob);
+    return generateCDNUrl(s3Response.key);
   }
 
   /**
@@ -149,7 +149,8 @@ const uploadAndDeleteS3 = async (toBeUploadedUri, key, toBeDeletedUri, type) => 
     await Storage.remove(toBeDeletedKey);
   }
 
-  return generateCDNUrl(s3Response.key);
+  return ""
+
 }
 
 
