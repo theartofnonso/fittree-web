@@ -109,7 +109,6 @@ export default function Workouts({username}) {
                 {openCreateWorkout ?
                     <CreateWorkout
                         close={() => setOpenCreateWorkout(false)}
-                        user={user}
                         params={{workoutId: "", workoutType}}/> : null}
             </div>
             <Footer/>

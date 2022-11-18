@@ -41,6 +41,8 @@ export default function CreateWorkout({params, close}) {
 
     const workout = useSelector(state => selectWorkoutById(state, params.workoutId));
 
+    console.log(workout)
+
     /**
      * Title
      */

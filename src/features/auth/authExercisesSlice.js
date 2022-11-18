@@ -26,6 +26,7 @@ const authExercisesSlice = createSlice({
   initialState,
   reducers: {
     exercisesAdded: (state, action) => {
+      console.log(action.payload)
       exercisesAdapter.setAll(state, action.payload);
     },
   },
@@ -73,13 +74,11 @@ export const listExercises = createAsyncThunk("authExercises/getAll", async (pay
  * @type {AsyncThunk<unknown, void, {}>}
  */
 export const createExercise = createAsyncThunk("authExercises/create", async (payload, { rejectWithValue }) => {
-
+  console.log(payload)
   try {
     const response = await API.graphql(
       graphqlOperation(mutations.createExercise, {
-        input: {
-          ...payload,
-        },
+        input: payload,
       }),
     );
     return response.data.createExercise;

@@ -257,10 +257,10 @@ const PreviewWorkout = ({workoutId, close, isAuthUser}) => {
                     workout
                 </button>
 
-                <PreviewExercise
+                {currentExercise ? <PreviewExercise
                     isAuthUser={isAuthUser}
                     exerciseId={currentExercise.id}
-                    close={() => setCurrentExercise(null)}/>
+                    close={() => setCurrentExercise(null)}/> : null}
 
                 {isLoading ? <Loading message={loadingMessage}/> : null}
 

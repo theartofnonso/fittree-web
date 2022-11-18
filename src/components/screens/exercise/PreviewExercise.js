@@ -22,6 +22,8 @@ const PreviewExercise = ({exerciseId, close, isAuthUser}) => {
 
     const [exercise, setExercise] = useState(exerciseFromStore)
 
+    console.log(exercise)
+
     /**
      * Show menu options
      */
@@ -129,14 +131,16 @@ const PreviewExercise = ({exerciseId, close, isAuthUser}) => {
                         </div>
                     </div>
                 </div>
-            </div>
-            {isLoading ? <Loading message={loadingMessage}/> : null}
 
-            <SnackBar
-                open={showSnackBar}
-                close={() => setShowSnackBar(false)}
-                message={snackbarMessage}
-                type={snackbarType}/>
+                {isLoading ? <Loading message={loadingMessage}/> : null}
+
+                <SnackBar
+                    open={showSnackBar}
+                    close={() => setShowSnackBar(false)}
+                    message={snackbarMessage}
+                    type={snackbarType}/>
+
+            </div>
 
             {openCreateExercise ?
                 <CreateExercise

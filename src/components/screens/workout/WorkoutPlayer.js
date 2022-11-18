@@ -129,7 +129,8 @@ const WorkoutPlayer = props => {
                     onFinish={props.onFinishInterval}/> : null}
             {showExercise ?
                 <PreviewExercise
-                    exercise={props.workoutExercise.exercise}
+                    isAuthUser={isAuthUser}
+                    exerciseId={props.workoutExercise.exercise.id}
                     close={() => setShowExercise(false)}/> : null}
             {props.onEnd ?
                 <WorkoutCompletedModal

@@ -97,7 +97,8 @@ export default function CreateExercise({params, close}) {
      * Perform sanity checks on required details and call createExerciseHelper
      */
     const doCreateExercise = async () => {
-        if (selectedVideos.length === 0) {
+        const hasAtLeastOneVideo = selectedVideos.some(video => video !== null)
+        if (!hasAtLeastOneVideo) {
             setShowSnackBar(true)
             setSnackbarType(SnackBarType.WARN)
             setSnackbarMessage("Please select at least one video")
@@ -132,14 +133,14 @@ export default function CreateExercise({params, close}) {
         const payload = {
             creatorId: user.id,
             title: capitaliseWords(title.trim()),
-            description: description.trim().length > 0 ? description.trim() : utilsConstants.defaults.DEFAULT_VALUE_DESCRIPTION,
+            description: description.trim().length > 0 ? description.trim() : utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_DESCRIPTION,
             bodyParts: selectedBodyParts,
             equipments: selectedEquipments,
             videoUrls: videoUrls
         };
 
         /**
-         * Call the update function if we have a exercise
+         * Call the update function if we have an exercise
          */
         if (exercise) {
             return dispatch(updateExercise({id: exercise.id, ...payload})).unwrap();

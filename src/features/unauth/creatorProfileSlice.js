@@ -7,8 +7,6 @@ import workoutsConstants from "../../utils/workout/workoutsConstants";
 const initialState = {
     profile: null,
     status: workoutsConstants.profileStatus.LOADING,
-    // liveWorkouts: [],
-    // exercises: []
 };
 
 const creatorProfileSlice = createSlice({
