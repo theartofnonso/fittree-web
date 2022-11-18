@@ -10,6 +10,7 @@ import {SnackBar, SnackBarType} from "../../views/SnackBar";
 import Loading from "../../utils/Loading";
 import CreateExercise from "./CreateExercise";
 import {selectAuthUser} from "../../../features/auth/authUserSlice";
+import Tags from "../../views/Tags";
 
 const PreviewExercise = ({exerciseId, close}) => {
 
@@ -118,20 +119,8 @@ const PreviewExercise = ({exerciseId, close}) => {
                     <p className="font-semibold text-xl text-left">{exercise.title}</p>
                     <p className="mt-4 font-light break-words whitespace-pre-line text-sm">{exercise.description}</p>
                 </div>
-                <div>
-                    <div className="mb-4">
-                        <p className="font-semibold">Body Parts</p>
-                        <div className="flex flex-row flex-wrap text-sm">
-                            {exercise.bodyParts.map((item, index) => <p key={index} className="mr-2">{item}</p>)}
-                        </div>
-                    </div>
-                    <div className="mb-4">
-                        <p className="font-semibold">Equipment</p>
-                        <div className="flex flex-row flex-wrap text-sm">
-                            {exercise.equipments.map((item, index) => <p key={index} className="mr-2">{item}</p>)}
-                        </div>
-                    </div>
-                </div>
+                <Tags title="Body Parts" items={exercise.bodyParts} emptyState={"No body parts trained"}/>
+                <Tags title="Equipment" items={exercise.equipments} emptyState={"No equipment"}/>
 
                 {isLoading ? <Loading message={loadingMessage}/> : null}
 

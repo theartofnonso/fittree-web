@@ -43,6 +43,7 @@ const authExercisesSlice = createSlice({
             })
             .addCase(createExercise.fulfilled, (state, action) => {
                 state.status = exercisesSliceEnums.STATUS_FULFILLED;
+                console.log("response", action.payload)
                 exercisesAdapter.addOne(state, action.payload);
             })
             .addCase(updateExercise.fulfilled, (state, action) => {
@@ -74,11 +75,16 @@ export const listExercises = createAsyncThunk("authExercises/getAll", async (pay
  * @type {AsyncThunk<unknown, void, {}>}
  */
 export const createExercise = createAsyncThunk("authExercises/create", async (payload, {rejectWithValue}) => {
-    console.log(payload)
+    console.log("payload", payload)
     try {
+        /**
+         * Persist the new Exercise
+         */
         const response = await API.graphql(
             graphqlOperation(mutations.createExercise, {
-                input: payload,
+                input: {
+                    ...payload,
+                },
             }),
         );
         return response.data.createExercise;

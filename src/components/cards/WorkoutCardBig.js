@@ -2,6 +2,7 @@ import React from 'react';
 import {workoutTagDisplay} from "../../utils/workout/workoutsHelperFunctions";
 import {useSelector} from "react-redux";
 import {selectAuthUser} from "../../features/auth/authUserSlice";
+import Tags from "../views/Tags";
 
 const WorkoutCardBig = ({workout}) => {
 
@@ -20,12 +21,8 @@ const WorkoutCardBig = ({workout}) => {
             <div className="absolute flex flex-col items-start pl-2 pb-2">
                 <p className="font-bold text-left">{workout.title}</p>
                 <p className="text-sm font-medium my-0.5">{workout.intensityLevel}</p>
-                <div className="flex flex-row text-sm overflow-x-scroll my-0.5">
-                    {workout.bodyParts.map((item, index) => <p key={index} className="mr-2">{item}</p>)}
-                </div>
-                <div className="flex flex-row text-sm overflow-x-scroll my-0.5">
-                    {workout.equipments.map((item, index) => <p key={index} className="mr-2">{item}</p>)}
-                </div>
+                <Tags items={workout.bodyParts} emptyState={"No body parts trained"} containerStyle="flex flex-row text-sm overflow-x-scroll my-0.5"/>
+                <Tags items={workout.equipments} emptyState={"No equipment"} containerStyle="flex flex-row text-sm overflow-x-scroll my-0.5"/>
             </div>
             {workout.thumbnailUrl ? <img src={"https://" + workout.thumbnailUrl} alt="Display profile"
                                          className="rounded-lg absolute right-0 bottom-0 mr-2 mb-2 h-24 w-24 hidden sm:block"/> : null}
