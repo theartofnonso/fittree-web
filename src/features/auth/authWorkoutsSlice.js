@@ -135,7 +135,7 @@ export const deleteWorkout = createAsyncThunk("authWorkouts/delete", async (payl
     /**
      * Delete the workout thumbnail
      */
-    await uploadAndDeleteS3(null, awsConstants.awsStorage.folders.THUMBNAILS, thumbnailUrl || null, "jpg")
+    await uploadAndDeleteS3(null, awsConstants.awsStorage.folders.THUMBNAILS, thumbnailUrl, "jpg")
 
     return payload;
 
