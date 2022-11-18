@@ -86,7 +86,7 @@ export default function CreateExercise({params, close}) {
         const videoUrls = [];
         selectedVideos.forEach((async uri => {
             if (uri) {
-                const videoUrl =  await uploadAndDeleteS3(uri, awsConstants.awsStorage.folders.VIDEOS, null, "mp4") //uploadVideo(uri)
+                const videoUrl =  await uploadAndDeleteS3(uri, awsConstants.awsStorage.folders.VIDEOS, null, "mp4")
                 videoUrls.push(videoUrl)
             }
         }))

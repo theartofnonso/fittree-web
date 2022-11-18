@@ -126,15 +126,19 @@ const doesPreferredUsernameExists = async (preferred_username) => {
  * @param type
  */
 const uploadAndDeleteS3 = async (toBeUploadedUri, key, toBeDeletedUri, type) => {
-  const blobResponse = await fetch(toBeUploadedUri);
-  const blob = await blobResponse.blob();
 
   /**
    * Upload a new file
    */
-  const toBeUploadedFileName = generateFileName(type);
-  const toBeUploadedKey = key + "/" + toBeUploadedFileName
-  const s3Response = await Storage.put(toBeUploadedKey, blob);
+  let s3Response;
+  if(toBeUploadedUri) {
+    const blobResponse = await fetch(toBeUploadedUri);
+    const blob = await blobResponse.blob();
+
+    const toBeUploadedFileName = generateFileName(type);
+    const toBeUploadedKey = key + "/" + toBeUploadedFileName
+    s3Response = await Storage.put(toBeUploadedKey, blob);
+  }
 
   /**
    * Delete the previous file
@@ -142,7 +146,7 @@ const uploadAndDeleteS3 = async (toBeUploadedUri, key, toBeDeletedUri, type) => 
   if(toBeDeletedUri) {
     const toBeDeletedFileName = toBeDeletedUri.split("/")[3];
     const toBeDeletedKey = key + "/" + toBeDeletedFileName;
-    Storage.remove(toBeDeletedKey);
+    await Storage.remove(toBeDeletedKey);
   }
 
   return generateCDNUrl(s3Response.key);

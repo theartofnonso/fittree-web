@@ -3,6 +3,8 @@ import { createAsyncThunk, createEntityAdapter, createSlice } from "@reduxjs/too
 import { API, graphqlOperation, Storage } from "aws-amplify";
 import * as mutations from "../../graphql/mutations";
 import * as queries from "../../graphql/queries";
+import {uploadAndDeleteS3} from "../../utils/aws-utils/awsHelperFunctions";
+import awsConstants from "../../utils/aws-utils/awsConstants";
 
 export const workoutsSliceEnums = {
   SLICE: "authWorkouts",
@@ -133,9 +135,7 @@ export const deleteWorkout = createAsyncThunk("authWorkouts/delete", async (payl
     /**
      * Delete the workout thumbnail
      */
-    const toBeDeletedFileName = thumbnailUrl.split("/")[3];
-    const toBeDeletedKey = "Thumbnails/" + toBeDeletedFileName;
-    await Storage.remove(toBeDeletedKey);
+    await uploadAndDeleteS3(null, awsConstants.awsStorage.folders.THUMBNAILS, thumbnailUrl, "jpg")
 
     return payload;
 
