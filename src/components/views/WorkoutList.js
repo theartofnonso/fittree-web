@@ -3,7 +3,7 @@ import React, {useState} from "react";
 import WorkoutCard from "../cards/WorkoutCard";
 import EmptyState from "../../assets/svg/empty_state.svg";
 import PreviewWorkout from "../screens/workout/PreviewWorkout";
-const WorkoutList = ({workouts, emptyListMessage, isAuthUser}) => {
+const WorkoutList = ({workouts, emptyListMessage}) => {
 
     const [workout, setWorkout] = useState(null)
 
@@ -29,7 +29,7 @@ const WorkoutList = ({workouts, emptyListMessage, isAuthUser}) => {
                     {workouts.map((item, index) => {
                         return (
                             <div key={index} onClick={() => previewWorkout(item)}>
-                                <WorkoutCard workout={item} isAuthUser={isAuthUser}/>
+                                <WorkoutCard workout={item}/>
                             </div>
                         );
                     })}
@@ -39,7 +39,6 @@ const WorkoutList = ({workouts, emptyListMessage, isAuthUser}) => {
                     <p className="font-normal mt-4">{emptyListMessage}</p>
                 </div>}
             {workout ? <PreviewWorkout
-                isAuthUser={isAuthUser}
                 workoutId={workout.id}
                 close={closePreview}/> : null}
         </>

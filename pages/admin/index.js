@@ -91,8 +91,7 @@ export default function Dashboard({username}) {
                 </div>
                 <WorkoutList
                     workouts={filteredWorkouts}
-                    emptyListMessage="You don't have any workouts yet"
-                    isAuthUser={true}/>
+                    emptyListMessage="You don't have any workouts yet"/>
             </div>
             <Footer/>
         </div>

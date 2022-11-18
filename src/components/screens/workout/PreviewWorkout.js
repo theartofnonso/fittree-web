@@ -17,18 +17,21 @@ import {isValidWorkout, sortWorkouts} from "../../../utils/workout/workoutsHelpe
 import Loading from "../../utils/Loading";
 import {SnackBar, SnackBarType} from "../../views/SnackBar";
 import workoutsConstants from "../../../utils/workout/workoutsConstants";
+import {selectAuthUser} from "../../../features/auth/authUserSlice";
 
-const PreviewWorkout = ({workoutId, close, isAuthUser}) => {
+const PreviewWorkout = ({workoutId, close}) => {
 
     const dispatch = useDispatch();
 
-    const exercises = isAuthUser ? useSelector(selectAllExercises) : useSelector(unAuthSelectAllExercises)
+    const user = useSelector(selectAuthUser);
+
+    const exercises = user ? useSelector(selectAllExercises) : useSelector(unAuthSelectAllExercises)
 
     /**
      * Monitors the workout from store
      * @type {unknown}
      */
-    const workoutFromStore = isAuthUser ? useSelector(state => selectWorkoutById(state, workoutId)) : useSelector(state => unauthSelectWorkoutById(state, workoutId));
+    const workoutFromStore = user ? useSelector(state => selectWorkoutById(state, workoutId)) : useSelector(state => unauthSelectWorkoutById(state, workoutId));
 
     const [workout, setWorkout] = useState(() => {
         return {
@@ -191,7 +194,7 @@ const PreviewWorkout = ({workoutId, close, isAuthUser}) => {
                     <div className="my-4 cursor-pointer" onClick={close}>
                         <CloseIcon/>
                     </div>
-                    {isAuthUser ?
+                    {user ?
                         <div className="relative cursor-pointer" onMouseOver={() => setShowMenuOptions(true)}
                              onMouseLeave={() => setShowMenuOptions(false)}>
                             <OverflowIcon/>
@@ -221,7 +224,7 @@ const PreviewWorkout = ({workoutId, close, isAuthUser}) => {
                             </div> : null}
                         </div> : null}
                 </div>
-                <WorkoutCardBig workout={workout} isAuthUser={isAuthUser}/>
+                <WorkoutCardBig workout={workout}/>
                 <div className="overscroll-contain">
                     <p className="my-4 font-light break-words whitespace-pre-line">{workout.description}</p>
                 </div>
@@ -258,7 +261,6 @@ const PreviewWorkout = ({workoutId, close, isAuthUser}) => {
                 </button>
 
                 {currentExercise ? <PreviewExercise
-                    isAuthUser={isAuthUser}
                     exerciseId={currentExercise.id}
                     close={() => setCurrentExercise(null)}/> : null}
 

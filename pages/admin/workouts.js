@@ -104,8 +104,7 @@ export default function Workouts({username}) {
                 </div>
                 <WorkoutList
                     workouts={filteredWorkouts}
-                    emptyListMessage="You don't have any workouts yet"
-                    isAuthUser={true}/>
+                    emptyListMessage="You don't have any workouts yet"/>
                 {openCreateWorkout ?
                     <CreateWorkout
                         close={() => setOpenCreateWorkout(false)}

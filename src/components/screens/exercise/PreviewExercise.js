@@ -9,20 +9,21 @@ import {selectExerciseById as unAuthSelectExerciseById} from "../../../features/
 import {SnackBar, SnackBarType} from "../../views/SnackBar";
 import Loading from "../../utils/Loading";
 import CreateExercise from "./CreateExercise";
+import {selectAuthUser} from "../../../features/auth/authUserSlice";
 
-const PreviewExercise = ({exerciseId, close, isAuthUser}) => {
+const PreviewExercise = ({exerciseId, close}) => {
 
     const dispatch = useDispatch();
+
+    const user = useSelector(selectAuthUser);
 
     /**
      * Monitors the workout from store
      * @type {unknown}
      */
-    const exerciseFromStore = isAuthUser ? useSelector(state => selectExerciseById(state, exerciseId)) : useSelector(state => unAuthSelectExerciseById(state, exerciseId));
+    const exerciseFromStore = user ? useSelector(state => selectExerciseById(state, exerciseId)) : useSelector(state => unAuthSelectExerciseById(state, exerciseId));
 
     const [exercise, setExercise] = useState(exerciseFromStore)
-
-    console.log(exercise)
 
     /**
      * Show menu options
@@ -88,7 +89,7 @@ const PreviewExercise = ({exerciseId, close, isAuthUser}) => {
                     <div className="my-4 cursor-pointer" onClick={close}>
                         <CloseIcon/>
                     </div>
-                    {isAuthUser ?
+                    {user ?
                         <div className="relative cursor-pointer" onMouseOver={() => setShowMenuOptions(true)}
                              onMouseLeave={() => setShowMenuOptions(false)}>
                             <OverflowIcon/>

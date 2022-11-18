@@ -4,7 +4,7 @@ import EmptyState from "../../assets/svg/empty_state.svg";
 import ExerciseCard from "../cards/ExerciseCard";
 import PreviewExercise from "../screens/exercise/PreviewExercise";
 
-const ExerciseList = ({exercises, emptyListMessage, isAuthUser}) => {
+const ExerciseList = ({exercises, emptyListMessage}) => {
 
     const [exercise, setExercise] = useState(null)
 
@@ -40,7 +40,6 @@ const ExerciseList = ({exercises, emptyListMessage, isAuthUser}) => {
                     <p className="font-normal mt-4">{emptyListMessage}</p>
                 </div>}
             {exercise ? <PreviewExercise
-                isAuthUser={isAuthUser}
                 exerciseId={exercise.id}
                 close={closePreview}/> : null}
         </>

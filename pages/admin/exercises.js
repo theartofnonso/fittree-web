@@ -86,7 +86,6 @@ export default function Exercises({username}) {
                     </button>
                 </div>
                 <ExerciseList
-                    isAuthUser={true}
                     exercises={filteredExercises}
                     emptyListMessage="You don't have any exercises yet"/>
                 {openCreateExercise ?

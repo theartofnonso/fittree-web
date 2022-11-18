@@ -118,8 +118,7 @@ const CreatorProfile = () => {
                     </div>
                     <WorkoutList
                         workouts={filteredWorkouts}
-                        emptyListMessage={username + " " + "doesn't have any workouts yet"}
-                        isAuthUser={false}/>
+                        emptyListMessage={username + " " + "doesn't have any workouts yet"}/>
                     <Footer/>
                 </div>
             </>
