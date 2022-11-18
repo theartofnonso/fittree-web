@@ -84,12 +84,12 @@ export default function CreateExercise({params, close}) {
      */
     const uploadVideos = async () => {
         const videoUrls = [];
-        selectedVideos.forEach((async uri => {
-            if (uri) {
+        for (const uri of selectedVideos) {
+            if(uri) {
                 const videoUrl =  await uploadAndDeleteS3(uri, awsConstants.awsStorage.folders.VIDEOS, null, "mp4")
                 videoUrls.push(videoUrl)
             }
-        }))
+        }
         return videoUrls;
     }
 
@@ -113,7 +113,6 @@ export default function CreateExercise({params, close}) {
                 setIsLoading(false)
                 close()
             } catch (err) {
-                console.log(err)
                 setIsLoading(false)
                 setShowSnackBar(true)
                 setSnackbarType(SnackBarType.ERROR)

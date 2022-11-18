@@ -28,7 +28,6 @@ const authExercisesSlice = createSlice({
     initialState,
     reducers: {
         exercisesAdded: (state, action) => {
-            console.log(action.payload)
             exercisesAdapter.setAll(state, action.payload);
         },
     },
@@ -75,7 +74,6 @@ export const listExercises = createAsyncThunk("authExercises/getAll", async (pay
  * @type {AsyncThunk<unknown, void, {}>}
  */
 export const createExercise = createAsyncThunk("authExercises/create", async (payload, {rejectWithValue}) => {
-    console.log("payload", payload)
     try {
         /**
          * Persist the new Exercise

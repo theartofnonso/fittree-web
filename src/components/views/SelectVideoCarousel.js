@@ -103,7 +103,7 @@ const SelectVideoCarousel = ({onSelect}) => {
                         <ReactPlayer
                             className='bg-grayOpacity6'
                             url={uri}
-                            muted={false}
+                            muted={true}
                             playing={true}
                             loop={true}
                             controls={true}
