@@ -25,7 +25,7 @@ const WorkoutCardBig = ({workout}) => {
                 <Tags items={workout.equipments} emptyState={"No equipment"} containerStyle="flex flex-row text-sm overflow-x-scroll my-0.5"/>
             </div>
             {workout.thumbnailUrl ? <img src={"https://" + workout.thumbnailUrl} alt="Display profile"
-                                         className="rounded-lg absolute right-0 bottom-0 mr-2 mb-2 h-24 w-24 hidden sm:block"/> : null}
+                                         className="rounded-lg absolute right-0 bottom-0 mr-2 mb-2 h-24 w-24 hidden sm:block object-cover"/> : null}
         </div>
     );
 };
