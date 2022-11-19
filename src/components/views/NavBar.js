@@ -60,13 +60,6 @@ const NavBar = ({username}) => {
                                 </Link>
                             </div>
                             <div className="py-2 hover:bg-secondary" role="none">
-                                <Link href="/admin/exercises">
-                                    <a className="text-gray-700 block px-4 py-2 text-md font-medium"
-                                       role="menuitem" tabIndex="-1"
-                                       id="menu-item-6">Exercises</a>
-                                </Link>
-                            </div>
-                            <div className="py-2 hover:bg-secondary" role="none">
                                 <Link href="/admin/workouts">
                                     <a className="text-gray-700 block px-4 py-2 text-md font-medium"
                                        role="menuitem" tabIndex="-1"
