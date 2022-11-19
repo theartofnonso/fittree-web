@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {createWorkout, selectWorkoutById, updateWorkout} from "../../../features/auth/authWorkoutsSlice";
 import workoutsConstants from "../../../utils/workout/workoutsConstants";
-import {formatThumbnailUri, sortWorkouts} from "../../../utils/workout/workoutsHelperFunctions";
+import {formatThumbnailUri} from "../../../utils/workout/workoutsHelperFunctions";
 import utilsConstants from "../../../utils/utilsConstants";
 import {capitaliseWords} from "../../../utils/general/utils";
 import awsConstants from "../../../utils/aws-utils/awsConstants";
@@ -13,17 +13,20 @@ import DeleteIcon from "../../../assets/svg/delete-bin-white-line.svg";
 import PageDescription from "../../views/PageDescription";
 import BodyParts from "../../views/BodyParts";
 import Equipments from "../../views/Equipments";
-import ExerciseGallery from "../../views/ExerciseGallery";
 import InputValue from "../../views/InputValue";
 import InputTime from "../../views/InputTime";
 import AddIcon from "../../../assets/svg/add-line-white.svg";
 import Compressor from "compressorjs";
-import {constructWorkoutExercises, updateDuration, updateSets} from "../../../schemas/workoutExercises";
+import {
+    constructWorkoutExercise,
+    updateDuration,
+    updateExerciseTitle,
+    updateSets
+} from "../../../schemas/workoutExercises";
 import SelectDuration from "../../views/SelectDuration";
 import Loading from "../../utils/Loading";
 import {uploadAndDeleteS3} from "../../../utils/aws-utils/awsHelperFunctions";
 import {selectAuthUser} from "../../../features/auth/authUserSlice";
-import {selectAllExercises} from "../../../features/auth/authExercisesSlice";
 import {SnackBar, SnackBarType} from "../../views/SnackBar";
 import SelectValue from "../../views/SelectValue";
 import {useLeavePageConfirm} from "../../../utils/general/hooks";
@@ -36,8 +39,6 @@ export default function CreateWorkout({params, close}) {
     const inputFileRef = useRef()
 
     const dispatch = useDispatch();
-
-    const exercises = useSelector(selectAllExercises)
 
     const workout = useSelector(state => selectWorkoutById(state, params.workoutId));
 
@@ -69,8 +70,7 @@ export default function CreateWorkout({params, close}) {
     /**
      * Workout exercises
      */
-    const [selectedExercises, setSelectedExercises] = useState(() => workout ? sortWorkouts(workout, exercises) : []);
-    const [deletedExerciseIds, setDeletedExerciseIds] = useState([]);
+    const [workoutExercises, setWorkoutExercises] = useState(() => workout ? workout.workoutExercises : []);
 
     /**
      * Number of rounds
@@ -106,11 +106,6 @@ export default function CreateWorkout({params, close}) {
     const [snackbarMessage, setSnackbarMessage] = useState("");
 
     const [snackbarType, setSnackbarType] = useState("")
-
-    /**
-     * Handle opening and closing Exercise gallery
-     */
-    const [openExerciseGallery, setOpenExerciseGallery] = useState(false)
 
     const [isLoading, setIsLoading] = useState(false);
 
@@ -190,7 +185,7 @@ export default function CreateWorkout({params, close}) {
             intensityLevel: intensityLevel,
             bodyParts: selectedBodyParts,
             equipments: selectedEquipments,
-            workoutExercises: selectedExercises.map(item => JSON.stringify(item)),
+            workoutExercises: workoutExercises.map(item => JSON.stringify(item)),
             exerciseInterval: exerciseInterval,
             setsInterval: setsInterval,
             rounds: rounds,
@@ -223,7 +218,7 @@ export default function CreateWorkout({params, close}) {
             hasRoundsInterval: roundsInterval > 0,
             hasBodyParts: selectedBodyParts.length > 0,
             hasEquipments: selectedEquipments.length > 0,
-            hasWorkoutExercises: selectedExercises.length > 0,
+            hasWorkoutExercises: workoutExercises.length > 0,
             hasUri: uri !== ""
         }
 
@@ -254,69 +249,68 @@ export default function CreateWorkout({params, close}) {
     };
 
     /**
-     * Close the exercise gallery
+     * Add new exercise
      */
-    const closeExerciseGallery = selectedExerciseIds => {
-        setOpenExerciseGallery(false);
-        if (selectedExerciseIds.length > 0) {
-            const selectedExercises = selectedExerciseIds.map(id => {
-                return constructWorkoutExercises(id)
-            });
-            setSelectedExercises(prevValues => [...prevValues, ...selectedExercises]);
-        }
+    const addWorkoutExercise = () => {
+        const exercise = constructWorkoutExercise()
+        setWorkoutExercises(prevValues => [...prevValues, exercise]);
     };
 
     /**
      * Remove Exercise from table
      */
     const removeWorkoutExercise = (currentExercise) => {
-        storeRemovedWorkoutExercises(currentExercise);
-        const others = selectedExercises.filter(value => value.exerciseId !== currentExercise.exerciseId);
-        setSelectedExercises(others);
-        if (others.length <= 1) {
+        const remainingExercises = workoutExercises.filter(exercise => exercise.id !== currentExercise.id);
+        setWorkoutExercises(remainingExercises);
+        if (remainingExercises.length <= 1) {
             setExerciseInterval(0);
         }
     };
 
     /**
-     * Collate all deleted workout exercises
-     * @param removedExercise
-     */
-    const storeRemovedWorkoutExercises = (removedExercise) => {
-        const exercises = Array.from(new Set(deletedExerciseIds).add(removedExercise.id));
-        setDeletedExerciseIds([...exercises]);
-    };
-
-    /**
-     * Update the workout exercise duration
-     * @param duration
+     * Update the workout exercise title
      * @param currentExercise
+     * @param title
      */
-    const onChangeDuration = (duration, currentExercise) => {
-        const selectedExerciseObjects = selectedExercises.map(exercise => {
-            if (exercise.exerciseId === currentExercise.exerciseId) {
-                return updateDuration(duration, currentExercise)
+    const onChangeWorkoutExerciseTitle = (currentExercise, title) => {
+        const exercises = workoutExercises.map(exercise => {
+            if (exercise.id === currentExercise.id) {
+                return updateExerciseTitle(currentExercise, title)
             }
             return exercise;
         });
+        setWorkoutExercises(exercises);
+    }
 
-        setSelectedExercises(selectedExerciseObjects);
+    /**
+     * Update the workout exercise duration
+     * @param currentExercise
+     * @param duration
+     */
+    const onChangeDuration = (currentExercise, duration) => {
+        const exercises = workoutExercises.map(exercise => {
+            if (exercise.id === currentExercise.id) {
+                return updateDuration(currentExercise, duration)
+            }
+            return exercise;
+        });
+        setWorkoutExercises(exercises);
     }
 
     /**
      * Update the workout exercise set
-     * @param sets
      * @param currentExercise
+     * @param sets
      */
-    const onChangeSets = (sets, currentExercise) => {
-        const selectedExerciseObjects = selectedExercises.map(exercise => {
-            if (exercise.exerciseId === currentExercise.exerciseId) {
-                return updateSets(sets, currentExercise)
+    const onChangeSets = (currentExercise, sets) => {
+        const exercises = workoutExercises.map(exercise => {
+            if (exercise.id === currentExercise.id) {
+                return updateSets(currentExercise, sets)
             }
             return exercise;
         });
 
-        setSelectedExercises(selectedExerciseObjects);
+        setWorkoutExercises(exercises);
     }
 
     /**
@@ -379,7 +373,7 @@ export default function CreateWorkout({params, close}) {
      * @returns {*}
      */
     const calWorkoutDuration = () => {
-        if (selectedExercises.length > 0) {
+        if (workoutExercises.length > 0) {
             return getWorkoutType() === workoutsConstants.workoutType.CIRCUIT ? calCircuitDuration() : calRepsSetsDuration()
         }
         return 0
@@ -432,7 +426,7 @@ export default function CreateWorkout({params, close}) {
             exerciseInterval: exerciseInterval > 0 ? exerciseInterval : utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_OF_ZERO,
             setsInterval: setsInterval > 0 ? setsInterval : utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_OF_ZERO,
             duration: calWorkoutDuration(),
-            workoutExercises: selectedExercises.map(item => JSON.stringify(item)),
+            workoutExercises: workoutExercises.map(item => JSON.stringify(item)),
             thumbnailUrl: thumbnail,
             preferred_username: user.preferred_username,
             type: getWorkoutType() === workoutsConstants.workoutType.CIRCUIT ? workoutsConstants.workoutType.CIRCUIT : workoutsConstants.workoutType.REPS_SETS,
@@ -444,16 +438,6 @@ export default function CreateWorkout({params, close}) {
 
         return dispatch(createWorkout(payload)).unwrap();
 
-    };
-
-    /**
-     * Helper function to display appropriate RepsOrTimeValue
-     * @returns {number|*}
-     * @param exercise
-     */
-    const displayExerciseTitle = (exercise) => {
-        const foundExercise = exercises.find(item => item.id === exercise.exerciseId);
-        return foundExercise.title;
     };
 
     /**
@@ -479,8 +463,8 @@ export default function CreateWorkout({params, close}) {
     const calCircuitDuration = () => {
         let totalRoundsDuration = 0;
         for (let i = 0; i < rounds; i++) {
-            const totalExerciseDuration = selectedExercises.reduce(calcExerciseDuration, 0);
-            const totalExerciseInterval = (selectedExercises.length - 1) * exerciseInterval;
+            const totalExerciseDuration = workoutExercises.reduce(calcExerciseDuration, 0);
+            const totalExerciseInterval = (workoutExercises.length - 1) * exerciseInterval;
             const circuitDuration = totalExerciseDuration + totalExerciseInterval;
             totalRoundsDuration += circuitDuration;
         }
@@ -493,8 +477,8 @@ export default function CreateWorkout({params, close}) {
      * @returns {*}
      */
     const calRepsSetsDuration = () => {
-        const totalExerciseDuration = selectedExercises.reduce(calcExerciseDuration, 0);
-        const totalExerciseInterval = (selectedExercises.length - 1) * exerciseInterval;
+        const totalExerciseDuration = workoutExercises.reduce(calcExerciseDuration, 0);
+        const totalExerciseInterval = (workoutExercises.length - 1) * exerciseInterval;
         return totalExerciseDuration + totalExerciseInterval;
     };
 
@@ -567,22 +551,29 @@ export default function CreateWorkout({params, close}) {
                     </tr>
                     </thead>
                     <tbody>
-                    {selectedExercises.map((exercise, index) => {
+                    {workoutExercises.map((exercise, index) => {
                         return (
-                            <tr key={index}>
-                                <td>{displayExerciseTitle(exercise)}</td>
+                            <tr key={exercise.id}>
+                                <td>
+                                    <SelectValue
+                                        onChange={(title) => onChangeWorkoutExerciseTitle(exercise, title)}
+                                        prevValue={exercise.title}
+                                        isNumber={false}/>
+                                </td>
                                 <td>
                                     <SelectDuration
-                                        onChange={(duration) => onChangeDuration(duration, exercise)}
+                                        onChange={(duration) => onChangeDuration(exercise, duration)}
                                         prevDuration={exercise.duration}
                                         showReps={true}/>
                                 </td>
                                 {getWorkoutType() === workoutsConstants.workoutType.REPS_SETS ?
                                     <td>
-                                        <SelectValue onChange={(sets) => onChangeSets(sets, exercise)}
-                                                     prevValue={exercise.sets}/>
+                                        <SelectValue
+                                            onChange={(sets) => onChangeSets(exercise, sets)}
+                                            prevValue={exercise.sets}
+                                            isNumber={true}/>
                                     </td> : null}
-                                <td className="flex flex-row justify-end">
+                                <td className="flex flex-row justify-end items-center my-2">
                                     <div onClick={() => removeWorkoutExercise(exercise)}
                                          className="bg-primary rounded hover:bg-darkPrimary p-0.5 m-1">
                                         <CloseIconWhite/>
@@ -593,27 +584,24 @@ export default function CreateWorkout({params, close}) {
                     })}
                     </tbody>
                 </table>
-                <ExerciseGallery open={openExerciseGallery}
-                                 close={closeExerciseGallery}
-                                 selectedExercises={selectedExercises}/>
                 <button
                     type="button"
-                    onClick={() => setOpenExerciseGallery(true)}
+                    onClick={addWorkoutExercise}
                     className="flex flex-row items-center justify-center bg-primary rounded hover:bg-darkPrimary text-white py-1 w-40 mt-2 font-semibold">
-                    Select Exercise
+                    Add Exercise
                 </button>
                 <InputTime title="Exercise Interval"
                            value={exerciseInterval}
-                           open={selectedExercises.length > 1}
+                           open={workoutExercises.length > 1}
                            onSelectTime={(duration) => setExerciseInterval(duration.value)}/>
                 <InputTime title="Sets Interval"
                            value={setsInterval}
-                           open={(selectedExercises.length > 0) && getWorkoutType() === workoutsConstants.workoutType.REPS_SETS}
+                           open={(workoutExercises.length > 0) && getWorkoutType() === workoutsConstants.workoutType.REPS_SETS}
                            onSelectTime={(duration) => setSetsInterval(duration.value)}/>
                 <div className={`${rounds > 1 ? "outline outline-gray2 outline-1 p-2 rounded-md mt-2" : ""}`}>
                     <InputValue title="Rounds"
                                 value={rounds}
-                                open={(selectedExercises.length > 1) && getWorkoutType() === workoutsConstants.workoutType.CIRCUIT}
+                                open={(workoutExercises.length > 1) && getWorkoutType() === workoutsConstants.workoutType.CIRCUIT}
                                 onSelectValue={(value) => setRounds(value)}/>
                     <InputTime title="Rounds Interval"
                                value={roundsInterval}
