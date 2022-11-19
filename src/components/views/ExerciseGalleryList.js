@@ -6,7 +6,7 @@ import PreviewExercise from "../screens/exercise/PreviewExercise";
 
 const ExerciseGalleryList = ({emptyListMessage, exercises, onClick}) => {
 
-    const [currentExercise, setCurrentExercise] = useState(null)
+    const [exercise, setExercise] = useState(null)
 
     /**
      * Handle tag click
@@ -19,7 +19,7 @@ const ExerciseGalleryList = ({emptyListMessage, exercises, onClick}) => {
      * Close the preview modal
      */
     const closePreview = () => {
-        setCurrentExercise(null)
+        setExercise(null)
     }
 
     return (
@@ -39,9 +39,9 @@ const ExerciseGalleryList = ({emptyListMessage, exercises, onClick}) => {
                     <EmptyState/>
                     <p className="font-normal mt-4">{emptyListMessage}</p>
                 </div>}
-            <PreviewExercise
-                exercise={currentExercise}
-                close={closePreview}/>
+            {exercise ? <PreviewExercise
+                exerciseId={exercise.id}
+                close={closePreview}/> : null}
         </>
     );
 };
