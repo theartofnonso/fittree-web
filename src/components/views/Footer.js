@@ -7,7 +7,7 @@ import FittrBigIcon from "../../assets/svg/fittr.svg";
 const Footer = () => {
 
     return (
-        <div className="flex flex-row justify-center items-center">
+        <div className="flex flex-row justify-center items-center my-4">
             <Link href="/">
                 <a className="lg:hidden">
                     <FittrSmallIcon/>
