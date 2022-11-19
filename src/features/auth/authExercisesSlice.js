@@ -10,7 +10,6 @@ export const exercisesSliceEnums = {
     SLICE: "authExercises",
     STATUS_PENDING: "PENDING",
     STATUS_FULFILLED: "FULFILLED",
-    STATUS_UNFULFILLED: "UNFULFILLED",
     STATUS_REJECTED: "REJECTED",
     STATUS_IDLE: "IDLE",
 };
@@ -73,6 +72,7 @@ export const listExercises = createAsyncThunk("authExercises/getAll", async (pay
  * @type {AsyncThunk<unknown, void, {}>}
  */
 export const createExercise = createAsyncThunk("authExercises/create", async (payload, {rejectWithValue}) => {
+
     try {
         /**
          * Persist the new Exercise
@@ -84,6 +84,7 @@ export const createExercise = createAsyncThunk("authExercises/create", async (pa
                 },
             }),
         );
+
         return response.data.createExercise;
     } catch (err) {
         return rejectWithValue(err.error);

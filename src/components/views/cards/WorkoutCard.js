@@ -1,7 +1,7 @@
 import React from 'react';
-import {workoutTagDisplay} from "../../utils/workout/workoutsHelperFunctions";
+import {workoutTagDisplay} from "../../../utils/workout/workoutsHelperFunctions";
 import {useSelector} from "react-redux";
-import {selectAuthUser} from "../../features/auth/authUserSlice";
+import {selectAuthUser} from "../../../features/auth/authUserSlice";
 
 const WorkoutCard = ({workout}) => {
 

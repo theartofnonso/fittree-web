@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React, {useState} from "react";
-import WorkoutCard from "../cards/WorkoutCard";
+import WorkoutCard from "./cards/WorkoutCard";
 import EmptyState from "../../assets/svg/empty_state.svg";
 import PreviewWorkout from "../screens/workout/PreviewWorkout";
 const WorkoutList = ({workouts, emptyListMessage}) => {

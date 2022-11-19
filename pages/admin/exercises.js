@@ -19,6 +19,8 @@ export default function Exercises({username}) {
 
     const exercises = useSelector(selectAllExercises);
 
+    console.log(exercises)
+
     const [filteredExercises, setFilteredExercises] = useState([]);
 
     const [searchQuery, setSearchQuery] = useState("");

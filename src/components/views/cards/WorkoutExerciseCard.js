@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React from "react";
-import workoutsConstants from "../../utils/workout/workoutsConstants";
-import {timeOrReps} from "../../utils/workout/workoutsHelperFunctions";
+import workoutsConstants from "../../../utils/workout/workoutsConstants";
+import {timeOrReps} from "../../../utils/workout/workoutsHelperFunctions";
 
 const WorkoutExerciseCard = ({workoutExercise, type, onClick}) => {
 

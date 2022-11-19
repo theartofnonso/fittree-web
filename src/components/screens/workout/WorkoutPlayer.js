@@ -7,7 +7,7 @@ import InfoOutlinedIcon from "../../../assets/svg/information-line.svg";
 import OrderPlayIcon from "../../../assets/svg/order-play-line.svg";
 import PauseIcon from "../../../assets/svg/pause-mini-line.svg";
 import WorkoutSeeker from "../../views/WorkoutSeeker";
-import WorkoutExerciseCard from "../../cards/WorkoutExerciseCard";
+import WorkoutExerciseCard from "../../views/cards/WorkoutExerciseCard";
 import PauseModal from "./PauseModal";
 import IntervalModal from "./IntervalModal";
 import PreviewExercise from "../exercise/PreviewExercise";

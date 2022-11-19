@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React, {useEffect, useState} from "react";
-import WorkoutCardBig from "../../cards/WorkoutCardBig";
-import WorkoutExerciseCard from "../../cards/WorkoutExerciseCard";
+import WorkoutCardBig from "../../views/cards/WorkoutCardBig";
+import WorkoutExerciseCard from "../../views/cards/WorkoutExerciseCard";
 import CloseIcon from "../../../assets/svg/close-line.svg";
 import PlayIcon from "../../../assets/svg/play-mini-fill.svg";
 import PreviewExercise from "../exercise/PreviewExercise";
