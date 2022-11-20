@@ -69,49 +69,47 @@ export default function Workouts({username}) {
     };
 
     return (
-        <>
-            <div className="container mx-auto p-4 h-screen">
-                <NavBar username={username}/>
-                <PageDescription title="Workouts in draft" description="Find workouts yet to go live"/>
-                <div className="my-4 flex flex-col items-center">
-                    <input
-                        className="border-gray w-5/6 bg-secondary h-14 sm:h-18 shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
-                        id="search"
-                        type="search"
-                        placeholder="Search workouts"
-                        value={searchQuery}
-                        onChange={event => onChangeSearch(event.target.value.toLowerCase())}/>
-                </div>
-                <div className="flex flex-row">
-                    <button
-                        type="button"
-                        onClick={() => {
-                            setWorkoutType(workoutsConstants.workoutType.CIRCUIT)
-                            setOpenCreateWorkout(true)
-                        }}
-                        className="flex flex-row items-center justify-center bg-primary rounded-md hover:bg-darkPrimary text-white pl-1 pr-3 py-1 mb-4 mr-2 font-semibold text-sm">
-                        <AddIcon/>Create Circuits
-                    </button>
-                    <button
-                        type="button"
-                        onClick={() => {
-                            setWorkoutType(workoutsConstants.workoutType.REPS_SETS)
-                            setOpenCreateWorkout(true)
-                        }}
-                        className="flex flex-row items-center justify-center bg-primary rounded-md hover:bg-darkPrimary text-white pl-1 pr-3 py-1 mb-4 font-semibold text-sm">
-                        <AddIcon/>Create Reps and Sets
-                    </button>
-                </div>
-                <WorkoutList
-                    workouts={filteredWorkouts}
-                    emptyListMessage="You don't have any workouts yet"/>
-                {openCreateWorkout ?
-                    <CreateWorkout
-                        close={() => setOpenCreateWorkout(false)}
-                        params={{workoutId: "", workoutType}}/> : null}
+        <div className="container mx-auto p-4 h-screen">
+            <NavBar username={username}/>
+            <PageDescription title="Workouts in draft" description="Find workouts yet to go live"/>
+            <div className="my-4 flex flex-col items-center">
+                <input
+                    className="border-gray w-5/6 bg-secondary h-14 sm:h-18 shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+                    id="search"
+                    type="search"
+                    placeholder="Search workouts"
+                    value={searchQuery}
+                    onChange={event => onChangeSearch(event.target.value.toLowerCase())}/>
             </div>
+            <div className="flex flex-row">
+                <button
+                    type="button"
+                    onClick={() => {
+                        setWorkoutType(workoutsConstants.workoutType.CIRCUIT)
+                        setOpenCreateWorkout(true)
+                    }}
+                    className="flex flex-row items-center justify-center bg-primary rounded-md hover:bg-darkPrimary text-white pl-1 pr-3 py-1 mb-4 mr-2 font-semibold text-sm">
+                    <AddIcon/>Create Circuits
+                </button>
+                <button
+                    type="button"
+                    onClick={() => {
+                        setWorkoutType(workoutsConstants.workoutType.REPS_SETS)
+                        setOpenCreateWorkout(true)
+                    }}
+                    className="flex flex-row items-center justify-center bg-primary rounded-md hover:bg-darkPrimary text-white pl-1 pr-3 py-1 mb-4 font-semibold text-sm">
+                    <AddIcon/>Create Reps and Sets
+                </button>
+            </div>
+            <WorkoutList
+                workouts={filteredWorkouts}
+                emptyListMessage="You don't have any workouts yet"/>
+            {openCreateWorkout ?
+                <CreateWorkout
+                    close={() => setOpenCreateWorkout(false)}
+                    params={{workoutId: "", workoutType}}/> : null}
             <Footer/>
-        </>
+        </div>
     )
 }
 

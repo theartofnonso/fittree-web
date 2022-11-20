@@ -76,23 +76,21 @@ export default function Dashboard({username}) {
      * Creator has loaded
      */
     return (
-        <div>
-            <div className="container mx-auto p-4 min-h-screen">
-                <NavBar username={username}/>
-                <Profile user={user}/>
-                <div className="my-4 flex flex-col items-center">
-                    <input
-                        className="border-gray w-5/6 bg-secondary h-14 sm:h-18 shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
-                        id="search"
-                        type="search"
-                        placeholder="Search workouts"
-                        value={searchQuery}
-                        onChange={event => onChangeSearch(event.target.value.toLowerCase())}/>
-                </div>
-                <WorkoutList
-                    workouts={filteredWorkouts}
-                    emptyListMessage="You don't have any workouts yet"/>
+        <div className="container mx-auto p-4 min-h-screen">
+            <NavBar username={username}/>
+            <Profile user={user}/>
+            <div className="my-4 flex flex-col items-center">
+                <input
+                    className="border-gray w-5/6 bg-secondary h-14 sm:h-18 shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+                    id="search"
+                    type="search"
+                    placeholder="Search workouts"
+                    value={searchQuery}
+                    onChange={event => onChangeSearch(event.target.value.toLowerCase())}/>
             </div>
+            <WorkoutList
+                workouts={filteredWorkouts}
+                emptyListMessage="You don't have any workouts yet"/>
             <Footer/>
         </div>
     )

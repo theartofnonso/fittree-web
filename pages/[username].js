@@ -1,10 +1,6 @@
 import {useRouter} from "next/router";
 import React, {useEffect, useState} from "react";
-import {
-    fetchCreatorProfile,
-    selectCreator,
-    selectCreatorStatus,
-} from "../src/features/unauth/creatorProfileSlice";
+import {fetchCreatorProfile, selectCreator, selectCreatorStatus,} from "../src/features/unauth/creatorProfileSlice";
 import {useDispatch, useSelector} from "react-redux";
 import {searchExerciseOrWorkout} from "../src/utils/workoutAndExerciseUtils";
 import workoutsConstants from "../src/utils/workout/workoutsConstants";
@@ -102,27 +98,23 @@ const CreatorProfile = () => {
          * Loaded Creator page content
          */
         return (
-
-            <>
-                <div className="container mx-auto p-4 min-h-screen">
-                    <NavBar/>
-                    <Profile user={profile}/>
-                    <div className="my-4 flex flex-col items-center">
-                        <input
-                            className="border-gray w-5/6 bg-secondary h-14 sm:h-18 shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
-                            id="search"
-                            type="text"
-                            placeholder="Search workouts"
-                            value={searchQuery}
-                            onChange={event => onChangeSearch(event.target.value.toLowerCase())}/>
-                    </div>
-                    <WorkoutList
-                        workouts={filteredWorkouts}
-                        emptyListMessage={username + " " + "doesn't have any workouts yet"}/>
-                    <Footer/>
+            <div className="container mx-auto p-4 min-h-screen">
+                <NavBar/>
+                <Profile user={profile}/>
+                <div className="my-4 flex flex-col items-center">
+                    <input
+                        className="border-gray w-5/6 bg-secondary h-14 sm:h-18 shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+                        id="search"
+                        type="text"
+                        placeholder="Search workouts"
+                        value={searchQuery}
+                        onChange={event => onChangeSearch(event.target.value.toLowerCase())}/>
                 </div>
-            </>
-
+                <WorkoutList
+                    workouts={filteredWorkouts}
+                    emptyListMessage={username + " " + "doesn't have any workouts yet"}/>
+                <Footer/>
+            </div>
         )
     }
 }
