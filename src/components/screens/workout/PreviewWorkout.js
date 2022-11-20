@@ -9,11 +9,9 @@ import PlayWorkout from "./PlayWorkout";
 import OverflowIcon from "../../../assets/svg/overflow.svg";
 import CreateWorkout from "./CreateWorkout";
 import {useDispatch, useSelector} from "react-redux";
-import {selectAllExercises} from "../../../features/auth/authExercisesSlice";
-import {selectAllExercises as unAuthSelectAllExercises} from "../../../features/unauth/unAuthExercisesSlice";
 import {deleteWorkout, selectWorkoutById, updateWorkout} from "../../../features/auth/authWorkoutsSlice";
 import {selectWorkoutById as unauthSelectWorkoutById} from "../../../features/unauth/unAuthWorkoutsSlice"
-import {isValidWorkout, sortWorkouts} from "../../../utils/workout/workoutsHelperFunctions";
+import {isValidWorkout} from "../../../utils/workout/workoutsHelperFunctions";
 import Loading from "../../utils/Loading";
 import {SnackBar, SnackBarType} from "../../views/SnackBar";
 import workoutsConstants from "../../../utils/workout/workoutsConstants";
@@ -25,8 +23,6 @@ const PreviewWorkout = ({workoutId, close}) => {
 
     const user = useSelector(selectAuthUser);
 
-    const exercises = user ? useSelector(selectAllExercises) : useSelector(unAuthSelectAllExercises)
-
     /**
      * Monitors the workout from store
      * @type {unknown}
@@ -36,7 +32,7 @@ const PreviewWorkout = ({workoutId, close}) => {
     const [workout, setWorkout] = useState(() => {
         return {
             ...workoutFromStore,
-            workoutExercises: sortWorkouts(workoutFromStore, exercises),
+            workoutExercises: workoutFromStore.workoutExercises.map(exercise => JSON.parse(exercise))//sortWorkouts(workoutFromStore, exercises),
         }
     })
 
@@ -71,7 +67,7 @@ const PreviewWorkout = ({workoutId, close}) => {
         if (workoutFromStore) {
             const enrichedWorkout = {
                 ...workoutFromStore,
-                workoutExercises: sortWorkouts(workoutFromStore, exercises),
+                workoutExercises: workoutFromStore.workoutExercises.map(exercise => JSON.parse(exercise)) //sortWorkouts(workoutFromStore, exercises),
             };
             setWorkout(enrichedWorkout);
         }
@@ -242,7 +238,7 @@ const PreviewWorkout = ({workoutId, close}) => {
                     <div>
                         {workout.workoutExercises.map((workoutExercise, index) =>
                             <WorkoutExerciseCard
-                                onClick={() => playExercise(workoutExercise.exercise)}
+                                onClick={() => playExercise(workoutExercise)}
                                 key={index}
                                 workoutExercise={workoutExercise}
                                 type={workout.type}/>

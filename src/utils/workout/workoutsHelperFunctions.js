@@ -62,6 +62,7 @@ export const convertSecondsOrMinutesToMilli = (value, type) => {
         return minutesToMilli
     }
 
+    return parseInt(value)
 
 }
 

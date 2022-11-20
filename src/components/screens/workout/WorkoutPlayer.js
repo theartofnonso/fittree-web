@@ -13,6 +13,8 @@ import IntervalModal from "./IntervalModal";
 import PreviewExercise from "../exercise/PreviewExercise";
 import WorkoutCompletedModal from "./WorkoutCompletedModal";
 import VideoCarousel from "../../views/VideoCarousel";
+import DiscoveryHub from "../../views/DiscoveryHub";
+import youtubeApi from "../../../utils/youtube/youtubeApi";
 
 const WorkoutPlayer = props => {
 
@@ -22,10 +24,25 @@ const WorkoutPlayer = props => {
 
     const [showWorkoutList, setShowWorkoutList] = useState(false)
 
+    const [recommendedVideos, setRecommendedVideos] = useState([])
+
     useEffect(() => {
         const currentTime = Date.now();
         setStartTime(currentTime)
     }, [])
+
+    useEffect(() => {
+        youtubeApi.get("/search", {
+            params: {
+                q: props.workoutExercise.title
+            }
+        }).then(response => {
+            console.log(response.data)
+            setRecommendedVideos(response.data.items)
+        }).catch(err => {
+            console.log(err)
+        })
+    }, [props.workoutExercise.title])
 
     /**
      * Display duration
@@ -78,23 +95,25 @@ const WorkoutPlayer = props => {
                     </div> : null}
             </div>
 
-            <VideoCarousel videos={[props.workoutExercise.exercise.videoUrls[0]]}/>
+            <DiscoveryHub videos={recommendedVideos} tag={props.workoutExercise.title}/>
 
             <div>
                 {!props.isPaused ?
-                    <div className="mt-4 flex flex-row justify-center">
-                        <button type="button" className="mx-2" onClick={props.seekBackward}>
-                            Prev
-                        </button>
-                        <button type="button" className="mx-2" onClick={props.pause}>
-                            <PauseIcon/>
-                        </button>
-                        <button type="button" className="mx-2" onClick={props.seekForward}>
-                            Next
-                        </button>
+                    <div className="mt-8 flex flex-row justify-start">
+                        <div className="flex flex-row items-center bg-primary rounded-md py-2 px-4 text-white font-semibold">
+                            <button type="button" className="mr-2" onClick={props.seekBackward}>
+                                Prev
+                            </button>
+                            <button type="button" className="mx-2" onClick={props.pause}>
+                                <PauseIcon/>
+                            </button>
+                            <button type="button" className="mx-2" onClick={props.seekForward}>
+                                Next
+                            </button>
+                        </div>
                     </div> : null}
                 <div>
-                    <p className="font-bold mt-4 mb-0.5">{props.workoutExercise.exercise.title}</p>
+                    <p className="font-bold mt-2 mb-0.5">{props.workoutExercise.title}</p>
                     <p>{getRepsOrTimeValue()}</p>
                     <p>{props.extraData.exerciseExtras}</p>
                 </div>
@@ -129,7 +148,7 @@ const WorkoutPlayer = props => {
                     onFinish={props.onFinishInterval}/> : null}
             {showExercise ?
                 <PreviewExercise
-                    exerciseId={props.workoutExercise.exercise.id}
+                    exerciseId={props.workoutExercise.id}
                     close={() => setShowExercise(false)}/> : null}
             {props.onEnd ?
                 <WorkoutCompletedModal

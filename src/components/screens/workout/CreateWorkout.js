@@ -70,7 +70,7 @@ export default function CreateWorkout({params, close}) {
     /**
      * Workout exercises
      */
-    const [workoutExercises, setWorkoutExercises] = useState(() => workout ? workout.workoutExercises : []);
+    const [workoutExercises, setWorkoutExercises] = useState(() => workout ? workout.workoutExercises.map(exercise => JSON.parse(exercise)) : []);
 
     /**
      * Number of rounds
@@ -552,8 +552,9 @@ export default function CreateWorkout({params, close}) {
                     </thead>
                     <tbody>
                     {workoutExercises.map((exercise, index) => {
+                        console.log(exercise)
                         return (
-                            <tr key={exercise.id}>
+                            <tr key={index}>
                                 <td>
                                     <SelectValue
                                         onChange={(title) => onChangeWorkoutExerciseTitle(exercise, title)}
