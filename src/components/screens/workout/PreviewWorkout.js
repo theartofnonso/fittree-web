@@ -4,7 +4,6 @@ import WorkoutCardBig from "../../views/cards/WorkoutCardBig";
 import WorkoutExerciseCard from "../../views/cards/WorkoutExerciseCard";
 import CloseIcon from "../../../assets/svg/close-line.svg";
 import PlayIcon from "../../../assets/svg/play-mini-fill.svg";
-import PreviewExercise from "../exercise/PreviewExercise";
 import PlayWorkout from "./PlayWorkout";
 import OverflowIcon from "../../../assets/svg/overflow.svg";
 import CreateWorkout from "./CreateWorkout";
@@ -35,8 +34,6 @@ const PreviewWorkout = ({workoutId, close}) => {
             workoutExercises: workoutFromStore.workoutExercises.map(exercise => JSON.parse(exercise))//sortWorkouts(workoutFromStore, exercises),
         }
     })
-
-    const [currentExercise, setCurrentExercise] = useState(null)
 
     const [shouldPlayWorkout, setShouldPlayWorkout] = useState(false)
 
@@ -93,13 +90,6 @@ const PreviewWorkout = ({workoutId, close}) => {
     const stopWorkout = () => {
         setShouldPlayWorkout(false)
     };
-
-    /**
-     * Preview exercise information
-     */
-    const playExercise = (exercise) => {
-        setCurrentExercise(exercise)
-    }
 
     /**
      * Delete workout
@@ -238,7 +228,6 @@ const PreviewWorkout = ({workoutId, close}) => {
                     <div>
                         {workout.workoutExercises.map((workoutExercise, index) =>
                             <WorkoutExerciseCard
-                                onClick={() => playExercise(workoutExercise)}
                                 key={index}
                                 workoutExercise={workoutExercise}
                                 type={workout.type}/>
@@ -255,10 +244,6 @@ const PreviewWorkout = ({workoutId, close}) => {
                     className="mb-8 w-full bg-primary rounded-3xl py-2 px-10 text-white font-medium hover:bg-darkPrimary hidden sm:block">Play
                     workout
                 </button>
-
-                {currentExercise ? <PreviewExercise
-                    exerciseId={currentExercise.id}
-                    close={() => setCurrentExercise(null)}/> : null}
 
                 {isLoading ? <Loading message={loadingMessage}/> : null}
 

@@ -21,10 +21,10 @@ const WorkoutSeeker = ({close, type, list, progress}) => {
 
                         if ((index === progress.exerciseIndex) && (roundIndex === progress.roundsIndex)) {
                             return <p key={index}
-                                      className="my-2 sm:my-4 text-xl text-primary font-bold">{workoutExercise.exercise.title}</p>
+                                      className="my-2 sm:my-4 text-xl text-primary font-bold">{workoutExercise.title}</p>
                         } else {
                             return <p key={index}
-                                      className="my-2 sm:my-4 text-white font-normal">{workoutExercise.exercise.title}</p>
+                                      className="my-2 sm:my-4 text-white font-normal">{workoutExercise.title}</p>
                         }
                     })}
                 </div>
@@ -41,10 +41,10 @@ const WorkoutSeeker = ({close, type, list, progress}) => {
 
             if (index === progress.exerciseIndex) {
                 return <p key={index}
-                          className="my-4 sm:my-8 text-xl text-primary font-bold">{exercise[0].exercise.title}</p>
+                          className="my-4 sm:my-8 text-xl text-primary font-bold">{exercise[0].title}</p>
             } else {
                 return <p key={index}
-                          className="my-4 sm:my-8 text-white font-normal">{exercise[0].exercise.title}</p>
+                          className="my-4 sm:my-8 text-white font-normal">{exercise[0].title}</p>
             }
         })
     }

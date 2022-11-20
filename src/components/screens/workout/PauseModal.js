@@ -1,7 +1,6 @@
 /* eslint-disable */
 import React from "react";
 import PlayArrowIcon from "../../../assets/svg/play-mini-fill.svg";
-import InfoOutlinedIcon from "../../../assets/svg/information-white-line.svg";
 import OrderPlayIcon from "../../../assets/svg/order-play-white-line.svg";
 
 const PauseModal = props => {
@@ -9,9 +8,6 @@ const PauseModal = props => {
     return (
         <div className="px-5 sm:px-10 fixed top-0 right-0 bottom-0 left-0 h-full w-screen bg-transparentBlack9">
             <div className="my-4 flex flex-row justify-end">
-                <div className="mx-2 cursor-pointer" onClick={props.previewExercise}>
-                    <InfoOutlinedIcon/>
-                </div>
                 <div className="mx-2 cursor-pointer" onClick={props.toggleWorkoutList}>
                     <OrderPlayIcon/>
                 </div>

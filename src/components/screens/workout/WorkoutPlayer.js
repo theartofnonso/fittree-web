@@ -3,22 +3,17 @@ import React, {useEffect, useState} from "react";
 import workoutsConstants from "../../../utils/workout/workoutsConstants";
 import {timeOrReps} from "../../../utils/workout/workoutsHelperFunctions";
 import CloseIcon from "../../../assets/svg/close-line.svg";
-import InfoOutlinedIcon from "../../../assets/svg/information-line.svg";
 import OrderPlayIcon from "../../../assets/svg/order-play-line.svg";
 import PauseIcon from "../../../assets/svg/pause-mini-line.svg";
 import WorkoutSeeker from "../../views/WorkoutSeeker";
 import WorkoutExerciseCard from "../../views/cards/WorkoutExerciseCard";
 import PauseModal from "./PauseModal";
 import IntervalModal from "./IntervalModal";
-import PreviewExercise from "../exercise/PreviewExercise";
 import WorkoutCompletedModal from "./WorkoutCompletedModal";
-import VideoCarousel from "../../views/VideoCarousel";
 import DiscoveryHub from "../../views/DiscoveryHub";
 import youtubeApi from "../../../utils/youtube/youtubeApi";
 
 const WorkoutPlayer = props => {
-
-    const [showExercise, setShowExercise] = useState(false)
 
     const [startTime, setStartTime] = useState(0)
 
@@ -58,14 +53,6 @@ const WorkoutPlayer = props => {
     };
 
     /**
-     * Preview exercise information
-     */
-    const previewExercise = () => {
-        props.previewExercise()
-        setShowExercise(true)
-    }
-
-    /**
      * Display Workout list
      */
     const toggleWorkoutList = () => {
@@ -86,9 +73,6 @@ const WorkoutPlayer = props => {
 
                 {!props.isPaused ?
                     <div className="flex flex-row">
-                        <div className="mx-2 cursor-pointer" onClick={previewExercise}>
-                            <InfoOutlinedIcon/>
-                        </div>
                         <div className="mx-2 cursor-pointer" onClick={toggleWorkoutList}>
                             <OrderPlayIcon/>
                         </div>
@@ -119,7 +103,7 @@ const WorkoutPlayer = props => {
                 </div>
             </div>
             {props.nextWorkoutExercise ?
-                <div className="flex flex-row justify-start sm:justify-end mt-4" onClick={previewExercise}>
+                <div className="flex flex-row justify-start sm:justify-end mt-4">
                     <div>
                         <p className="py-0.5">Up Next:</p>
                         <WorkoutExerciseCard workoutExercise={props.nextWorkoutExercise} type={props.type}/>
@@ -132,7 +116,6 @@ const WorkoutPlayer = props => {
                     list={props.data} progress={props.progress}/> : null}
             {props.isPaused ?
                 <PauseModal
-                    previewExercise={previewExercise}
                     toggleWorkoutList={toggleWorkoutList}
                     isVisible={props.isPaused}
                     navigateToWorkoutPreview={props.close}
@@ -140,16 +123,11 @@ const WorkoutPlayer = props => {
                 /> : null}
             {props.shouldPlayInterval ?
                 <IntervalModal
-                    previewExercise={previewExercise}
                     toggleWorkoutList={toggleWorkoutList}
                     description={props.interval.description}
                     intervalTime={props.interval.duration}
                     navigateToWorkoutPreview={props.close}
                     onFinish={props.onFinishInterval}/> : null}
-            {showExercise ?
-                <PreviewExercise
-                    exerciseId={props.workoutExercise.id}
-                    close={() => setShowExercise(false)}/> : null}
             {props.onEnd ?
                 <WorkoutCompletedModal
                     isVisible={props.onEnd}
