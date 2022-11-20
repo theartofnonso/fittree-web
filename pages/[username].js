@@ -11,7 +11,6 @@ import Profile from "../src/components/views/Profile";
 import WorkoutList from "../src/components/views/WorkoutList";
 import Footer from "../src/components/views/Footer";
 import NavBar from "../src/components/views/NavBar";
-import {exercisesAdded} from "../src/features/unauth/unAuthExercisesSlice";
 import {selectAllWorkouts, workoutsAdded} from "../src/features/unauth/unAuthWorkoutsSlice";
 
 const CreatorProfile = () => {
@@ -49,7 +48,6 @@ const CreatorProfile = () => {
      */
     useEffect(() => {
         if (profile) {
-            dispatch(exercisesAdded(profile.exercises.items));
             dispatch(workoutsAdded(profile.workouts.items));
         }
     }, [profile]);

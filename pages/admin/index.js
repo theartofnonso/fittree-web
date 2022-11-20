@@ -4,7 +4,6 @@ import {useDispatch, useSelector} from "react-redux";
 import workoutsConstants from "../../src/utils/workout/workoutsConstants";
 import FittreeLoading from "../../src/components/views/FittreeLoading";
 import {fetchUser, selectAuthUser, selectAuthUserStatus} from "../../src/features/auth/authUserSlice";
-import {exercisesAdded} from "../../src/features/auth/authExercisesSlice";
 import {selectAllWorkouts, workoutsAdded} from "../../src/features/auth/authWorkoutsSlice";
 import {searchExerciseOrWorkout} from "../../src/utils/workoutAndExerciseUtils";
 import Profile from "../../src/components/views/Profile";
@@ -40,7 +39,6 @@ export default function Dashboard({username}) {
      */
     useEffect(() => {
         if (user) {
-            dispatch(exercisesAdded(user.exercises.items));
             dispatch(workoutsAdded(user.workouts.items));
         }
     }, [user]);

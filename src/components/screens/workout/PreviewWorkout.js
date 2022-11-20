@@ -1235,7 +1235,6 @@ const PreviewWorkout = ({workoutId, close}) => {
 
 
     return (
-        <>
             <div
                 className="container mx-auto px-2 sm:px-10 fixed top-0 right-0 bottom-0 left-0 h-full w-full bg-white overflow-y-scroll">
                 <div className="flex flex-row items-center place-content-between">
@@ -1322,18 +1321,20 @@ const PreviewWorkout = ({workoutId, close}) => {
                     close={() => setShowSnackBar(false)}
                     message={snackbarMessage}
                     type={snackbarType}/>
+
+                {openCreateWorkout ?
+                    <CreateWorkout
+                        close={() => setOpenCreateWorkout(false)}
+                        params={{workoutId: workout.id, workoutType: workout.type}}/> : null}
+
+                <PlayWorkout workout={workout}
+                             recommendations={recommendedVideos}
+                             shouldPlay={shouldPlayWorkout}
+                             onEnd={stopWorkout}/>
             </div>
 
-            {openCreateWorkout ?
-                <CreateWorkout
-                    close={() => setOpenCreateWorkout(false)}
-                    params={{workoutId: workout.id, workoutType: workout.type}}/> : null}
 
-            <PlayWorkout workout={workout}
-                         recommendations={recommendedVideos}
-                         shouldPlay={shouldPlayWorkout}
-                         onEnd={stopWorkout}/>
-        </>
+
     );
 };
 
