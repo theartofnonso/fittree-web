@@ -491,7 +491,7 @@ export default function CreateWorkout({params, close}) {
     }
 
     return (
-        <div className="px-2 sm:px-10 fixed top-0 right-0 bottom-0 left-0 w-full h-screen bg-white overflow-y-scroll ">
+        <div className="px-2 sm:px-10 fixed top-0 right-0 bottom-0 left-0 w-full h-full bg-white overflow-y-scroll ">
             <div className="my-4 flex flex-row place-content-between">
                 <div className="cursor-pointer" onClick={() => {
                     const shouldConfirm = shouldConfirmLeavePage();
@@ -587,8 +587,8 @@ export default function CreateWorkout({params, close}) {
                 <button
                     type="button"
                     onClick={addWorkoutExercise}
-                    className="flex flex-row items-center justify-center bg-primary rounded hover:bg-darkPrimary text-white py-1 w-40 mt-2 font-semibold">
-                    Add Exercise
+                    className="flex flex-row items-center justify-start w-36 bg-secondary rounded-md hover:bg-darkSecondary text-primary pl-1 pr-3 py-1 my-2 font-semibold text-sm">
+                    <AddIcon/> Add Exercise
                 </button>
                 <InputTime title="Exercise Interval"
                            value={exerciseInterval}
@@ -608,43 +608,11 @@ export default function CreateWorkout({params, close}) {
                                open={rounds > 1}
                                onSelectTime={(duration) => setRoundsInterval(duration.value)}/>
                 </div>
-                <div className="my-4 relative h-60 w-60 rounded-lg overflow-hidden hover:bg-secondary cursor-pointer">
-                    <img src={formatThumbnailUri(uri)} alt="Workout Thumbnail"
-                         className="object-cover h-full w-full"/>
-                    <div
-                        className="flex flex-row items-center justify-center absolute top-0 right-0 bottom-0 left-0 bg-gradient-to-b from-transparentBlack1 to-transparentBlack hover:bg-transparentBlack1">
-                        {uri ?
-                            <div className="flex flex-row">
-                                <button
-                                    type="button"
-                                    onClick={selectFile}
-                                    className="flex flex-row items-center justify-center mx-4">
-                                    <EditIcon/>
-                                </button>
-                                <button
-                                    type="button"
-                                    onClick={removeThumbnailFile}
-                                    className="flex flex-row items-center justify-center mx-4">
-                                    <DeleteIcon/>
-                                </button>
-                            </div>
-                            :
-                            <button
-                                type="button"
-                                onClick={selectFile}
-                                className="flex flex-row items-center justify-center">
-                                <AddIcon/>
-                            </button>}
-                    </div>
-                    <input type='file' id='file' accept="image/png, image/jpeg" ref={inputFileRef}
-                           style={{display: 'none'}}
-                           onChange={handleSelectedFile}/>
-                </div>
             </div>
             <button
                 type="button"
                 onClick={doCreateWorkout}
-                className="mt-2 mb-2 bg-primary rounded-3xl py-2 px-8 text-white font-semibold hover:bg-darkPrimary">{workout ? "Update workout" : "Create workout"}
+                className="my-4 w-full bg-primary rounded-3xl py-2 px-8 text-white font-semibold hover:bg-darkPrimary">{workout ? "Update workout" : "Create workout"}
             </button>
             <Modal
                 open={openExitScreenModal}

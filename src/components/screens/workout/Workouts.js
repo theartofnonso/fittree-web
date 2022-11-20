@@ -73,7 +73,7 @@ export default function Workouts({user}) {
                         setWorkoutType(workoutsConstants.workoutType.CIRCUIT)
                         setOpenCreateWorkout(true)
                     }}
-                    className="flex flex-row items-center justify-center bg-secondary rounded-md hover:bg-darkPrimary text-primary pl-1 pr-3 py-1 mb-4 mr-2 font-semibold text-sm">
+                    className="flex flex-row items-center justify-center bg-secondary rounded-md hover:bg-darkSecondary text-primary pl-1 pr-3 py-1 mb-4 mr-2 font-semibold text-sm">
                     <AddIcon/>Create Circuits
                 </button>
                 <button
@@ -82,7 +82,7 @@ export default function Workouts({user}) {
                         setWorkoutType(workoutsConstants.workoutType.REPS_SETS)
                         setOpenCreateWorkout(true)
                     }}
-                    className="flex flex-row items-center justify-center bg-secondary rounded-md hover:bg-darkPrimary text-primary pl-1 pr-3 py-1 mb-4 font-semibold text-sm">
+                    className="flex flex-row items-center justify-center bg-secondary rounded-md hover:bg-darkSecondary text-primary pl-1 pr-3 py-1 mb-4 font-semibold text-sm">
                     <AddIcon/>Create Reps and Sets
                 </button>
             </div>
