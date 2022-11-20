@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const DEV_KEY = "AIzaSyDQoVtnyyy_aEmyMRoWg0EXr-f70nZcgfQ"
+const DEV_KEY = "AIzaSyBkKTUrlLvDFobTj5co40soHCe2lcOShzA"
 const PROD_KEY = "AIzaSyCu2UqeJeeUirUv-B2DOzDnV8EvGcYcj3E"
 const YOUTUBE_BASE_URL = "https://www.googleapis.com/youtube/v3"
 

@@ -1,9 +1,12 @@
 /* eslint-disable */
-import React from "react";
+import React, {useState} from "react";
 import CloseIcon from "../../assets/svg/close-line-white.svg";
 import workoutsConstants from "../../utils/workout/workoutsConstants";
+import DiscoveryHub from "./DiscoveryHub";
 
-const WorkoutSeeker = ({close, type, list, progress}) => {
+const WorkoutSeeker = ({close, type, list, progress, recommendations}) => {
+
+    const [selectedExercise, setSelectedExercise] = useState(null)
 
     /**
      * Display workout list for Circuit
@@ -20,11 +23,16 @@ const WorkoutSeeker = ({close, type, list, progress}) => {
                     {round.map((workoutExercise, index) => {
 
                         if ((index === progress.exerciseIndex) && (roundIndex === progress.roundsIndex)) {
-                            return <p key={index}
-                                      className="my-2 sm:my-4 text-xl text-primary font-bold">{workoutExercise.title}</p>
+                            return <button
+                                key={index}
+                                type="button"
+                                onClick={() => setSelectedExercise(workoutExercise)}
+                                className="my-2 sm:my-4 text-xl text-primary font-bold block">{workoutExercise.title}</button>
                         } else {
-                            return <p key={index}
-                                      className="my-2 sm:my-4 text-white font-normal">{workoutExercise.title}</p>
+                            return <button key={index}
+                                           type="button"
+                                           onClick={() => setSelectedExercise(workoutExercise)}
+                                           className="my-2 sm:my-4 text-white font-normal block">{workoutExercise.title}</button>
                         }
                     })}
                 </div>
@@ -40,11 +48,15 @@ const WorkoutSeeker = ({close, type, list, progress}) => {
         return list.map((exercise, index) => {
 
             if (index === progress.exerciseIndex) {
-                return <p key={index}
-                          className="my-4 sm:my-8 text-xl text-primary font-bold">{exercise[0].title}</p>
+                return <button key={index}
+                               type="button"
+                               onClick={() => setSelectedExercise(exercise[0])}
+                               className="my-4 sm:my-8 text-xl text-primary font-bold block">{exercise[0].title}</button>
             } else {
-                return <p key={index}
-                          className="my-4 sm:my-8 text-white font-normal">{exercise[0].title}</p>
+                return <button key={index}
+                               type="button"
+                               onClick={() => setSelectedExercise(exercise[0])}
+                               className="my-4 sm:my-8 text-white font-normal block">{exercise[0].title}</button>
             }
         })
     }
@@ -60,6 +72,11 @@ const WorkoutSeeker = ({close, type, list, progress}) => {
             <div>
                 {type === workoutsConstants.workoutType.CIRCUIT ? displayCircuitList() : displayRepsAndSetsList()}
             </div>
+            {selectedExercise ?
+                <div className="my-4">
+                    <DiscoveryHub recommendation={recommendations.get(selectedExercise.id)}
+                                  tag={{title: selectedExercise.title}}/>
+                </div> : null}
         </div>
     );
 };

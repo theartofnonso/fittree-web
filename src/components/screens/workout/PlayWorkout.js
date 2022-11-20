@@ -5,7 +5,7 @@ import {loadCircuitWorkout, loadRepsAndSetsWorkout} from "../../../utils/workout
 import PlayCircuitWorkout from "./PlayCircuitWorkout";
 import PlayRepsAndSetsWorkout from "./PlayRepsAndSetsWorkout";
 
-const PlayWorkout = ({workout, shouldPlay, onEnd}) => {
+const PlayWorkout = ({workout, recommendations, shouldPlay, onEnd}) => {
 
     if(!shouldPlay) {
         return null;
@@ -21,6 +21,7 @@ const PlayWorkout = ({workout, shouldPlay, onEnd}) => {
             const rounds = loadCircuitWorkout(workout);
             return <PlayCircuitWorkout
                 workout={workout}
+                recommendations={recommendations}
                 rounds={rounds}
                 end={onEnd}/>
 
@@ -28,6 +29,7 @@ const PlayWorkout = ({workout, shouldPlay, onEnd}) => {
             const exercises = loadRepsAndSetsWorkout(workout);
             return <PlayRepsAndSetsWorkout
                 workout={workout}
+                recommendations={recommendations}
                 exercises={exercises}
                 end={onEnd}/>
         }

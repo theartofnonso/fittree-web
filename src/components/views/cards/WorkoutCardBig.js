@@ -10,7 +10,7 @@ const WorkoutCardBig = ({workout}) => {
 
     return (
         <div
-            className={`relative h-96 rounded-lg flex flex-col justify-end text-white overflow-hidden`}>
+            className={`relative h-52 rounded-lg flex flex-col justify-end text-white overflow-hidden`}>
             <img src={workout.thumbnailUrl ? "https://" + workout.thumbnailUrl : "/wallpaper.jpg"} alt="Display profile"
                  className="object-cover lg:object-top h-full w-full"/>
             <div
@@ -18,7 +18,7 @@ const WorkoutCardBig = ({workout}) => {
             <div className="absolute top-0 right-0 m-2 py-0.5 px-2 rounded-full bg-primary text-xs font-medium">
                 <p>{workoutTagDisplay(user !== null, workout)}</p>
             </div>
-            <div className="absolute flex flex-col items-start pl-2 pb-2">
+            <div className="absolute flex flex-col items-start pl-3 pb-3">
                 <p className="font-bold text-left">{workout.title}</p>
                 <p className="text-sm font-medium my-0.5">{workout.intensityLevel}</p>
                 <Tags items={workout.bodyParts} emptyState={"No body parts trained"} containerStyle="flex flex-row text-sm overflow-x-scroll my-0.5"/>

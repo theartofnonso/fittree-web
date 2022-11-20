@@ -11,33 +11,16 @@ import PauseModal from "./PauseModal";
 import IntervalModal from "./IntervalModal";
 import WorkoutCompletedModal from "./WorkoutCompletedModal";
 import DiscoveryHub from "../../views/DiscoveryHub";
-import youtubeApi from "../../../utils/youtube/youtubeApi";
-
 const WorkoutPlayer = props => {
 
     const [startTime, setStartTime] = useState(0)
 
     const [showWorkoutList, setShowWorkoutList] = useState(false)
 
-    const [recommendedVideos, setRecommendedVideos] = useState([])
-
     useEffect(() => {
         const currentTime = Date.now();
         setStartTime(currentTime)
     }, [])
-
-    useEffect(() => {
-        youtubeApi.get("/search", {
-            params: {
-                q: props.workoutExercise.title
-            }
-        }).then(response => {
-            console.log(response.data)
-            setRecommendedVideos(response.data.items)
-        }).catch(err => {
-            console.log(err)
-        })
-    }, [props.workoutExercise.title])
 
     /**
      * Display duration
@@ -79,11 +62,11 @@ const WorkoutPlayer = props => {
                     </div> : null}
             </div>
 
-            <DiscoveryHub videos={recommendedVideos} tag={{title: props.workoutExercise.title}}/>
+            <DiscoveryHub recommendation={props.recommendations.get(props.workoutExercise.id)} tag={{title: props.workoutExercise.title}}/>
 
             <div>
                 {!props.isPaused ?
-                    <div className="mt-8 flex flex-row justify-start">
+                    <div className="my-8 flex flex-row justify-center">
                         <div className="flex flex-row items-center bg-primary rounded-md py-2 px-4 text-white font-semibold">
                             <button type="button" className="mr-2" onClick={props.seekBackward}>
                                 Prev
@@ -112,6 +95,7 @@ const WorkoutPlayer = props => {
             {showWorkoutList ?
                 <WorkoutSeeker
                     type={props.type}
+                    recommendations={props.recommendations}
                     close={() => setShowWorkoutList(false)}
                     list={props.data} progress={props.progress}/> : null}
             {props.isPaused ?

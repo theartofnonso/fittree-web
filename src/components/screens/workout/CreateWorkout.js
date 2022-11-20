@@ -552,7 +552,6 @@ export default function CreateWorkout({params, close}) {
                     </thead>
                     <tbody>
                     {workoutExercises.map((exercise, index) => {
-                        console.log(exercise)
                         return (
                             <tr key={index}>
                                 <td>

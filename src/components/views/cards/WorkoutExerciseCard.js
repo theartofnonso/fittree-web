@@ -24,7 +24,7 @@ const WorkoutExerciseCard = ({workoutExercise, type, onClick}) => {
     };
 
     return (
-        <button onClick={onClick} className="flex flex-row items-center mb-4 hover:bg-secondary w-full rounded-md">
+        <button onClick={onClick} className="flex flex-row items-center pl-4 py-2 hover:bg-secondary w-full rounded-md">
             <div className="flex flex-col items-start text-left">
                 <p className="font-medium text-sm">{workoutExercise.title}</p>
                 <p className="text-xs font-normal">{displayDuration()}</p>

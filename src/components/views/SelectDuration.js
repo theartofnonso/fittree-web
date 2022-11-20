@@ -9,8 +9,6 @@ import {constructDuration, updateDurationType, updateDurationValue} from "../../
 
 const SelectDuration = ({prevDuration, showReps, onChange}) => {
 
-    console.log(prevDuration)
-
     const [duration, setDuration] = useState(() => {
 
         switch (prevDuration.type) {
