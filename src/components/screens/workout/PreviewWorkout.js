@@ -1250,12 +1250,6 @@ const PreviewWorkout = ({workoutId, close}) => {
                                     className="mt-2 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                                     role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabIndex="-1">
                                     <div
-                                        onClick={doGoLiveOrRemoveWorkout}
-                                        className="py-2 hover:bg-secondary w-full rounded-b-md text-gray-700 block px-4 py-2 text-md text-left font-medium"
-                                        role="menuitem" tabIndex="-1"
-                                        id="menu-item-6">{workout.isLive ? "Remove" : "Go live"}
-                                    </div>
-                                    <div
                                         onClick={() => setOpenCreateWorkout(true)}
                                         className="py-2 hover:bg-secondary w-full rounded-b-md text-gray-700 block px-4 py-2 text-md text-left font-medium"
                                         role="menuitem" tabIndex="-1"

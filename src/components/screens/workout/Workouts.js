@@ -1,23 +1,17 @@
 import {withSSRContext} from "aws-amplify";
 import {useDispatch, useSelector} from "react-redux";
-import {selectAllWorkouts, workoutsAdded} from "../../src/features/auth/authWorkoutsSlice";
 import {useEffect, useState} from "react";
-import {searchExerciseOrWorkout} from "../../src/utils/workoutAndExerciseUtils";
-import {exercisesAdded} from "../../src/features/auth/authExercisesSlice";
-import NavBar from "../../src/components/views/NavBar";
-import PageDescription from "../../src/components/views/PageDescription";
-import Footer from "../../src/components/views/Footer";
-import WorkoutList from "../../src/components/views/WorkoutList";
-import AddIcon from "../../src/assets/svg/add-line-white.svg";
-import CreateWorkout from "../../src/components/screens/workout/CreateWorkout";
-import {fetchUser, selectAuthUser} from "../../src/features/auth/authUserSlice";
-import workoutsConstants from "../../src/utils/workout/workoutsConstants";
+import AddIcon from "/src/assets/svg/add-line-white.svg";
+import workoutsConstants from "../../../utils/workout/workoutsConstants";
+import CreateWorkout from "./CreateWorkout";
+import Footer from "../../views/Footer";
+import WorkoutList from "../../views/WorkoutList";
+import {searchExerciseOrWorkout} from "../../../utils/workoutAndExerciseUtils";
+import {selectAllWorkouts, workoutsAdded} from "../../../features/auth/authWorkoutsSlice";
 
-export default function Workouts({username}) {
+export default function Workouts({user}) {
 
     const dispatch = useDispatch();
-
-    const user = useSelector(selectAuthUser);
 
     const workouts = useSelector(selectAllWorkouts)
 
@@ -30,20 +24,10 @@ export default function Workouts({username}) {
     const [workoutType, setWorkoutType] = useState(workoutsConstants.workoutType.CIRCUIT)
 
     /**
-     * Fetch user
-     */
-    useEffect(() => {
-        if (username) {
-            dispatch(fetchUser({username}));
-        }
-    }, [username])
-
-    /**
      * Load fetched exercises and workouts
      */
     useEffect(() => {
         if (user) {
-            dispatch(exercisesAdded(user.exercises.items));
             dispatch(workoutsAdded(user.workouts.items));
         }
     }, [user]);
@@ -69,9 +53,7 @@ export default function Workouts({username}) {
     };
 
     return (
-        <div className="container mx-auto p-4 h-screen">
-            <NavBar username={username}/>
-            <PageDescription title="Workouts in draft" description="Find workouts yet to go live"/>
+        <div className="container mx-auto h-screen">
             <div className="my-4 flex flex-col items-center">
                 <input
                     className="border-gray w-5/6 bg-secondary h-14 sm:h-18 shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
