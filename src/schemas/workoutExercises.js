@@ -1,35 +1,37 @@
 import {constructDuration} from "./Duration";
 import workoutsConstants from "../utils/workout/workoutsConstants";
+import {generateRandomString} from "../utils/general/utils";
 
 /**
  * This class represents an exercise information in a workout
  */
 const defaultDuration = constructDuration(5000, workoutsConstants.duration.SECONDS)
-export const constructWorkoutExercises = (exerciseId, duration = defaultDuration, sets = 1) => {
+export const constructWorkoutExercise = (title = "", duration = defaultDuration, sets = 1) => {
     return {
-        exerciseId,
-        duration: duration,
+        id: generateRandomString(),
+        title,
+        duration,
         sets
     }
 }
 
-export const updateExerciseId = (exerciseId, workoutExercise) => {
+export const updateExerciseTitle = (workoutExercise, title) => {
     return {
         ...workoutExercise,
-        exerciseId
+        title,
     }
 }
 
-export const updateDuration = (duration, workoutExercise) => {
+export const updateDuration = (workoutExercise, duration) => {
     return {
         ...workoutExercise,
-        duration
+        duration,
     }
 }
 
-export const updateSets = (sets, workoutExercise) => {
+export const updateSets = (workoutExercise, sets) => {
     return {
         ...workoutExercise,
-        sets
+        sets,
     }
 }

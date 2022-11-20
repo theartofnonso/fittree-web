@@ -28,7 +28,7 @@ const SelectDuration = ({prevDuration, showReps, onChange}) => {
                     value={duration.value}
                     onChange={(event) => {
                         setDuration((prevValue) => {
-                            return updateDurationValue(event.target.value, prevValue)
+                            return updateDurationValue(prevValue, event.target.value)
                         })
                         switch (duration.type) {
                             case workoutsConstants.duration.SECONDS:
@@ -59,7 +59,7 @@ const SelectDuration = ({prevDuration, showReps, onChange}) => {
                     value={duration.type}
                     onChange={(event) => {
                         setDuration((prevValue) => {
-                            return updateDurationType(event.target.value, prevValue)
+                            return updateDurationType(prevValue, event.target.value)
                         })
                         switch (duration.type) {
                             case workoutsConstants.duration.SECONDS:

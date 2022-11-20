@@ -3,7 +3,7 @@ import NavBar from "../../src/components/views/NavBar";
 import Footer from "../../src/components/views/Footer";
 import {useEffect, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {fetchUser, selectAuthUser, selectAuthUserStatus, updateUser} from "../../src/features/auth/authUserSlice";
+import {fetchUser, selectAuthUser, updateUser} from "../../src/features/auth/authUserSlice";
 import InstagramIcon from "../../src/assets/svg/instagram-primary-line.svg";
 import YoutubeIcon from "../../src/assets/svg/youtube-primary-line.svg";
 import TikTokIcon from "../../src/assets/svg/tiktok-primary-line.svg";
@@ -13,12 +13,9 @@ import PageDescription from "../../src/components/views/PageDescription";
 import Avatar from "../../src/components/views/Avatar";
 import Compressor from 'compressorjs';
 import awsConstants from "../../src/utils/aws-utils/awsConstants";
-import workoutsConstants from "../../src/utils/workout/workoutsConstants";
 import FittreeLoading from "../../src/components/views/FittreeLoading";
 import {uploadAndDeleteS3} from "../../src/utils/aws-utils/awsHelperFunctions";
 import {SnackBar, SnackBarType} from "../../src/components/views/SnackBar";
-import {useRouter} from "next/router";
-import Modal from "../../src/components/views/modal";
 import {useLeavePageConfirm} from "../../src/utils/general/hooks";
 
 export default function Settings({username}) {
@@ -27,11 +24,7 @@ export default function Settings({username}) {
 
     const dispatch = useDispatch();
 
-    const router = useRouter();
-
     const user = useSelector(selectAuthUser);
-
-    const status = useSelector(selectAuthUserStatus)
 
     /**
      * Avatar URI
@@ -52,14 +45,21 @@ export default function Settings({username}) {
 
     const [selectedFile, setSelectedFile] = useState();
 
-    const [openModal, setOpenModal] = useState(false)
-
     /**
      * Show snackbar for err message
      */
     const [showSnackBar, setShowSnackBar] = useState(false)
     const [snackbarType, setSnackbarType] = useState("")
     const [snackbarMessage, setSnackbarMessage] = useState("");
+
+    /**
+     * Fetch user
+     */
+    useEffect(() => {
+        if (username) {
+            dispatch(fetchUser({username}));
+        }
+    }, [username])
 
     /**
      * Set User if available not available in state (possibly because user reloaded the page)
@@ -84,9 +84,9 @@ export default function Settings({username}) {
 
         const listOfChanges = getPageChanges();
 
-        if(listOfChanges.length > 0) {
+        if (listOfChanges.length > 0) {
             try {
-                await saveProfileHelper();
+                await saveProfileHelper(listOfChanges);
                 setShowSnackBar(true)
                 setSnackbarType(SnackBarType.SUCCESS)
                 setSnackbarMessage("Saved successfully")
@@ -103,6 +103,9 @@ export default function Settings({username}) {
      * @returns {*[]}
      */
     const getPageChanges = () => {
+
+        if(!user) return []
+
         const data = []
         data.push({key: "instagram", value: instagram.trim()})
         data.push({key: "facebook", value: facebook.trim()})
@@ -131,11 +134,10 @@ export default function Settings({username}) {
      * Helper function to update user profile
      * @returns {Promise<void>}
      */
-    const saveProfileHelper = async () => {
+    const saveProfileHelper = async (listOfChanges) => {
 
         const payload = {}
 
-        const listOfChanges = getPageChanges();
         listOfChanges.forEach(item => {
             payload[item.key] = item.value
         })
@@ -164,156 +166,139 @@ export default function Settings({username}) {
     };
 
     /**
-     * Fetch user
-     */
-    useEffect(() => {
-        if (username) {
-            dispatch(fetchUser({username}));
-        }
-    }, [username])
-
-    /**
      * Handle selected file
      */
     useEffect(() => {
+        let objectURL;
         if (selectedFile) {
             new Compressor(selectedFile, {
                 quality: 0.6, // 0.6 can also be used, but its not recommended to go below.
                 success: (compressedFile) => {
                     // compressedResult has the compressed file.
                     // Use the compressed file to upload the images to your server.
-                    const objectURL = URL.createObjectURL(compressedFile);
+                    objectURL = URL.createObjectURL(compressedFile);
                     setUri(objectURL);
                 },
             });
-            // return () => URL.revokeObjectURL(objectURL);
         }
+        return () => URL.revokeObjectURL(objectURL);
     }, [selectedFile]);
-
-    /**
-     * Navigate from Settings
-     */
-    const closeScreen = async () => {
-        await router.push(urlToNavigateTo)
-    }
-
     /**
      * Creator page is still loading
      */
-    if (status === workoutsConstants.profileStatus.LOADING) {
+    if (!user) {
         return <FittreeLoading/>
-    }
-
-    return (
-        <>
-            <div className="container mx-auto p-4 min-h-screen divide-y-2 divide-gray2">
-                <div>
-                    <NavBar username={username}/>
-                    <PageDescription title="Settings" description="Manage all your settings here"/>
-                    <div className="flex flex-col items-center mt-6">
-                        <div
-                            className="flex flex-col items-center">
-                            <Avatar user={user} uri={uri}/>
-                            <p onClick={selectFile}
-                               className="font-semibold text-primary text-sm hover:font-bold cursor-pointer"> Change
-                                display profile</p>
+    } else {
+        return (
+            <>
+                <div className="container mx-auto p-4 min-h-screen divide-y-2 divide-gray2">
+                    <div>
+                        <NavBar username={username}/>
+                        <PageDescription title="Settings" description="Manage all your settings here"/>
+                        <div className="flex flex-col items-center mt-6">
+                            <div
+                                className="flex flex-col items-center">
+                                <Avatar user={user} uri={uri}/>
+                                <p onClick={selectFile}
+                                   className="font-semibold text-primary text-sm hover:font-bold cursor-pointer"> Change
+                                    display profile</p>
+                            </div>
+                            <textarea
+                                className="border-none w-full h-56 bg-gray2 rounded py-4 px-3 mt-4 font-light text-dustBlack"
+                                placeholder="Tell your followers what you do"
+                                value={displayBrief}
+                                maxLength={100}
+                                onChange={(event) => setDisplayBrief(event.target.value.toLowerCase())}
+                            />
                         </div>
-                        <textarea
-                            className="border-none w-full h-56 bg-gray2 rounded py-4 px-3 mt-4 font-light text-dustBlack"
-                            placeholder="Tell your followers what you do"
-                            value={displayBrief}
-                            maxLength={100}
-                            onChange={(event) => setDisplayBrief(event.target.value.toLowerCase())}
-                        />
                     </div>
-                </div>
-                <div className="mt-8">
                     <div className="mt-8">
-                        <PageDescription title="Socials" description="Manage your social links "/>
-                        <form className="flex flex-col mt-2 w-3/5">
-                            <div className="my-4 flex flex-row items-center outline outline-1 outline-gray2 rounded-md">
-                                <div className="mx-4">
-                                    <InstagramIcon/>
+                        <div className="mt-8">
+                            <PageDescription title="Socials" description="Manage your social links "/>
+                            <form className="flex flex-col mt-2 w-3/5">
+                                <div
+                                    className="my-4 flex flex-row items-center outline outline-1 outline-gray2 rounded-md">
+                                    <div className="mx-4">
+                                        <InstagramIcon/>
+                                    </div>
+                                    <input
+                                        className="border-none w-full bg-gray2 rounded-r py-4 px-3 font-light text-dustBlack"
+                                        type="text"
+                                        value={instagram}
+                                        onChange={(event) => setInstagram(event.target.value.toLowerCase())}
+                                    />
                                 </div>
-                                <input
-                                    className="border-none w-full bg-gray2 rounded-r py-4 px-3 font-light text-dustBlack"
-                                    type="text"
-                                    value={instagram}
-                                    onChange={(event) => setInstagram(event.target.value.toLowerCase())}
-                                />
-                            </div>
-                            <div className="my-4 flex flex-row items-center outline outline-1 outline-gray2 rounded-md">
-                                <div className="mx-4">
-                                    <FacebookIcon/>
+                                <div
+                                    className="my-4 flex flex-row items-center outline outline-1 outline-gray2 rounded-md">
+                                    <div className="mx-4">
+                                        <FacebookIcon/>
+                                    </div>
+                                    <input
+                                        className="border-none w-full bg-gray2 rounded-r py-4 px-3 font-light text-dustBlack"
+                                        type="text"
+                                        value={facebook}
+                                        onChange={(event) => setFacebook(event.target.value.toLowerCase())}
+                                    />
                                 </div>
-                                <input
-                                    className="border-none w-full bg-gray2 rounded-r py-4 px-3 font-light text-dustBlack"
-                                    type="text"
-                                    value={facebook}
-                                    onChange={(event) => setFacebook(event.target.value.toLowerCase())}
-                                />
-                            </div>
-                            <div className="my-4 flex flex-row items-center outline outline-1 outline-gray2 rounded-md">
-                                <div className="mx-4">
-                                    <TwitterIcon/>
+                                <div
+                                    className="my-4 flex flex-row items-center outline outline-1 outline-gray2 rounded-md">
+                                    <div className="mx-4">
+                                        <TwitterIcon/>
+                                    </div>
+                                    <input
+                                        className="border-none w-full bg-gray2 rounded-r py-4 px-3 font-light text-dustBlack"
+                                        type="text"
+                                        value={twitter}
+                                        onChange={(event) => setTwitter(event.target.value.toLowerCase())}
+                                    />
                                 </div>
-                                <input
-                                    className="border-none w-full bg-gray2 rounded-r py-4 px-3 font-light text-dustBlack"
-                                    type="text"
-                                    value={twitter}
-                                    onChange={(event) => setTwitter(event.target.value.toLowerCase())}
-                                />
-                            </div>
-                            <div className="my-4 flex flex-row items-center outline outline-1 outline-gray2 rounded-md">
-                                <div className="mx-4">
-                                    <TikTokIcon/>
+                                <div
+                                    className="my-4 flex flex-row items-center outline outline-1 outline-gray2 rounded-md">
+                                    <div className="mx-4">
+                                        <TikTokIcon/>
+                                    </div>
+                                    <input
+                                        className="border-none w-full bg-gray2 rounded-r py-4 px-3 font-light text-dustBlack"
+                                        type="text"
+                                        value={tiktok}
+                                        onChange={(event) => setTiktok(event.target.value.toLowerCase())}
+                                    />
                                 </div>
-                                <input
-                                    className="border-none w-full bg-gray2 rounded-r py-4 px-3 font-light text-dustBlack"
-                                    type="text"
-                                    value={tiktok}
-                                    onChange={(event) => setTiktok(event.target.value.toLowerCase())}
-                                />
-                            </div>
-                            <div className="my-4 flex flex-row items-center outline outline-1 outline-gray2 rounded-md">
-                                <div className="mx-4">
-                                    <YoutubeIcon/>
+                                <div
+                                    className="my-4 flex flex-row items-center outline outline-1 outline-gray2 rounded-md">
+                                    <div className="mx-4">
+                                        <YoutubeIcon/>
+                                    </div>
+                                    <input
+                                        className="border-none w-full bg-gray2 rounded-r py-4 px-3 font-light text-dustBlack"
+                                        type="text"
+                                        value={youtube}
+                                        onChange={(event) => setYoutube(event.target.value.toLowerCase())}
+                                    />
                                 </div>
-                                <input
-                                    className="border-none w-full bg-gray2 rounded-r py-4 px-3 font-light text-dustBlack"
-                                    type="text"
-                                    value={youtube}
-                                    onChange={(event) => setYoutube(event.target.value.toLowerCase())}
-                                />
-                            </div>
-                        </form>
-                        <button
-                            type="button"
-                            onClick={saveProfile}
-                            className="mt-4 bg-primary rounded-3xl py-2 px-4 w-1/6 text-white font-medium hover:bg-darkPrimary block">Save
-                        </button>
+                            </form>
+                            <button
+                                type="button"
+                                onClick={saveProfile}
+                                className="mt-4 bg-primary rounded-3xl py-2 px-4 w-1/6 text-white font-medium hover:bg-darkPrimary block">Save
+                            </button>
+                        </div>
                     </div>
+
+                    <SnackBar
+                        open={showSnackBar}
+                        close={() => setShowSnackBar(false)}
+                        message={snackbarMessage}
+                        type={snackbarType}/>
+
+                    <input type='file' id='file' accept=".png, .jpeg, .jpg" ref={inputFileRef}
+                           style={{display: 'none'}}
+                           onChange={handleSelectedFile}/>
                 </div>
-
-                <Modal
-                    open={openModal}
-                    title={"Unsaved changes"}
-                    message={"You have unsaved changes. Are you sure you want to leave?"}
-                    actionPositive={{title: "No", action: () => setOpenModal(false)}}
-                    actionNegative={{title: "Yes", action: closeScreen}}/>
-
-                <SnackBar
-                    open={showSnackBar}
-                    close={() => setShowSnackBar(false)}
-                    message={snackbarMessage}
-                    type={snackbarType}/>
-
-                <input type='file' id='file' accept="image/png, image/jpeg" ref={inputFileRef} style={{display: 'none'}}
-                       onChange={handleSelectedFile}/>
-            </div>
-            <Footer/>
-        </>
-    )
+                <Footer/>
+            </>
+        )
+    }
 
 }
 

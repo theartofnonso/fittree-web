@@ -62,6 +62,7 @@ export const convertSecondsOrMinutesToMilli = (value, type) => {
         return minutesToMilli
     }
 
+    return parseInt(value)
 
 }
 
@@ -142,8 +143,8 @@ export const sortWorkouts = (workout, exercises) =>
 /**
  * Display either a workout duration or live status
  */
-export const workoutTagDisplay = (isAuthUser, workout) => {
-    if(isAuthUser) {
+export const workoutTagDisplay = (isCreator, workout) => {
+    if(isCreator) {
         if(workout.isLive) {
             return 'Live'
         } else {

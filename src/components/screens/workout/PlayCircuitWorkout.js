@@ -1,9 +1,9 @@
 /* eslint-disable */
 import React, {useEffect, useState} from "react";
-import WorkoutPlayerComponent from "./PlayWorkout";
+import WorkoutPlayer from "./WorkoutPlayer";
 import workoutsConstants from "../../../utils/workout/workoutsConstants";
 
-const PlayCircuitWorkout = ({workout, rounds, end}) => {
+const PlayCircuitWorkout = ({workout, recommendations, rounds, end}) => {
 
     const [exerciseDuration, setExerciseDuration] = useState(rounds[0][0].duration.value);
 
@@ -131,10 +131,11 @@ const PlayCircuitWorkout = ({workout, rounds, end}) => {
     }
 
     return (
-        <WorkoutPlayerComponent
+        <WorkoutPlayer
             data={rounds}
             progress={{exerciseIndex, roundsIndex}}
             workoutExercise={getWorkoutExercise()}
+            recommendations={recommendations}
             nextWorkoutExercise={getNextWorkoutExercise()}
             previewExercise={navigateToExercisePreview}
             seekForward={seekForward}

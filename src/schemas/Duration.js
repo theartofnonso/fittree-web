@@ -8,14 +8,14 @@ export const constructDuration = (value, type) => {
  }
 }
 
-export const updateDurationValue = (value, prevDuration) => {
+export const updateDurationValue = (prevDuration, value) => {
     return {
         ...prevDuration,
         value
     }
 }
 
-export const updateDurationType = (type, prevDuration) => {
+export const updateDurationType = (prevDuration, type) => {
     return {
         ...prevDuration,
         type

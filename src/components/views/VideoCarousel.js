@@ -5,13 +5,13 @@ const VideoCarousel = ({videos}) => {
 
     return (
         <div
-            className={`flex flex-row ${videos.length > 1 ? "justify-start" : "justify-center"} rounded-md h-96 overflow-x-auto`}>
+            className={`flex flex-row justify-start sm:justify-center rounded-md h-96 overflow-x-auto bg-grayOpacity6`}>
             {videos.map((video, index) => {
                 return (
                     <video key={index}
-                           className={`rounded-md w-full h-full object-cover ${index !== 0  && index !== videos.length -1 ? "mx-1" : null}`}
+                           className={`h-96 w-5/6 sm:w-96 object-cover`}
                            autoPlay
-                           playsInline loop>
+                           playsInline loop muted>
                         <source src={`https://${video}`} type="video/mp4"/>
                         Your browser does not support the video tag.
                     </video>

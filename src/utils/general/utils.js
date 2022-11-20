@@ -24,9 +24,9 @@ export const onlyPeriodsUnderscore = value => {
 };
 
 /**
- * Returns a unique filename for a file
+ * Returns a unique string for a file
  */
-export const generateFileName = fileType => {
+export const generateRandomString = () => {
     const uuidString = uuid.v4().split('-').join('');
     const randomChars = `${uuidString}AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz${new Date().getTime()}`;
     let generatedRandomChars = '';
@@ -35,7 +35,15 @@ export const generateFileName = fileType => {
             Math.floor(Math.random() * randomChars.length),
         );
     }
-    return `${generatedRandomChars}.${fileType}`;
+    return generatedRandomChars;
+};
+
+/**
+ * Returns a unique filename for a file
+ */
+export const generateFileName = fileType => {
+    let generatedRandomString = generateRandomString()
+    return `${generatedRandomString}.${fileType}`;
 };
 
 /**

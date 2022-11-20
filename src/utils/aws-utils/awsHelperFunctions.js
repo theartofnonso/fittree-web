@@ -1,6 +1,6 @@
 /* eslint-disable */
 import * as mutations from "../../graphql/mutations";
-import {API, Auth, graphqlOperation, Logger, Storage} from "aws-amplify";
+import {API, Auth, graphqlOperation, Storage} from "aws-amplify";
 import * as AWS from "aws-sdk";
 import awsmobile from "../../aws-exports";
 import * as queries from "../../graphql/queries";
@@ -126,15 +126,19 @@ const doesPreferredUsernameExists = async (preferred_username) => {
  * @param type
  */
 const uploadAndDeleteS3 = async (toBeUploadedUri, key, toBeDeletedUri, type) => {
-  const blobResponse = await fetch(toBeUploadedUri);
-  const blob = await blobResponse.blob();
 
   /**
    * Upload a new file
    */
-  const toBeUploadedFileName = generateFileName(type);
-  const toBeUploadedKey = key + "/" + toBeUploadedFileName
-  const s3Response = await Storage.put(toBeUploadedKey, blob);
+  if(toBeUploadedUri) {
+    const blobResponse = await fetch(toBeUploadedUri);
+    const blob = await blobResponse.blob();
+
+    const toBeUploadedFileName = generateFileName(type);
+    const toBeUploadedKey = key + "/" + toBeUploadedFileName
+    const s3Response = await Storage.put(toBeUploadedKey, blob);
+    return generateCDNUrl(s3Response.key);
+  }
 
   /**
    * Delete the previous file
@@ -142,10 +146,11 @@ const uploadAndDeleteS3 = async (toBeUploadedUri, key, toBeDeletedUri, type) => 
   if(toBeDeletedUri) {
     const toBeDeletedFileName = toBeDeletedUri.split("/")[3];
     const toBeDeletedKey = key + "/" + toBeDeletedFileName;
-    Storage.remove(toBeDeletedKey);
+    await Storage.remove(toBeDeletedKey);
   }
 
-  return generateCDNUrl(s3Response.key);
+  return ""
+
 }
 
 
