@@ -3,7 +3,7 @@ import React from "react";
 import workoutsConstants from "../../../utils/workout/workoutsConstants";
 import {intervalDurationSummary, timeOrReps} from "../../../utils/workout/workoutsHelperFunctions";
 
-const WorkoutExerciseCard = ({workoutExercise, type, onClick}) => {
+const WorkoutExerciseCard = ({workoutExercise, type, onClick, style}) => {
 
     /**
      * Helper function to display appropriate RepsOrTimeValue
@@ -24,7 +24,7 @@ const WorkoutExerciseCard = ({workoutExercise, type, onClick}) => {
     };
 
     return (
-        <button onClick={onClick} className="flex flex-row items-center pl-4 py-2 hover:bg-secondary w-full rounded-md">
+        <button onClick={onClick} className={`flex flex-row items-center py-2 hover:bg-secondary w-full rounded-md ${style}`}>
             <div className="flex flex-col items-start text-left">
                 <p className="font-medium text-sm">{workoutExercise.title}</p>
                 <p className="text-xs font-normal">{displayDuration()}</p>

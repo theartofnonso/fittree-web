@@ -86,10 +86,12 @@ const WorkoutPlayer = props => {
                 </div>
             </div>
             {props.nextWorkoutExercise ?
-                <div className="flex flex-row justify-start sm:justify-end mt-4">
-                    <div>
+                <div className="flex flex-row justify-start sm:justify-end mt-4 ">
+                    <div className="">
                         <p className="py-0.5">Up Next:</p>
-                        <WorkoutExerciseCard workoutExercise={props.nextWorkoutExercise} type={props.type}/>
+                        <WorkoutExerciseCard
+                            workoutExercise={props.nextWorkoutExercise}
+                            type={props.type}/>
                     </div>
                 </div> : null}
             {showWorkoutList ?

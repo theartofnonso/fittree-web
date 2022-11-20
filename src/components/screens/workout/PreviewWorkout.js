@@ -1277,7 +1277,7 @@ const PreviewWorkout = ({workoutId, close}) => {
                     <p className="my-4 font-light break-words whitespace-pre-line">{workout.description}</p>
                 </div>
                 <div className="pb-2">
-                    <div className="flex flex-row items-center mb-4 pl-4">
+                    <div className="flex flex-row items-center mb-2 pl-4">
                         <div
                             className={`flex flex-row items-center px-2 outline outline-2 bg-secondary text-primary ${workout.type === workoutsConstants.workoutType.CIRCUIT ? "rounded-l" : "rounded"} text-xs font-semibold`}>{workout.workoutExercises.length} exercises
                         </div>
@@ -1289,11 +1289,12 @@ const PreviewWorkout = ({workoutId, close}) => {
                     </div>
                     <div>
                         {workout.workoutExercises.map((workoutExercise, index) =>
-                            <WorkoutExerciseCard
-                                key={index}
-                                onClick={() => setSelectedExercises(workoutExercise)}
-                                workoutExercise={workoutExercise}
-                                type={workout.type}/>
+                                <WorkoutExerciseCard
+                                    style="pl-4"
+                                    key={index}
+                                    onClick={() => setSelectedExercises(workoutExercise)}
+                                    workoutExercise={workoutExercise}
+                                    type={workout.type}/>
                         )}
                     </div>
                 </div>
