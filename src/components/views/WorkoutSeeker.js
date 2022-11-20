@@ -6,7 +6,13 @@ import DiscoveryHub from "./DiscoveryHub";
 
 const WorkoutSeeker = ({close, type, list, progress, recommendations}) => {
 
-    const [selectedExercise, setSelectedExercise] = useState(null)
+    const [selectedExercise, setSelectedExercise] = useState(() => {
+        if(type === workoutsConstants.workoutType.CIRCUIT) {
+            return list[progress.exerciseIndex]
+        } else {
+            return list[progress.exerciseIndex][0]
+        }
+    })
 
     /**
      * Display workout list for Circuit
