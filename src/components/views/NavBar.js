@@ -86,7 +86,7 @@ const NavBar = ({username}) => {
                 open={showSnackBar}
                 close={() => setShowSnackBar(false)}
                 message={"Link copied"}
-                type={SnackBarType.INFO}/>
+                type={SnackBarType.SUCCESS}/>
         </>
     )
 }

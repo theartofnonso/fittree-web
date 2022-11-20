@@ -79,7 +79,7 @@ const WorkoutPlayer = props => {
                     </div> : null}
             </div>
 
-            <DiscoveryHub videos={recommendedVideos} tag={props.workoutExercise.title}/>
+            <DiscoveryHub videos={recommendedVideos} tag={{title: props.workoutExercise.title}}/>
 
             <div>
                 {!props.isPaused ?
