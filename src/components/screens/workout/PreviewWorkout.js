@@ -8,7 +8,7 @@ import PlayWorkout from "./PlayWorkout";
 import OverflowIcon from "../../../assets/svg/overflow.svg";
 import CreateWorkout from "./CreateWorkout";
 import {useDispatch, useSelector} from "react-redux";
-import {deleteWorkout, selectWorkoutById, updateWorkout} from "../../../features/auth/authWorkoutsSlice";
+import {deleteWorkout, selectWorkoutById} from "../../../features/auth/authWorkoutsSlice";
 import {selectWorkoutById as unauthSelectWorkoutById} from "../../../features/unauth/unAuthWorkoutsSlice"
 import {isValidWorkout} from "../../../utils/workout/workoutsHelperFunctions";
 import Loading from "../../utils/Loading";
@@ -32,7 +32,7 @@ const PreviewWorkout = ({workoutId, close}) => {
     const [workout, setWorkout] = useState(() => {
         return {
             ...workoutFromStore,
-            workoutExercises: workoutFromStore.workoutExercises.map(exercise => JSON.parse(exercise))//sortWorkouts(workoutFromStore, exercises),
+            workoutExercises: workoutFromStore.workoutExercises.map(exercise => JSON.parse(exercise))
         }
     })
 
@@ -1186,55 +1186,8 @@ const PreviewWorkout = ({workoutId, close}) => {
 
     };
 
-    /**
-     * Handle going live with a workout or removing it
-     * @returns {Promise<boolean>}
-     */
-    const goLiveOrRemoveHelper = async () => {
-        if (!workout.isLive) {
-            const isValid = isValidWorkout(workout)
-            if (!isValid) {
-                setShowSnackBar(true)
-                setSnackbarType(SnackBarType.WARN)
-                setSnackbarMessage("Please add exercises before going live")
-                return false;
-            }
-        }
-        const isLive = !workout.isLive
-        const updatedWorkout = {...workout, isLive};
-        delete updatedWorkout.workoutExercises;
-        await dispatch(updateWorkout({
-            id: workout.id,
-            ...updatedWorkout,
-            publishedAt: isLive ? new Date().toISOString() : null,
-        })).unwrap();
-        return isLive
-    }
-
-    /**
-     * Go live with workout or remove it
-     */
-    const doGoLiveOrRemoveWorkout = async () => {
-        setIsLoading(true)
-        setLoadingMessage("Going live with workout")
-        try {
-            const isLive = await goLiveOrRemoveHelper();
-            setIsLoading(false)
-            if (isLive) {
-                setShowSnackBar(true)
-                setSnackbarType(SnackBarType.SUCCESS)
-                setSnackbarMessage("Workout is live")
-            }
-        } catch (err) {
-            setIsLoading(false)
-            setShowSnackBar(true)
-            setSnackbarType(SnackBarType.ERROR)
-            setSnackbarMessage("Oops! unable to go live with workout")
-        }
-    };
-
-
-    return (
+    if (!openCreateWorkout && !shouldPlayWorkout) {
+        return (
             <div
                 className="container mx-auto px-2 sm:px-10 fixed top-0 right-0 bottom-0 left-0 h-full w-full bg-white overflow-y-scroll">
                 <div className="flex flex-row items-center place-content-between">
@@ -1282,19 +1235,20 @@ const PreviewWorkout = ({workoutId, close}) => {
                     </div>
                     <div>
                         {workout.workoutExercises.map((workoutExercise, index) =>
-                                <WorkoutExerciseCard
-                                    style="pl-4"
-                                    key={index}
-                                    onClick={() => setSelectedExercises(workoutExercise)}
-                                    workoutExercise={workoutExercise}
-                                    type={workout.type}/>
+                            <WorkoutExerciseCard
+                                style="pl-4"
+                                key={index}
+                                onClick={() => setSelectedExercises(workoutExercise)}
+                                workoutExercise={workoutExercise}
+                                type={workout.type}/>
                         )}
                     </div>
                 </div>
 
-                { selectedExercise ?
+                {selectedExercise ?
                     <div className="mt-2 mb-4 pl-4">
-                        <DiscoveryHub recommendation={recommendedVideos.get(selectedExercise.id)} tag={{title: selectedExercise.title}}/>
+                        <DiscoveryHub recommendation={recommendedVideos.get(selectedExercise.id)}
+                                      tag={{title: selectedExercise.title}}/>
                     </div> : null}
 
                 <div onClick={playWorkout}
@@ -1315,21 +1269,25 @@ const PreviewWorkout = ({workoutId, close}) => {
                     close={() => setShowSnackBar(false)}
                     message={snackbarMessage}
                     type={snackbarType}/>
-
-                {openCreateWorkout ?
-                    <CreateWorkout
-                        close={() => setOpenCreateWorkout(false)}
-                        params={{workoutId: workout.id, workoutType: workout.type}}/> : null}
-
-                <PlayWorkout workout={workout}
-                             recommendations={recommendedVideos}
-                             shouldPlay={shouldPlayWorkout}
-                             onEnd={stopWorkout}/>
             </div>
+        );
+    }
 
+    if (openCreateWorkout) {
+        return (
+            <CreateWorkout
+                close={() => setOpenCreateWorkout(false)}
+                params={{workoutId: workout.id, workoutType: workout.type}}/>
+        )
+    }
 
-
-    );
+    if (shouldPlayWorkout) {
+        return (
+            <PlayWorkout workout={workout}
+                         recommendations={recommendedVideos}
+                         onEnd={stopWorkout}/>
+        )
+    }
 };
 
 export default PreviewWorkout;

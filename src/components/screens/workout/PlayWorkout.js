@@ -5,11 +5,7 @@ import {loadCircuitWorkout, loadRepsAndSetsWorkout} from "../../../utils/workout
 import PlayCircuitWorkout from "./PlayCircuitWorkout";
 import PlayRepsAndSetsWorkout from "./PlayRepsAndSetsWorkout";
 
-const PlayWorkout = ({workout, recommendations, shouldPlay, onEnd}) => {
-
-    if(!shouldPlay) {
-        return null;
-    }
+const PlayWorkout = ({workout, recommendations, onEnd}) => {
 
     /**
      * Display appropriate workout play component
