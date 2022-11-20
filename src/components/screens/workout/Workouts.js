@@ -37,8 +37,7 @@ export default function Workouts({user}) {
      */
     useEffect(() => {
         if (workouts) {
-            const notLive = workouts.filter(item => !item.isLive)
-            setFilteredWorkouts(notLive)
+            setFilteredWorkouts(workouts)
         }
     }, [workouts]);
 
