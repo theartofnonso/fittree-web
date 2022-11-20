@@ -79,7 +79,7 @@ export const intervalDurationSummary = duration => {
         return exactDurationInMinutes + " mins"
     }
 
-    return exactDurationInSeconds + " secs"
+    return "Duration: " + exactDurationInSeconds + " secs"
 }
 
 /**
@@ -97,9 +97,7 @@ export const timeOrReps = timeOrCount =>
  */
 export const loadCircuitWorkout = workout => {
     let rounds = new Array(workout.rounds);
-    for (let i = 0; i < rounds.length; i++) {
-        rounds[i] = workout.workoutExercises;
-    }
+    rounds.fill(workout.workoutExercises)
     return rounds;
 };
 
@@ -111,11 +109,7 @@ export const loadRepsAndSetsWorkout = workout => {
     let exercises = new Array(workout.workoutExercises.length);
     for (let i = 0; i < exercises.length; i++) {
         const exercise = workout.workoutExercises[i];
-        const sets = new Array(exercise.sets);
-        for (let j = 0; j < sets.length; j++) {
-            sets[j] = exercise;
-        }
-        exercises[i] = sets;
+        exercises[i] = new Array(exercise.sets).fill(exercise);
     }
     return exercises;
 };

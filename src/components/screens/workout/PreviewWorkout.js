@@ -1,7 +1,6 @@
 /* eslint-disable */
 import React, {useEffect, useState} from "react";
 import WorkoutCardBig from "../../views/cards/WorkoutCardBig";
-import WorkoutExerciseCard from "../../views/cards/WorkoutExerciseCard";
 import CloseIcon from "../../../assets/svg/close-line.svg";
 import PlayIcon from "../../../assets/svg/play-mini-fill.svg";
 import PlayWorkout from "./PlayWorkout";
@@ -10,12 +9,20 @@ import CreateWorkout from "./CreateWorkout";
 import {useDispatch, useSelector} from "react-redux";
 import {deleteWorkout, selectWorkoutById} from "../../../features/auth/authWorkoutsSlice";
 import {selectWorkoutById as unauthSelectWorkoutById} from "../../../features/unauth/unAuthWorkoutsSlice"
-import {isValidWorkout} from "../../../utils/workout/workoutsHelperFunctions";
+import {
+    isValidWorkout,
+    loadCircuitWorkout,
+    loadRepsAndSetsWorkout
+} from "../../../utils/workout/workoutsHelperFunctions";
 import Loading from "../../utils/Loading";
 import {SnackBar, SnackBarType} from "../../views/SnackBar";
 import workoutsConstants from "../../../utils/workout/workoutsConstants";
 import {selectAuthUser} from "../../../features/auth/authUserSlice";
 import DiscoveryHub from "../../views/DiscoveryHub";
+import WorkoutPlaylist from "../../views/WorkoutPlaylist";
+import Controls from "../../views/Controls";
+import PlayCircuitWorkout from "./PlayCircuitWorkout";
+import PlayRepsAndSetsWorkout from "./PlayRepsAndSetsWorkout";
 
 const PreviewWorkout = ({workoutId, close}) => {
 
@@ -36,7 +43,7 @@ const PreviewWorkout = ({workoutId, close}) => {
         }
     })
 
-    const [shouldPlayWorkout, setShouldPlayWorkout] = useState(false)
+    const [shouldPlayWorkout, setShouldPlayWorkout] = useState(true)
 
     /**
      * Show menu options
@@ -59,6 +66,8 @@ const PreviewWorkout = ({workoutId, close}) => {
     const [recommendedVideos, setRecommendedVideos] = useState(new Map())
 
     const [selectedExercise, setSelectedExercises] = useState(null)
+
+    const [roundsOrExercises, setRoundsExercises] = useState(loadCircuitWorkout(workout))
 
     /**
      * Only set the workout when one from store changes
@@ -1133,6 +1142,21 @@ const PreviewWorkout = ({workoutId, close}) => {
     }, [])
 
     /**
+     * Load rounds or exercises for workout
+     */
+    useEffect(() => {
+        let items;
+        if(shouldPlayWorkout) {
+            if (workout.type === workoutsConstants.workoutType.CIRCUIT) {
+                items = loadCircuitWorkout(workout);
+            } else {
+                items = loadRepsAndSetsWorkout(workout);
+            }
+            setRoundsExercises(items)
+        }
+    }, [shouldPlayWorkout])
+
+    /**
      * Play the appropriate workout
      */
     const playWorkout = () => {
@@ -1186,7 +1210,7 @@ const PreviewWorkout = ({workoutId, close}) => {
 
     };
 
-    if (!openCreateWorkout && !shouldPlayWorkout) {
+    if (!openCreateWorkout) {
         return (
             <div
                 className="container mx-auto px-2 sm:px-10 fixed top-0 right-0 bottom-0 left-0 h-full w-full bg-white overflow-y-scroll">
@@ -1218,12 +1242,15 @@ const PreviewWorkout = ({workoutId, close}) => {
                             </div> : null}
                         </div> : null}
                 </div>
+
                 <WorkoutCardBig workout={workout}/>
-                <div className="overscroll-contain ml-4">
+
+                <div className="overscroll-contain">
                     <p className="my-4 font-light break-words whitespace-pre-line">{workout.description}</p>
                 </div>
+
                 <div className="pb-2">
-                    <div className="flex flex-row items-center mb-2 pl-4">
+                    <div className="flex flex-row items-center mb-2">
                         <div
                             className={`flex flex-row items-center px-2 outline outline-2 bg-secondary text-primary ${workout.type === workoutsConstants.workoutType.CIRCUIT ? "rounded-l" : "rounded"} text-xs font-semibold`}>{workout.workoutExercises.length} exercises
                         </div>
@@ -1233,16 +1260,7 @@ const PreviewWorkout = ({workoutId, close}) => {
                                 {workout.rounds} Rounds
                             </div> : null}
                     </div>
-                    <div>
-                        {workout.workoutExercises.map((workoutExercise, index) =>
-                            <WorkoutExerciseCard
-                                style="pl-4"
-                                key={index}
-                                onClick={() => setSelectedExercises(workoutExercise)}
-                                workoutExercise={workoutExercise}
-                                type={workout.type}/>
-                        )}
-                    </div>
+                    <WorkoutPlaylist workout={workout} playlist={roundsOrExercises}/>
                 </div>
 
                 {selectedExercise ?
@@ -1262,6 +1280,13 @@ const PreviewWorkout = ({workoutId, close}) => {
                     workout
                 </button>
 
+                <div className="fixed left-0 right-0 bottom-0">
+                    <Controls prev={() => console.log("Previous")}
+                              play={() => console.log("Play")}
+                              next={() => console.log("Next")}
+                              isPaused={() => console.log("Is Paused")}/>
+                </div>
+
                 {isLoading ? <Loading message={loadingMessage}/> : null}
 
                 <SnackBar
@@ -1278,14 +1303,6 @@ const PreviewWorkout = ({workoutId, close}) => {
             <CreateWorkout
                 close={() => setOpenCreateWorkout(false)}
                 params={{workoutId: workout.id, workoutType: workout.type}}/>
-        )
-    }
-
-    if (shouldPlayWorkout) {
-        return (
-            <PlayWorkout workout={workout}
-                         recommendations={recommendedVideos}
-                         onEnd={stopWorkout}/>
         )
     }
 };

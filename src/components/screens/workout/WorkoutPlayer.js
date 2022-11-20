@@ -6,7 +6,7 @@ import CloseIcon from "../../../assets/svg/close-line.svg";
 import OrderPlayIcon from "../../../assets/svg/order-play-line.svg";
 import PauseIcon from "../../../assets/svg/pause-mini-line.svg";
 import WorkoutSeeker from "../../views/WorkoutSeeker";
-import WorkoutExerciseCard from "../../views/cards/WorkoutExerciseCard";
+import WorkoutExerciseCard from "../../views/cards/Exercise";
 import PauseModal from "./PauseModal";
 import IntervalModal from "./IntervalModal";
 import WorkoutCompletedModal from "./WorkoutCompletedModal";
@@ -90,7 +90,7 @@ const WorkoutPlayer = props => {
                     <div className="">
                         <p>Up Next:</p>
                         <WorkoutExerciseCard
-                            workoutExercise={props.nextWorkoutExercise}
+                            data={props.nextWorkoutExercise}
                             type={props.type}/>
                     </div>
                 </div> : null}
