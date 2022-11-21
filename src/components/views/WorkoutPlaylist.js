@@ -24,11 +24,11 @@ const WorkoutPlaylist = ({shouldPlayWorkout, workout, playlist}) => {
 
     const [setIndex, setSetIndex] = useState(0);
 
-    const [isPlaying, setIsPlaying] = useState(true);
+    const [isPlaying, setIsPlaying] = useState(false);
 
-    const [showIntervalModal, setShowIntervalModal] = useState(true);
+    const [showIntervalModal, setShowIntervalModal] = useState(false);
 
-    const [intervalModalDescription, setIntervalModalDescription] = useState(workoutsConstants.playMessages.WORKOUT_STARTING);
+    const [intervalModalDescription, setIntervalModalDescription] = useState("");
 
     const [intervalModalTime, setIntervalModalTime] = useState(5000);
 
@@ -42,6 +42,8 @@ const WorkoutPlaylist = ({shouldPlayWorkout, workout, playlist}) => {
         console.log("shouldPlayWorkout: ", shouldPlayWorkout)
 
         let intervalId = null;
+
+        if (shouldPlayWorkout) {
 
             if (showIntervalModal) return;
 
@@ -59,10 +61,10 @@ const WorkoutPlaylist = ({shouldPlayWorkout, workout, playlist}) => {
             } else {
                 clearInterval(intervalId);
             }
-
+        }
 
         return () => clearInterval(intervalId);
-    }, [isPlaying, showIntervalModal, exerciseDuration]);
+    }, [shouldPlayWorkout, isPlaying, showIntervalModal, exerciseDuration]);
 
     /**
      * Seek forward
@@ -96,19 +98,19 @@ const WorkoutPlaylist = ({shouldPlayWorkout, workout, playlist}) => {
 
         if (nextSetIndex >= exercises[exerciseIndex].length) {
             if (nextExerciseIndex >= exercises.length) {
-                //setShowWorkoutCompletedModal(true);
+                setShowWorkoutCompletedModal(true);
             } else {
                 setExerciseIndex(nextExerciseIndex);
                 setSetIndex(0);
                 setExerciseDuration(exercises[nextExerciseIndex][0].duration.value);
-                //setIntervalModalDescription(workoutsConstants.playMessages.NEXT_EXERCISE);
-                //setIntervalModalTime(workout.exerciseInterval);
+                setIntervalModalDescription(workoutsConstants.playMessages.NEXT_EXERCISE);
+                setIntervalModalTime(workout.exerciseInterval);
                 setShowIntervalModal(true);
             }
         } else {
             setSetIndex(nextSetIndex);
             setExerciseDuration(getExercise().duration.value);
-            //setIntervalModalTime(workout.setsInterval);
+            setIntervalModalTime(workout.setsInterval);
             setShowIntervalModal(true);
         }
     };
@@ -140,14 +142,14 @@ const WorkoutPlaylist = ({shouldPlayWorkout, workout, playlist}) => {
                 setRoundsIndex(nextRoundsIndex);
                 setExerciseIndex(0);
                 setExerciseDuration(rounds[nextRoundsIndex][0].duration.value);
-                //setIntervalModalDescription(workoutsConstants.playMessages.NEXT_ROUND);
-                //setIntervalModalTime(workout.roundsInterval);
+                setIntervalModalDescription(workoutsConstants.playMessages.NEXT_ROUND);
+                setIntervalModalTime(workout.roundsInterval);
                 setShowIntervalModal(true);
             }
         } else {
             setExerciseIndex(nextExerciseIndex);
             setExerciseDuration(getExercise().duration.value);
-            //setIntervalModalTime(workout.exerciseInterval);
+            setIntervalModalTime(workout.exerciseInterval);
             setShowIntervalModal(true);
         }
 
@@ -210,13 +212,13 @@ const WorkoutPlaylist = ({shouldPlayWorkout, workout, playlist}) => {
             <p className="font-semibold">{sectionHeader}</p>
             {list[0].map((exercise, index) =>
                 <Exercise
-                    isActive={getExercise().id === exercise.id}
+                    isActive={getExercise().id === exercise.id && shouldPlayWorkout}
                     key={index}
                     data={exercise}
                     extraData={getRepsOrTimeValue()}
                     type={type}/>
             )}
-            {showIntervalModal ?
+            {isPlaying && showIntervalModal ?
                 <div className="mb-8 fixed left-0 right-0 bottom-0">
                     <IntervalModal
                         description={intervalModalDescription}
@@ -225,14 +227,16 @@ const WorkoutPlaylist = ({shouldPlayWorkout, workout, playlist}) => {
                             setShowIntervalModal(false)
                             setIntervalModalDescription("")
                         }}/>
-                </div> :
+                </div> : null}
+
+            {isPlaying && !showIntervalModal ?
                 <div className="mb-8 fixed left-0 right-0 bottom-0">
                     <Controls prev={seekBackward}
                               pause={pauseWorkout}
                               play={playWorkout}
                               next={seekForward}
                               isPlaying={isPlaying}/>
-                </div>}
+                </div> : null}
         </div>
     );
 };

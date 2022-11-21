@@ -1141,8 +1141,9 @@ const PreviewWorkout = ({workoutId, close}) => {
      * Load rounds or exercises for workout
      */
     useEffect(() => {
-        let items;
+
         if (shouldPlayWorkout) {
+            let items;
             if (workout.type === workoutsConstants.workoutType.CIRCUIT) {
                 items = loadCircuitWorkout(workout);
             } else {
