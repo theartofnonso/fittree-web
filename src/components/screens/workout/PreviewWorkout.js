@@ -3,7 +3,6 @@ import React, {useEffect, useState} from "react";
 import WorkoutCardBig from "../../views/cards/WorkoutCardBig";
 import CloseIcon from "../../../assets/svg/close-line.svg";
 import PlayIcon from "../../../assets/svg/play-mini-fill.svg";
-import PlayWorkout from "./PlayWorkout";
 import OverflowIcon from "../../../assets/svg/overflow.svg";
 import CreateWorkout from "./CreateWorkout";
 import {useDispatch, useSelector} from "react-redux";
@@ -20,9 +19,6 @@ import workoutsConstants from "../../../utils/workout/workoutsConstants";
 import {selectAuthUser} from "../../../features/auth/authUserSlice";
 import DiscoveryHub from "../../views/DiscoveryHub";
 import WorkoutPlaylist from "../../views/WorkoutPlaylist";
-import Controls from "../../views/Controls";
-import PlayCircuitWorkout from "./PlayCircuitWorkout";
-import PlayRepsAndSetsWorkout from "./PlayRepsAndSetsWorkout";
 
 const PreviewWorkout = ({workoutId, close}) => {
 
@@ -1146,7 +1142,7 @@ const PreviewWorkout = ({workoutId, close}) => {
      */
     useEffect(() => {
         let items;
-        if(shouldPlayWorkout) {
+        if (shouldPlayWorkout) {
             if (workout.type === workoutsConstants.workoutType.CIRCUIT) {
                 items = loadCircuitWorkout(workout);
             } else {
@@ -1279,13 +1275,6 @@ const PreviewWorkout = ({workoutId, close}) => {
                     className="mb-8 w-full bg-primary rounded-3xl py-2 px-10 text-white font-medium hover:bg-darkPrimary hidden sm:block">Play
                     workout
                 </button>
-
-                <div className="fixed left-0 right-0 bottom-0">
-                    <Controls prev={() => console.log("Previous")}
-                              play={() => console.log("Play")}
-                              next={() => console.log("Next")}
-                              isPaused={() => console.log("Is Paused")}/>
-                </div>
 
                 {isLoading ? <Loading message={loadingMessage}/> : null}
 
