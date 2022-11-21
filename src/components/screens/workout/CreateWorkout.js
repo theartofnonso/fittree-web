@@ -2,14 +2,11 @@ import React, {useEffect, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {createWorkout, selectWorkoutById, updateWorkout} from "../../../features/auth/authWorkoutsSlice";
 import workoutsConstants from "../../../utils/workout/workoutsConstants";
-import {formatThumbnailUri} from "../../../utils/workout/workoutsHelperFunctions";
 import utilsConstants from "../../../utils/utilsConstants";
 import {capitaliseWords} from "../../../utils/general/utils";
 import awsConstants from "../../../utils/aws-utils/awsConstants";
 import CloseIcon from "../../../assets/svg/close-line.svg";
 import CloseIconWhite from "../../../assets/svg/close-line-white.svg";
-import EditIcon from "../../../assets/svg/edit-2-line-white.svg";
-import DeleteIcon from "../../../assets/svg/delete-bin-white-line.svg";
 import PageDescription from "../../views/PageDescription";
 import BodyParts from "../../views/BodyParts";
 import Equipments from "../../views/Equipments";
@@ -417,7 +414,7 @@ export default function CreateWorkout({params, close}) {
         const payload = {
             creatorId: user.id,
             title: capitaliseWords(title.trim()),
-            description: description.length > 0 ? description.trim() : utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_DESCRIPTION,
+            description: description.length > 0 ? description.trim() : "",
             intensityLevel: intensityLevel ? intensityLevel : workoutsConstants.intensityLevels.Beginner,
             bodyParts: selectedBodyParts,
             equipments: selectedEquipments,

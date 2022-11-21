@@ -208,8 +208,8 @@ const WorkoutPlaylist = ({shouldPlayWorkout, workout, playlist}) => {
     };
 
     return (
-        <div className="h-96 overflow-y-scroll py-4 rounded-md my-4">
-            <p className="font-semibold">{sectionHeader}</p>
+        <div className="h-96 overflow-y-scroll rounded-md">
+            {shouldPlayWorkout ? <p className="font-semibold text-center mt-4 mb-2">{sectionHeader}</p> : null}
             {list[0].map((exercise, index) =>
                 <Exercise
                     isActive={getExercise().id === exercise.id && shouldPlayWorkout}

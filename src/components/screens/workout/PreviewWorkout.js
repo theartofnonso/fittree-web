@@ -19,6 +19,7 @@ import workoutsConstants from "../../../utils/workout/workoutsConstants";
 import {selectAuthUser} from "../../../features/auth/authUserSlice";
 import DiscoveryHub from "../../views/DiscoveryHub";
 import WorkoutPlaylist from "../../views/WorkoutPlaylist";
+import utilsConstants from "../../../utils/utilsConstants";
 
 const PreviewWorkout = ({workoutId, close}) => {
 
@@ -1248,25 +1249,24 @@ const PreviewWorkout = ({workoutId, close}) => {
 
                 <WorkoutCardBig workout={workout}/>
 
-                <div className="overscroll-contain">
-                    <p className="my-4 font-light break-words whitespace-pre-line">{workout.description}</p>
+                <div className="flex flex-row items-center my-4">
+                    <div
+                        className={`flex flex-row items-center px-2 outline outline-2 bg-secondary text-primary ${workout.type === workoutsConstants.workoutType.CIRCUIT ? "rounded-l" : "rounded"} text-xs font-semibold`}>{workout.workoutExercises.length} exercises
+                    </div>
+                    {workout.type === workoutsConstants.workoutType.CIRCUIT ?
+                        <div
+                            className="flex flex-row items-center ml-1.5 px-2 outline outline-2 bg-secondary text-primary rounded-r text-xs font-semibold">
+                            {workout.rounds} Rounds
+                        </div> : null}
                 </div>
 
-                <div className="pb-2">
-                    <div className="flex flex-row items-center mb-2">
-                        <div
-                            className={`flex flex-row items-center px-2 outline outline-2 bg-secondary text-primary ${workout.type === workoutsConstants.workoutType.CIRCUIT ? "rounded-l" : "rounded"} text-xs font-semibold`}>{workout.workoutExercises.length} exercises
-                        </div>
-                        {workout.type === workoutsConstants.workoutType.CIRCUIT ?
-                            <div
-                                className="flex flex-row items-center ml-1.5 px-2 outline outline-2 bg-secondary text-primary rounded-r text-xs font-semibold">
-                                {workout.rounds} Rounds
-                            </div> : null}
-                    </div>
-                    <WorkoutPlaylist shouldPlayWorkout={shouldPlayWorkout}
-                                     workout={workout}
-                                     playlist={roundsOrExercises}/>
+                <div className="overscroll-contain">
+                    <p className="font-light break-words whitespace-pre-line text-sm">{workout.description || utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_DESCRIPTION}</p>
                 </div>
+
+                <WorkoutPlaylist shouldPlayWorkout={shouldPlayWorkout}
+                                 workout={workout}
+                                 playlist={roundsOrExercises}/>
 
                 {selectedExercise ?
                     <div className="mt-2 mb-4 pl-4">
