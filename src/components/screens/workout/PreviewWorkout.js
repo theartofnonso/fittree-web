@@ -39,7 +39,7 @@ const PreviewWorkout = ({workoutId, close}) => {
         }
     })
 
-    const [shouldPlayWorkout, setShouldPlayWorkout] = useState(true)
+    const [shouldPlayWorkout, setShouldPlayWorkout] = useState(false)
 
     /**
      * Show menu options
@@ -1206,7 +1206,13 @@ const PreviewWorkout = ({workoutId, close}) => {
 
     };
 
-    if (!openCreateWorkout) {
+    if (openCreateWorkout) {
+        return (
+            <CreateWorkout
+                close={() => setOpenCreateWorkout(false)}
+                params={{workoutId: workout.id, workoutType: workout.type}}/>
+        )
+    } else {
         return (
             <div
                 className="container mx-auto px-2 sm:px-10 fixed top-0 right-0 bottom-0 left-0 h-full w-full bg-white overflow-y-scroll">
@@ -1256,7 +1262,9 @@ const PreviewWorkout = ({workoutId, close}) => {
                                 {workout.rounds} Rounds
                             </div> : null}
                     </div>
-                    <WorkoutPlaylist workout={workout} playlist={roundsOrExercises}/>
+                    <WorkoutPlaylist shouldPlayWorkout={shouldPlayWorkout}
+                                     workout={workout}
+                                     playlist={roundsOrExercises}/>
                 </div>
 
                 {selectedExercise ?
@@ -1265,16 +1273,19 @@ const PreviewWorkout = ({workoutId, close}) => {
                                       tag={{title: selectedExercise.title}}/>
                     </div> : null}
 
-                <div onClick={playWorkout}
-                     className="flex flex-row items-center justify-center bg-primary rounded-md w-14 h-14 sm:w-20 sm:h-20 fixed bottom-0 right-0 mr-8 mb-8 hover:bg-darkPrimary sm:hidden">
-                    <PlayIcon/>
-                </div>
-                <button
-                    type="button"
-                    onClick={playWorkout}
-                    className="mb-8 w-full bg-primary rounded-3xl py-2 px-10 text-white font-medium hover:bg-darkPrimary hidden sm:block">Play
-                    workout
-                </button>
+                {!shouldPlayWorkout ?
+                    <div onClick={playWorkout}
+                         className="flex flex-row items-center justify-center bg-primary rounded-md w-14 h-14 sm:w-20 sm:h-20 fixed bottom-0 right-0 mr-8 mb-8 hover:bg-darkPrimary sm:hidden">
+                        <PlayIcon/>
+                    </div> : null}
+
+                {!shouldPlayWorkout ?
+                    <button
+                        type="button"
+                        onClick={playWorkout}
+                        className="mb-8 w-full bg-primary rounded-3xl py-2 px-10 text-white font-medium hover:bg-darkPrimary hidden sm:block">Play
+                        workout
+                    </button> : null}
 
                 {isLoading ? <Loading message={loadingMessage}/> : null}
 
@@ -1285,14 +1296,6 @@ const PreviewWorkout = ({workoutId, close}) => {
                     type={snackbarType}/>
             </div>
         );
-    }
-
-    if (openCreateWorkout) {
-        return (
-            <CreateWorkout
-                close={() => setOpenCreateWorkout(false)}
-                params={{workoutId: workout.id, workoutType: workout.type}}/>
-        )
     }
 };
 

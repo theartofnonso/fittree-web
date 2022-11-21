@@ -5,7 +5,7 @@ import PlayIcon from "../../assets/svg/play-mini-fill.svg";
 
 const Controls = (props) => {
 
-    console.log(props.isPlaying)
+    console.log("Is playing: ", props.isPlaying)
 
     return (
         <div className="flex flex-row bg-primary justify-center w-52 m-auto rounded-md">

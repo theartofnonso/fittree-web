@@ -6,7 +6,7 @@ import Controls from "./Controls";
 import workoutsConstants from "../../utils/workout/workoutsConstants";
 import {timeOrReps} from "../../utils/workout/workoutsHelperFunctions";
 
-const WorkoutPlaylist = ({workout, playlist}) => {
+const WorkoutPlaylist = ({shouldPlayWorkout, workout, playlist}) => {
 
     const list = playlist;
 
@@ -39,24 +39,28 @@ const WorkoutPlaylist = ({workout, playlist}) => {
      */
     useEffect(() => {
 
+        console.log("shouldPlayWorkout: ", shouldPlayWorkout)
+
         let intervalId = null;
 
-        // if (showIntervalModal) return;
+            if (showIntervalModal) return;
 
-        if (isPlaying) {
-            intervalId = setInterval(() => {
-                if (getExercise().duration.type !== workoutsConstants.duration.REPS) {
-                    if (exerciseDuration === 0) {
-                        clearInterval(intervalId);
-                        seekForward();
-                    } else {
-                        setExerciseDuration(prevValue => prevValue - 1000);
+            if (isPlaying) {
+                intervalId = setInterval(() => {
+                    if (getExercise().duration.type !== workoutsConstants.duration.REPS) {
+                        if (exerciseDuration === 0) {
+                            clearInterval(intervalId);
+                            seekForward();
+                        } else {
+                            setExerciseDuration(prevValue => prevValue - 1000);
+                        }
                     }
-                }
-            }, 1000);
-        } else {
-            clearInterval(intervalId);
-        }
+                }, 1000);
+            } else {
+                clearInterval(intervalId);
+            }
+
+
         return () => clearInterval(intervalId);
     }, [isPlaying, showIntervalModal, exerciseDuration]);
 

@@ -4,7 +4,7 @@ import workoutsConstants from "../../../utils/workout/workoutsConstants";
 import {intervalDurationSummary} from "../../../utils/workout/workoutsHelperFunctions";
 import InfoIcon from "../../../assets/svg/information-line.svg";
 
-const Exercise = ({isActive, data, extraData, type, onClick, style}) => {
+const Exercise = ({isActive, data, extraData, type, onClick}) => {
 
     /**
      * Helper function to display appropriate RepsOrTimeValue
