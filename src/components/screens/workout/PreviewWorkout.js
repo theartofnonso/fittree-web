@@ -41,6 +41,8 @@ const PreviewWorkout = ({workoutId, close}) => {
         }
     })
 
+    const [isWorkoutPlaying, setIsWorkoutPlaying] = useState(false)
+
     const [shouldPlayWorkout, setShouldPlayWorkout] = useState(false)
 
     /**
@@ -67,7 +69,15 @@ const PreviewWorkout = ({workoutId, close}) => {
 
     const [selectedExercise, setSelectedExercises] = useState(null)
 
-    const [roundsOrExercises, setRoundsExercises] = useState(loadCircuitWorkout(workout))
+    const [roundsOrExercises] = useState(() => {
+        let items;
+        if (workout.type === workoutsConstants.workoutType.CIRCUIT) {
+            items = loadCircuitWorkout(workout);
+        } else {
+            items = loadRepsAndSetsWorkout(workout);
+        }
+        return items;
+    })
 
     const [showWorkoutCompletedModal, setShowWorkoutCompletedModal] = useState(false)
 
@@ -1144,28 +1154,13 @@ const PreviewWorkout = ({workoutId, close}) => {
     }, [])
 
     /**
-     * Load rounds or exercises for workout
-     */
-    useEffect(() => {
-
-        if (shouldPlayWorkout) {
-            let items;
-            if (workout.type === workoutsConstants.workoutType.CIRCUIT) {
-                items = loadCircuitWorkout(workout);
-            } else {
-                items = loadRepsAndSetsWorkout(workout);
-            }
-            setRoundsExercises(items)
-        }
-    }, [shouldPlayWorkout])
-
-    /**
      * Play the appropriate workout
      */
     const playWorkout = () => {
         const isValid = isValidWorkout(workout)
         if (isValid) {
             setShouldPlayWorkout(true)
+            setIsWorkoutPlaying(true)
         } else {
             setShowSnackBar(true)
             setSnackbarType(SnackBarType.ERROR)
@@ -1206,13 +1201,6 @@ const PreviewWorkout = ({workoutId, close}) => {
 
     };
 
-    /**
-     * Is workout loaded
-     * This is helpful to know if we are already in loaded state i.e. workout has previously started playing
-     * @returns {boolean}
-     */
-    const isWorkoutLoaded = () => roundsOrExercises.length > 0
-
     if (openCreateWorkout) {
         return (
             <CreateWorkout
@@ -1228,7 +1216,7 @@ const PreviewWorkout = ({workoutId, close}) => {
                 <div
                     className="container mx-auto px-2 sm:px-10 fixed top-0 right-0 bottom-0 left-0 h-full w-full bg-white overflow-y-scroll">
                     <div className="flex flex-row items-center place-content-between">
-                        {shouldPlayWorkout ?
+                        {isWorkoutPlaying ?
                             <button
                                 type="button"
                                 onClick={close}
@@ -1249,19 +1237,19 @@ const PreviewWorkout = ({workoutId, close}) => {
                                         className="mt-2 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                                         role="menu" aria-orientation="vertical" aria-labelledby="menu-button"
                                         tabIndex="-1">
-                                        <div
+                                        {!isWorkoutPlaying || <div
                                             onClick={() => setMinimiseScreen(!minimiseScreen)}
                                             className="py-2 hover:bg-secondary w-full rounded-b-md text-gray-700 block px-4 py-2 text-md text-left font-medium"
                                             role="menuitem" tabIndex="-1"
                                             id="menu-item-6">{minimiseScreen ? "Minimise" : "Show Fullscreen"}
-                                        </div>
-                                        {isWorkoutLoaded() || <div
+                                        </div>}
+                                        {isWorkoutPlaying || <div
                                             onClick={() => setOpenCreateWorkout(true)}
                                             className="py-2 hover:bg-secondary w-full rounded-b-md text-gray-700 block px-4 py-2 text-md text-left font-medium"
                                             role="menuitem" tabIndex="-1"
                                             id="menu-item-6">Edit
                                         </div>}
-                                        {isWorkoutLoaded() || <div
+                                        {isWorkoutPlaying || <div
                                             onClick={doDeleteWorkout}
                                             className="py-2 hover:bg-darkPrimary bg-primary w-full text-white rounded-b-md text-gray-700 block px-4 py-2 text-md text-left font-medium"
                                             role="menuitem" tabIndex="-1"
@@ -1272,7 +1260,7 @@ const PreviewWorkout = ({workoutId, close}) => {
                             </div> : null}
                     </div>
 
-                    <WorkoutCardBig workout={workout}/>
+                    <WorkoutCardBig workout={workout} hideExtras={minimiseScreen}/>
 
                     <div className="flex flex-row items-center my-4">
                         <div
@@ -1290,7 +1278,7 @@ const PreviewWorkout = ({workoutId, close}) => {
                     </div>}
 
                     <WorkoutPlaylist shouldPlayWorkout={shouldPlayWorkout}
-                                     onPauseWorkout={(shouldPlay) => setShouldPlayWorkout(shouldPlay)}
+                                     onPauseWorkout={(shouldPlay) =>  setShouldPlayWorkout(shouldPlay)}
                                      onEndWorkout={() => {
                                          // Navigate to a workout completed screen
                                          setShowWorkoutCompletedModal(true)
