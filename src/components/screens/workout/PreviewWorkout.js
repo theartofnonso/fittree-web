@@ -69,7 +69,7 @@ const PreviewWorkout = ({workoutId, close}) => {
 
     const [selectedExercise, setSelectedExercises] = useState(null)
 
-    const [roundsOrExercises] = useState(() => {
+    const [roundsOrExercises, setRoundsOrExercises] = useState(() => {
         let items;
         if (workout.type === workoutsConstants.workoutType.CIRCUIT) {
             items = loadCircuitWorkout(workout);
@@ -94,6 +94,21 @@ const PreviewWorkout = ({workoutId, close}) => {
             setWorkout(enrichedWorkout);
         }
     }, [workoutFromStore]);
+
+    /**
+     * Only set the roundsorExercises when workout has been updated with the workout from store
+     */
+    useEffect(() => {
+        if (workout) {
+            let newItems;
+            if (workout.type === workoutsConstants.workoutType.CIRCUIT) {
+                newItems = loadCircuitWorkout(workout);
+            } else {
+                newItems = loadRepsAndSetsWorkout(workout);
+            }
+            setRoundsOrExercises(newItems);
+        }
+    }, [workout]);
 
     /**
      * Fetch videos for all exercises
