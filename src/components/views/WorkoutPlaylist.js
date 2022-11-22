@@ -16,7 +16,7 @@ const WorkoutPlaylist = ({shouldPlayWorkout, onPauseWorkout, onEndWorkout, worko
 
     const type = workout.type
 
-    const [exerciseDuration, setExerciseDuration] = useState(10000);
+    const [exerciseDuration, setExerciseDuration] = useState(0);
 
     const [exerciseIndex, setExerciseIndex] = useState(0);
 
@@ -70,6 +70,7 @@ const WorkoutPlaylist = ({shouldPlayWorkout, onPauseWorkout, onEndWorkout, worko
     const showWorkoutStarting = () => {
         if(type === workoutsConstants.workoutType.CIRCUIT && isWorkoutStarting) {
             setShowIntervalModal(true)
+            setExerciseDuration(getExercise().duration.value)
             setIsWorkoutStarting(false)
         }
     }
@@ -78,6 +79,7 @@ const WorkoutPlaylist = ({shouldPlayWorkout, onPauseWorkout, onEndWorkout, worko
      * Seek forward
      */
     const seekForward = () => {
+        console.log("Hiya")
         if (type === workoutsConstants.workoutType.CIRCUIT) {
             seekForwardCircuit()
         } else {
@@ -143,20 +145,32 @@ const WorkoutPlaylist = ({shouldPlayWorkout, onPauseWorkout, onEndWorkout, worko
         const nextRoundsIndex = roundsIndex + 1;
         const nextExerciseIndex = exerciseIndex + 1;
 
+        /**
+         * If next exercise is more than exercises in current round attempt to move to next round
+         */
         if (nextExerciseIndex >= rounds[roundsIndex].length) {
+            /**
+             * If next round is more than total rounds
+             */
             if (nextRoundsIndex >= rounds.length) {
                 onEndWorkout()
             } else {
+                /**
+                 * If next round is not more than total rounds, move to next round and restart exercises
+                 */
                 setRoundsIndex(nextRoundsIndex);
                 setExerciseIndex(0);
-                setExerciseDuration(rounds[nextRoundsIndex][0].duration.value);
+                setExerciseDuration(getExercise(nextRoundsIndex, 0).duration.value);
                 setIntervalModalDescription(workoutsConstants.playMessages.NEXT_ROUND);
                 setIntervalModalTime(workout.roundsInterval);
                 setShowIntervalModal(true);
             }
         } else {
+            /**
+             * If next exercise is more not than exercises in current round, move to next exercise
+             */
             setExerciseIndex(nextExerciseIndex);
-            setExerciseDuration(getExercise().duration.value);
+            setExerciseDuration(getExercise(roundsIndex, nextExerciseIndex).duration.value);
             setIntervalModalTime(workout.exerciseInterval);
             setShowIntervalModal(true);
         }
@@ -172,6 +186,7 @@ const WorkoutPlaylist = ({shouldPlayWorkout, onPauseWorkout, onEndWorkout, worko
 
         if (prevExerciseIndex >= 0) {
             setExerciseIndex(prevExerciseIndex);
+            setExerciseDuration(getExercise(roundsIndex, prevExerciseIndex).duration.value);
         } else {
             setExerciseIndex(0);
         }
@@ -181,12 +196,24 @@ const WorkoutPlaylist = ({shouldPlayWorkout, onPauseWorkout, onEndWorkout, worko
      * Get exercise
      * @returns {*}
      */
-    const getExercise = () => type === workoutsConstants.workoutType.CIRCUIT ? getExerciseCircuit() : getExerciseRepsAndSets()
+    const getExercise = (roundsIndexValue = roundsIndex, exerciseIndexValue = exerciseIndex) => {
+
+        let exercise;
+
+        if(type === workoutsConstants.workoutType.CIRCUIT) {
+            exercise = getExerciseCircuit(roundsIndexValue, exerciseIndexValue)
+        } else {
+            exercise = getExerciseRepsAndSets()
+        }
+        return exercise;
+    }
 
     /**
      * Get the exercise for Circuit
      */
-    const getExerciseCircuit = () => list[roundsIndex][exerciseIndex];
+    const getExerciseCircuit = (roundsIndexValue = roundsIndex, exerciseIndexValue = exerciseIndex) => {
+        return list[roundsIndexValue][exerciseIndexValue];
+    }
 
     /**
      * Get the exercise for Reps and Sets

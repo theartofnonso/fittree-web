@@ -54,6 +54,8 @@ const PreviewWorkout = ({workoutId, close}) => {
 
     const [loadingMessage, setLoadingMessage] = useState("")
 
+    const [minimiseScreen, setMinimiseScreen] = useState(false)
+
     /**
      * Show snackbar
      */
@@ -1172,13 +1174,6 @@ const PreviewWorkout = ({workoutId, close}) => {
     };
 
     /**
-     * Stop the appropriate workout
-     */
-    const stopWorkout = () => {
-        setShouldPlayWorkout(false)
-    };
-
-    /**
      * Delete workout
      * @returns {Promise<void>}
      */
@@ -1238,6 +1233,12 @@ const PreviewWorkout = ({workoutId, close}) => {
                                         className="mt-2 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                                         role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabIndex="-1">
                                         <div
+                                            onClick={() => setMinimiseScreen(!minimiseScreen)}
+                                            className="py-2 hover:bg-secondary w-full rounded-b-md text-gray-700 block px-4 py-2 text-md text-left font-medium"
+                                            role="menuitem" tabIndex="-1"
+                                            id="menu-item-6">{minimiseScreen ? "Minimise" : "Show Fullscreen"}
+                                        </div>
+                                        <div
                                             onClick={() => setOpenCreateWorkout(true)}
                                             className="py-2 hover:bg-secondary w-full rounded-b-md text-gray-700 block px-4 py-2 text-md text-left font-medium"
                                             role="menuitem" tabIndex="-1"
@@ -1267,9 +1268,9 @@ const PreviewWorkout = ({workoutId, close}) => {
                             </div> : null}
                     </div>
 
-                    <div className="overscroll-contain mb-4">
+                    {minimiseScreen || <div className="overscroll-contain mb-4">
                         <p className="font-light break-words whitespace-pre-line text-sm">{workout.description || utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_DESCRIPTION}</p>
-                    </div>
+                    </div>}
 
                     <WorkoutPlaylist shouldPlayWorkout={shouldPlayWorkout}
                                      onPauseWorkout={(shouldPlay) => setShouldPlayWorkout(shouldPlay)}
