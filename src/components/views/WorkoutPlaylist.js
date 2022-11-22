@@ -190,7 +190,7 @@ const WorkoutPlaylist = ({shouldPlayWorkout, onPauseWorkout, onEndWorkout, worko
     };
 
     return (
-        <div className="h-96 overflow-y-scroll rounded-md">
+        <div className="relative rounded-md">
             {shouldPlayWorkout ? <p className="font-semibold text-center mt-4 mb-2">{sectionHeader}</p> : null}
             {list[0].map((exercise, index) =>
                 <Exercise
@@ -200,16 +200,6 @@ const WorkoutPlaylist = ({shouldPlayWorkout, onPauseWorkout, onEndWorkout, worko
                     extraData={getRepsOrTimeValue()}
                     type={type}/>
             )}
-            {shouldPlayWorkout && showIntervalModal ?
-                <div className="mb-8 fixed left-0 right-0 bottom-0">
-                    <IntervalModal
-                        description={intervalModalDescription}
-                        intervalTime={intervalModalTime}
-                        onFinish={() => {
-                            setShowIntervalModal(false)
-                            setIntervalModalDescription("")
-                        }}/>
-                </div> : null}
 
             {shouldPlayWorkout && !showIntervalModal ?
                 <div className="mb-8 fixed left-0 right-0 bottom-0 m-auto flex flex-row justify-center">
@@ -218,6 +208,15 @@ const WorkoutPlaylist = ({shouldPlayWorkout, onPauseWorkout, onEndWorkout, worko
                               next={seekForward}
                               isPlaying={shouldPlayWorkout}/>
                 </div> : null}
+
+            {shouldPlayWorkout && showIntervalModal ?
+                <IntervalModal
+                    description={intervalModalDescription}
+                    intervalTime={intervalModalTime}
+                    onFinish={() => {
+                        setShowIntervalModal(false)
+                        setIntervalModalDescription("")
+                    }}/> : null}
         </div>
     );
 };

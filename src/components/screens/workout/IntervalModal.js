@@ -38,31 +38,33 @@ const IntervalModal = props => {
         switch (props.description) {
             case workoutsConstants.playMessages.WORKOUT_STARTING:
                 return (
-                    <div className="flex flex-col items-center justify-center text-white mb-4">
-                        <p className="font-semibold text-lg">{props.description}</p>
-                        <p className="font-medium text-base">{intervalDurationSummary(intervalTime)}</p>
+                    <div className="flex flex-col items-center justify-center">
+                        <p className="">{props.description}</p>
+                        <p className="">{intervalDurationSummary(intervalTime)}</p>
                     </div>
                 )
             case workoutsConstants.playMessages.NEXT_ROUND:
             case workoutsConstants.playMessages.NEXT_EXERCISE:
                 return (
-                    <div className="flex flex-col items-center justify-center text-white mb-4">
-                        <p className="font-semibold text-lg">{props.description}</p>
-                        <p className="font-medium text-base">Rest for {intervalDurationSummary(intervalTime)}</p>
+                    <div className="flex flex-col items-center justify-center">
+                        <p className="">{props.description}</p>
+                        <p className="">Rest for {intervalDurationSummary(intervalTime)}</p>
                     </div>
                 )
             default:
-                return <p className="text-white font-medium text-base mb-4">Rest
-                    for {intervalDurationSummary(intervalTime)}</p>
+                return (
+                    <p className=""> Rest for {intervalDurationSummary(intervalTime)}</p>
+                )
         }
     }
 
     return (
-        <div className="flex flex-row items-center justify-center bg-primary justify-start w-64 m-auto rounded-md">
+        <div className="absolute flex flex-col items-center justify-center bg-primary top-0 right-0 bottom-0 left-0 rounded-md text-xl font-bold text-white">
             {displayIntervalMessage()}
-            <div onClick={skipInterval} className="cursor-pointer">
-                <SkipIcon/>
-            </div>
+            <p className="text-xl font-bold my-4">or</p>
+            <button onClick={skipInterval} className="cursor-pointer bg-secondary py-2 px-6 rounded-full text-primary font-semibold">
+                skip
+            </button>
         </div>
     );
 };

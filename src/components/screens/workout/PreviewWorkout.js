@@ -1296,7 +1296,7 @@ const PreviewWorkout = ({workoutId, close}) => {
                         <button
                             type="button"
                             onClick={playWorkout}
-                            className="mb-8 w-full bg-primary rounded-3xl py-2 px-10 text-white font-medium hover:bg-darkPrimary hidden sm:block">Play
+                            className="mb-4 w-full bg-primary rounded-3xl py-2 px-10 text-white font-medium hover:bg-darkPrimary hidden sm:block">Play
                             workout
                         </button> : null}
 

@@ -79,7 +79,7 @@ export const intervalDurationSummary = duration => {
         return exactDurationInMinutes + " mins"
     }
 
-    return "Duration: " + exactDurationInSeconds + " secs"
+    return exactDurationInSeconds + " secs"
 }
 
 /**
