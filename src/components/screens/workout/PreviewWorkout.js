@@ -1206,6 +1206,13 @@ const PreviewWorkout = ({workoutId, close}) => {
 
     };
 
+    /**
+     * Is workout loaded
+     * This is helpful to know if we are already in loaded state i.e. workout has previously started playing
+     * @returns {boolean}
+     */
+    const isWorkoutLoaded = () => roundsOrExercises.length > 0
+
     if (openCreateWorkout) {
         return (
             <CreateWorkout
@@ -1214,16 +1221,25 @@ const PreviewWorkout = ({workoutId, close}) => {
         )
     } else {
 
-        if(showWorkoutCompletedModal) {
+        if (showWorkoutCompletedModal) {
             return (<WorkoutCompletedModal close={close}/>)
         } else {
             return (
                 <div
                     className="container mx-auto px-2 sm:px-10 fixed top-0 right-0 bottom-0 left-0 h-full w-full bg-white overflow-y-scroll">
                     <div className="flex flex-row items-center place-content-between">
-                        <div className="my-4 cursor-pointer" onClick={close}>
-                            <CloseIcon/>
-                        </div>
+                        {shouldPlayWorkout ?
+                            <button
+                                type="button"
+                                onClick={close}
+                                className="cursor-pointer bg-secondary py-2 px-6 rounded-full text-primary text-sm font-semibold hover:bg-darkSecondary my-4">End
+                                workout
+                            </button>
+                            :
+                            <div className="my-4 cursor-pointer" onClick={close}>
+                                <CloseIcon/>
+                            </div>
+                        }
                         {user ?
                             <div className="relative cursor-pointer" onMouseOver={() => setShowMenuOptions(true)}
                                  onMouseLeave={() => setShowMenuOptions(false)}>
@@ -1231,25 +1247,26 @@ const PreviewWorkout = ({workoutId, close}) => {
                                 {showMenuOptions ? <div className="absolute text-left right-0 w-52 z-10">
                                     <div
                                         className="mt-2 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-                                        role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabIndex="-1">
+                                        role="menu" aria-orientation="vertical" aria-labelledby="menu-button"
+                                        tabIndex="-1">
                                         <div
                                             onClick={() => setMinimiseScreen(!minimiseScreen)}
                                             className="py-2 hover:bg-secondary w-full rounded-b-md text-gray-700 block px-4 py-2 text-md text-left font-medium"
                                             role="menuitem" tabIndex="-1"
                                             id="menu-item-6">{minimiseScreen ? "Minimise" : "Show Fullscreen"}
                                         </div>
-                                        <div
+                                        {isWorkoutLoaded() || <div
                                             onClick={() => setOpenCreateWorkout(true)}
                                             className="py-2 hover:bg-secondary w-full rounded-b-md text-gray-700 block px-4 py-2 text-md text-left font-medium"
                                             role="menuitem" tabIndex="-1"
                                             id="menu-item-6">Edit
-                                        </div>
-                                        <div
+                                        </div>}
+                                        {isWorkoutLoaded() || <div
                                             onClick={doDeleteWorkout}
                                             className="py-2 hover:bg-darkPrimary bg-primary w-full text-white rounded-b-md text-gray-700 block px-4 py-2 text-md text-left font-medium"
                                             role="menuitem" tabIndex="-1"
                                             id="menu-item-6">Delete
-                                        </div>
+                                        </div>}
                                     </div>
                                 </div> : null}
                             </div> : null}

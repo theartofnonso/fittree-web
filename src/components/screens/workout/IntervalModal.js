@@ -62,7 +62,7 @@ const IntervalModal = props => {
         <div className="absolute flex flex-col items-center justify-center bg-primary top-0 right-0 bottom-0 left-0 rounded-md text-xl font-bold text-white">
             {displayIntervalMessage()}
             <p className="text-xl font-bold my-4">or</p>
-            <button onClick={skipInterval} className="cursor-pointer bg-secondary py-2 px-6 rounded-full text-primary font-semibold">
+            <button onClick={skipInterval} className="cursor-pointer bg-secondary py-2 px-6 rounded-full text-primary font-semibold hover:bg-darkSecondary">
                 skip
             </button>
         </div>
