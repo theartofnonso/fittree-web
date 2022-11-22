@@ -20,6 +20,7 @@ import {selectAuthUser} from "../../../features/auth/authUserSlice";
 import DiscoveryHub from "../../views/DiscoveryHub";
 import WorkoutPlaylist from "../../views/WorkoutPlaylist";
 import utilsConstants from "../../../utils/utilsConstants";
+import WorkoutCompletedModal from "./WorkoutCompletedModal";
 
 const PreviewWorkout = ({workoutId, close}) => {
 
@@ -65,6 +66,8 @@ const PreviewWorkout = ({workoutId, close}) => {
     const [selectedExercise, setSelectedExercises] = useState(null)
 
     const [roundsOrExercises, setRoundsExercises] = useState(loadCircuitWorkout(workout))
+
+    const [showWorkoutCompletedModal, setShowWorkoutCompletedModal] = useState(false)
 
     /**
      * Only set the workout when one from store changes
@@ -1215,88 +1218,99 @@ const PreviewWorkout = ({workoutId, close}) => {
                 params={{workoutId: workout.id, workoutType: workout.type}}/>
         )
     } else {
-        return (
-            <div
-                className="container mx-auto px-2 sm:px-10 fixed top-0 right-0 bottom-0 left-0 h-full w-full bg-white overflow-y-scroll">
-                <div className="flex flex-row items-center place-content-between">
-                    <div className="my-4 cursor-pointer" onClick={close}>
-                        <CloseIcon/>
-                    </div>
-                    {user ?
-                        <div className="relative cursor-pointer" onMouseOver={() => setShowMenuOptions(true)}
-                             onMouseLeave={() => setShowMenuOptions(false)}>
-                            <OverflowIcon/>
-                            {showMenuOptions ? <div className="absolute text-left right-0 w-52 z-10">
-                                <div
-                                    className="mt-2 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-                                    role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabIndex="-1">
+
+        if(showWorkoutCompletedModal) {
+            return (<WorkoutCompletedModal close={close}/>)
+        } else {
+            return (
+                <div
+                    className="container mx-auto px-2 sm:px-10 fixed top-0 right-0 bottom-0 left-0 h-full w-full bg-white overflow-y-scroll">
+                    <div className="flex flex-row items-center place-content-between">
+                        <div className="my-4 cursor-pointer" onClick={close}>
+                            <CloseIcon/>
+                        </div>
+                        {user ?
+                            <div className="relative cursor-pointer" onMouseOver={() => setShowMenuOptions(true)}
+                                 onMouseLeave={() => setShowMenuOptions(false)}>
+                                <OverflowIcon/>
+                                {showMenuOptions ? <div className="absolute text-left right-0 w-52 z-10">
                                     <div
-                                        onClick={() => setOpenCreateWorkout(true)}
-                                        className="py-2 hover:bg-secondary w-full rounded-b-md text-gray-700 block px-4 py-2 text-md text-left font-medium"
-                                        role="menuitem" tabIndex="-1"
-                                        id="menu-item-6">Edit
+                                        className="mt-2 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                                        role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabIndex="-1">
+                                        <div
+                                            onClick={() => setOpenCreateWorkout(true)}
+                                            className="py-2 hover:bg-secondary w-full rounded-b-md text-gray-700 block px-4 py-2 text-md text-left font-medium"
+                                            role="menuitem" tabIndex="-1"
+                                            id="menu-item-6">Edit
+                                        </div>
+                                        <div
+                                            onClick={doDeleteWorkout}
+                                            className="py-2 hover:bg-darkPrimary bg-primary w-full text-white rounded-b-md text-gray-700 block px-4 py-2 text-md text-left font-medium"
+                                            role="menuitem" tabIndex="-1"
+                                            id="menu-item-6">Delete
+                                        </div>
                                     </div>
-                                    <div
-                                        onClick={doDeleteWorkout}
-                                        className="py-2 hover:bg-darkPrimary bg-primary w-full text-white rounded-b-md text-gray-700 block px-4 py-2 text-md text-left font-medium"
-                                        role="menuitem" tabIndex="-1"
-                                        id="menu-item-6">Delete
-                                    </div>
-                                </div>
+                                </div> : null}
                             </div> : null}
-                        </div> : null}
-                </div>
-
-                <WorkoutCardBig workout={workout}/>
-
-                <div className="flex flex-row items-center my-4">
-                    <div
-                        className={`flex flex-row items-center px-2 outline outline-2 bg-secondary text-primary ${workout.type === workoutsConstants.workoutType.CIRCUIT ? "rounded-l" : "rounded"} text-xs font-semibold`}>{workout.workoutExercises.length} exercises
                     </div>
-                    {workout.type === workoutsConstants.workoutType.CIRCUIT ?
+
+                    <WorkoutCardBig workout={workout}/>
+
+                    <div className="flex flex-row items-center my-4">
                         <div
-                            className="flex flex-row items-center ml-1.5 px-2 outline outline-2 bg-secondary text-primary rounded-r text-xs font-semibold">
-                            {workout.rounds} Rounds
+                            className={`flex flex-row items-center px-2 outline outline-2 bg-secondary text-primary ${workout.type === workoutsConstants.workoutType.CIRCUIT ? "rounded-l" : "rounded"} text-xs font-semibold`}>{workout.workoutExercises.length} exercises
+                        </div>
+                        {workout.type === workoutsConstants.workoutType.CIRCUIT ?
+                            <div
+                                className="flex flex-row items-center ml-1.5 px-2 outline outline-2 bg-secondary text-primary rounded-r text-xs font-semibold">
+                                {workout.rounds} Rounds
+                            </div> : null}
+                    </div>
+
+                    <div className="overscroll-contain mb-4">
+                        <p className="font-light break-words whitespace-pre-line text-sm">{workout.description || utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_DESCRIPTION}</p>
+                    </div>
+
+                    <WorkoutPlaylist shouldPlayWorkout={shouldPlayWorkout}
+                                     onPauseWorkout={(shouldPlay) => setShouldPlayWorkout(shouldPlay)}
+                                     onEndWorkout={() => {
+                                         // Navigate to a workout completed screen
+                                         setShowWorkoutCompletedModal(true)
+                                     }}
+                                     workout={workout}
+                                     playlist={roundsOrExercises}/>
+
+                    {selectedExercise ?
+                        <div className="mt-2 mb-4 pl-4">
+                            <DiscoveryHub recommendation={recommendedVideos.get(selectedExercise.id)}
+                                          tag={{title: selectedExercise.title}}/>
                         </div> : null}
+
+                    {!shouldPlayWorkout ?
+                        <div onClick={playWorkout}
+                             className="flex flex-row items-center justify-center bg-primary rounded-md w-14 h-14 sm:w-20 sm:h-20 fixed bottom-0 right-0 mr-8 mb-8 hover:bg-darkPrimary sm:hidden">
+                            <PlayIcon/>
+                        </div> : null}
+
+                    {!shouldPlayWorkout ?
+                        <button
+                            type="button"
+                            onClick={playWorkout}
+                            className="mb-8 w-full bg-primary rounded-3xl py-2 px-10 text-white font-medium hover:bg-darkPrimary hidden sm:block">Play
+                            workout
+                        </button> : null}
+
+                    {isLoading ? <Loading message={loadingMessage}/> : null}
+
+                    <SnackBar
+                        open={showSnackBar}
+                        close={() => setShowSnackBar(false)}
+                        message={snackbarMessage}
+                        type={snackbarType}/>
                 </div>
+            );
+        }
 
-                <div className="overscroll-contain">
-                    <p className="font-light break-words whitespace-pre-line text-sm">{workout.description || utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_DESCRIPTION}</p>
-                </div>
-
-                <WorkoutPlaylist shouldPlayWorkout={shouldPlayWorkout}
-                                 workout={workout}
-                                 playlist={roundsOrExercises}/>
-
-                {selectedExercise ?
-                    <div className="mt-2 mb-4 pl-4">
-                        <DiscoveryHub recommendation={recommendedVideos.get(selectedExercise.id)}
-                                      tag={{title: selectedExercise.title}}/>
-                    </div> : null}
-
-                {!shouldPlayWorkout ?
-                    <div onClick={playWorkout}
-                         className="flex flex-row items-center justify-center bg-primary rounded-md w-14 h-14 sm:w-20 sm:h-20 fixed bottom-0 right-0 mr-8 mb-8 hover:bg-darkPrimary sm:hidden">
-                        <PlayIcon/>
-                    </div> : null}
-
-                {!shouldPlayWorkout ?
-                    <button
-                        type="button"
-                        onClick={playWorkout}
-                        className="mb-8 w-full bg-primary rounded-3xl py-2 px-10 text-white font-medium hover:bg-darkPrimary hidden sm:block">Play
-                        workout
-                    </button> : null}
-
-                {isLoading ? <Loading message={loadingMessage}/> : null}
-
-                <SnackBar
-                    open={showSnackBar}
-                    close={() => setShowSnackBar(false)}
-                    message={snackbarMessage}
-                    type={snackbarType}/>
-            </div>
-        );
     }
 };
 

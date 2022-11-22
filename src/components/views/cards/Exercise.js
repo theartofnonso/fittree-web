@@ -26,7 +26,7 @@ const Exercise = ({isActive, data, extraData, type, onClick}) => {
 
     return (
         <button onClick={onClick}
-                className={`flex flex-row items-center place-content-between py-2 px-4 my-4 sm:my-6 ${isActive ? "bg-primary text-white" : "bg-lightSecondary"} w-full rounded-sm`}>
+                className={`flex flex-row items-center place-content-between py-2 px-4 mt-2 mb-4 ${isActive ? "bg-primary text-white" : "bg-lightSecondary"} w-full rounded-sm`}>
             <div className="flex flex-row items-center space-y-2 w-full py-3">
                 <div className="flex flex-col space-y-2 items-start text-left grow">
                     <p className="font-semibold text-md sm:text-lg">{data.title}</p>

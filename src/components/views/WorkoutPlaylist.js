@@ -6,7 +6,7 @@ import Controls from "./Controls";
 import workoutsConstants from "../../utils/workout/workoutsConstants";
 import {timeOrReps} from "../../utils/workout/workoutsHelperFunctions";
 
-const WorkoutPlaylist = ({shouldPlayWorkout, workout, playlist}) => {
+const WorkoutPlaylist = ({shouldPlayWorkout, onPauseWorkout, onEndWorkout, workout, playlist}) => {
 
     const list = playlist;
 
@@ -23,8 +23,6 @@ const WorkoutPlaylist = ({shouldPlayWorkout, workout, playlist}) => {
     const [roundsIndex, setRoundsIndex] = useState(0);
 
     const [setIndex, setSetIndex] = useState(0);
-
-    const [isPlaying, setIsPlaying] = useState(false);
 
     const [showIntervalModal, setShowIntervalModal] = useState(false);
 
@@ -45,9 +43,8 @@ const WorkoutPlaylist = ({shouldPlayWorkout, workout, playlist}) => {
 
         if (shouldPlayWorkout) {
 
-            if (showIntervalModal) return;
-
-            if (isPlaying) {
+            if (!showIntervalModal) {
+                clearInterval(intervalId);
                 intervalId = setInterval(() => {
                     if (getExercise().duration.type !== workoutsConstants.duration.REPS) {
                         if (exerciseDuration === 0) {
@@ -58,13 +55,12 @@ const WorkoutPlaylist = ({shouldPlayWorkout, workout, playlist}) => {
                         }
                     }
                 }, 1000);
-            } else {
-                clearInterval(intervalId);
             }
+
         }
 
         return () => clearInterval(intervalId);
-    }, [shouldPlayWorkout, isPlaying, showIntervalModal, exerciseDuration]);
+    }, [shouldPlayWorkout, showIntervalModal, exerciseDuration]);
 
     /**
      * Seek forward
@@ -98,7 +94,7 @@ const WorkoutPlaylist = ({shouldPlayWorkout, workout, playlist}) => {
 
         if (nextSetIndex >= exercises[exerciseIndex].length) {
             if (nextExerciseIndex >= exercises.length) {
-                setShowWorkoutCompletedModal(true);
+                onEndWorkout()
             } else {
                 setExerciseIndex(nextExerciseIndex);
                 setSetIndex(0);
@@ -137,7 +133,7 @@ const WorkoutPlaylist = ({shouldPlayWorkout, workout, playlist}) => {
 
         if (nextExerciseIndex >= rounds[roundsIndex].length) {
             if (nextRoundsIndex >= rounds.length) {
-                //setShowWorkoutCompletedModal(true)
+                onEndWorkout()
             } else {
                 setRoundsIndex(nextRoundsIndex);
                 setExerciseIndex(0);
@@ -167,20 +163,6 @@ const WorkoutPlaylist = ({shouldPlayWorkout, workout, playlist}) => {
         } else {
             setExerciseIndex(0);
         }
-    };
-
-    /**
-     * Pause workout
-     */
-    const pauseWorkout = () => {
-        setIsPlaying(false);
-    };
-
-    /**
-     * Play workout
-     */
-    const playWorkout = () => {
-        setIsPlaying(true);
     };
 
     /**
@@ -218,7 +200,7 @@ const WorkoutPlaylist = ({shouldPlayWorkout, workout, playlist}) => {
                     extraData={getRepsOrTimeValue()}
                     type={type}/>
             )}
-            {isPlaying && showIntervalModal ?
+            {shouldPlayWorkout && showIntervalModal ?
                 <div className="mb-8 fixed left-0 right-0 bottom-0">
                     <IntervalModal
                         description={intervalModalDescription}
@@ -229,13 +211,12 @@ const WorkoutPlaylist = ({shouldPlayWorkout, workout, playlist}) => {
                         }}/>
                 </div> : null}
 
-            {isPlaying && !showIntervalModal ?
-                <div className="mb-8 fixed left-0 right-0 bottom-0">
+            {shouldPlayWorkout && !showIntervalModal ?
+                <div className="mb-8 fixed left-0 right-0 bottom-0 m-auto flex flex-row justify-center">
                     <Controls prev={seekBackward}
-                              pause={pauseWorkout}
-                              play={playWorkout}
+                              pause={() => onPauseWorkout(false)}
                               next={seekForward}
-                              isPlaying={isPlaying}/>
+                              isPlaying={shouldPlayWorkout}/>
                 </div> : null}
         </div>
     );
