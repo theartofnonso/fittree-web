@@ -16,7 +16,7 @@ const WorkoutPlaylist = ({shouldPlayWorkout, onPauseWorkout, onEndWorkout, worko
 
     const type = workout.type
 
-    const [exerciseDuration, setExerciseDuration] = useState(list[0][0].duration.value);
+    const [exerciseDuration, setExerciseDuration] = useState(10000);
 
     const [exerciseIndex, setExerciseIndex] = useState(0);
 
@@ -26,22 +26,24 @@ const WorkoutPlaylist = ({shouldPlayWorkout, onPauseWorkout, onEndWorkout, worko
 
     const [showIntervalModal, setShowIntervalModal] = useState(false);
 
-    const [intervalModalDescription, setIntervalModalDescription] = useState("");
+    const [intervalModalDescription, setIntervalModalDescription] = useState(workoutsConstants.playMessages.WORKOUT_STARTING);
 
     const [intervalModalTime, setIntervalModalTime] = useState(5000);
 
     const sectionHeader = type === workoutsConstants.workoutType.CIRCUIT ? `- Round ${roundsIndex + 1} -` : "Exercises";
+
+    const [isWorkoutStarting, setIsWorkoutStarting] = useState(true)
 
     /**
      * Automate the workout
      */
     useEffect(() => {
 
-        console.log("shouldPlayWorkout: ", shouldPlayWorkout)
-
         let intervalId = null;
 
         if (shouldPlayWorkout) {
+
+            showWorkoutStarting()
 
             if (!showIntervalModal) {
                 clearInterval(intervalId);
@@ -61,6 +63,16 @@ const WorkoutPlaylist = ({shouldPlayWorkout, onPauseWorkout, onEndWorkout, worko
 
         return () => clearInterval(intervalId);
     }, [shouldPlayWorkout, showIntervalModal, exerciseDuration]);
+
+    /**
+     * Show initial workout starting message
+     */
+    const showWorkoutStarting = () => {
+        if(type === workoutsConstants.workoutType.CIRCUIT && isWorkoutStarting) {
+            setShowIntervalModal(true)
+            setIsWorkoutStarting(false)
+        }
+    }
 
     /**
      * Seek forward
