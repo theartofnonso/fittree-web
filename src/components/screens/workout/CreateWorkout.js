@@ -572,7 +572,7 @@ export default function CreateWorkout({params, close}) {
                                     </td> : null}
                                 <td className="flex flex-row justify-end items-center my-2">
                                     <div onClick={() => removeWorkoutExercise(exercise)}
-                                         className="bg-primary rounded hover:bg-darkPrimary p-0.5 m-1">
+                                         className="bg-primary rounded-full hover:bg-darkPrimary p-0.5 m-1">
                                         <CloseIconWhite/>
                                     </div>
                                 </td>
@@ -584,7 +584,7 @@ export default function CreateWorkout({params, close}) {
                 <button
                     type="button"
                     onClick={addWorkoutExercise}
-                    className="flex flex-row items-center justify-start w-36 bg-secondary rounded-md hover:bg-darkSecondary text-primary pl-1 pr-3 py-1 my-2 font-semibold text-sm">
+                    className="flex flex-row items-center justify-center w-36 bg-secondary rounded-full hover:bg-darkSecondary text-primary pl-1 pr-3 py-1 my-2 font-semibold text-sm">
                     <AddIcon/> Add Exercise
                 </button>
                 <InputTime title="Exercise Interval"
