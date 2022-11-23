@@ -1,10 +1,9 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {createWorkout, selectWorkoutById, updateWorkout} from "../../../features/auth/authWorkoutsSlice";
 import workoutsConstants from "../../../utils/workout/workoutsConstants";
 import utilsConstants from "../../../utils/utilsConstants";
 import {capitaliseWords} from "../../../utils/general/utils";
-import awsConstants from "../../../utils/aws-utils/awsConstants";
 import CloseIcon from "../../../assets/svg/close-line.svg";
 import CloseIconWhite from "../../../assets/svg/close-line-white.svg";
 import PageDescription from "../../views/PageDescription";
@@ -12,28 +11,25 @@ import BodyParts from "../../views/BodyParts";
 import Equipments from "../../views/Equipments";
 import InputValue from "../../views/InputValue";
 import InputTime from "../../views/InputTime";
-import AddIcon from "../../../assets/svg/add-line-white.svg";
-import Compressor from "compressorjs";
+import AddIcon from "../../../assets/svg/add-line.svg";
 import {
     constructWorkoutExercise,
     updateDuration,
     updateExerciseTitle,
     updateSets
-} from "../../../schemas/workoutExercises";
+} from "../../../schemas/WorkoutExercise";
 import SelectDuration from "../../views/SelectDuration";
 import Loading from "../../utils/Loading";
-import {uploadAndDeleteS3} from "../../../utils/aws-utils/awsHelperFunctions";
 import {selectAuthUser} from "../../../features/auth/authUserSlice";
 import {SnackBar, SnackBarType} from "../../views/SnackBar";
 import SelectValue from "../../views/SelectValue";
 import {useLeavePageConfirm} from "../../../utils/general/hooks";
 import Modal from "../../views/modal";
+import Counter from "../../views/Counter";
 
 export default function CreateWorkout({params, close}) {
 
     const user = useSelector(selectAuthUser);
-
-    const inputFileRef = useRef()
 
     const dispatch = useDispatch();
 
@@ -69,6 +65,8 @@ export default function CreateWorkout({params, close}) {
      */
     const [workoutExercises, setWorkoutExercises] = useState(() => workout ? workout.workoutExercises.map(exercise => JSON.parse(exercise)) : []);
 
+    const [sets, setNumberOfSets] = useState(workout ? workout.workoutExercises.sets.length : 1)
+
     /**
      * Number of rounds
      */
@@ -90,12 +88,6 @@ export default function CreateWorkout({params, close}) {
     const [exerciseInterval, setExerciseInterval] = useState(workout ? workout.exerciseInterval : utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_OF_ZERO);
 
     /**
-     * Thumbnail URI
-     */
-    const [uri, setUri] = useState(workout ? workout.thumbnailUrl : "");
-    const [selectedFile, setSelectedFile] = useState();
-
-    /**
      * Show snackbar message
      */
     const [showSnackBar, setShowSnackBar] = useState(false)
@@ -107,25 +99,6 @@ export default function CreateWorkout({params, close}) {
     const [isLoading, setIsLoading] = useState(false);
 
     const [openExitScreenModal, setOpenExitScreenModal] = useState(false)
-
-    /**
-     * Handle selected file
-     */
-    useEffect(() => {
-        let objectURL;
-        if (selectedFile) {
-            new Compressor(selectedFile, {
-                quality: 0.6, // 0.6 can also be used, but its not recommended to go below.
-                success: (compressedFile) => {
-                    // compressedResult has the compressed file.
-                    // Use the compressed file to upload the images to your server.
-                    objectURL = URL.createObjectURL(compressedFile);
-                    setUri(objectURL);
-                },
-            });
-        }
-        return () => URL.revokeObjectURL(objectURL);
-    }, [selectedFile]);
 
     /**
      * Get the workout type
@@ -155,7 +128,6 @@ export default function CreateWorkout({params, close}) {
             setsInterval: _setsInterval,
             rounds: _rounds,
             roundsInterval: _roundsInterval,
-            thumbnailUrl: _thumbnailUrl
         } = workout
 
         const prevState = {
@@ -169,7 +141,6 @@ export default function CreateWorkout({params, close}) {
             setsInterval: _setsInterval,
             rounds: _rounds,
             roundsInterval: _roundsInterval,
-            thumbnailUrl: _thumbnailUrl
         }
 
         /**
@@ -187,7 +158,6 @@ export default function CreateWorkout({params, close}) {
             setsInterval: setsInterval,
             rounds: rounds,
             roundsInterval: roundsInterval,
-            thumbnailUrl: uri
         }
 
         /**
@@ -216,7 +186,6 @@ export default function CreateWorkout({params, close}) {
             hasBodyParts: selectedBodyParts.length > 0,
             hasEquipments: selectedEquipments.length > 0,
             hasWorkoutExercises: workoutExercises.length > 0,
-            hasUri: uri !== ""
         }
 
         for (const property in changes) {
@@ -297,12 +266,14 @@ export default function CreateWorkout({params, close}) {
     /**
      * Update the workout exercise set
      * @param currentExercise
-     * @param sets
+     * @param duration
+     * @param setsIndex
      */
-    const onChangeSets = (currentExercise, sets) => {
+    const onChangeSet = (currentExercise, duration, setsIndex) => {
         const exercises = workoutExercises.map(exercise => {
             if (exercise.id === currentExercise.id) {
-                return updateSets(currentExercise, sets)
+                exercise.sets[setsIndex] = duration
+                //return updateSets(currentExercise, sets)
             }
             return exercise;
         });
@@ -316,29 +287,6 @@ export default function CreateWorkout({params, close}) {
      */
     const selectBodyPartsHandler = values => {
         setSelectedBodyParts(values);
-    };
-
-    /**
-     * Open file explorer
-     */
-    const selectFile = () => {
-        inputFileRef.current.click();
-    };
-
-    /**
-     * Remove thumbnail
-     */
-    const removeThumbnailFile = () => {
-        setUri(null)
-    };
-
-    /**
-     * Handle selected file
-     * @param event
-     */
-    const handleSelectedFile = (event) => {
-        const file = event.target.files[0];
-        setSelectedFile(file);
     };
 
     /**
@@ -381,36 +329,6 @@ export default function CreateWorkout({params, close}) {
      */
     const createWorkoutHelper = async () => {
 
-        let thumbnail = "";
-
-        /**
-         * User is editing a workout
-         */
-        if (workout && workout.thumbnailUrl) {
-            /**
-             * User has selected new thumbnail
-             */
-            if (uri && uri !== workout.thumbnailUrl) {
-                thumbnail = await uploadAndDeleteS3(uri, awsConstants.awsStorage.folders.THUMBNAILS, workout.thumbnailUrl, "jpg")
-                /**
-                 * reuse old thumbnail
-                 */
-            } else {
-                thumbnail = workout.thumbnailUrl
-            }
-            /**
-             * User is creating new workout
-             * @type {string}
-             */
-        } else {
-            /**
-             * User has selected a new thumbnail
-             */
-            if (uri) {
-                thumbnail = await uploadAndDeleteS3(uri, awsConstants.awsStorage.folders.THUMBNAILS, null, "jpg")
-            }
-        }
-
         const payload = {
             creatorId: user.id,
             title: capitaliseWords(title.trim()),
@@ -423,17 +341,19 @@ export default function CreateWorkout({params, close}) {
             exerciseInterval: exerciseInterval > 0 ? exerciseInterval : utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_OF_ZERO,
             setsInterval: setsInterval > 0 ? setsInterval : utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_OF_ZERO,
             duration: calWorkoutDuration(),
-            workoutExercises: workoutExercises.map(item => JSON.stringify(item)),
-            thumbnailUrl: thumbnail,
+            workoutExercises: workoutExercises, //.map(item => JSON.stringify(item)),
+            thumbnailUrl: "",
             preferred_username: user.preferred_username,
             type: getWorkoutType() === workoutsConstants.workoutType.CIRCUIT ? workoutsConstants.workoutType.CIRCUIT : workoutsConstants.workoutType.REPS_SETS,
         };
 
-        if (workout) {
-            return dispatch(updateWorkout({...workout, ...payload})).unwrap();
-        }
+        console.log(payload)
 
-        return dispatch(createWorkout(payload)).unwrap();
+        // if (workout) {
+        //     return dispatch(updateWorkout({...workout, ...payload})).unwrap();
+        // }
+        //
+        // return dispatch(createWorkout(payload)).unwrap();
 
     };
 
@@ -538,8 +458,8 @@ export default function CreateWorkout({params, close}) {
                     prevEquipments={selectedEquipments}
                     onSelect={selectEquipmentHandler}/>
                 <table
-                    className="table-auto outline outline-gray2 outline-1 p-2 rounded-md mt-4 border-separate border-spacing-2">
-                    <thead className="">
+                    className="table-auto outline outline-gray2 outline-1 pt-2 rounded-md mt-4 border-separate border-spacing-2">
+                    <thead>
                     <tr className="text-left">
                         <th>Title</th>
                         <th>Time/Reps</th>
@@ -550,29 +470,38 @@ export default function CreateWorkout({params, close}) {
                     <tbody>
                     {workoutExercises.map((exercise, index) => {
                         return (
-                            <tr key={index}>
+                            <tr key={index} className="align-top">
                                 <td>
                                     <SelectValue
                                         onChange={(title) => onChangeWorkoutExerciseTitle(exercise, title)}
                                         prevValue={exercise.title}
                                         isNumber={false}/>
                                 </td>
-                                <td>
-                                    <SelectDuration
-                                        onChange={(duration) => onChangeDuration(exercise, duration)}
-                                        prevDuration={exercise.duration}
-                                        showReps={true}/>
+                                <td className="">
+                                    {getWorkoutType() === workoutsConstants.workoutType.CIRCUIT ? <SelectDuration
+                                            onChange={(duration) => onChangeDuration(exercise, duration)}
+                                            prevDuration={exercise.duration}
+                                            showReps={true}/> :
+                                        <div className="overflow-y-scroll h-36">
+                                            {new Array(sets).fill(null).map((item, index) => {
+                                                return (
+                                                    <SelectDuration
+                                                        style={"mb-2"}
+                                                        key={index}
+                                                        onChange={(duration) => onChangeSet(exercise, duration, index)}
+                                                        prevDuration={exercise.sets[0]}
+                                                        showReps={true}/>
+                                                )
+                                            })}
+                                        </div>}
                                 </td>
                                 {getWorkoutType() === workoutsConstants.workoutType.REPS_SETS ?
                                     <td>
-                                        <SelectValue
-                                            onChange={(sets) => onChangeSets(exercise, sets)}
-                                            prevValue={exercise.sets}
-                                            isNumber={true}/>
+                                        <Counter onChange={(value) => setNumberOfSets(value)} />
                                     </td> : null}
-                                <td className="flex flex-row justify-end items-center my-2">
+                                <td className="">
                                     <div onClick={() => removeWorkoutExercise(exercise)}
-                                         className="bg-primary rounded-full hover:bg-darkPrimary p-0.5 m-1">
+                                         className="flex flex-row justify-center bg-primary w-8 rounded-md hover:bg-darkPrimary p-0.5 cursor-pointer">
                                         <CloseIconWhite/>
                                     </div>
                                 </td>
@@ -584,7 +513,7 @@ export default function CreateWorkout({params, close}) {
                 <button
                     type="button"
                     onClick={addWorkoutExercise}
-                    className="flex flex-row items-center justify-center w-36 bg-secondary rounded-full hover:bg-darkSecondary text-primary pl-1 pr-3 py-1 my-2 font-semibold text-sm">
+                    className="flex flex-row items-center justify-center w-36 bg-secondary rounded-md hover:bg-darkSecondary text-primary pl-1 pr-3 py-1 my-2 font-semibold text-sm">
                     <AddIcon/> Add Exercise
                 </button>
                 <InputTime title="Exercise Interval"

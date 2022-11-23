@@ -1,7 +1,7 @@
 import {withSSRContext} from "aws-amplify";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
-import AddIcon from "/src/assets/svg/add-line-white.svg";
+import AddIcon from "/src/assets/svg/add-line.svg";
 import workoutsConstants from "../../../utils/workout/workoutsConstants";
 import CreateWorkout from "./CreateWorkout";
 import Footer from "../../views/Footer";

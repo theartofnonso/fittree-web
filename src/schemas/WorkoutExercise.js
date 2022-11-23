@@ -6,7 +6,7 @@ import {generateRandomString} from "../utils/general/utils";
  * This class represents an exercise information in a workout
  */
 const defaultDuration = constructDuration(5000, workoutsConstants.duration.SECONDS)
-export const constructWorkoutExercise = (title = "", duration = defaultDuration, sets = 1) => {
+export const constructWorkoutExercise = (title = "", duration = defaultDuration, sets = [defaultDuration]) => {
     return {
         id: generateRandomString(),
         title,
