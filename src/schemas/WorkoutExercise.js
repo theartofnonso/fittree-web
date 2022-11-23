@@ -57,6 +57,7 @@ const removeSet = (workoutExercise) => {
             sets
         }
     }
+    return null;
 }
 
 export {

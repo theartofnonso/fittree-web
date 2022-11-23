@@ -19,7 +19,7 @@ import {SnackBar, SnackBarType} from "../../views/SnackBar";
 import SelectValue from "../../views/SelectValue";
 import {useLeavePageConfirm} from "../../../utils/general/hooks";
 import Modal from "../../views/modal";
-import Counter from "../../views/Counter";
+import Counter, {INC} from "../../views/Counter";
 import {
     addSet,
     constructWorkoutExercise,
@@ -427,12 +427,11 @@ export default function CreateWorkout({params, close}) {
                     prevEquipments={selectedEquipments}
                     onSelect={selectEquipmentHandler}/>
                 <table
-                    className="table-auto outline outline-gray2 outline-1 pt-2 rounded-md mt-4 border-separate border-spacing-2">
+                    className="table-auto outline outline-gray2 outline-1 pt-2 rounded-md mt-4 border-separate border-spacing-1">
                     <thead>
                     <tr className="text-left">
                         <th>Title</th>
-                        <th>Time/Reps</th>
-                        {getWorkoutType() === workoutsConstants.workoutType.REPS_SETS ? <th>Sets</th> : null}
+                        <th>{getWorkoutType() === workoutsConstants.workoutType.CIRCUIT ? "Sets" : "Sets"}</th>
                         <th></th>
                     </tr>
                     </thead>
@@ -440,7 +439,7 @@ export default function CreateWorkout({params, close}) {
                     {workoutExercises.map((exercise, index) => {
                         return (
                             <tr key={index} className="align-top">
-                                <td>
+                                <td className="">
                                     <SelectValue
                                         onChange={(title) => {
                                             const newWorkoutExercise = updateTitle(exercise, title);
@@ -449,7 +448,22 @@ export default function CreateWorkout({params, close}) {
                                         prevValue={exercise.title}
                                         isNumber={false}/>
                                 </td>
-                                <td className="">
+                                <td>
+                                    {getWorkoutType() === workoutsConstants.workoutType.REPS_SETS ?
+
+                                        <Counter onChange={(value) => {
+                                            if (value === INC) {
+                                                const newWorkoutExercise = addSet(exercise);
+                                                updateWorkoutExercise(newWorkoutExercise)
+                                            } else {
+                                                const newWorkoutExercise = removeSet(exercise)
+                                                if(newWorkoutExercise != null) {
+                                                    updateWorkoutExercise(newWorkoutExercise)
+                                                }
+
+                                            }
+                                        }}/> : null}
+
                                     {getWorkoutType() === workoutsConstants.workoutType.CIRCUIT ? <SelectDuration
                                             onChange={(duration) => {
                                                 const newWorkoutExercise = updateDuration(exercise, duration);
@@ -473,20 +487,8 @@ export default function CreateWorkout({params, close}) {
                                             })}
                                         </div>}
                                 </td>
-                                {getWorkoutType() === workoutsConstants.workoutType.REPS_SETS ?
-                                    <td>
-                                        <Counter onChange={(value) => {
-                                            if (value > exercise.sets.length) {
-                                                const newWorkoutExercise = addSet(exercise);
-                                                updateWorkoutExercise(newWorkoutExercise)
 
-                                            } else {
-                                                const newWorkoutExercise = removeSet(exercise)
-                                                updateWorkoutExercise(newWorkoutExercise)
-                                            }
-                                        }}/>
-                                    </td> : null}
-                                <td className="">
+                                <td className="flex flex-row justify-center">
                                     <div onClick={() => removeWorkoutExercise(exercise)}
                                          className="flex flex-row justify-center bg-primary w-8 rounded-md hover:bg-darkPrimary p-0.5 cursor-pointer">
                                         <CloseIconWhite/>
