@@ -28,6 +28,7 @@ import {
     updateSet,
     updateTitle
 } from "../../../schemas/WorkoutExercise";
+import {createWorkout, updateWorkout} from "/src/features/auth/authWorkoutsSlice";
 
 export default function CreateWorkout({params, close}) {
 
@@ -273,6 +274,7 @@ export default function CreateWorkout({params, close}) {
                 setIsLoading(false)
                 close()
             } catch (err) {
+                console.log(err)
                 setIsLoading(false)
                 setShowSnackBar(true)
                 setSnackbarType(SnackBarType.ERROR)
@@ -310,19 +312,17 @@ export default function CreateWorkout({params, close}) {
             exerciseInterval: exerciseInterval > 0 ? exerciseInterval : utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_OF_ZERO,
             setsInterval: setsInterval > 0 ? setsInterval : utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_OF_ZERO,
             duration: calWorkoutDuration(),
-            workoutExercises: workoutExercises, //.map(item => JSON.stringify(item)),
+            workoutExercises: workoutExercises.map(item => JSON.stringify(item)),
             thumbnailUrl: "",
             preferred_username: user.preferred_username,
             type: getWorkoutType() === workoutsConstants.workoutType.CIRCUIT ? workoutsConstants.workoutType.CIRCUIT : workoutsConstants.workoutType.REPS_SETS,
         };
 
-        console.log(payload)
+        if (workout) {
+            return dispatch(updateWorkout({...workout, ...payload})).unwrap();
+        }
 
-        // if (workout) {
-        //     return dispatch(updateWorkout({...workout, ...payload})).unwrap();
-        // }
-        //
-        // return dispatch(createWorkout(payload)).unwrap();
+        return dispatch(createWorkout(payload)).unwrap();
 
     };
 

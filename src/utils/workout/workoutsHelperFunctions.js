@@ -109,8 +109,9 @@ export const loadRepsAndSetsWorkout = workout => {
     let exercises = new Array(workout.workoutExercises.length);
     for (let i = 0; i < exercises.length; i++) {
         const exercise = workout.workoutExercises[i];
-        exercises[i] = new Array(exercise.sets).fill(exercise);
+        exercises[i] = new Array(exercise.sets.length)
     }
+    console.log(exercises)
     return exercises;
 };
 

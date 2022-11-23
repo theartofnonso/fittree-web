@@ -33,7 +33,6 @@ const PreviewWorkout = ({workoutId, close}) => {
      * @type {unknown}
      */
     const workoutFromStore = user ? useSelector(state => selectWorkoutById(state, workoutId)) : useSelector(state => unauthSelectWorkoutById(state, workoutId));
-
     const [workout, setWorkout] = useState(() => {
         return {
             ...workoutFromStore,
@@ -1195,25 +1194,18 @@ const PreviewWorkout = ({workoutId, close}) => {
      * Delete the workout
      */
     const doDeleteWorkout = async () => {
-        if (!workout.isLive) {
-            setIsLoading(true)
-            setLoadingMessage("Deleting workout")
-            try {
-                await deleteWorkoutHelper();
-                setIsLoading(false)
-                close()
-            } catch (err) {
-                setIsLoading(false)
-                setShowSnackBar(true)
-                setSnackbarType(SnackBarType.ERROR)
-                setSnackbarMessage("Oops! unable to delete workout at this moment")
-            }
-        } else {
+        setIsLoading(true)
+        setLoadingMessage("Deleting workout")
+        try {
+            await deleteWorkoutHelper();
+            setIsLoading(false)
+            close()
+        } catch (err) {
+            setIsLoading(false)
             setShowSnackBar(true)
-            setSnackbarType(SnackBarType.WARN)
-            setSnackbarMessage("Remove workout from live before deleting it")
+            setSnackbarType(SnackBarType.ERROR)
+            setSnackbarMessage("Oops! unable to delete workout at this moment")
         }
-
     };
 
     if (openCreateWorkout) {
@@ -1293,7 +1285,7 @@ const PreviewWorkout = ({workoutId, close}) => {
                     </div>}
 
                     <WorkoutPlaylist shouldPlayWorkout={shouldPlayWorkout}
-                                     onPauseWorkout={(shouldPlay) =>  setShouldPlayWorkout(shouldPlay)}
+                                     onPauseWorkout={(shouldPlay) => setShouldPlayWorkout(shouldPlay)}
                                      onEndWorkout={() => {
                                          // Navigate to a workout completed screen
                                          setShowWorkoutCompletedModal(true)
