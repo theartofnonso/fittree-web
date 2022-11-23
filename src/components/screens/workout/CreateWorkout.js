@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {createWorkout, selectWorkoutById, updateWorkout} from "../../../features/auth/authWorkoutsSlice";
+import {selectWorkoutById} from "../../../features/auth/authWorkoutsSlice";
 import workoutsConstants from "../../../utils/workout/workoutsConstants";
 import utilsConstants from "../../../utils/utilsConstants";
 import {capitaliseWords} from "../../../utils/general/utils";
@@ -12,12 +12,6 @@ import Equipments from "../../views/Equipments";
 import InputValue from "../../views/InputValue";
 import InputTime from "../../views/InputTime";
 import AddIcon from "../../../assets/svg/add-line.svg";
-import {
-    constructWorkoutExercise,
-    updateDuration,
-    updateExerciseTitle,
-    updateSets
-} from "../../../schemas/WorkoutExercise";
 import SelectDuration from "../../views/SelectDuration";
 import Loading from "../../utils/Loading";
 import {selectAuthUser} from "../../../features/auth/authUserSlice";
@@ -26,6 +20,14 @@ import SelectValue from "../../views/SelectValue";
 import {useLeavePageConfirm} from "../../../utils/general/hooks";
 import Modal from "../../views/modal";
 import Counter from "../../views/Counter";
+import {
+    addSet,
+    constructWorkoutExercise,
+    removeSet,
+    updateDuration,
+    updateSet,
+    updateTitle
+} from "../../../schemas/WorkoutExercise";
 
 export default function CreateWorkout({params, close}) {
 
@@ -64,8 +66,6 @@ export default function CreateWorkout({params, close}) {
      * Workout exercises
      */
     const [workoutExercises, setWorkoutExercises] = useState(() => workout ? workout.workoutExercises.map(exercise => JSON.parse(exercise)) : []);
-
-    const [sets, setNumberOfSets] = useState(workout ? workout.workoutExercises.sets.length : 1)
 
     /**
      * Number of rounds
@@ -215,7 +215,7 @@ export default function CreateWorkout({params, close}) {
     };
 
     /**
-     * Add new exercise
+     * Add new workout exercise
      */
     const addWorkoutExercise = () => {
         const exercise = constructWorkoutExercise()
@@ -223,7 +223,24 @@ export default function CreateWorkout({params, close}) {
     };
 
     /**
-     * Remove Exercise from table
+     * Update the workout exercise
+     * @param newExercise
+     */
+    const updateWorkoutExercise = (newExercise) => {
+        const exercises = workoutExercises.map(exercise => {
+            if (exercise.id === newExercise.id) {
+                return {
+                    ...exercise,
+                    ...newExercise
+                }
+            }
+            return exercise;
+        });
+        setWorkoutExercises(exercises);
+    }
+
+    /**
+     * Remove workout Exercise
      */
     const removeWorkoutExercise = (currentExercise) => {
         const remainingExercises = workoutExercises.filter(exercise => exercise.id !== currentExercise.id);
@@ -233,52 +250,73 @@ export default function CreateWorkout({params, close}) {
         }
     };
 
-    /**
-     * Update the workout exercise title
-     * @param currentExercise
-     * @param title
-     */
-    const onChangeWorkoutExerciseTitle = (currentExercise, title) => {
-        const exercises = workoutExercises.map(exercise => {
-            if (exercise.id === currentExercise.id) {
-                return updateExerciseTitle(currentExercise, title)
-            }
-            return exercise;
-        });
-        setWorkoutExercises(exercises);
-    }
+    // /**
+    //  * Update the workout exercise title
+    //  * @param currentExercise
+    //  * @param title
+    //  */
+    // const onChangeWorkoutExerciseTitle = (currentExercise, title) => {
+    //     const exercises = workoutExercises.map(exercise => {
+    //         if (exercise.id === currentExercise.id) {
+    //             return updateExerciseTitle(currentExercise, title)
+    //         }
+    //         return exercise;
+    //     });
+    //     setWorkoutExercises(exercises);
+    // }
+    //
+    // /**
+    //  * Update the workout exercise duration
+    //  * @param currentExercise
+    //  * @param duration
+    //  */
+    // const onChangeDuration = (newExercise) => {
+    //     const exercises = workoutExercises.map(exercise => {
+    //         if (exercise.id === newExercise.id) {
+    //             return {
+    //                 ...exercise,
+    //                 ...newExercise
+    //             }
+    //         }
+    //         return exercise;
+    //     });
+    //     setWorkoutExercises(exercises);
+    // }
 
-    /**
-     * Update the workout exercise duration
-     * @param currentExercise
-     * @param duration
-     */
-    const onChangeDuration = (currentExercise, duration) => {
-        const exercises = workoutExercises.map(exercise => {
-            if (exercise.id === currentExercise.id) {
-                return updateDuration(currentExercise, duration)
-            }
-            return exercise;
-        });
-        setWorkoutExercises(exercises);
-    }
+    // /**
+    //  * Update the workout exercise set
+    //  * @param newExercise
+    //  */
+    // const onAddOrRemoveSet = (newExercise) => {
+    //     const exercises = workoutExercises.map(exercise => {
+    //         if (exercise.id === newExercise.id) {
+    //             return {
+    //                 ...exercise,
+    //                 ...newExercise
+    //             }
+    //         }
+    //         return exercise;
+    //     });
+    //
+    //     setWorkoutExercises(exercises);
+    //}
 
-    /**
-     * Update the workout exercise set
-     * @param currentExercise
-     * @param duration
-     * @param setsIndex
-     */
-    const onChangeSet = (currentExercise, duration, setsIndex) => {
-        const exercises = workoutExercises.map(exercise => {
-            if (exercise.id === currentExercise.id) {
-                exercise.sets[setsIndex] = duration
-            }
-            return exercise;
-        });
-
-        setWorkoutExercises(exercises);
-    }
+    // /**
+    //  * Update the workout exercise set
+    //  * @param currentExercise
+    //  * @param duration
+    //  * @param setsIndex
+    //  */
+    // const onChangeSet = (currentExercise, duration, setsIndex) => {
+    //     const exercises = workoutExercises.map(exercise => {
+    //         if (exercise.id === currentExercise.id) {
+    //             exercise.sets[setsIndex] = duration
+    //         }
+    //         return exercise;
+    //     });
+    //
+    //     setWorkoutExercises(exercises);
+    // }
 
     /**
      * Handle select body part
@@ -472,23 +510,32 @@ export default function CreateWorkout({params, close}) {
                             <tr key={index} className="align-top">
                                 <td>
                                     <SelectValue
-                                        onChange={(title) => onChangeWorkoutExerciseTitle(exercise, title)}
+                                        onChange={(title) => {
+                                            const newWorkoutExercise = updateTitle(exercise, title);
+                                            updateWorkoutExercise(newWorkoutExercise)
+                                        }}
                                         prevValue={exercise.title}
                                         isNumber={false}/>
                                 </td>
                                 <td className="">
                                     {getWorkoutType() === workoutsConstants.workoutType.CIRCUIT ? <SelectDuration
-                                            onChange={(duration) => onChangeDuration(exercise, duration)}
+                                            onChange={(duration) => {
+                                                const newWorkoutExercise = updateDuration(exercise, duration);
+                                                updateWorkoutExercise(newWorkoutExercise)
+                                            }}
                                             prevDuration={exercise.duration}
                                             showReps={true}/> :
                                         <div className="overflow-y-scroll h-36">
-                                            {new Array(sets).fill(null).map((item, index) => {
+                                            {exercise.sets.map((set, index) => {
                                                 return (
                                                     <SelectDuration
                                                         style={"mb-2"}
                                                         key={index}
-                                                        onChange={(duration) => onChangeSet(exercise, duration, index)}
-                                                        prevDuration={exercise.sets[0]}
+                                                        onChange={(duration) => {
+                                                            const newWorkoutExercise = updateSet(exercise, index, duration);
+                                                            updateWorkoutExercise(newWorkoutExercise)
+                                                        }}
+                                                        prevDuration={set}
                                                         showReps={true}/>
                                                 )
                                             })}
@@ -496,7 +543,16 @@ export default function CreateWorkout({params, close}) {
                                 </td>
                                 {getWorkoutType() === workoutsConstants.workoutType.REPS_SETS ?
                                     <td>
-                                        <Counter onChange={(value) => setNumberOfSets(value)} />
+                                        <Counter onChange={(value) => {
+                                            if (value > exercise.sets.length) {
+                                                const newWorkoutExercise = addSet(exercise);
+                                                updateWorkoutExercise(newWorkoutExercise)
+
+                                            } else {
+                                                const newWorkoutExercise = removeSet(exercise)
+                                                updateWorkoutExercise(newWorkoutExercise)
+                                            }
+                                        }}/>
                                     </td> : null}
                                 <td className="">
                                     <div onClick={() => removeWorkoutExercise(exercise)}

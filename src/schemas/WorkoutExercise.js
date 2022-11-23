@@ -6,7 +6,8 @@ import {generateRandomString} from "../utils/general/utils";
  * This class represents an exercise information in a workout
  */
 const defaultDuration = constructDuration(5000, workoutsConstants.duration.SECONDS)
-export const constructWorkoutExercise = (title = "", duration = defaultDuration, sets = [defaultDuration]) => {
+
+const constructWorkoutExercise = (title = "", duration = defaultDuration, sets = [defaultDuration]) => {
     return {
         id: generateRandomString(),
         title,
@@ -15,23 +16,49 @@ export const constructWorkoutExercise = (title = "", duration = defaultDuration,
     }
 }
 
-export const updateExerciseTitle = (workoutExercise, title) => {
+const updateTitle = (workoutExercise, title) => {
     return {
         ...workoutExercise,
         title,
     }
 }
 
-export const updateDuration = (workoutExercise, duration) => {
+const updateDuration = (workoutExercise, duration) => {
     return {
         ...workoutExercise,
         duration,
     }
 }
 
-export const updateSets = (workoutExercise, sets) => {
+const updateSet = (workoutExercise, index, duration) => {
+    const sets = workoutExercise.sets
+    sets[index] = duration
     return {
         ...workoutExercise,
-        sets,
+        sets
     }
+}
+
+const addSet = (workoutExercise) => {
+    const sets = workoutExercise.sets
+    sets.push(defaultDuration)
+    return {
+        ...workoutExercise,
+        sets
+    }
+}
+
+const removeSet = (workoutExercise) => {
+    const sets = workoutExercise.sets
+    if(sets.length > 1) {
+        sets.pop()
+        return {
+            ...workoutExercise,
+            sets
+        }
+    }
+}
+
+export {
+    constructWorkoutExercise, updateTitle, updateDuration, updateSet, addSet, removeSet
 }
