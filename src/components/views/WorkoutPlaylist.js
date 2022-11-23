@@ -8,7 +8,9 @@ import {timeOrReps} from "../../utils/workout/workoutsHelperFunctions";
 
 const WorkoutPlaylist = ({shouldPlayWorkout, onPauseWorkout, onEndWorkout, workout, playlist}) => {
 
-    const list = playlist;
+    const list = workout.type === workoutsConstants.workoutType.CIRCUIT ? playlist[0] : playlist;
+
+    console.log(list)
 
     const exercises = playlist
 
@@ -79,7 +81,6 @@ const WorkoutPlaylist = ({shouldPlayWorkout, onPauseWorkout, onEndWorkout, worko
      * Seek forward
      */
     const seekForward = () => {
-        console.log("Hiya")
         if (type === workoutsConstants.workoutType.CIRCUIT) {
             seekForwardCircuit()
         } else {
@@ -212,13 +213,13 @@ const WorkoutPlaylist = ({shouldPlayWorkout, onPauseWorkout, onEndWorkout, worko
      * Get the exercise for Circuit
      */
     const getExerciseCircuit = (roundsIndexValue = roundsIndex, exerciseIndexValue = exerciseIndex) => {
-        return list[roundsIndexValue][exerciseIndexValue];
+        return playlist[roundsIndexValue][exerciseIndexValue];
     }
 
     /**
      * Get the exercise for Reps and Sets
      */
-    const getExerciseRepsAndSets = () => exercises[exerciseIndex][setIndex];
+    const getExerciseRepsAndSets = () => exercises[exerciseIndex];
 
     const getRepsOrTimeValue = () => {
         let repsOrTimeValue = getExercise().duration.value;
@@ -231,7 +232,7 @@ const WorkoutPlaylist = ({shouldPlayWorkout, onPauseWorkout, onEndWorkout, worko
     return (
         <div className="relative rounded-md">
             {shouldPlayWorkout ? <p className="font-semibold text-center mt-4 mb-2">{sectionHeader}</p> : null}
-            {list[0].map((exercise, index) =>
+            {list.map((exercise, index) =>
                 <Exercise
                     isActive={getExercise().id === exercise.id && shouldPlayWorkout}
                     key={index}

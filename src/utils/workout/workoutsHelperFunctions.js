@@ -106,34 +106,8 @@ export const loadCircuitWorkout = workout => {
  * @param workout
  */
 export const loadRepsAndSetsWorkout = workout => {
-    let exercises = new Array(workout.workoutExercises.length);
-    for (let i = 0; i < exercises.length; i++) {
-        const exercise = workout.workoutExercises[i];
-        exercises[i] = new Array(exercise.sets.length)
-    }
-    console.log(exercises)
-    return exercises;
+    return workout.workoutExercises
 };
-
-/**
- * Sort out exercises
- * @param workout
- * @param exercises
- * @returns {any[]}
- */
-export const sortWorkouts = (workout, exercises) =>
-    Array.from(workout.workoutExercises)
-        .map(workoutExerciseJSON => {
-            const workoutExercise = JSON.parse(workoutExerciseJSON);
-            const exercise = exercises.find(item => item.id === workoutExercise.exerciseId);
-            if(exercise) {
-                return { ...workoutExercise, exercise };
-            } else {
-                return null
-            }
-        })
-        .filter(workoutExercise => workoutExercise !== null)
-        .sort((a, b) => a.index - b.index);
 
 /**
  * Display either a workout duration or live status

@@ -95,7 +95,7 @@ const PreviewWorkout = ({workoutId, close}) => {
     }, [workoutFromStore]);
 
     /**
-     * Only set the roundsorExercises when workout has been updated with the workout from store
+     * Only set the roundsOrExercises when workout has been updated with the workout from store
      */
     useEffect(() => {
         if (workout) {
