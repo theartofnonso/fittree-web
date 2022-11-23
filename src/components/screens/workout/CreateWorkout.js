@@ -273,7 +273,6 @@ export default function CreateWorkout({params, close}) {
         const exercises = workoutExercises.map(exercise => {
             if (exercise.id === currentExercise.id) {
                 exercise.sets[setsIndex] = duration
-                //return updateSets(currentExercise, sets)
             }
             return exercise;
         });
