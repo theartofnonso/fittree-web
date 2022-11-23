@@ -8,15 +8,13 @@ import {timeOrReps} from "../../utils/workout/workoutsHelperFunctions";
 
 const WorkoutPlaylist = ({shouldPlayWorkout, onPauseWorkout, onEndWorkout, workout, playlist}) => {
 
-    const list = workout.type === workoutsConstants.workoutType.CIRCUIT ? playlist[0] : playlist;
+    const type = workout.type
+
+    const list = type === workoutsConstants.workoutType.CIRCUIT ? playlist[0] : playlist;
 
     console.log(list)
 
     const exercises = playlist
-
-    const rounds = playlist
-
-    const type = workout.type
 
     const [exerciseDuration, setExerciseDuration] = useState(0);
 
@@ -149,15 +147,15 @@ const WorkoutPlaylist = ({shouldPlayWorkout, onPauseWorkout, onEndWorkout, worko
         /**
          * If next exercise is more than exercises in current round attempt to move to next round
          */
-        if (nextExerciseIndex >= rounds[roundsIndex].length) {
+        if (nextExerciseIndex >= playlist[roundsIndex].length) {
             /**
-             * If next round is more than total rounds
+             * If next round is more than total playlist
              */
-            if (nextRoundsIndex >= rounds.length) {
+            if (nextRoundsIndex >= playlist.length) {
                 onEndWorkout()
             } else {
                 /**
-                 * If next round is not more than total rounds, move to next round and restart exercises
+                 * If next round is not more than total playlist, move to next round and restart exercises
                  */
                 setRoundsIndex(nextRoundsIndex);
                 setExerciseIndex(0);
