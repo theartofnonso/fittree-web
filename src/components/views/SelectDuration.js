@@ -37,7 +37,7 @@ const SelectDuration = ({prevDuration, showReps, onChange, style}) => {
                                 onChange(constructDuration(milli, duration.type))
                                 return
                             default:
-                                onChange(constructDuration(event.target.value, duration.type))
+                                onChange(constructDuration(parseInt(event.target.value), duration.type))
                         }
                     }}
                     className="appearance-none bg-gray2 text-gray-700 py-4 px-2 pr-6 rounded-l"
@@ -68,7 +68,7 @@ const SelectDuration = ({prevDuration, showReps, onChange, style}) => {
                                 onChange(constructDuration(milli, event.target.value))
                                 return
                             default:
-                                onChange(constructDuration(duration.value, event.target.value))
+                                onChange(constructDuration(parseInt(duration.value), event.target.value))
                         }
                     }}
                     className="block appearance-none w-full bg-gray2 text-gray-700 h-full px-2 pr-6 rounded-r "
