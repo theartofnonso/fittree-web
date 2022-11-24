@@ -49,7 +49,7 @@ export const fetchCreatorProfile = createAsyncThunk("creatorProfile/get", async 
                         },
                     },
                 ),
-                // authMode: 'AWS_IAM'
+                authMode: 'AWS_IAM'
             }
         )
         const creators = response.data.listCreators.items

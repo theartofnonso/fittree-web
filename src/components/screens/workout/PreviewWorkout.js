@@ -1235,42 +1235,41 @@ const PreviewWorkout = ({workoutId, close}) => {
                                 <CloseIcon/>
                             </div>
                         }
-                        {user ?
-                            <div className="relative cursor-pointer" onMouseOver={() => setShowMenuOptions(true)}
-                                 onMouseLeave={() => setShowMenuOptions(false)}>
-                                <OverflowIcon/>
-                                {showMenuOptions ? <div className="absolute text-left right-0 w-52 z-10">
-                                    <div
-                                        className="mt-2 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-                                        role="menu" aria-orientation="vertical" aria-labelledby="menu-button"
-                                        tabIndex="-1">
-                                        {!isWorkoutPlaying || <div
-                                            onClick={() => {
-                                                setMinimiseScreen(!minimiseScreen)
-                                                setShowMenuOptions(false)
-                                            }}
-                                            className="py-2 hover:bg-secondary w-full rounded-b-md text-gray-700 block px-4 py-2 text-md text-left font-medium"
-                                            role="menuitem" tabIndex="-1"
-                                            id="menu-item-6">{minimiseScreen ? "Minimise" : "Show Fullscreen"}
-                                        </div>}
-                                        {isWorkoutPlaying || <div
-                                            onClick={() => {
-                                                setOpenCreateWorkout(true)
-                                                setShowMenuOptions(false)
-                                            }}
-                                            className="py-2 hover:bg-secondary w-full rounded-b-md text-gray-700 block px-4 py-2 text-md text-left font-medium"
-                                            role="menuitem" tabIndex="-1"
-                                            id="menu-item-6">Edit
-                                        </div>}
-                                        {isWorkoutPlaying || <div
-                                            onClick={doDeleteWorkout}
-                                            className="py-2 hover:bg-darkPrimary bg-primary w-full text-white rounded-b-md text-gray-700 block px-4 py-2 text-md text-left font-medium"
-                                            role="menuitem" tabIndex="-1"
-                                            id="menu-item-6">Delete
-                                        </div>}
-                                    </div>
-                                </div> : null}
+                        <div className="relative cursor-pointer" onMouseOver={() => setShowMenuOptions(true)}
+                             onMouseLeave={() => setShowMenuOptions(false)}>
+                            <OverflowIcon/>
+                            {showMenuOptions ? <div className="absolute text-left right-0 w-52 z-10">
+                                <div
+                                    className="mt-2 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                                    role="menu" aria-orientation="vertical" aria-labelledby="menu-button"
+                                    tabIndex="-1">
+                                    {!isWorkoutPlaying || <div
+                                        onClick={() => {
+                                            setMinimiseScreen(!minimiseScreen)
+                                            setShowMenuOptions(false)
+                                        }}
+                                        className="py-2 hover:bg-secondary w-full rounded-b-md text-gray-700 block px-4 py-2 text-md text-left font-medium"
+                                        role="menuitem" tabIndex="-1"
+                                        id="menu-item-6">{minimiseScreen ? "Minimise" : "Show Fullscreen"}
+                                    </div>}
+                                    {user && isWorkoutPlaying ? <div
+                                        onClick={() => {
+                                            setOpenCreateWorkout(true)
+                                            setShowMenuOptions(false)
+                                        }}
+                                        className="py-2 hover:bg-secondary w-full rounded-b-md text-gray-700 block px-4 py-2 text-md text-left font-medium"
+                                        role="menuitem" tabIndex="-1"
+                                        id="menu-item-6">Edit
+                                    </div> : null}
+                                    {user && isWorkoutPlaying ? <div
+                                        onClick={doDeleteWorkout}
+                                        className="py-2 hover:bg-darkPrimary bg-primary w-full text-white rounded-b-md text-gray-700 block px-4 py-2 text-md text-left font-medium"
+                                        role="menuitem" tabIndex="-1"
+                                        id="menu-item-6">Delete
+                                    </div> : null}
+                                </div>
                             </div> : null}
+                        </div>
                     </div>
 
                     <WorkoutCardBig workout={workout} hideExtras={minimiseScreen}/>

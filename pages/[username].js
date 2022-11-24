@@ -67,8 +67,12 @@ const CreatorProfile = () => {
      */
     const onChangeSearch = query => {
         setSearchQuery(query);
-        const searchResult = searchExerciseOrWorkout(filteredWorkouts, query)
-        setFilteredWorkouts(searchResult);
+        if(query) {
+            const searchResult = searchExerciseOrWorkout(filteredWorkouts, query);
+            setFilteredWorkouts(searchResult);
+        } else {
+            setFilteredWorkouts(workouts);
+        }
     };
 
     if (status === workoutsConstants.profileStatus.LOADING) {
