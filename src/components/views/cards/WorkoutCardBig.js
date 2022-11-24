@@ -8,7 +8,7 @@ const WorkoutCardBig = ({workout, showExtras}) => {
     return (
         <AnimateHeight
             duration={500}
-            className="rounded-lg overflow-hidden relative rounded-lg text-white"
+            className="rounded-lg overflow-hidden relative rounded-lg text-white my-3"
             height={showExtras ? "auto" : "20%"}>
             <img src="/wallpaper.jpg" alt="Display profile" className="object-cover rounded-lg sm:h-52 sm:w-full"/>
             <div

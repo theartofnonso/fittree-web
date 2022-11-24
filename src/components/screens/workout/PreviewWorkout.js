@@ -1177,6 +1177,7 @@ const PreviewWorkout = ({workoutId, close}) => {
         if (isValid) {
             setShouldPlayWorkout(true)
             setIsWorkoutPlaying(true)
+            setMinimiseScreen(true)
         } else {
             setShowSnackBar(true)
             setSnackbarType(SnackBarType.ERROR)
@@ -1244,7 +1245,9 @@ const PreviewWorkout = ({workoutId, close}) => {
                                       onClick={() => {
                                           setMinimiseScreen(!minimiseScreen)
                                           setShowMenuOptions(false)
-                                      }}/>
+                                      }}
+                                      isActive={true}
+                            />
                             <MenuItem label="Edit"
                                       onClick={() => {
                                           setOpenCreateWorkout(true)
