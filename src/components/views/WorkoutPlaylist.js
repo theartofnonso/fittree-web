@@ -123,7 +123,7 @@ const WorkoutPlaylist = ({shouldPlayWorkout, onPauseWorkout, onEndWorkout, worko
                 setExerciseIndex(nextExerciseIndex);
                 setSetIndex(0);
                 setExerciseDuration(getExercise(-1, nextExerciseIndex).sets[0].duration.value);
-                setIntervalModalDescription(workoutsConstants.playMessages.NEXT_SET);
+                setIntervalModalDescription(workoutsConstants.playMessages.NEXT_EXERCISE);
                 setIntervalModalTime(workout.exerciseInterval);
                 setShowIntervalModal(true);
             }
