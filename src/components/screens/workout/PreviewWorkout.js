@@ -17,10 +17,11 @@ import Loading from "../../utils/Loading";
 import {SnackBar, SnackBarType} from "../../views/SnackBar";
 import workoutsConstants from "../../../utils/workout/workoutsConstants";
 import {selectAuthUser} from "../../../features/auth/authUserSlice";
-import DiscoveryHub from "../../views/DiscoveryHub";
 import WorkoutPlaylist from "../../views/WorkoutPlaylist";
 import utilsConstants from "../../../utils/utilsConstants";
 import WorkoutCompletedModal from "./WorkoutCompletedModal";
+import {Transition} from '@headlessui/react'
+import Tags from "../../views/Tags";
 
 const PreviewWorkout = ({workoutId, close}) => {
 
@@ -1243,7 +1244,7 @@ const PreviewWorkout = ({workoutId, close}) => {
                                     className="mt-2 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                                     role="menu" aria-orientation="vertical" aria-labelledby="menu-button"
                                     tabIndex="-1">
-                                    {!isWorkoutPlaying || <div
+                                    <div
                                         onClick={() => {
                                             setMinimiseScreen(!minimiseScreen)
                                             setShowMenuOptions(false)
@@ -1251,8 +1252,8 @@ const PreviewWorkout = ({workoutId, close}) => {
                                         className="py-2 hover:bg-secondary w-full rounded-b-md text-gray-700 block px-4 py-2 text-md text-left font-medium"
                                         role="menuitem" tabIndex="-1"
                                         id="menu-item-6">{minimiseScreen ? "Show Fullscreen" : "Workout mode"}
-                                    </div>}
-                                    {user && isWorkoutPlaying ? <div
+                                    </div>
+                                    <div
                                         onClick={() => {
                                             setOpenCreateWorkout(true)
                                             setShowMenuOptions(false)
@@ -1260,34 +1261,35 @@ const PreviewWorkout = ({workoutId, close}) => {
                                         className="py-2 hover:bg-secondary w-full rounded-b-md text-gray-700 block px-4 py-2 text-md text-left font-medium"
                                         role="menuitem" tabIndex="-1"
                                         id="menu-item-6">Edit
-                                    </div> : null}
-                                    {user && isWorkoutPlaying ? <div
+                                    </div>
+                                    <div
                                         onClick={doDeleteWorkout}
                                         className="py-2 hover:bg-darkPrimary bg-primary w-full text-white rounded-b-md text-gray-700 block px-4 py-2 text-md text-left font-medium"
                                         role="menuitem" tabIndex="-1"
                                         id="menu-item-6">Delete
-                                    </div> : null}
+                                    </div>
                                 </div>
                             </div> : null}
                         </div>
                     </div>
 
-                    <WorkoutCardBig workout={workout} hideExtras={minimiseScreen}/>
+                    <WorkoutCardBig workout={workout} showExtras={!minimiseScreen}/>
 
-                    <div className="flex flex-row items-center my-4">
-                        <div
-                            className={`flex flex-row items-center px-2 outline outline-2 bg-secondary text-primary ${workout.type === workoutsConstants.workoutType.CIRCUIT ? "rounded-l" : "rounded"} text-xs font-semibold`}>{workout.workoutExercises.length} exercises
-                        </div>
-                        {workout.type === workoutsConstants.workoutType.CIRCUIT ?
-                            <div
-                                className="flex flex-row items-center ml-1.5 px-2 outline outline-2 bg-secondary text-primary rounded-r text-xs font-semibold">
-                                {workout.rounds} Rounds
-                            </div> : null}
-                    </div>
-
-                    {minimiseScreen || <div className="overscroll-contain mb-4">
-                        <p className="font-light break-words whitespace-pre-line text-sm">{workout.description || utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_DESCRIPTION}</p>
-                    </div>}
+                    <Transition
+                        show={!minimiseScreen}
+                        className="font-light break-words whitespace-pre-line text-sm h-32 overflow-auto my-3 space-y-3"
+                        enter="transition-height duration-500"
+                        enterFrom="h-0 opacity-0"
+                        enterTo="h-32 opacity-100"
+                        leave="transition-height duration-500"
+                        leaveFrom="h-32 opacity-100"
+                        leaveTo="h-0 opacity-0">
+                        <p>{workout.description || utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_DESCRIPTION}</p>
+                        {!minimiseScreen ? <Tags items={workout.bodyParts} emptyState={"No body parts trained"}
+                                            containerStyle="flex flex-row text-sm overflow-x-scroll"/> : null}
+                        {!minimiseScreen ? <Tags items={workout.equipments} emptyState={"No equipment"}
+                                            containerStyle="flex flex-row text-sm overflow-x-scroll"/> : null}
+                    </Transition>
 
                     <WorkoutPlaylist shouldPlayWorkout={shouldPlayWorkout}
                                      onPauseWorkout={(shouldPlay) => setShouldPlayWorkout(shouldPlay)}
@@ -1297,12 +1299,6 @@ const PreviewWorkout = ({workoutId, close}) => {
                                      }}
                                      workout={workout}
                                      playlist={roundsOrExercises}/>
-
-                    {selectedExercise ?
-                        <div className="mt-2 mb-4 pl-4">
-                            <DiscoveryHub recommendation={recommendedVideos.get(selectedExercise.id)}
-                                          tag={{title: selectedExercise.title}}/>
-                        </div> : null}
 
                     {!shouldPlayWorkout ?
                         <div onClick={playWorkout}

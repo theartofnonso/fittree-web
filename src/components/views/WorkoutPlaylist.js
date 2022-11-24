@@ -25,7 +25,7 @@ const WorkoutPlaylist = ({shouldPlayWorkout, onPauseWorkout, onEndWorkout, worko
 
     const [intervalModalTime, setIntervalModalTime] = useState(0);
 
-    const sectionHeader = `- Round ${roundsIndex + 1} -`;
+    const sectionHeader = `Round ${roundsIndex + 1} of ${playlist.length}`;
 
     const [isWorkoutStarting, setIsWorkoutStarting] = useState(true)
 
@@ -255,7 +255,8 @@ const WorkoutPlaylist = ({shouldPlayWorkout, onPauseWorkout, onEndWorkout, worko
 
     return (
         <div className="relative rounded-md">
-            {shouldPlayWorkout && type === workoutsConstants.workoutType.CIRCUIT ? <p className="font-semibold text-center mt-4 mb-2">{sectionHeader}</p> : null}
+            {shouldPlayWorkout && type === workoutsConstants.workoutType.CIRCUIT ?
+                <p className="font-semibold text-center mb-2">{sectionHeader}</p> : null}
             {list.map((exercise, index) =>
                 <Exercise
                     isActive={getExercise().id === exercise.id && shouldPlayWorkout}
