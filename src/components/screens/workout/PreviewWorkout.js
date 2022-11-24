@@ -33,7 +33,6 @@ const PreviewWorkout = ({workoutId, close}) => {
      * @type {unknown}
      */
     const workoutFromStore = user ? useSelector(state => selectWorkoutById(state, workoutId)) : useSelector(state => unauthSelectWorkoutById(state, workoutId));
-
     const [workout, setWorkout] = useState(() => {
         return {
             ...workoutFromStore,
@@ -96,7 +95,7 @@ const PreviewWorkout = ({workoutId, close}) => {
     }, [workoutFromStore]);
 
     /**
-     * Only set the roundsorExercises when workout has been updated with the workout from store
+     * Only set the roundsOrExercises when workout has been updated with the workout from store
      */
     useEffect(() => {
         if (workout) {
@@ -1195,25 +1194,18 @@ const PreviewWorkout = ({workoutId, close}) => {
      * Delete the workout
      */
     const doDeleteWorkout = async () => {
-        if (!workout.isLive) {
-            setIsLoading(true)
-            setLoadingMessage("Deleting workout")
-            try {
-                await deleteWorkoutHelper();
-                setIsLoading(false)
-                close()
-            } catch (err) {
-                setIsLoading(false)
-                setShowSnackBar(true)
-                setSnackbarType(SnackBarType.ERROR)
-                setSnackbarMessage("Oops! unable to delete workout at this moment")
-            }
-        } else {
+        setIsLoading(true)
+        setLoadingMessage("Deleting workout")
+        try {
+            await deleteWorkoutHelper();
+            setIsLoading(false)
+            close()
+        } catch (err) {
+            setIsLoading(false)
             setShowSnackBar(true)
-            setSnackbarType(SnackBarType.WARN)
-            setSnackbarMessage("Remove workout from live before deleting it")
+            setSnackbarType(SnackBarType.ERROR)
+            setSnackbarMessage("Oops! unable to delete workout at this moment")
         }
-
     };
 
     if (openCreateWorkout) {
@@ -1253,13 +1245,19 @@ const PreviewWorkout = ({workoutId, close}) => {
                                         role="menu" aria-orientation="vertical" aria-labelledby="menu-button"
                                         tabIndex="-1">
                                         {!isWorkoutPlaying || <div
-                                            onClick={() => setMinimiseScreen(!minimiseScreen)}
+                                            onClick={() => {
+                                                setMinimiseScreen(!minimiseScreen)
+                                                setShowMenuOptions(false)
+                                            }}
                                             className="py-2 hover:bg-secondary w-full rounded-b-md text-gray-700 block px-4 py-2 text-md text-left font-medium"
                                             role="menuitem" tabIndex="-1"
                                             id="menu-item-6">{minimiseScreen ? "Minimise" : "Show Fullscreen"}
                                         </div>}
                                         {isWorkoutPlaying || <div
-                                            onClick={() => setOpenCreateWorkout(true)}
+                                            onClick={() => {
+                                                setOpenCreateWorkout(true)
+                                                setShowMenuOptions(false)
+                                            }}
                                             className="py-2 hover:bg-secondary w-full rounded-b-md text-gray-700 block px-4 py-2 text-md text-left font-medium"
                                             role="menuitem" tabIndex="-1"
                                             id="menu-item-6">Edit
@@ -1293,7 +1291,7 @@ const PreviewWorkout = ({workoutId, close}) => {
                     </div>}
 
                     <WorkoutPlaylist shouldPlayWorkout={shouldPlayWorkout}
-                                     onPauseWorkout={(shouldPlay) =>  setShouldPlayWorkout(shouldPlay)}
+                                     onPauseWorkout={(shouldPlay) => setShouldPlayWorkout(shouldPlay)}
                                      onEndWorkout={() => {
                                          // Navigate to a workout completed screen
                                          setShowWorkoutCompletedModal(true)

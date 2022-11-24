@@ -2,7 +2,7 @@
 import React, {useEffect, useRef, useState} from "react";
 import EditIcon from "../../assets/svg/edit-2-line-white.svg";
 import DeleteIcon from "../../assets/svg/delete-bin-white-line.svg";
-import AddIcon from "../../assets/svg/add-line-white.svg";
+import AddIcon from "../../assets/svg/add-line.svg";
 import ReactPlayer from "react-player";
 import {SnackBar, SnackBarType} from "./SnackBar";
 

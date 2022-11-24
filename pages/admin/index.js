@@ -47,8 +47,6 @@ export default function Dashboard({username}) {
      */
     return (
         <div className="container mx-auto px-2 py-4 min-h-screen">
-            <NavBar username={username}/>
-            <Profile user={user}/>
             <Workouts user={user}/>
         </div>
     )

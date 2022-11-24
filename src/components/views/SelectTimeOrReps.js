@@ -7,7 +7,7 @@ import {
 } from "../../utils/workout/workoutsHelperFunctions";
 import {constructDuration, updateDurationType, updateDurationValue} from "../../schemas/Duration";
 
-const SelectDuration = ({prevDuration, showReps, onChange}) => {
+const SelectTimeOrReps = ({prevDuration, showReps, onChange, style}) => {
 
     const [duration, setDuration] = useState(() => {
 
@@ -22,7 +22,7 @@ const SelectDuration = ({prevDuration, showReps, onChange}) => {
     })
 
     return (
-        <div className="flex flex-row">
+        <div className={`flex flex-row ${style}`}>
             <div className="relative border-none">
                 <select
                     value={duration.value}
@@ -37,12 +37,12 @@ const SelectDuration = ({prevDuration, showReps, onChange}) => {
                                 onChange(constructDuration(milli, duration.type))
                                 return
                             default:
-                                onChange(constructDuration(event.target.value, duration.type))
+                                onChange(constructDuration(parseInt(event.target.value), duration.type))
                         }
                     }}
                     className="appearance-none bg-gray2 text-gray-700 py-4 px-2 pr-6 rounded-l"
                     id="grid-state">
-                    {Array(59).fill(0).map((item, index) => {
+                    {Array(60).fill(0).map((item, index) => {
                         const durationNumber = index
                         return <option value={durationNumber} key={durationNumber}>{durationNumber}</option>
                     })}
@@ -54,7 +54,7 @@ const SelectDuration = ({prevDuration, showReps, onChange}) => {
                     </svg>
                 </div>
             </div>
-            <div className="relative border-none">
+            <div className="relative border-none w-full">
                 <select
                     value={duration.type}
                     onChange={(event) => {
@@ -68,7 +68,7 @@ const SelectDuration = ({prevDuration, showReps, onChange}) => {
                                 onChange(constructDuration(milli, event.target.value))
                                 return
                             default:
-                                onChange(constructDuration(duration.value, event.target.value))
+                                onChange(constructDuration(parseInt(duration.value), event.target.value))
                         }
                     }}
                     className="block appearance-none w-full bg-gray2 text-gray-700 h-full px-2 pr-6 rounded-r "
@@ -89,4 +89,4 @@ const SelectDuration = ({prevDuration, showReps, onChange}) => {
     );
 };
 
-export default SelectDuration;
+export default SelectTimeOrReps;

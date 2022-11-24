@@ -97,7 +97,7 @@ const CreatorProfile = () => {
          */
         return (
             <div className="container mx-auto p-4 min-h-screen">
-                <NavBar/>
+                <NavBar user={profile}/>
                 <Profile user={profile}/>
                 <div className="my-4 flex flex-col items-center">
                     <input

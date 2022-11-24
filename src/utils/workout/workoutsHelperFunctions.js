@@ -29,6 +29,21 @@ export const workoutDurationSummary = duration => {
 }
 
 /**
+ * Determine if duration is second or time
+ * @param duration
+ * @returns {number}
+ */
+export const isMinutesOrSeconds = duration => {
+    const seconds = Math.round(duration / 1000)
+    const minutes = Math.round(duration / 60000)
+
+    if (seconds >= 60) {
+        return workoutsConstants.duration.MINUTES
+    }
+    return workoutsConstants.duration.SECONDS
+}
+
+/**
  * Convert milliseconds to seconds or minutes
  * @param duration
  * @returns {number}
@@ -71,7 +86,7 @@ export const convertSecondsOrMinutesToMilli = (value, type) => {
  * @param duration
  * @returns {string}
  */
-export const intervalDurationSummary = duration => {
+export const timeSummary = duration => {
     const exactDurationInSeconds = Math.round(duration / 1000)
     const exactDurationInMinutes = Math.round(duration / 60000)
 
@@ -106,33 +121,8 @@ export const loadCircuitWorkout = workout => {
  * @param workout
  */
 export const loadRepsAndSetsWorkout = workout => {
-    let exercises = new Array(workout.workoutExercises.length);
-    for (let i = 0; i < exercises.length; i++) {
-        const exercise = workout.workoutExercises[i];
-        exercises[i] = new Array(exercise.sets).fill(exercise);
-    }
-    return exercises;
+    return workout.workoutExercises
 };
-
-/**
- * Sort out exercises
- * @param workout
- * @param exercises
- * @returns {any[]}
- */
-export const sortWorkouts = (workout, exercises) =>
-    Array.from(workout.workoutExercises)
-        .map(workoutExerciseJSON => {
-            const workoutExercise = JSON.parse(workoutExerciseJSON);
-            const exercise = exercises.find(item => item.id === workoutExercise.exerciseId);
-            if(exercise) {
-                return { ...workoutExercise, exercise };
-            } else {
-                return null
-            }
-        })
-        .filter(workoutExercise => workoutExercise !== null)
-        .sort((a, b) => a.index - b.index);
 
 /**
  * Display either a workout duration or live status

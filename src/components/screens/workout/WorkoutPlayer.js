@@ -90,7 +90,7 @@ const WorkoutPlayer = props => {
                     <div className="">
                         <p>Up Next:</p>
                         <WorkoutExerciseCard
-                            data={props.nextWorkoutExercise}
+                            exercise={props.nextWorkoutExercise}
                             type={props.type}/>
                     </div>
                 </div> : null}
