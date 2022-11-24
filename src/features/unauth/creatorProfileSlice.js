@@ -55,6 +55,7 @@ export const fetchCreatorProfile = createAsyncThunk("creatorProfile/get", async 
         const creators = response.data.listCreators.items
         return creators.length > 0 ? creators[0] : null
     } catch (err) {
+        console.log(err)
         return rejectWithValue({
             profile: null,
             status: workoutsConstants.profileStatus.FAILED

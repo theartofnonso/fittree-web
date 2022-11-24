@@ -261,7 +261,7 @@ const WorkoutPlaylist = ({shouldPlayWorkout, onPauseWorkout, onEndWorkout, worko
                     isActive={getExercise().id === exercise.id && shouldPlayWorkout}
                     key={index}
                     exercise={exercise}
-                    currentSet={getExercise().sets[setIndex]}
+                    setIndex={setIndex}
                     duration={getDuration()}
                     timeLeft={exerciseDuration}
                     workoutType={type}/>

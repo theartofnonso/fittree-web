@@ -8,7 +8,7 @@ import InfoIcon from "../../../assets/svg/information-line.svg";
  * Helper function to display appropriate RepsOrTime summary
  * @returns {number|*}
  */
-const displayDurationSummary = (workoutType, exercise, currentSet, duration, timeLeft) => {
+const displayDurationSummary = (workoutType, exercise, duration, timeLeft) => {
     let description;
     if (duration.type === workoutsConstants.exerciseInfo.REPS) {
         description = timeLeft + " " + "Reps"
@@ -48,13 +48,13 @@ const displayDuration = (workoutType, exercise, set = null) => {
     return description
 };
 
-const ExerciseInfo = ({workoutType, exercise, set, isActive}) => {
+const ExerciseInfo = ({exercise, workoutType, set, isActiveSet, isActive}) => {
     return (
-        <p className={`text-xs font-semibold px-2 py-0.5 rounded-sm ${isActive ? "bg-secondary text-primary" : "bg-primary text-white"}`}>{displayDuration(workoutType, exercise, set)}</p>
+        <p className={`text-xs font-semibold px-2 py-0.5 rounded-sm ${isActive ? "bg-secondary text-primary" : "bg-primary text-white"} ${isActive && isActiveSet ? "motion-safe:animate-pulse" : ""}`}>{displayDuration(workoutType, exercise, set)}</p>
     )
 }
 
-const Exercise = ({isActive, exercise, currentSet, duration, timeLeft, workoutType, onClick}) => {
+const Exercise = ({isActive, exercise, setIndex, duration, timeLeft, workoutType, onClick}) => {
 
     return (
         <button onClick={onClick}
@@ -72,13 +72,14 @@ const Exercise = ({isActive, exercise, currentSet, duration, timeLeft, workoutTy
                                     key={index}
                                     exercise={exercise}
                                     workoutType={workoutType}
+                                    set={set}
                                     isActive={isActive}
-                                    set={set}/>)
+                                    isActiveSet={index === setIndex}/>)
                             }) : null}
                     </div>
                 </div>
                 {isActive ?
-                    <p className="text-lg font-bold mr-4 text-white">{displayDurationSummary(workoutType, exercise, currentSet, duration, timeLeft)}</p> : null}
+                    <p className="text-lg font-bold mr-4 text-white">{displayDurationSummary(workoutType, exercise, duration, timeLeft)}</p> : null}
             </div>
             <div className="flex flex-row items-center justify-end cursor-pointer h-10">
                 <InfoIcon/>
