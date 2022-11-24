@@ -20,7 +20,7 @@ const WorkoutCardBig = ({workout, showExtras}) => {
                 <p className="font-bold text-left">{workout.title}</p>
                 <p className="text-sm font-medium">{workout.intensityLevel}</p>
 
-                <div className="flex flex-row mt-1">
+                <div className="flex flex-row mt-1.5">
                     <div
                         className={`flex flex-row items-center px-2 py-0.5 w-fit bg-white text-primary ${workout.type === workoutsConstants.workoutType.CIRCUIT ? "rounded-l" : "rounded"} text-xs font-semibold`}>{workout.workoutExercises.length} exercises
                     </div>

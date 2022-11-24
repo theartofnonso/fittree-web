@@ -31,7 +31,7 @@ const WorkoutList = ({workouts, emptyListMessage}) => {
     } else {
         return (
             <div className="h-screen">
-                <p className="text-sm sm:text-md md:text-lg font-light">{`${workouts.length} workouts`} </p>
+                <p className="text-sm sm:text-md md:text-lg font-semibold">{`${workouts.length} workouts`} </p>
                 {workouts.length > 0 ?
                     <div className="mt-1 grid gap-1 grid-cols-2 sm:grid-cols-4">
                         {workouts.map((item, index) => {
