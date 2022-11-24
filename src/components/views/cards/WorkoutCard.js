@@ -1,6 +1,5 @@
 import React from 'react';
 import {workoutTagDisplay} from "../../../utils/workout/workoutsHelperFunctions";
-import workoutsConstants from "../../../utils/workout/workoutsConstants";
 
 const WorkoutCard = ({workout}) => {
 
