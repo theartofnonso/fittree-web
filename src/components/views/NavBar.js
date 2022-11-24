@@ -24,7 +24,7 @@ const NavBar = ({user, isAuth, onCreateCircuit, onCreateRepsAndSets}) => {
      * copy shareable link
      */
     const copyShareableLink = () => {
-        navigator.clipboard.writeText(generateShareableLink(user.username)).then(() => {
+        navigator.clipboard.writeText(generateShareableLink(user.preferred_username)).then(() => {
             setShowSnackBar(true)
         });
     }
