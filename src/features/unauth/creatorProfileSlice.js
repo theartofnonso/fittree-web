@@ -1,6 +1,6 @@
 /* eslint-disable */
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import {API, graphqlOperation} from "aws-amplify";
+import {API, Auth, graphqlOperation} from "aws-amplify";
 import * as queries from "../../graphql/queries";
 import workoutsConstants from "../../utils/workout/workoutsConstants";
 
@@ -39,7 +39,18 @@ const creatorProfileSlice = createSlice({
 export const fetchCreatorProfile = createAsyncThunk("creatorProfile/get", async (payload, {rejectWithValue}) => {
     const {username} = payload;
 
+    let isAuthenticated = false;
     try {
+        await Auth.currentAuthenticatedUser()
+        isAuthenticated = true
+    } catch (err) {
+        /**
+         * Do nothing
+         */
+    }
+
+    try {
+
         const response = await API.graphql({
                 ...graphqlOperation(queries.listCreators, {
                         filter: {
@@ -49,7 +60,7 @@ export const fetchCreatorProfile = createAsyncThunk("creatorProfile/get", async 
                         },
                     },
                 ),
-                authMode: 'AWS_IAM'
+            authMode: isAuthenticated ? "AMAZON_COGNITO_USER_POOLS" : "AWS_IAM"
             }
         )
         const creators = response.data.listCreators.items
