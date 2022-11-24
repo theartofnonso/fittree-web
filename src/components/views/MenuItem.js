@@ -3,8 +3,6 @@ import React from "react";
 
 const MenuItem = ({label, onClick, isHighlighted, isActive = true}) => {
 
-    console.log(isActive)
-
     if(isActive) {
         return (
             <div
