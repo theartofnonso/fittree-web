@@ -12,10 +12,6 @@ const WorkoutPlaylist = ({shouldPlayWorkout, onPauseWorkout, onEndWorkout, worko
 
     const list = type === workoutsConstants.workoutType.CIRCUIT ? playlist[0] : playlist;
 
-    console.log(list)
-
-    const exercises = playlist
-
     const [exerciseDuration, setExerciseDuration] = useState(0);
 
     const [exerciseIndex, setExerciseIndex] = useState(0);
@@ -102,26 +98,78 @@ const WorkoutPlaylist = ({shouldPlayWorkout, onPauseWorkout, onEndWorkout, worko
      */
     const seekForwardRepsAndSets = () => {
 
-        const nextExerciseIndex = exerciseIndex + 1;
         const nextSetIndex = setIndex + 1;
+        const nextExerciseIndex = exerciseIndex + 1;
 
-        if (nextSetIndex >= exercises[exerciseIndex].length) {
-            if (nextExerciseIndex >= exercises.length) {
+        /**
+         * If next set is more than sets in current exercise attempt to move to next exercise
+         */
+        if (nextSetIndex >= playlist[nextExerciseIndex].sets[setIndex].length) {
+            /**
+             * If next exercise is more than total playlist
+             */
+            if (nextExerciseIndex >= playlist.length) {
                 onEndWorkout()
             } else {
+                /**
+                 * If next exercise is not more than total playlist, move to next exercise
+                 */
                 setExerciseIndex(nextExerciseIndex);
                 setSetIndex(0);
-                setExerciseDuration(exercises[nextExerciseIndex][0].duration.value);
-                setIntervalModalDescription(workoutsConstants.playMessages.NEXT_EXERCISE);
+                setExerciseDuration(getExercise(nextExerciseIndex)[0].duration.value);
+                setIntervalModalDescription(workoutsConstants.playMessages.NEXT_SET);
                 setIntervalModalTime(workout.exerciseInterval);
                 setShowIntervalModal(true);
             }
         } else {
+            /**
+             * If next set is not more than sets in current exercise attempt to move to next set
+             */
             setSetIndex(nextSetIndex);
-            setExerciseDuration(getExercise().duration.value);
+            setExerciseDuration(getExercise(exerciseIndex).sets[nextSetIndex].duration.value);
             setIntervalModalTime(workout.setsInterval);
             setShowIntervalModal(true);
         }
+    };
+
+    /**
+     * Seek through exercises
+     */
+    const temp = () => {
+
+        const nextExerciseIndex = exerciseIndex + 1;
+        const nextSetIndex = setIndex + 1;
+
+        /**
+         * If next set is more than sets in current exercise attempt to move to next exercise
+         */
+        if (nextSetIndex >= playlist[nextExerciseIndex][setIndex].length) {
+            /**
+             * If next exercise is more than total playlist
+             */
+            if (nextExerciseIndex >= playlist.length) {
+                onEndWorkout()
+            } else {
+                /**
+                 * If next exercise is not more than total playlist, move to next exercise
+                 */
+                setExerciseIndex(nextExerciseIndex);
+                setSetIndex(0);
+                setExerciseDuration(getExercise(nextExerciseIndex)[0].duration.value);
+                setIntervalModalDescription(workoutsConstants.playMessages.NEXT_SET);
+                setIntervalModalTime(workout.exerciseInterval);
+                setShowIntervalModal(true);
+            }
+        } else {
+            /**
+             * If next set is not more than sets in current exercise attempt to move to next set
+             */
+            setSetIndex(nextSetIndex);
+            setExerciseDuration(getExercise(nextExerciseIndex)[nextSetIndex].duration.value);
+            setIntervalModalTime(workout.setsInterval);
+            setShowIntervalModal(true);
+        }
+
     };
 
     /**
@@ -202,8 +250,9 @@ const WorkoutPlaylist = ({shouldPlayWorkout, onPauseWorkout, onEndWorkout, worko
         if(type === workoutsConstants.workoutType.CIRCUIT) {
             exercise = getExerciseCircuit(roundsIndexValue, exerciseIndexValue)
         } else {
-            exercise = getExerciseRepsAndSets()
+            exercise = getExerciseRepsAndSets(exerciseIndexValue)
         }
+
         return exercise;
     }
 
@@ -217,12 +266,17 @@ const WorkoutPlaylist = ({shouldPlayWorkout, onPauseWorkout, onEndWorkout, worko
     /**
      * Get the exercise for Reps and Sets
      */
-    const getExerciseRepsAndSets = () => exercises[exerciseIndex];
+    const getExerciseRepsAndSets = (exerciseIndexValue = exerciseIndex) => {
+        return playlist[exerciseIndexValue];
+    }
 
     const getRepsOrTimeValue = () => {
-        let repsOrTimeValue = getExercise().duration.value;
+        let repsOrTimeValue;
         if (getExercise().duration.type !== workoutsConstants.duration.REPS) {
             repsOrTimeValue = exerciseDuration / 1000;
+        } else {
+            console.log(getExercise().sets[setIndex].duration.value)
+            repsOrTimeValue = getExercise().sets[setIndex].duration.value;
         }
         return repsOrTimeValue + " " + timeOrReps(getExercise().duration.type);
     };
@@ -234,9 +288,9 @@ const WorkoutPlaylist = ({shouldPlayWorkout, onPauseWorkout, onEndWorkout, worko
                 <Exercise
                     isActive={getExercise().id === exercise.id && shouldPlayWorkout}
                     key={index}
-                    data={exercise}
+                    exercise={exercise}
                     extraData={getRepsOrTimeValue()}
-                    type={type}/>
+                    workoutType={type}/>
             )}
 
             {shouldPlayWorkout && !showIntervalModal ?

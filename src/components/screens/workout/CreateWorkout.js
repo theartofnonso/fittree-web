@@ -481,7 +481,7 @@ export default function CreateWorkout({params, close}) {
                                                             const newWorkoutExercise = updateSet(exercise, index, duration);
                                                             updateWorkoutExercise(newWorkoutExercise)
                                                         }}
-                                                        prevDuration={set}
+                                                        prevDuration={set.duration}
                                                         showReps={true}/>
                                                 )
                                             })}

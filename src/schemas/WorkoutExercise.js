@@ -7,7 +7,11 @@ import {generateRandomString} from "../utils/general/utils";
  */
 const defaultDuration = constructDuration(5000, workoutsConstants.duration.SECONDS)
 
-const constructWorkoutExercise = (title = "", duration = defaultDuration, sets = [defaultDuration]) => {
+const defaultSets = {
+    duration: defaultDuration
+}
+
+const constructWorkoutExercise = (title = "", duration = defaultDuration, sets = [defaultSets]) => {
     return {
         id: generateRandomString(),
         title,
@@ -32,7 +36,9 @@ const updateDuration = (workoutExercise, duration) => {
 
 const updateSet = (workoutExercise, index, duration) => {
     const sets = workoutExercise.sets
-    sets[index] = duration
+    sets[index] = {
+        duration
+    }
     return {
         ...workoutExercise,
         sets
@@ -41,7 +47,7 @@ const updateSet = (workoutExercise, index, duration) => {
 
 const addSet = (workoutExercise) => {
     const sets = workoutExercise.sets
-    sets.push(defaultDuration)
+    sets.push(defaultSets)
     return {
         ...workoutExercise,
         sets
