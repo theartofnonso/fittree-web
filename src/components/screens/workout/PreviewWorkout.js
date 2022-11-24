@@ -1250,7 +1250,7 @@ const PreviewWorkout = ({workoutId, close}) => {
                                         }}
                                         className="py-2 hover:bg-secondary w-full rounded-b-md text-gray-700 block px-4 py-2 text-md text-left font-medium"
                                         role="menuitem" tabIndex="-1"
-                                        id="menu-item-6">{minimiseScreen ? "Minimise" : "Show Fullscreen"}
+                                        id="menu-item-6">{minimiseScreen ? "Show Fullscreen" : "Workout mode"}
                                     </div>}
                                     {user && isWorkoutPlaying ? <div
                                         onClick={() => {
