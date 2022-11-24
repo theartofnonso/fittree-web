@@ -7,7 +7,7 @@ import {
 } from "../../utils/workout/workoutsHelperFunctions";
 import {constructDuration, updateDurationType, updateDurationValue} from "../../schemas/Duration";
 
-const SelectDuration = ({prevDuration, showReps, onChange, style}) => {
+const SelectTimeOrReps = ({prevDuration, showReps, onChange, style}) => {
 
     const [duration, setDuration] = useState(() => {
 
@@ -89,4 +89,4 @@ const SelectDuration = ({prevDuration, showReps, onChange, style}) => {
     );
 };
 
-export default SelectDuration;
+export default SelectTimeOrReps;

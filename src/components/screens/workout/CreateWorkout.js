@@ -12,7 +12,7 @@ import Equipments from "../../views/Equipments";
 import InputValue from "../../views/InputValue";
 import InputTime from "../../views/InputTime";
 import AddIcon from "../../../assets/svg/add-line.svg";
-import SelectDuration from "../../views/SelectDuration";
+import SelectTimeOrReps from "../../views/SelectTimeOrReps";
 import Loading from "../../utils/Loading";
 import {selectAuthUser} from "../../../features/auth/authUserSlice";
 import {SnackBar, SnackBarType} from "../../views/SnackBar";
@@ -332,13 +332,19 @@ export default function CreateWorkout({params, close}) {
      * @returns {*}
      */
     const calcExerciseDuration = (totalDuration, exercise) => {
-        let exerciseDuration = exercise.duration.type === workoutsConstants.duration.REPS ? exercise.duration.value * 3000 : exercise.duration.value;
-        if (getWorkoutType() === workoutsConstants.workoutType.REPS_SETS) {
-            const duration = exerciseDuration * exercise.sets;
-            const totalSetsInterval = (exercise.sets - 1) * setsInterval;
-            exerciseDuration += duration + totalSetsInterval;
+
+        if (getWorkoutType() === workoutsConstants.workoutType.CIRCUIT) {
+            let exerciseDuration = exercise.duration.type === workoutsConstants.duration.REPS ? exercise.duration.value * 3000 : exercise.duration.value;
+            return totalDuration + exerciseDuration
+        } else {
+            const exerciseDuration = exercise.sets.reduce((totalSets, set) => {
+                const setDuration = set.duration.type === workoutsConstants.exerciseInfo.REPS ? set.duration.value * 3000 : set.duration.value;
+                return totalSets + setDuration
+            }, 0)
+            const totalSetsInterval = (exercise.sets.length - 1) * setsInterval;
+            return totalDuration + (exerciseDuration + totalSetsInterval)
         }
-        return totalDuration + exerciseDuration;
+
     };
 
     /**
@@ -456,14 +462,14 @@ export default function CreateWorkout({params, close}) {
                                                 updateWorkoutExercise(newWorkoutExercise)
                                             } else {
                                                 const newWorkoutExercise = removeSet(exercise)
-                                                if(newWorkoutExercise != null) {
+                                                if (newWorkoutExercise != null) {
                                                     updateWorkoutExercise(newWorkoutExercise)
                                                 }
 
                                             }
                                         }}/> : null}
 
-                                    {getWorkoutType() === workoutsConstants.workoutType.CIRCUIT ? <SelectDuration
+                                    {getWorkoutType() === workoutsConstants.workoutType.CIRCUIT ? <SelectTimeOrReps
                                             onChange={(duration) => {
                                                 const newWorkoutExercise = updateDuration(exercise, duration);
                                                 updateWorkoutExercise(newWorkoutExercise)
@@ -473,7 +479,7 @@ export default function CreateWorkout({params, close}) {
                                         <div className="overflow-y-scroll h-36">
                                             {exercise.sets.map((set, index) => {
                                                 return (
-                                                    <SelectDuration
+                                                    <SelectTimeOrReps
                                                         style={"mb-2"}
                                                         key={index}
                                                         onChange={(duration) => {

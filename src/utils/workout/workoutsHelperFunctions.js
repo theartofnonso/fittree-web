@@ -29,6 +29,21 @@ export const workoutDurationSummary = duration => {
 }
 
 /**
+ * Determine if duration is second or time
+ * @param duration
+ * @returns {number}
+ */
+export const isMinutesOrSeconds = duration => {
+    const seconds = Math.round(duration / 1000)
+    const minutes = Math.round(duration / 60000)
+
+    if (seconds >= 60) {
+        return workoutsConstants.duration.MINUTES
+    }
+    return workoutsConstants.duration.SECONDS
+}
+
+/**
  * Convert milliseconds to seconds or minutes
  * @param duration
  * @returns {number}

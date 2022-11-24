@@ -1,8 +1,9 @@
 /* eslint-disable */
 import React from "react";
-import SelectDuration from "./SelectDuration";
+import SelectTimeOrReps from "./SelectTimeOrReps";
 import workoutsConstants from "../../utils/workout/workoutsConstants";
 import {constructDuration} from "../../schemas/Duration";
+import {convertMilliToSecondsOrMinutes, isMinutesOrSeconds} from "../../utils/workout/workoutsHelperFunctions";
 
 const InputTime = (props) => {
 
@@ -21,7 +22,7 @@ const InputTime = (props) => {
     return (
         <div className="my-2 flex flex-row place-content-between items-center rounded-md ">
             <p className="p-2">{props.title}</p>
-            <SelectDuration prevDuration={constructDuration(props.value, workoutsConstants.duration.SECONDS)} onChange={onChange} showReps={false}/>
+            <SelectTimeOrReps prevDuration={constructDuration(props.value, isMinutesOrSeconds(props.value))} onChange={onChange} showReps={false}/>
         </div>
     );
 };
