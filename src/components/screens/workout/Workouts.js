@@ -1,13 +1,14 @@
 import {withSSRContext} from "aws-amplify";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
-import AddIcon from "/src/assets/svg/add-line.svg";
 import workoutsConstants from "../../../utils/workout/workoutsConstants";
 import CreateWorkout from "./CreateWorkout";
 import Footer from "../../views/Footer";
 import WorkoutList from "../../views/WorkoutList";
 import {searchExerciseOrWorkout} from "../../../utils/workoutAndExerciseUtils";
 import {selectAllWorkouts, workoutsAdded} from "../../../features/auth/authWorkoutsSlice";
+import NavBar from "../../views/NavBar";
+import Profile from "../../views/Profile";
 
 export default function Workouts({user}) {
 
@@ -55,8 +56,20 @@ export default function Workouts({user}) {
         }
     };
 
+    /**
+     * Open the Create workout screen
+     */
+    const openWorkoutCreator = (workoutType) => {
+        setWorkoutType(workoutType)
+        setOpenCreateWorkout(true)
+    }
+
     return (
         <div className="container mx-auto h-screen">
+            <NavBar user={user}
+                    onCreateCircuit={() => openWorkoutCreator(workoutsConstants.workoutType.CIRCUIT)}
+                    onCreateRepsAndSets={() => openWorkoutCreator(workoutsConstants.workoutType.REPS_SETS)}/>
+            <Profile user={user}/>
             <div className="my-4 flex flex-col items-center">
                 <input
                     className="border-gray w-5/6 bg-secondary h-14 sm:h-18 shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
@@ -65,26 +78,6 @@ export default function Workouts({user}) {
                     placeholder="Search workouts"
                     value={searchQuery}
                     onChange={event => onChangeSearch(event.target.value.toLowerCase())}/>
-            </div>
-            <div className="flex flex-row">
-                <button
-                    type="button"
-                    onClick={() => {
-                        setWorkoutType(workoutsConstants.workoutType.CIRCUIT)
-                        setOpenCreateWorkout(true)
-                    }}
-                    className="flex flex-row items-center justify-center bg-secondary rounded-md hover:bg-darkSecondary text-primary pl-1 pr-3 py-1 mb-4 mr-2 font-semibold text-sm">
-                    <AddIcon/>Create Circuits
-                </button>
-                <button
-                    type="button"
-                    onClick={() => {
-                        setWorkoutType(workoutsConstants.workoutType.REPS_SETS)
-                        setOpenCreateWorkout(true)
-                    }}
-                    className="flex flex-row items-center justify-center bg-secondary rounded-md hover:bg-darkSecondary text-primary pl-1 pr-3 py-1 mb-4 font-semibold text-sm">
-                    <AddIcon/>Create Reps and Sets
-                </button>
             </div>
             <WorkoutList
                 workouts={filteredWorkouts}

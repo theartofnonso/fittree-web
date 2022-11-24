@@ -1245,13 +1245,19 @@ const PreviewWorkout = ({workoutId, close}) => {
                                         role="menu" aria-orientation="vertical" aria-labelledby="menu-button"
                                         tabIndex="-1">
                                         {!isWorkoutPlaying || <div
-                                            onClick={() => setMinimiseScreen(!minimiseScreen)}
+                                            onClick={() => {
+                                                setMinimiseScreen(!minimiseScreen)
+                                                setShowMenuOptions(false)
+                                            }}
                                             className="py-2 hover:bg-secondary w-full rounded-b-md text-gray-700 block px-4 py-2 text-md text-left font-medium"
                                             role="menuitem" tabIndex="-1"
                                             id="menu-item-6">{minimiseScreen ? "Minimise" : "Show Fullscreen"}
                                         </div>}
                                         {isWorkoutPlaying || <div
-                                            onClick={() => setOpenCreateWorkout(true)}
+                                            onClick={() => {
+                                                setOpenCreateWorkout(true)
+                                                setShowMenuOptions(false)
+                                            }}
                                             className="py-2 hover:bg-secondary w-full rounded-b-md text-gray-700 block px-4 py-2 text-md text-left font-medium"
                                             role="menuitem" tabIndex="-1"
                                             id="menu-item-6">Edit
