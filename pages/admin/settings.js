@@ -11,7 +11,6 @@ import TwitterIcon from "../../src/assets/svg/twitter-primary-line.svg";
 import FacebookIcon from "../../src/assets/svg/facebook-circle-primary-line.svg";
 import PageDescription from "../../src/components/views/PageDescription";
 import Avatar from "../../src/components/views/Avatar";
-import Compressor from 'compressorjs';
 import awsConstants from "../../src/utils/aws-utils/awsConstants";
 import FittreeLoading from "../../src/components/views/FittreeLoading";
 import {uploadAndDeleteS3} from "../../src/utils/aws-utils/awsHelperFunctions";
@@ -171,15 +170,15 @@ export default function Settings({username}) {
     useEffect(() => {
         let objectURL;
         if (selectedFile) {
-            new Compressor(selectedFile, {
-                quality: 0.6, // 0.6 can also be used, but its not recommended to go below.
-                success: (compressedFile) => {
-                    // compressedResult has the compressed file.
-                    // Use the compressed file to upload the images to your server.
-                    objectURL = URL.createObjectURL(compressedFile);
-                    setUri(objectURL);
-                },
-            });
+            // new Compressor(selectedFile, {
+            //     quality: 0.6, // 0.6 can also be used, but its not recommended to go below.
+            //     success: (compressedFile) => {
+            //         // compressedResult has the compressed file.
+            //         // Use the compressed file to upload the images to your server.
+            //         objectURL = URL.createObjectURL(compressedFile);
+            //         setUri(objectURL);
+            //     },
+            // });
         }
         return () => URL.revokeObjectURL(objectURL);
     }, [selectedFile]);
