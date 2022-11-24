@@ -1,8 +1,24 @@
 /* eslint-disable */
 import React from "react";
 import workoutsConstants from "../../../utils/workout/workoutsConstants";
-import {intervalDurationSummary} from "../../../utils/workout/workoutsHelperFunctions";
+import {timeSummary} from "../../../utils/workout/workoutsHelperFunctions";
 import InfoIcon from "../../../assets/svg/information-line.svg";
+
+/**
+ * Helper function to display appropriate RepsOrTime summary
+ * @returns {number|*}
+ */
+const displayDurationSummary = (workoutType, exercise, currentSet, duration, timeLeft) => {
+    let description;
+    if (duration.type === workoutsConstants.exerciseInfo.REPS) {
+        description = timeLeft + " " + "Reps"
+    } else {
+        description = timeSummary(timeLeft)
+    }
+
+    return description
+};
+
 
 /**
  * Return the exercise duration in reps or seconds/minutes
@@ -12,7 +28,7 @@ const returnRepsOrTime = (duration) => {
     if (duration.type === workoutsConstants.duration.REPS) {
         description = duration.value + " " + workoutsConstants.exerciseInfo.REPS
     } else {
-        description = intervalDurationSummary(duration.value)
+        description = timeSummary(duration.value)
     }
     return description
 }
@@ -40,7 +56,7 @@ const ExerciseInfo = ({workoutType, exercise, set, isActive}) => {
     )
 }
 
-const Exercise = ({isActive, exercise, extraData, workoutType, onClick}) => {
+const Exercise = ({isActive, exercise, currentSet, duration, timeLeft, workoutType, onClick}) => {
 
     return (
         <button onClick={onClick}
@@ -62,7 +78,7 @@ const Exercise = ({isActive, exercise, extraData, workoutType, onClick}) => {
                             }) : null}
                     </div>
                 </div>
-                {isActive ? <p className="text-lg font-bold mr-4">{extraData}</p> : null}
+                {isActive ? <p className="text-lg font-bold mr-4 text-white">{displayDurationSummary(workoutType, exercise, currentSet, duration, timeLeft)}</p> : null}
             </div>
             <div className="flex flex-row items-center justify-end cursor-pointer h-10">
                 <InfoIcon/>

@@ -4,7 +4,6 @@ import Exercise from "./cards/Exercise";
 import IntervalModal from "../screens/workout/IntervalModal";
 import Controls from "./Controls";
 import workoutsConstants from "../../utils/workout/workoutsConstants";
-import {timeOrReps} from "../../utils/workout/workoutsHelperFunctions";
 
 const WorkoutPlaylist = ({shouldPlayWorkout, onPauseWorkout, onEndWorkout, workout, playlist}) => {
 
@@ -44,7 +43,7 @@ const WorkoutPlaylist = ({shouldPlayWorkout, onPauseWorkout, onEndWorkout, worko
             if (!showIntervalModal) {
                 clearInterval(intervalId);
                 intervalId = setInterval(() => {
-                    if (getExercise().duration.type !== workoutsConstants.duration.REPS) {
+                    if (getDuration().type !== workoutsConstants.duration.REPS) {
                         if (exerciseDuration === 0) {
                             clearInterval(intervalId);
                             seekForward();
@@ -64,7 +63,7 @@ const WorkoutPlaylist = ({shouldPlayWorkout, onPauseWorkout, onEndWorkout, worko
      * Show initial workout starting message
      */
     const showWorkoutStarting = () => {
-        if(type === workoutsConstants.workoutType.CIRCUIT && isWorkoutStarting) {
+        if (type === workoutsConstants.workoutType.CIRCUIT && isWorkoutStarting) {
             setShowIntervalModal(true)
             setExerciseDuration(getExercise().duration.value)
             setIsWorkoutStarting(false)
@@ -116,7 +115,7 @@ const WorkoutPlaylist = ({shouldPlayWorkout, onPauseWorkout, onEndWorkout, worko
                  */
                 setExerciseIndex(nextExerciseIndex);
                 setSetIndex(0);
-                setExerciseDuration(getExercise(nextExerciseIndex)[0].duration.value);
+                setExerciseDuration(getExercise(nextExerciseIndex).sets[0].duration.value);
                 setIntervalModalDescription(workoutsConstants.playMessages.NEXT_SET);
                 setIntervalModalTime(workout.exerciseInterval);
                 setShowIntervalModal(true);
@@ -247,13 +246,30 @@ const WorkoutPlaylist = ({shouldPlayWorkout, onPauseWorkout, onEndWorkout, worko
 
         let exercise;
 
-        if(type === workoutsConstants.workoutType.CIRCUIT) {
+        if (type === workoutsConstants.workoutType.CIRCUIT) {
             exercise = getExerciseCircuit(roundsIndexValue, exerciseIndexValue)
         } else {
             exercise = getExerciseRepsAndSets(exerciseIndexValue)
         }
 
         return exercise;
+    }
+
+    /**
+     * Get duration for either an exercise in CIRCUIT or in a SET
+     * @returns {*}
+     */
+    const getDuration = (roundsIndexValue = roundsIndex, exerciseIndexValue = exerciseIndex) => {
+
+        let duration;
+
+        if (type === workoutsConstants.workoutType.CIRCUIT) {
+            duration = getExerciseCircuit(roundsIndexValue, exerciseIndexValue).duration
+        } else {
+            duration = getExerciseRepsAndSets(exerciseIndexValue).sets[setIndex].duration
+        }
+
+        return duration;
     }
 
     /**
@@ -270,17 +286,6 @@ const WorkoutPlaylist = ({shouldPlayWorkout, onPauseWorkout, onEndWorkout, worko
         return playlist[exerciseIndexValue];
     }
 
-    const getRepsOrTimeValue = () => {
-        let repsOrTimeValue;
-        if (getExercise().duration.type !== workoutsConstants.duration.REPS) {
-            repsOrTimeValue = exerciseDuration / 1000;
-        } else {
-            console.log(getExercise().sets[setIndex].duration.value)
-            repsOrTimeValue = getExercise().sets[setIndex].duration.value;
-        }
-        return repsOrTimeValue + " " + timeOrReps(getExercise().duration.type);
-    };
-
     return (
         <div className="relative rounded-md">
             {shouldPlayWorkout ? <p className="font-semibold text-center mt-4 mb-2">{sectionHeader}</p> : null}
@@ -289,7 +294,9 @@ const WorkoutPlaylist = ({shouldPlayWorkout, onPauseWorkout, onEndWorkout, worko
                     isActive={getExercise().id === exercise.id && shouldPlayWorkout}
                     key={index}
                     exercise={exercise}
-                    extraData={getRepsOrTimeValue()}
+                    currentSet={getExercise().sets[setIndex]}
+                    duration={getDuration()}
+                    timeLeft={exerciseDuration}
                     workoutType={type}/>
             )}
 

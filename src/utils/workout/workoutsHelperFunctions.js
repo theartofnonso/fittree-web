@@ -71,7 +71,7 @@ export const convertSecondsOrMinutesToMilli = (value, type) => {
  * @param duration
  * @returns {string}
  */
-export const intervalDurationSummary = duration => {
+export const timeSummary = duration => {
     const exactDurationInSeconds = Math.round(duration / 1000)
     const exactDurationInMinutes = Math.round(duration / 60000)
 

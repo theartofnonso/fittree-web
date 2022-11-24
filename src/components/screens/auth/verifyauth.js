@@ -5,7 +5,7 @@ import Loading from "../../utils/Loading";
 import awsConstants from "../../../utils/aws-utils/awsConstants";
 import {Auth} from "aws-amplify";
 import Link from "next/link";
-import {intervalDurationSummary} from "../../../utils/workout/workoutsHelperFunctions";
+import {timeSummary} from "../../../utils/workout/workoutsHelperFunctions";
 
 const TIME_LEFT = 180000;
 
@@ -134,7 +134,7 @@ export default function VerifyAuth(props) {
             </form>
             {timeLeft === 0 ?
                 <button type="button" className="text-center mt-4 font-light block" onClick={resendAuthCode}>Request new code </button> :
-                <p className="text-left mt-4 font-light block">wait <span className="font-semibold">{intervalDurationSummary(timeLeft)}</span> until next code</p>
+                <p className="text-left mt-4 font-light block">wait <span className="font-semibold">{timeSummary(timeLeft)}</span> until next code</p>
             }
 
             <button type="button" className="text-center mt-4 font-light block hover:font-semibold" onClick={closeAuth}>Cancel</button>

@@ -2,7 +2,7 @@
 import React, {useEffect, useState} from "react";
 import workoutsConstants from "../../../utils/workout/workoutsConstants";
 import SkipIcon from "../../../assets/svg/skip-forward-fill.svg";
-import {intervalDurationSummary} from "../../../utils/workout/workoutsHelperFunctions";
+import {timeSummary} from "../../../utils/workout/workoutsHelperFunctions";
 
 const IntervalModal = props => {
 
@@ -40,7 +40,7 @@ const IntervalModal = props => {
                 return (
                     <div className="flex flex-col items-center justify-center">
                         <p className="">{props.description}</p>
-                        <p className="">{intervalDurationSummary(intervalTime)}</p>
+                        <p className="">{timeSummary(intervalTime)}</p>
                     </div>
                 )
             case workoutsConstants.playMessages.NEXT_ROUND:
@@ -48,12 +48,12 @@ const IntervalModal = props => {
                 return (
                     <div className="flex flex-col items-center justify-center">
                         <p className="">{props.description}</p>
-                        <p className="">Rest for {intervalDurationSummary(intervalTime)}</p>
+                        <p className="">Rest for {timeSummary(intervalTime)}</p>
                     </div>
                 )
             default:
                 return (
-                    <p className=""> Rest for {intervalDurationSummary(intervalTime)}</p>
+                    <p className=""> Rest for {timeSummary(intervalTime)}</p>
                 )
         }
     }
