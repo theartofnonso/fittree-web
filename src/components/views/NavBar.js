@@ -6,7 +6,7 @@ import {useRouter} from "next/router";
 import {Auth} from "aws-amplify";
 import {SnackBar, SnackBarType} from "./SnackBar";
 
-const NavBar = ({user, onCreateCircuit, onCreateRepsAndSets}) => {
+const NavBar = ({user, isAuth, onCreateCircuit, onCreateRepsAndSets}) => {
 
     const router = useRouter()
 
@@ -44,7 +44,7 @@ const NavBar = ({user, onCreateCircuit, onCreateRepsAndSets}) => {
                 <div className="cursor-pointer" onClick={copyShareableLink}>
                     <ShareIcon/>
                 </div>
-                {user ? <div className="relative cursor-pointer"
+                {isAuth ? <div className="relative cursor-pointer"
                              onMouseOver={() => setShowMenuOptions(true)}
                              onMouseLeave={() => setShowMenuOptions(false)}>
                     <FunctionsIcon/>

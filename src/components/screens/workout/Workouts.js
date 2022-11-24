@@ -67,9 +67,10 @@ export default function Workouts({user}) {
     return (
         <div className="container mx-auto h-screen">
             <NavBar user={user}
+                    isAuth={true}
                     onCreateCircuit={() => openWorkoutCreator(workoutsConstants.workoutType.CIRCUIT)}
                     onCreateRepsAndSets={() => openWorkoutCreator(workoutsConstants.workoutType.REPS_SETS)}/>
-            <Profile user={user}/>
+            <Profile username={user.preferred_username}/>
             <div className="my-4 flex flex-col items-center">
                 <input
                     className="border-gray w-5/6 bg-secondary h-14 sm:h-18 shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"

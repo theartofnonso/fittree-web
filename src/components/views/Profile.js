@@ -2,12 +2,12 @@
 import React from "react";
 import Avatar from "./Avatar";
 
-const Profile = ({user}) => {
+const Profile = ({username}) => {
 
     return (
         <div className="flex flex-col items-center">
-            <Avatar user={user}/>
-            <p className="font-semibold text-base md:text-lg">{user.preferred_username}</p>
+            <Avatar username={username}/>
+            <p className="font-semibold text-base md:text-lg">{username}</p>
         </div>
     );
 };

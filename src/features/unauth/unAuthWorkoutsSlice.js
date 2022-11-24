@@ -22,8 +22,7 @@ const unAuthWorkoutsSlice = createSlice({
     initialState,
     reducers: {
         workoutsAdded: (state, action) => {
-            const liveWorkouts =  action.payload.filter(item => item.isLive)
-                                                .sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt))
+            const liveWorkouts =  action.payload
             workoutsAdapter.setAll(state, liveWorkouts);
         },
     },
