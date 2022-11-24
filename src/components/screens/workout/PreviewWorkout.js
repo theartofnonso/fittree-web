@@ -3,7 +3,6 @@ import React, {useEffect, useState} from "react";
 import WorkoutCardBig from "../../views/cards/WorkoutCardBig";
 import CloseIcon from "../../../assets/svg/close-line.svg";
 import PlayIcon from "../../../assets/svg/play-mini-fill.svg";
-import OverflowIcon from "../../../assets/svg/overflow.svg";
 import CreateWorkout from "./CreateWorkout";
 import {useDispatch, useSelector} from "react-redux";
 import {deleteWorkout, selectWorkoutById} from "../../../features/auth/authWorkoutsSlice";
@@ -23,6 +22,7 @@ import WorkoutCompletedModal from "./WorkoutCompletedModal";
 import {Transition} from '@headlessui/react'
 import Tags from "../../views/Tags";
 import MenuItem from "../../views/MenuItem";
+import Menu from "../../views/Menu";
 
 const PreviewWorkout = ({workoutId, close}) => {
 
@@ -1237,26 +1237,25 @@ const PreviewWorkout = ({workoutId, close}) => {
                                 <CloseIcon/>
                             </div>
                         }
-                        <div className="relative cursor-pointer"
-                             onMouseOver={() => setShowMenuOptions(true)}
-                             onMouseLeave={() => setShowMenuOptions(false)}>
-                            <OverflowIcon/>
-                            {showMenuOptions ?
-                                <div className="absolute text-left right-0 w-52 z-10">
-                                    <div className="mt-2 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                        <MenuItem label={minimiseScreen ? "Fullscreen" : "Workout mode"}
-                                                  onClick={() => {
-                                                      setMinimiseScreen(!minimiseScreen)
-                                                      setShowMenuOptions(false)
-                                                  }}/>
-                                        <MenuItem label="Edit" onClick={() => {
-                                            setOpenCreateWorkout(true)
-                                            setShowMenuOptions(false)
-                                        }}/>
-                                        <MenuItem label="Delete" onClick={doDeleteWorkout} isHighlighted={true}/>
-                                    </div>
-                                </div> : null}
-                        </div>
+                        <Menu open={showMenuOptions}
+                              onMouseOver={() => setShowMenuOptions(true)}
+                              onMouseLeave={() => setShowMenuOptions(false)}>
+                            <MenuItem label={minimiseScreen ? "Fullscreen" : "Workout mode"}
+                                      onClick={() => {
+                                          setMinimiseScreen(!minimiseScreen)
+                                          setShowMenuOptions(false)
+                                      }}/>
+                            <MenuItem label="Edit"
+                                      onClick={() => {
+                                          setOpenCreateWorkout(true)
+                                          setShowMenuOptions(false)
+                                      }}
+                                      isActive={user && !shouldPlayWorkout}/>
+                            <MenuItem label="Delete"
+                                      onClick={doDeleteWorkout}
+                                      isHighlighted={true}
+                                    isActive={user && !shouldPlayWorkout}/>
+                        </Menu>
                     </div>
 
                     <WorkoutCardBig workout={workout} showExtras={!minimiseScreen}/>
