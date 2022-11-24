@@ -45,8 +45,6 @@ const displayDuration = (workoutType, exercise, set = null) => {
         description = returnRepsOrTime(set.duration)
     }
 
-    console.log(description)
-
     return description
 };
 
@@ -70,15 +68,17 @@ const Exercise = ({isActive, exercise, currentSet, duration, timeLeft, workoutTy
                             <ExerciseInfo exercise={exercise} workoutType={workoutType} isActive={isActive}/> : null}
                         {workoutType === workoutsConstants.workoutType.REPS_SETS ?
                             exercise.sets.map((set, index) => {
-                                console.log(set)
-                                return (<ExerciseInfo exercise={exercise}
-                                                      workoutType={workoutType}
-                                                      isActive={isActive}
-                                                      set={set}/>)
+                                return (<ExerciseInfo
+                                    key={index}
+                                    exercise={exercise}
+                                    workoutType={workoutType}
+                                    isActive={isActive}
+                                    set={set}/>)
                             }) : null}
                     </div>
                 </div>
-                {isActive ? <p className="text-lg font-bold mr-4 text-white">{displayDurationSummary(workoutType, exercise, currentSet, duration, timeLeft)}</p> : null}
+                {isActive ?
+                    <p className="text-lg font-bold mr-4 text-white">{displayDurationSummary(workoutType, exercise, currentSet, duration, timeLeft)}</p> : null}
             </div>
             <div className="flex flex-row items-center justify-end cursor-pointer h-10">
                 <InfoIcon/>
