@@ -2,8 +2,9 @@
 import React from "react";
 import CloseIcon from "../../assets/svg/close-line.svg";
 import Link from "next/link";
+import EmptyState from "../../assets/svg/empty_state.svg";
 
-const YoutubeDiscoveryHub = ({recommendation, label, onClose}) => {
+const YoutubeDiscoveryHub = ({videos, label, onClose}) => {
 
     const spanCols = [2, 5, 8]
 
@@ -20,19 +21,23 @@ const YoutubeDiscoveryHub = ({recommendation, label, onClose}) => {
                 <p className={`text-sm sm:text-md md:text-lg font-normal`}>{`Find videos for ${label}`}</p>
             </div>
 
-            <div className="grid gap-1 grid-cols-2 sm:grid-cols-4">
-                {recommendation.items.map((video, index) => {
-                    return (
-                        <Link href={`https://www.youtube.com/watch/${video.id.videoId}`}>
-                            <a target="_blank"
-                               className={`rounded-md overflow-hidden cursor-pointer ${spanCols.includes(index) ? "col-span-2 sm:col-auto" : ""}`}>
-                                <img src={video.snippet.thumbnails.high.url} alt="Thumbnail"
-                                     className="rounded-md object-contain hover:bg-primary"/>
-                            </a>
-                        </Link>
-                    )
-                })}
-            </div>
+            {videos.length ?
+                <div className="grid gap-1 grid-cols-2 sm:grid-cols-4">
+                    {videos.map((video, index) => {
+                        return (
+                            <Link href={`https://www.youtube.com/watch/${video.id.videoId}`}>
+                                <a target="_blank"
+                                   className={`rounded-md overflow-hidden cursor-pointer ${spanCols.includes(index) ? "col-span-2 sm:col-auto" : ""}`}>
+                                    <img src={video.snippet.thumbnails.high.url} alt="Thumbnail"
+                                         className="rounded-md object-contain hover:bg-primary"/>
+                                </a>
+                            </Link>
+                        )
+                    })}
+                </div> : <div className="flex flex-col justify-center items-center h-screen">
+                    <EmptyState/>
+                    <p className="font-normal mt-4">{`We can't find videos for ${label}`}</p>
+                </div>}
         </div>
     );
 };

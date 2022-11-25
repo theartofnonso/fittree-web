@@ -116,6 +116,9 @@ const PreviewWorkout = ({workoutId, close}) => {
             //         return new Map(prevValues.entries())
             //     })
             // }
+
+            // If we can't get videos, return empty array
+
             for (let [index, exercise] of workout.workoutExercises.entries()) {
                 setRecommendedVideos(prevValues => {
                     prevValues.set(exercise.id, response[index].data)
@@ -294,7 +297,7 @@ const PreviewWorkout = ({workoutId, close}) => {
                             leave="transition-opacity ease-out duration-200"
                             leaveFrom="opacity-100"
                             leaveTo="opacity-0">
-                            <DiscoveryHub recommendation={recommendedVideos.get(selectedExercise.exerciseId)}
+                            <DiscoveryHub videos={recommendedVideos.get(selectedExercise.exerciseId).items}
                                           label={selectedExercise.exerciseTitle}
                                           onClose={() => {
                                               setSelectedExercises(null)
