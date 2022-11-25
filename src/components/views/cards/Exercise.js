@@ -2,7 +2,6 @@
 import React from "react";
 import workoutsConstants from "../../../utils/workout/workoutsConstants";
 import {timeSummary} from "../../../utils/workout/workoutsHelperFunctions";
-import InfoIcon from "../../../assets/svg/information-line.svg";
 
 /**
  * Helper function to display appropriate RepsOrTime summary
@@ -54,11 +53,11 @@ const ExerciseInfo = ({exercise, workoutType, set, isActiveSet, isActive}) => {
     )
 }
 
-const Exercise = ({isActive, exercise, setIndex, duration, timeLeft, workoutType, onClick}) => {
+const Exercise = ({isActive, exercise, setIndex, duration, timeLeft, workoutType}) => {
 
     return (
-        <button onClick={onClick}
-                className={`flex flex-row items-center place-content-between py-2 px-4 mt-2 mb-4 ${isActive ? "bg-primary" : "bg-lightSecondary"} w-full rounded-sm`}>
+        <div
+            className={`flex flex-row items-center place-content-between py-2 px-4 mt-2 mb-4 ${isActive ? "bg-primary hover:bg-darkPrimary" : "shadow-lightSecondary shadow-lg hover:bg-lightSecondary"} w-full rounded-sm`}>
             <div className="flex flex-row items-center space-y-2 w-full py-3">
                 <div className="flex flex-col space-y-2 items-start text-left grow">
                     <p className={`font-semibold text-md sm:text-lg ${isActive ? "text-white" : "text-gray1"}`}>{exercise.title}</p>
@@ -79,12 +78,9 @@ const Exercise = ({isActive, exercise, setIndex, duration, timeLeft, workoutType
                     </div>
                 </div>
                 {isActive ?
-                    <p className="text-lg font-bold mr-4 text-white">{displayDurationSummary(workoutType, exercise, duration, timeLeft)}</p> : null}
+                    <p className="text-lg font-bold text-white">{displayDurationSummary(workoutType, exercise, duration, timeLeft)}</p> : null}
             </div>
-            <div className="flex flex-row items-center justify-end cursor-pointer h-10">
-                <InfoIcon/>
-            </div>
-        </button>
+        </div>
     );
 };
 

@@ -12,7 +12,7 @@ const WorkoutCard = ({workout}) => {
             <div className="absolute top-0 right-0 m-2 py-0.5 px-2 rounded-full bg-primary text-xs font-bold">
                 <p>{workoutTagDisplay(false, workout)}</p>
             </div>
-            <div className="absolute right-0 bottom-0 left-0 pl-3 pb-3 space-y-1.0">
+            <div className="absolute right-0 bottom-0 left-0 pl-2 pb-2 space-y-1.0">
                 <p className="font-bold text-left">{workout.title}</p>
                 <p className="text-sm font-medium">{workout.intensityLevel}</p>
             </div>
