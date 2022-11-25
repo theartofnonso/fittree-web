@@ -42,7 +42,7 @@ const SnackBar = (props) => {
             <div
                 className="z-50 fixed rounded-3xl bottom-0 left-0 ml-2 sm:ml-10 mb-8 p-2 flex flex-row justify-start items-center rounded bg-lightGreen w-5/6 sm:w-2/5">
                 <CheckIcon/>
-                <p className="ml-2 text-midnightGreen font-normal text-sm">{props.message}</p>
+                <p className="ml-2 text-midnightGreen font-bold text-sm">{props.message}</p>
             </div>
         );
     } else if(props.type === SnackBarType.WARN) {
