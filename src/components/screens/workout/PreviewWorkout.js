@@ -182,24 +182,6 @@ const PreviewWorkout = ({workoutId, close}) => {
         }
     };
 
-    if (selectedExercise) {
-        return (
-            <Transition
-                show={!!selectedExercise}
-                appear={true}
-                enter="transition-opacity ease-in-out duration-200"
-                enterFrom="opacity-0"
-                enterTo="opacity-100"
-                leave="transition-opacity ease-out duration-200"
-                leaveFrom="opacity-100"
-                leaveTo="opacity-0">
-                <DiscoveryHub recommendation={recommendedVideos.get(selectedExercise.exerciseId)}
-                              label={selectedExercise.exerciseTitle}
-                              onClose={() => setSelectedExercises(null)}/>
-            </Transition>
-        )
-    }
-
     if (openCreateWorkout) {
         return (
             <CreateWorkout
@@ -214,16 +196,16 @@ const PreviewWorkout = ({workoutId, close}) => {
             return (
                 <div
                     className="container mx-auto px-2 sm:px-10 fixed top-0 right-0 bottom-0 left-0 h-full w-full bg-white overflow-y-scroll">
-                    <div className="flex flex-row items-center place-content-between">
+                    <div className="flex flex-row items-center place-content-between my-4">
                         {isWorkoutPlaying ?
                             <button
                                 type="button"
                                 onClick={close}
-                                className="cursor-pointer bg-secondary py-2 px-6 rounded-full text-primary text-sm font-semibold hover:bg-darkSecondary my-4">End
+                                className="cursor-pointer bg-secondary py-2 px-6 rounded-full text-primary text-sm font-semibold hover:bg-darkSecondary">End
                                 workout
                             </button>
                             :
-                            <div className="my-4 cursor-pointer" onClick={close}>
+                            <div className="cursor-pointer" onClick={close}>
                                 <CloseIcon/>
                             </div>
                         }
@@ -269,7 +251,9 @@ const PreviewWorkout = ({workoutId, close}) => {
                     </Transition>
 
                     <WorkoutPlaylist shouldPlayWorkout={shouldPlayWorkout}
-                                     onPauseWorkout={(shouldPlay) => setShouldPlayWorkout(shouldPlay)}
+                                     onPauseWorkout={(shouldPlay) => {
+                                         setShouldPlayWorkout(shouldPlay)
+                                     }}
                                      onEndWorkout={() => {
                                          // Navigate to a workout completed screen
                                          setShowWorkoutCompletedModal(true)
@@ -291,11 +275,29 @@ const PreviewWorkout = ({workoutId, close}) => {
                         <button
                             type="button"
                             onClick={playWorkout}
-                            className="mb-4 w-full bg-primary rounded-3xl py-2 px-10 text-white font-medium hover:bg-darkPrimary hidden sm:block">Play
-                            workout
+                            className="mb-4 w-full bg-primary rounded-3xl py-2 px-10 text-white font-medium hover:bg-darkPrimary hidden sm:block">
+                            {isWorkoutPlaying ? "Continue workout" : "Start workout"}
                         </button> : null}
 
                     {isLoading ? <Loading message={loadingMessage}/> : null}
+
+                    {selectedExercise ?
+
+                        <Transition
+                            show={!!selectedExercise}
+                            appear={true}
+                            enter="transition-opacity ease-in-out duration-200"
+                            enterFrom="opacity-0"
+                            enterTo="opacity-100"
+                            leave="transition-opacity ease-out duration-200"
+                            leaveFrom="opacity-100"
+                            leaveTo="opacity-0">
+                            <DiscoveryHub recommendation={recommendedVideos.get(selectedExercise.exerciseId)}
+                                          label={selectedExercise.exerciseTitle}
+                                          onClose={() => {
+                                              setSelectedExercises(null)
+                                          }}/>
+                        </Transition> : null}
 
                     <SnackBar
                         open={showSnackBar}

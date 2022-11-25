@@ -7,6 +7,8 @@ import workoutsConstants from "../../utils/workout/workoutsConstants";
 
 const WorkoutPlaylist = ({shouldPlayWorkout, onPauseWorkout, onEndWorkout, onSelectExercise, workout, playlist}) => {
 
+    console.log(shouldPlayWorkout)
+
     const type = workout.type
 
     const list = type === workoutsConstants.workoutType.CIRCUIT ? playlist[0] : playlist;
@@ -266,7 +268,10 @@ const WorkoutPlaylist = ({shouldPlayWorkout, onPauseWorkout, onEndWorkout, onSel
                     duration={getDuration()}
                     timeLeft={exerciseDuration}
                     workoutType={type}
-                    onClick={() => onSelectExercise(exercise.id, exercise.title)}/>
+                    onClick={() => {
+                        onSelectExercise(exercise.id, exercise.title)
+                        onPauseWorkout(false)
+                    }}/>
             )}
 
             {shouldPlayWorkout && !showIntervalModal ?
