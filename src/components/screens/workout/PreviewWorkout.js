@@ -182,10 +182,22 @@ const PreviewWorkout = ({workoutId, close}) => {
         }
     };
 
-    if(selectedExercise) {
-        return (<DiscoveryHub recommendation={recommendedVideos.get(selectedExercise.exerciseId)}
+    if (selectedExercise) {
+        return (
+            <Transition
+                show={!!selectedExercise}
+                appear={true}
+                enter="transition-opacity ease-in-out duration-200"
+                enterFrom="opacity-0"
+                enterTo="opacity-100"
+                leave="transition-opacity ease-out duration-200"
+                leaveFrom="opacity-100"
+                leaveTo="opacity-0">
+                <DiscoveryHub recommendation={recommendedVideos.get(selectedExercise.exerciseId)}
                               label={selectedExercise.exerciseTitle}
-                              onClose={() => setSelectedExercises(null)}/>)
+                              onClose={() => setSelectedExercises(null)}/>
+            </Transition>
+        )
     }
 
     if (openCreateWorkout) {
@@ -234,7 +246,7 @@ const PreviewWorkout = ({workoutId, close}) => {
                             <MenuItem label="Delete"
                                       onClick={doDeleteWorkout}
                                       isHighlighted={true}
-                                    isActive={user && !shouldPlayWorkout}/>
+                                      isActive={user && !shouldPlayWorkout}/>
                         </Menu>
                     </div>
 
@@ -262,7 +274,10 @@ const PreviewWorkout = ({workoutId, close}) => {
                                          // Navigate to a workout completed screen
                                          setShowWorkoutCompletedModal(true)
                                      }}
-                                     onSelectExercise={(exerciseId, exerciseTitle) => setSelectedExercises({exerciseId, exerciseTitle})}
+                                     onSelectExercise={(exerciseId, exerciseTitle) => setSelectedExercises({
+                                         exerciseId,
+                                         exerciseTitle
+                                     })}
                                      workout={workout}
                                      playlist={roundsOrExercises}/>
 
