@@ -23,8 +23,6 @@ import {Transition} from '@headlessui/react'
 import Tags from "../../views/Tags";
 import MenuItem from "../../views/MenuItem";
 import Menu from "../../views/Menu";
-import response from "../../../assets/youtube.json";
-import DiscoveryHub from "../../views/DiscoveryHub";
 import OverflowIcon from "../../../assets/svg/overflow.svg";
 
 const PreviewWorkout = ({workoutId, close}) => {
@@ -99,35 +97,43 @@ const PreviewWorkout = ({workoutId, close}) => {
         }
     }, [workoutFromStore]);
 
-    /**
-     * Fetch videos for all exercises from Youtube
-     */
-    useEffect(() => {
-        const fetchVideoRecommendations = async () => {
-            // for (const exercise of workout.workoutExercises) {
-            //     const response = await youtubeApi.get("/search", {
-            //         params: {
-            //             q: exercise.title
-            //         }
-            //     })
-            //
-            //     setRecommendedVideos(prevValues => {
-            //         prevValues.set(exercise.id, response.data)
-            //         return new Map(prevValues.entries())
-            //     })
-            // }
-
-            // If we can't get videos, return empty array
-
-            for (let [index, exercise] of workout.workoutExercises.entries()) {
-                setRecommendedVideos(prevValues => {
-                    prevValues.set(exercise.id, response[index].data)
-                    return new Map(prevValues.entries())
-                })
-            }
-        }
-        fetchVideoRecommendations()
-    }, [])
+    // /**
+    //  * Fetch videos for all exercises from Youtube
+    //  */
+    // useEffect(() => {
+    //     const fetchVideoRecommendations = async () => {
+    //         for (const exercise of workout.workoutExercises) {
+    //
+    //             try {
+    //                 const response = await youtubeApi.get("/search", {
+    //                     params: {
+    //                         q: exercise.title
+    //                     }
+    //                 })
+    //
+    //                 setRecommendedVideos(prevValues => {
+    //                     prevValues.set(exercise.id, response.data.items)
+    //                     return new Map(prevValues.entries())
+    //                 })
+    //             } catch (err) {
+    //                 setRecommendedVideos(prevValues => {
+    //                     prevValues.set(exercise.id, [])
+    //                     return new Map(prevValues.entries())
+    //                 })
+    //             }
+    //         }
+    //
+    //         // If we can't get videos, return empty array
+    //
+    //         // for (let [index, exercise] of workout.workoutExercises.entries()) {
+    //         //     setRecommendedVideos(prevValues => {
+    //         //         prevValues.set(exercise.id, response[index].data.items)
+    //         //         return new Map(prevValues.entries())
+    //         //     })
+    //         // }
+    //     }
+    //     fetchVideoRecommendations()
+    // }, [])
 
     /**
      * Only set the roundsOrExercises when workout has been updated with the workout from store
@@ -263,10 +269,6 @@ const PreviewWorkout = ({workoutId, close}) => {
                                          // Navigate to a workout completed screen
                                          setShowWorkoutCompletedModal(true)
                                      }}
-                                     onSelectExercise={(exerciseId, exerciseTitle) => setSelectedExercises({
-                                         exerciseId,
-                                         exerciseTitle
-                                     })}
                                      workout={workout}
                                      playlist={roundsOrExercises}/>
 
@@ -286,23 +288,23 @@ const PreviewWorkout = ({workoutId, close}) => {
 
                     {isLoading ? <Loading message={loadingMessage}/> : null}
 
-                    {selectedExercise ?
+                    {/*{selectedExercise ?*/}
 
-                        <Transition
-                            show={!!selectedExercise}
-                            appear={true}
-                            enter="transition-opacity ease-in-out duration-200"
-                            enterFrom="opacity-0"
-                            enterTo="opacity-100"
-                            leave="transition-opacity ease-out duration-200"
-                            leaveFrom="opacity-100"
-                            leaveTo="opacity-0">
-                            <DiscoveryHub videos={recommendedVideos.get(selectedExercise.exerciseId).items}
-                                          label={selectedExercise.exerciseTitle}
-                                          onClose={() => {
-                                              setSelectedExercises(null)
-                                          }}/>
-                        </Transition> : null}
+                    {/*    <Transition*/}
+                    {/*        show={!!selectedExercise}*/}
+                    {/*        appear={true}*/}
+                    {/*        enter="transition-opacity ease-in-out duration-200"*/}
+                    {/*        enterFrom="opacity-0"*/}
+                    {/*        enterTo="opacity-100"*/}
+                    {/*        leave="transition-opacity ease-out duration-200"*/}
+                    {/*        leaveFrom="opacity-100"*/}
+                    {/*        leaveTo="opacity-0">*/}
+                    {/*        <DiscoveryHub videos={recommendedVideos.get(selectedExercise.exerciseId)}*/}
+                    {/*                      label={selectedExercise.exerciseTitle}*/}
+                    {/*                      onClose={() => {*/}
+                    {/*                          setSelectedExercises(null)*/}
+                    {/*                      }}/>*/}
+                    {/*    </Transition> : null}*/}
 
                     <SnackBar
                         open={showSnackBar}

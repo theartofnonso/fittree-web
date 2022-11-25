@@ -5,9 +5,7 @@ import IntervalModal from "../screens/workout/IntervalModal";
 import Controls from "./Controls";
 import workoutsConstants from "../../utils/workout/workoutsConstants";
 
-const WorkoutPlaylist = ({shouldPlayWorkout, onPauseWorkout, onEndWorkout, onSelectExercise, workout, playlist}) => {
-
-    console.log(shouldPlayWorkout)
+const WorkoutPlaylist = ({shouldPlayWorkout, onPauseWorkout, onEndWorkout, workout, playlist}) => {
 
     const type = workout.type
 
@@ -267,11 +265,7 @@ const WorkoutPlaylist = ({shouldPlayWorkout, onPauseWorkout, onEndWorkout, onSel
                     setIndex={setIndex}
                     duration={getDuration()}
                     timeLeft={exerciseDuration}
-                    workoutType={type}
-                    onClick={() => {
-                        onSelectExercise(exercise.id, exercise.title)
-                        onPauseWorkout(false)
-                    }}/>
+                    workoutType={type}/>
             )}
 
             {shouldPlayWorkout && !showIntervalModal ?
