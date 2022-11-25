@@ -5,11 +5,7 @@ import Link from "next/link";
 
 const YoutubeDiscoveryHub = ({recommendation, label, onClose}) => {
 
-    console.log(recommendation)
-
     const spanCols = [2, 5, 8]
-
-    //{`https://www.youtube.com/watch/${video.id.videoId}`}
 
     return (
         <div
