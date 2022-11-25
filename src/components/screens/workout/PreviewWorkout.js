@@ -25,6 +25,7 @@ import MenuItem from "../../views/MenuItem";
 import Menu from "../../views/Menu";
 import response from "../../../assets/youtube.json";
 import DiscoveryHub from "../../views/DiscoveryHub";
+import OverflowIcon from "../../../assets/svg/overflow.svg";
 
 const PreviewWorkout = ({workoutId, close}) => {
 
@@ -210,6 +211,7 @@ const PreviewWorkout = ({workoutId, close}) => {
                             </div>
                         }
                         <Menu open={showMenuOptions}
+                              icon={<OverflowIcon/>}
                               onMouseOver={() => setShowMenuOptions(true)}
                               onMouseLeave={() => setShowMenuOptions(false)}>
                             <MenuItem label={minimiseScreen ? "Fullscreen" : "Workout mode"}
