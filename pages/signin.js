@@ -11,14 +11,11 @@ import {useRouter} from "next/router";
 import Link from "next/link";
 import {SnackBar, SnackBarType} from "../src/components/views/SnackBar";
 import useAuth from "../src/utils/aws-utils/useAuth";
-import workoutsConstants from "../src/utils/workout/workoutsConstants";
 import FittreeLoading from "../src/components/views/FittreeLoading";
 
 export default function SignIn() {
 
     const auth = useAuth("/admin")
-
-    console.log(auth)
 
     const router = useRouter()
 

@@ -10,15 +10,14 @@ const useAuth = (redirectUrl = "") => {
 
     useEffect(() => {
         const doStuff = async () => {
-            const user = await Auth.currentAuthenticatedUser()
-                .catch(() => handleNoAuth(router, redirectUrl))
-
-            /**
-             * User is authenticated
-             * Redirect to admin route if needed
-             */
-            await handleAuth(router, redirectUrl)
-            setAuth(user)
+            try {
+                const user = await Auth.currentAuthenticatedUser()
+                await handleAuth(router, redirectUrl)
+                setAuth(user)
+            } catch (err) {
+                await handleNoAuth(router, redirectUrl)
+                setAuth({authenticated: false})
+            }
         }
         doStuff()
     }, [])
@@ -47,10 +46,11 @@ const handleAuth = async (router, redirectUrl) => {
  * @param router
  * @param redirectUrl
  */
-const handleNoAuth = (router, redirectUrl) => {
+const handleNoAuth = async(router, redirectUrl) => {
 
     if (redirectUrl === "/signin" || redirectUrl === "/signup") {
-        router.push(redirectUrl)
+        console.log(redirectUrl)
+        await router.replace(redirectUrl)
     }
 }
 

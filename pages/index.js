@@ -12,13 +12,13 @@ import FittreeLoading from "../src/components/views/FittreeLoading";
 
 export default function App() {
 
-    const authenticated = useAuth()
+    const auth = useAuth()
 
 
     /**
      * Auth is being checked
      */
-    if (authenticated === null) {
+    if (auth === null) {
         return <FittreeLoading/>
     }
 
@@ -38,7 +38,7 @@ export default function App() {
                     </Link>
                 </div>
                 <div className="flex flex-row h-10 bg-primary rounded-3xl place-content-between">
-                    {authenticated ?
+                    {auth.authenticated ?
                         <Link href="/admin">
                             <a
                                 className="flex flex-row items-center font-medium text-secondary text-sm rounded-3xl h-full pl-5 pr-5 cursor-pointer hover:bg-darkPrimary">
