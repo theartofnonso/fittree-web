@@ -1,7 +1,7 @@
 import Head from "next/head";
 import {Provider} from "react-redux";
 import store from "../store/store";
-import {Amplify} from "@aws-amplify/core";
+import Amplify from "aws-amplify";
 import awsConfigs from '../src/aws-exports';
 import * as Sentry from "@sentry/react";
 import {BrowserTracing} from "@sentry/tracing";

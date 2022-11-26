@@ -6,12 +6,19 @@ import Loading from "../src/components/utils/Loading";
 import {isEmailValid} from "../src/utils/general/utils";
 import VerifyAuth from "../src/components/screens/auth/verifyauth";
 import {getUserFromDB, persistUserToDB, retrieveCognitoUser} from "../src/utils/aws-utils/awsHelperFunctions";
-import {Auth, withSSRContext} from "aws-amplify";
+import {Auth} from "aws-amplify";
 import {useRouter} from "next/router";
 import Link from "next/link";
 import {SnackBar, SnackBarType} from "../src/components/views/SnackBar";
+import useAuth from "../src/utils/aws-utils/useAuth";
+import workoutsConstants from "../src/utils/workout/workoutsConstants";
+import FittreeLoading from "../src/components/views/FittreeLoading";
 
 export default function SignIn() {
+
+    const auth = useAuth("/admin")
+
+    console.log(auth)
 
     const router = useRouter()
 
@@ -121,6 +128,13 @@ export default function SignIn() {
         setCognitoUser(user);
     };
 
+    /**
+     * Auth is being checked
+     */
+    if (auth === null) {
+        return <FittreeLoading/>
+    }
+
     return (
         <div className="container mx-auto p-4 h-screen">
             <div className="flex flex-row items-center">
@@ -188,30 +202,5 @@ export default function SignIn() {
                 type={snackbarType}/>
         </div>
     )
+
 }
-
-export async function getServerSideProps(context) {
-
-    const {Auth} = withSSRContext(context)
-
-    try {
-        await Auth.currentAuthenticatedUser()
-
-        return {
-            redirect: {
-                destination: "/admin",
-                permanent: false,
-            },
-        };
-
-    } catch (err) {
-        // Do nothing if user doesn't exist
-        return {
-            props: {
-                authenticated: false,
-                username: "",
-            }
-        }
-    }
-}
-

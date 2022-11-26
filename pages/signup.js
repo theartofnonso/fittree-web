@@ -12,10 +12,12 @@ import {
     persistUserToDB,
     retrieveCognitoUser
 } from "../src/utils/aws-utils/awsHelperFunctions";
-import {Auth, withSSRContext} from "aws-amplify";
+import {Auth} from "aws-amplify";
 import awsConstants from "../src/utils/aws-utils/awsConstants";
 import {useRouter} from "next/router";
 import Link from "next/link";
+import useAuth from "../src/utils/aws-utils/useAuth";
+import FittreeLoading from "../src/components/views/FittreeLoading";
 
 /**
  * Sign up credential errors
@@ -34,6 +36,8 @@ const errors = {
 }
 
 export default function SignUp() {
+
+    const auth = useAuth("/admin")
 
     const router = useRouter()
 
@@ -241,6 +245,13 @@ export default function SignUp() {
         setCognitoUser(user);
     };
 
+    /**
+     * Auth is being checked
+     */
+    if (auth === null) {
+        return <FittreeLoading/>
+    }
+
     return (
         <div className="container mx-auto p-4 h-screen">
             <div className="flex flex-row items-center">
@@ -317,29 +328,4 @@ export default function SignUp() {
             ) : null}
         </div>
     )
-}
-
-export async function getServerSideProps(context) {
-
-    const {Auth} = withSSRContext(context)
-
-    try {
-        await Auth.currentAuthenticatedUser()
-
-        return {
-            redirect: {
-                destination: "/admin",
-                permanent: false,
-            },
-        };
-
-    } catch (err) {
-       // Do nothing if user doesn't exist
-        return {
-            props: {
-                authenticated: false,
-                username: "",
-            }
-        }
-    }
 }
