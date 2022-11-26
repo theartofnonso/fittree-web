@@ -13,8 +13,7 @@ import FittreeLoading from "../src/components/views/FittreeLoading";
 export default function App() {
 
     const auth = useAuth()
-
-
+    
     /**
      * Auth is being checked
      */
