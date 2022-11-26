@@ -1,15 +1,17 @@
-import {withSSRContext} from "aws-amplify";
 import {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import workoutsConstants from "../../src/utils/workout/workoutsConstants";
 import FittreeLoading from "../../src/components/views/FittreeLoading";
 import {fetchUser, selectAuthUser, selectAuthUserStatus} from "../../src/features/auth/authUserSlice";
 import {workoutsAdded} from "../../src/features/auth/authWorkoutsSlice";
-import Profile from "../../src/components/views/Profile";
-import NavBar from "../../src/components/views/NavBar";
 import Workouts from "../../src/components/screens/workout/Workouts";
+import useAuth from "../../src/utils/aws-utils/useAuth";
 
-export default function Dashboard({username}) {
+export default function Dashboard() {
+
+    const auth = useAuth("/signin")
+
+    const username = auth?.username
 
     const dispatch = useDispatch();
 
@@ -21,10 +23,10 @@ export default function Dashboard({username}) {
      * Fetch user
      */
     useEffect(() => {
-        if (username) {
+        if(auth) {
             dispatch(fetchUser({username}));
         }
-    }, [username])
+    }, [auth])
 
     /**
      * Load fetched exercises and workouts
@@ -51,29 +53,4 @@ export default function Dashboard({username}) {
         </div>
     )
 
-}
-
-
-export async function getServerSideProps(context) {
-
-    const {Auth} = withSSRContext(context)
-
-    try {
-        const user = await Auth.currentAuthenticatedUser()
-
-        return {
-            props: {
-                authenticated: true,
-                username: user.attributes.email,
-            }
-        }
-
-    } catch (err) {
-        return {
-            redirect: {
-                destination: "/signin",
-                permanent: false,
-            },
-        };
-    }
 }

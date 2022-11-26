@@ -72,7 +72,7 @@
   dependencies:
     "@aws-amplify/core" "4.7.3"
 
-"@aws-amplify/core@4.7.3", "@aws-amplify/core@^4.5.9":
+"@aws-amplify/core@4.7.3":
   version "4.7.3"
   resolved "https://registry.npmjs.org/@aws-amplify/core/-/core-4.7.3.tgz"
   integrity sha512-ERKnGUCvZnPKfn/0Pxl9yICyg9QFnOKOpAUH/zPJAI6h2CG9orsNFCmR9mxOTA/2FevHL0EK/OYKaZEXzKihSQ==

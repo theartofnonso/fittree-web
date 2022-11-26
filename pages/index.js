@@ -7,9 +7,20 @@ import TwitterIcon from "../src/assets/svg/twitter-primary-line.svg";
 import FittrBigIcon from "../src/assets/svg/fittr.svg";
 import FittrSmallIcon from "../src/assets/svg/fittr_small.svg";
 import Link from "next/link";
-import {withSSRContext} from "aws-amplify";
+import useAuth from "../src/utils/aws-utils/useAuth";
+import FittreeLoading from "../src/components/views/FittreeLoading";
 
-export default function App({authenticated}) {
+export default function App() {
+
+    const authenticated = useAuth()
+
+
+    /**
+     * Auth is being checked
+     */
+    if (authenticated === null) {
+        return <FittreeLoading/>
+    }
 
     return (
         <div className="container mx-auto">
@@ -119,27 +130,4 @@ export default function App({authenticated}) {
             </div>
         </div>
     );
-}
-
-export async function getServerSideProps(context) {
-
-    const {Auth} = withSSRContext(context)
-
-    try {
-
-        await Auth.currentAuthenticatedUser()
-
-        return {
-            props: {
-                authenticated: true,
-            }
-        }
-
-    } catch (err) {
-        return {
-            props: {
-                authenticated: false,
-            }
-        }
-    }
 }
