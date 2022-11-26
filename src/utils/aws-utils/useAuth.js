@@ -16,7 +16,7 @@ const useAuth = (redirectUrl = "") => {
                 setAuth(user)
             } catch (err) {
                 await handleNoAuth(router, redirectUrl)
-                setAuth({authenticated: false})
+                setAuth({username: ""})
             }
         }
         doStuff()
