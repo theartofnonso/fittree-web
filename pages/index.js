@@ -13,6 +13,7 @@ import FittreeLoading from "../src/components/views/FittreeLoading";
 export default function App() {
 
     const auth = useAuth()
+    console.log(auth)
 
     /**
      * Auth is being checked
@@ -41,7 +42,7 @@ export default function App() {
                         <Link href="/admin">
                             <a
                                 className="flex flex-row items-center font-medium text-secondary text-sm rounded-3xl h-full pl-5 pr-5 cursor-pointer hover:bg-darkPrimary">
-                                Admin
+                                {auth.attributes.preferred_username}
                             </a>
                         </Link> :
                         <>

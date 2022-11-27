@@ -49,7 +49,6 @@ const handleAuth = async (router, redirectUrl) => {
 const handleNoAuth = async(router, redirectUrl) => {
 
     if (redirectUrl === "/signin" || redirectUrl === "/signup") {
-        console.log(redirectUrl)
         await router.replace(redirectUrl)
     }
 }
