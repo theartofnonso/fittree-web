@@ -26,7 +26,7 @@ import MenuItem from "../../views/MenuItem";
 import Menu from "../../views/Menu";
 import OverflowIcon from "../../../assets/svg/overflow.svg";
 
-const PreviewWorkout = ({workoutId, close}) => {
+const PreviewWorkout = ({workoutId, previewOnly, close}) => {
 
     const dispatch = useDispatch();
 
@@ -236,12 +236,11 @@ const PreviewWorkout = ({workoutId, close}) => {
                                 onClick={resetWorkoutPlayState}
                                 className="cursor-pointer bg-secondary py-2 px-6 rounded-full text-primary text-sm font-semibold hover:bg-darkSecondary">End
                                 workout
-                            </button>
-                            :
-                            <div className="cursor-pointer" onClick={close}>
-                                <CloseIcon/>
-                            </div>
-                        }
+                            </button> :
+                            (!previewOnly) ?
+                                <div className="cursor-pointer" onClick={close}>
+                                    <CloseIcon/>
+                                </div> : <div></div>}
                         <Menu open={showMenuOptions}
                               icon={<OverflowIcon/>}
                               onMouseOver={() => setShowMenuOptions(true)}
@@ -295,6 +294,7 @@ const PreviewWorkout = ({workoutId, close}) => {
                     </Transition>
 
                     <WorkoutPlaylist shouldPlayWorkout={shouldPlayWorkout}
+                                     shouldResetWorkout={!shouldPlayWorkout}
                                      onPauseWorkout={(shouldPlay) => {
                                          setShouldPlayWorkout(shouldPlay)
                                      }}

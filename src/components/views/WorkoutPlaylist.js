@@ -5,7 +5,7 @@ import IntervalModal from "../screens/workout/IntervalModal";
 import Controls from "./Controls";
 import workoutsConstants from "../../utils/workout/workoutsConstants";
 
-const WorkoutPlaylist = ({shouldPlayWorkout, onPauseWorkout, onEndWorkout, workout, playlist}) => {
+const WorkoutPlaylist = ({shouldPlayWorkout, shouldResetWorkout, onPauseWorkout, onEndWorkout, workout, playlist}) => {
 
     const type = workout.type
 
@@ -58,6 +58,22 @@ const WorkoutPlaylist = ({shouldPlayWorkout, onPauseWorkout, onEndWorkout, worko
 
         return () => clearInterval(intervalId);
     }, [shouldPlayWorkout, showIntervalModal, exerciseDuration]);
+
+    /**
+     * Reset the workoutPlaylist
+     */
+    useEffect(() => {
+        if(shouldResetWorkout) {
+            setExerciseDuration(0)
+            setExerciseIndex(0)
+            setRoundsIndex(0)
+            setSetIndex(0)
+            setShowIntervalModal(false)
+            setIntervalModalDescription("")
+            setIntervalModalTime(0)
+            setIsWorkoutStarting(true)
+        }
+    }, [shouldResetWorkout])
 
     /**
      * Show initial workout starting message

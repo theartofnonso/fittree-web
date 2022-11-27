@@ -6,7 +6,7 @@ const WorkoutCard = ({workout}) => {
 
     return (
         <div
-            className="relative h-40 sm:h-52 rounded-lg flex flex-col justify-end text-white overflow-hidden hover:bg-secondary cursor-pointer ">
+            className="relative h-40 sm:h-52 rounded-lg flex flex-col justify-end text-white overflow-hidden hover:bg-darkSecondary cursor-pointer ">
             <img src="/wallpaper.jpg" alt="Display profile" className="object-cover h-full w-full"/>
             <div
                 className="absolute top-0 right-0 bottom-0 left-0 bg-gradient-to-b from-transparentBlack1 to-transparentBlack1 hover:bg-transparentBlack1"/>
