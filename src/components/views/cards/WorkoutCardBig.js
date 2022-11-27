@@ -12,13 +12,13 @@ const WorkoutCardBig = ({workout, showExtras}) => {
             height={showExtras ? "auto" : "20%"}>
             <img src="/wallpaper.jpg" alt="Display profile" className="object-cover rounded-lg sm:h-52 sm:w-full"/>
             <div
-                className="absolute top-0 right-0 bottom-0 left-0 bg-gradient-to-b from-transparentBlack1 to-transparentBlack rounded-lg"/>
+                className="absolute top-0 right-0 bottom-0 left-0 bg-gradient-to-b from-transparentBlack1 to-transparentBlack1 rounded-lg"/>
             <div className="absolute top-0 right-0 m-2 py-0.5 px-2 rounded-full bg-primary text-xs font-bold">
                 <p>{workoutTagDisplay(false, workout)}</p>
             </div>
-            <div className={`absolute right-0 bottom-0 left-0 pl-3 pb-3 space-y-1.0`}>
-                <p className="font-bold text-left">{workout.title}</p>
-                <p className="text-sm font-medium">{workout.intensityLevel}</p>
+            <div className={`absolute right-0 bottom-0 left-0 pl-3 pb-3 space-y-1.0 font-bold`}>
+                <p className="text-left">{workout.title}</p>
+                <p className="text-sm">{workout.intensityLevel}</p>
 
                 <div className="flex flex-row mt-1.5">
                     <div

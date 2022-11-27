@@ -63,7 +63,7 @@ const CreatorWorkout = () => {
         return (
             <PreviewWorkout
                 workoutId={workout.id}
-                close={() => console.log("Close workout preview")}/>
+                previewOnly={true}/>
         )
     }
 
