@@ -33,7 +33,9 @@ const unAuthWorkoutsSlice = createSlice({
         builder
             .addCase(fetchCreatorWorkout.fulfilled, (state, action) => {
                 state.status = state.status = workoutsConstants.profileStatus.READY
-                workoutsAdapter.setAll(state, [action.payload]);
+                if(action.payload) {
+                    workoutsAdapter.addOne(state, action.payload);
+                }
             })
             .addCase(fetchCreatorWorkout.rejected, (state, action) => {
                 state.status = workoutsConstants.profileStatus.FAILED

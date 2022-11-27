@@ -51,20 +51,23 @@ const CreatorWorkout = () => {
         /**
          * Page is ready but workout may not exist
          */
-        if (workout === null) {
+        if (workout) {
+            /**
+             * Loaded Creator workout
+             */
+            return (
+                <PreviewWorkout
+                    workoutId={workout.id}
+                    previewOnly={true}/>
+            )
+        } else {
+
             /**
              * Creator workout doesn't exist
              */
             return <CreatorWorkout404/>
         }
-        /**
-         * Loaded Creator workout
-         */
-        return (
-            <PreviewWorkout
-                workoutId={workout.id}
-                previewOnly={true}/>
-        )
+
     }
 
 }
