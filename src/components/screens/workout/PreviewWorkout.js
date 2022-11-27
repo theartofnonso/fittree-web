@@ -1,6 +1,5 @@
 /* eslint-disable */
 import React, {useEffect, useState} from "react";
-import WorkoutCardBig from "../../views/cards/WorkoutCardBig";
 import CloseIcon from "../../../assets/svg/close-line.svg";
 import PlayIcon from "../../../assets/svg/play-mini-fill.svg";
 import CreateWorkout from "./CreateWorkout";
@@ -25,6 +24,7 @@ import Tags from "../../views/Tags";
 import MenuItem from "../../views/MenuItem";
 import Menu from "../../views/Menu";
 import OverflowIcon from "../../../assets/svg/overflow.svg";
+import WorkoutCardLite from "../../views/cards/WorkoutCardLite";
 
 const PreviewWorkout = ({workoutId, previewOnly, close}) => {
 
@@ -275,7 +275,7 @@ const PreviewWorkout = ({workoutId, previewOnly, close}) => {
                         </Menu>
                     </div>
 
-                    <WorkoutCardBig workout={workout} showExtras={!minimiseScreen}/>
+                    <WorkoutCardLite workout={workout}/>
 
                     <Transition
                         show={!minimiseScreen}
@@ -320,24 +320,6 @@ const PreviewWorkout = ({workoutId, previewOnly, close}) => {
                         </button> : null}
 
                     {isLoading ? <Loading message={loadingMessage}/> : null}
-
-                    {/*{selectedExercise ?*/}
-
-                    {/*    <Transition*/}
-                    {/*        show={!!selectedExercise}*/}
-                    {/*        appear={true}*/}
-                    {/*        enter="transition-opacity ease-in-out duration-200"*/}
-                    {/*        enterFrom="opacity-0"*/}
-                    {/*        enterTo="opacity-100"*/}
-                    {/*        leave="transition-opacity ease-out duration-200"*/}
-                    {/*        leaveFrom="opacity-100"*/}
-                    {/*        leaveTo="opacity-0">*/}
-                    {/*        <DiscoveryHub videos={recommendedVideos.get(selectedExercise.exerciseId)}*/}
-                    {/*                      label={selectedExercise.exerciseTitle}*/}
-                    {/*                      onClose={() => {*/}
-                    {/*                          setSelectedExercises(null)*/}
-                    {/*                      }}/>*/}
-                    {/*    </Transition> : null}*/}
 
                     <SnackBar
                         open={showSnackBar}
