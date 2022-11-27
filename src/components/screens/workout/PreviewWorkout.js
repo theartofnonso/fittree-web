@@ -100,44 +100,6 @@ const PreviewWorkout = ({workoutId, previewOnly, close}) => {
         }
     }, [workoutFromStore]);
 
-    // /**
-    //  * Fetch videos for all exercises from Youtube
-    //  */
-    // useEffect(() => {
-    //     const fetchVideoRecommendations = async () => {
-    //         for (const exercise of workout.workoutExercises) {
-    //
-    //             try {
-    //                 const response = await youtubeApi.get("/search", {
-    //                     params: {
-    //                         q: exercise.title
-    //                     }
-    //                 })
-    //
-    //                 setRecommendedVideos(prevValues => {
-    //                     prevValues.set(exercise.id, response.data.items)
-    //                     return new Map(prevValues.entries())
-    //                 })
-    //             } catch (err) {
-    //                 setRecommendedVideos(prevValues => {
-    //                     prevValues.set(exercise.id, [])
-    //                     return new Map(prevValues.entries())
-    //                 })
-    //             }
-    //         }
-    //
-    //         // If we can't get videos, return empty array
-    //
-    //         // for (let [index, exercise] of workout.workoutExercises.entries()) {
-    //         //     setRecommendedVideos(prevValues => {
-    //         //         prevValues.set(exercise.id, response[index].data.items)
-    //         //         return new Map(prevValues.entries())
-    //         //     })
-    //         // }
-    //     }
-    //     fetchVideoRecommendations()
-    // }, [])
-
     /**
      * Only set the roundsOrExercises when workout has been updated with the workout from store
      */
@@ -275,7 +237,9 @@ const PreviewWorkout = ({workoutId, previewOnly, close}) => {
                         </Menu>
                     </div>
 
-                    <WorkoutCardLite workout={workout}/>
+                    <div className="mb-2">
+                        <WorkoutCardLite workout={workout}/>
+                    </div>
 
                     <Transition
                         show={!minimiseScreen}

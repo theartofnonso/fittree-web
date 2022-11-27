@@ -271,8 +271,7 @@ const WorkoutPlaylist = ({shouldPlayWorkout, shouldResetWorkout, onPauseWorkout,
 
     return (
         <div className="relative rounded-md">
-            {shouldPlayWorkout && type === workoutsConstants.workoutType.CIRCUIT ?
-                <p className="font-semibold text-center mb-2">{sectionHeader}</p> : null}
+            {shouldPlayWorkout && type === workoutsConstants.workoutType.CIRCUIT ? <p className="font-semibold text-center mb-2">{sectionHeader}</p> : null}
             {list.map((exercise, index) =>
                 <Exercise
                     isActive={getExercise().id === exercise.id && shouldPlayWorkout}
