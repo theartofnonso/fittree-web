@@ -72,15 +72,17 @@ const PreviewWorkout = ({workoutId, close}) => {
 
     const [selectedExercise, setSelectedExercises] = useState(null)
 
-    const [roundsOrExercises, setRoundsOrExercises] = useState(() => {
+    const loadWorkouts = () => {
         let items;
         if (workout.type === workoutsConstants.workoutType.CIRCUIT) {
             items = loadCircuitWorkout(workout);
         } else {
             items = loadRepsAndSetsWorkout(workout);
         }
-        return items;
-    })
+        return items
+    }
+
+    const [roundsOrExercises, setRoundsOrExercises] = useState(() => loadWorkouts())
 
     const [showWorkoutCompletedModal, setShowWorkoutCompletedModal] = useState(false)
 
@@ -204,6 +206,15 @@ const PreviewWorkout = ({workoutId, close}) => {
         });
     }
 
+    /**
+     * Reset the state of the workout preview state
+     */
+    const resetWorkoutPlayState = () => {
+        setShouldPlayWorkout(false)
+        setIsWorkoutPlaying(false)
+        setMinimiseScreen(false)
+    }
+
     if (openCreateWorkout) {
         return (
             <CreateWorkout
@@ -222,7 +233,7 @@ const PreviewWorkout = ({workoutId, close}) => {
                         {isWorkoutPlaying ?
                             <button
                                 type="button"
-                                onClick={close}
+                                onClick={resetWorkoutPlayState}
                                 className="cursor-pointer bg-secondary py-2 px-6 rounded-full text-primary text-sm font-semibold hover:bg-darkSecondary">End
                                 workout
                             </button>
