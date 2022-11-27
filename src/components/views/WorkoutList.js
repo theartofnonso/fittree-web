@@ -33,7 +33,7 @@ const WorkoutList = ({workouts, emptyListMessage}) => {
             <div className="h-screen">
                 <p className="text-sm sm:text-md md:text-lg font-semibold">{`${workouts.length} workouts`} </p>
                 {workouts.length > 0 ?
-                    <div className="mt-1 grid gap-3 sm:gap-2 grid-cols-1 sm:grid-cols-4">
+                    <div className="mt-1 grid gap-3 sm:gap-2 grid-cols-1 sm:grid-cols-3 lg:grid-cols-4">
                         {workouts.map((item, index) => {
                             return (
                                 <div key={index} onClick={() => previewWorkout(item)}>

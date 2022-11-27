@@ -18,7 +18,7 @@ const Footer = () => {
                     <FittrBigIcon/>
                 </a>
             </Link>
-            <p className="text-xs">Wallpaper image by <a href="https://www.freepik.com/free-vector/geometric-wallpaper_10423742.htm#page=4&query=abstract%20wallpaper&position=5&from_view=keyword" target="_blank">Freepik</a></p>
+            <p className="text-xs">Wallpaper image by <a href="https://www.freepik.com/free-vector/hand-drawn-flat-design-geometric-background_23985346.htm#from_view=detail_serie#position=0" target="_blank">Freepik</a></p>
         </div>
     );
 };
