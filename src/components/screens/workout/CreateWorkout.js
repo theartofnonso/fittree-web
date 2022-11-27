@@ -29,8 +29,11 @@ import {
     updateTitle
 } from "../../../schemas/WorkoutExercise";
 import {createWorkout, updateWorkout} from "/src/features/auth/authWorkoutsSlice";
+import useAuth from "../../../utils/aws-utils/useAuth";
 
 export default function CreateWorkout({params, close}) {
+
+    useAuth("/signin")
 
     const user = useSelector(selectAuthUser);
 

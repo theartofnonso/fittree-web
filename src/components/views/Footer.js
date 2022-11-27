@@ -18,7 +18,7 @@ const Footer = () => {
                     <FittrBigIcon/>
                 </a>
             </Link>
-            <p className="text-xs">Wallpaper image by <a href="https://www.freepik.com/free-vector/hand-drawn-flat-design-geometric-background_23985346.htm#from_view=detail_serie#position=0" target="_blank">Freepik</a></p>
+            <p className="text-xs">Wallpaper image by benzoix<a href="https://www.freepik.com/free-photo/grungy-white-background-natural-cement-stone-old-texture-as-retro-pattern-wall-conceptual-wall-banner-grunge-material-construction_20038962.htm#page=8&query=texture%20background&position=48&from_view=search&track=sph" target="_blank">Freepik</a></p>
         </div>
     );
 };
