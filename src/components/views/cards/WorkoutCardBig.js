@@ -10,13 +10,13 @@ const WorkoutCardBig = ({workout, showExtras}) => {
             duration={500}
             className="rounded-lg overflow-hidden relative rounded-lg text-white mb-3"
             height={showExtras ? "auto" : "20%"}>
-            <img src="/wallpaper.jpg" alt="Display profile" className="object-cover object-top rounded-lg sm:h-52 sm:w-full"/>
+            <img src="/wallpaper.jpg" alt="Display profile" className={`${showExtras ? "object-cover object-top" : "object-cover"} rounded-lg sm:h-52 md:h-72 sm:w-full`}/>
             <div className="absolute top-0 right-0 m-2 py-0.5 px-2 rounded-full bg-primary text-xs font-bold">
                 <p>{workoutTagDisplay(false, workout)}</p>
             </div>
             <div className={`absolute right-0 bottom-0 left-0 pl-3 pb-3 space-y-1`}>
                 <p className="text-left  text-darkPrimary text-xl font-extrabold">{workout.title}</p>
-                <p className="text-sm font-bold">{workout.intensityLevel}</p>
+                <p className="text-sm font-bold text-dustBlack">{workout.intensityLevel}</p>
 
                 <div className="flex flex-row font-bold">
                     <div

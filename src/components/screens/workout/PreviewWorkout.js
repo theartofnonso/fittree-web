@@ -279,12 +279,12 @@ const PreviewWorkout = ({workoutId, previewOnly, close}) => {
 
                     <Transition
                         show={!minimiseScreen}
-                        className="font-light break-words whitespace-pre-line text-sm h-32 overflow-auto my-3 space-y-3"
+                        className="font-light break-words whitespace-pre-line text-sm overflow-auto my-3 space-y-3"
                         enter="transition-height duration-500"
                         enterFrom="h-0 opacity-0"
-                        enterTo="h-32 opacity-100"
+                        enterTo="h-24 opacity-100"
                         leave="transition-height duration-500"
-                        leaveFrom="h-32 opacity-100"
+                        leaveFrom="h-24 opacity-100"
                         leaveTo="h-0 opacity-0">
                         <p>{workout.description || utilsConstants.workoutsExerciseDefaults.DEFAULT_VALUE_DESCRIPTION}</p>
                         {!minimiseScreen ? <Tags items={workout.bodyParts} emptyState={"No body parts trained"}

@@ -56,7 +56,7 @@ const ExerciseInfo = ({exercise, workoutType, set, isActiveSet, isActive}) => {
 const Exercise = ({isActive, exercise, setIndex, duration, timeLeft, workoutType}) => {
 
     return (
-        <div className={`flex flex-row items-center place-content-between py-2 px-4 mt-2 mb-4 ${isActive ? "bg-primary hover:bg-darkPrimary" : "shadow-lightSecondary shadow-lg hover:bg-lightSecondary"} w-full rounded-sm`}>
+        <div className={`flex flex-row items-center place-content-between py-2 px-4 mt-2 mb-4 ${isActive ? "bg-primary hover:bg-darkPrimary" : "shadow-darkSecondary shadow-lg hover:bg-lightSecondary"} w-full rounded-sm`}>
             <div className="flex flex-row items-center place-content-between space-y-2 w-full py-3">
                 <div className="flex flex-col space-y-2 items-start text-left">
                     <p className={`font-semibold text-md sm:text-lg ${isActive ? "text-white" : "text-gray1"}`}>{exercise.title}</p>
