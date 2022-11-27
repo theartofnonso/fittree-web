@@ -24,9 +24,9 @@ export const onlyPeriodsUnderscore = value => {
 };
 
 /**
- * Returns a unique filename for a file
+ * Returns a unique string for a file
  */
-export const generateFileName = fileType => {
+export const generateRandomString = () => {
     const uuidString = uuid.v4().split('-').join('');
     const randomChars = `${uuidString}AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz${new Date().getTime()}`;
     let generatedRandomChars = '';
@@ -35,7 +35,15 @@ export const generateFileName = fileType => {
             Math.floor(Math.random() * randomChars.length),
         );
     }
-    return `${generatedRandomChars}.${fileType}`;
+    return generatedRandomChars;
+};
+
+/**
+ * Returns a unique filename for a file
+ */
+export const generateFileName = fileType => {
+    let generatedRandomString = generateRandomString()
+    return `${generatedRandomString}.${fileType}`;
 };
 
 /**
@@ -48,4 +56,17 @@ export const generateCDNUrl = key => {
             ? awsConstants.awsStorage.cdn.PROD
             : awsConstants.awsStorage.cdn.DEV;
     return `${cdn}${awsConstants.awsStorage.accessLevel.PUBLIC}/${key}`;
+};
+
+export /**
+ * Force capitlisation of words in a string
+ * @param string
+ */
+const capitaliseWords = string => {
+    const words = string.split(' ');
+
+    for (let i = 0; i < words.length; i++) {
+        words[i] = words[i][0].toUpperCase() + words[i].substr(1);
+    }
+    return words.join(' ');
 };

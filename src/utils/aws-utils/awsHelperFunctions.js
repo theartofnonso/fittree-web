@@ -1,11 +1,10 @@
 /* eslint-disable */
 import * as mutations from "../../graphql/mutations";
-import { API, Auth, graphqlOperation, Logger } from "aws-amplify";
+import {API, Auth, graphqlOperation, Storage} from "aws-amplify";
 import * as AWS from "aws-sdk";
 import awsmobile from "../../aws-exports";
 import * as queries from "../../graphql/queries";
-
-const logger = new Logger("AWS Helper Functions");
+import {generateCDNUrl, generateFileName} from "../general/utils";
 
 /**
  * Persist User Cognito details to the DB
@@ -117,6 +116,43 @@ const doesPreferredUsernameExists = async (preferred_username) => {
   return Users && Users.length > 0;
 };
 
+/**
+ * Upload file to AWS S3 bucket
+ * Note: This is similar to a http PUT operation as we are replacing the existing file
+ * @returns {Promise<string>}
+ * @param toBeUploadedUri
+ * @param key
+ * @param toBeDeletedUri
+ * @param type
+ */
+const uploadAndDeleteS3 = async (toBeUploadedUri, key, toBeDeletedUri, type) => {
+
+  /**
+   * Upload a new file
+   */
+  if(toBeUploadedUri) {
+    const blobResponse = await fetch(toBeUploadedUri);
+    const blob = await blobResponse.blob();
+
+    const toBeUploadedFileName = generateFileName(type);
+    const toBeUploadedKey = key + "/" + toBeUploadedFileName
+    const s3Response = await Storage.put(toBeUploadedKey, blob);
+    return generateCDNUrl(s3Response.key);
+  }
+
+  /**
+   * Delete the previous file
+   */
+  if(toBeDeletedUri) {
+    const toBeDeletedFileName = toBeDeletedUri.split("/")[3];
+    const toBeDeletedKey = key + "/" + toBeDeletedFileName;
+    await Storage.remove(toBeDeletedKey);
+  }
+
+  return ""
+
+}
+
 
 export {
   persistUserToDB,
@@ -126,4 +162,5 @@ export {
   retrieveCognitoUser,
   isCompleteSignUp,
   doesPreferredUsernameExists,
+  uploadAndDeleteS3
 };

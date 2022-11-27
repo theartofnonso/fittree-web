@@ -1,6 +1,6 @@
 /**
  * Timer for in workoutS
- * @type {{type: {REPS: string, DURATION: string}}}
+ * @type {{duration: {SECS: string, MINS: string}, REPS: string, TIME: string, COUNT: string}}
  */
 const exerciseInfo = {
   TIME: 'Time',
@@ -13,13 +13,23 @@ const exerciseInfo = {
 };
 
 /**
- * Messages displayed while playing a workout
+ * Workout / Exercise duration
+ * @type {{SECONDS: string, MINUTES: string}}
  */
-const playMessages = {
-  WORKOUT_STARTING: 'Workout is Starting',
-  NEXT_ROUND: 'Next Round',
-  NEXT_SET: 'Next Set',
-  NEXT_EXERCISE: 'Next Exercise',
+const duration = {
+  MINUTES: "Mins",
+  SECONDS: "Secs",
+  REPS: 'Reps',
+}
+
+/**
+ * Intensity Levels
+ * @type {{Beginner: string, Advanced: string, Intermediate: string}}
+ */
+const intensityLevels = {
+  Beginner: 'Beginner',
+  Intermediate: 'Intermediate',
+  Advanced: 'Advanced',
 };
 
 /**
@@ -29,6 +39,24 @@ const playMessages = {
 const workoutType = {
   CIRCUIT: 'CircuitWorkout',
   REPS_SETS: 'RepsAndSetsWorkout',
+  circuitInfo: {
+    title: 'Circuit Workout',
+    description: 'Create a workout with exercises grouped into rounds',
+  },
+  repsSetsInfo: {
+    title: 'Reps and Sets Workout',
+    description: ' Create a workout with exercises grouped into sets',
+  },
+};
+
+/**
+ * Messages displayed while playing a workout
+ */
+const playMessages = {
+  WORKOUT_STARTING: 'Workout is Starting',
+  NEXT_ROUND: 'Next Round',
+  NEXT_SET: 'Next Set',
+  NEXT_EXERCISE: 'Next Exercise',
 };
 
 const profileStatus = {
@@ -39,7 +67,9 @@ const profileStatus = {
 
 export default {
   exerciseInfo,
-  workoutType,
   profileStatus,
-  playMessages
+  playMessages,
+  intensityLevels,
+  workoutType,
+  duration
 };

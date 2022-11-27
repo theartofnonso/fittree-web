@@ -1,22 +1,17 @@
 import {useRouter} from "next/router";
 import React, {useEffect, useState} from "react";
-import {
-    fetchCreatorProfile,
-    selectCreator,
-    selectCreatorStatus,
-    selectExercises,
-    selectWorkouts
-} from "../src/features/unauth/CreatorProfileSlice";
+import {fetchCreatorProfile, selectCreator, selectCreatorStatus,} from "../src/features/unauth/creatorProfileSlice";
 import {useDispatch, useSelector} from "react-redux";
 import {searchExerciseOrWorkout} from "../src/utils/workoutAndExerciseUtils";
 import workoutsConstants from "../src/utils/workout/workoutsConstants";
-import CreatorProfile404 from "../src/components/views/CreatorProfile404";
-import CreatorProfile500 from "../src/components/views/CreatorProfile500";
+import CreatorProfile404 from "../src/components/views/errorPages/CreatorProfile404";
+import CreatorProfile500 from "../src/components/views/errorPages/CreatorProfile500";
 import FittreeLoading from "../src/components/views/FittreeLoading";
 import Profile from "../src/components/views/Profile";
 import WorkoutList from "../src/components/views/WorkoutList";
 import Footer from "../src/components/views/Footer";
 import NavBar from "../src/components/views/NavBar";
+import {selectAllWorkouts, workoutsAdded} from "../src/features/unauth/unAuthWorkoutsSlice";
 
 const CreatorProfile = () => {
 
@@ -32,13 +27,30 @@ const CreatorProfile = () => {
 
     const status = useSelector(selectCreatorStatus)
 
-    const workouts = useSelector(selectWorkouts)
-
-    const exercises = useSelector(selectExercises)
+    const workouts = useSelector(selectAllWorkouts)
 
     const [filteredWorkouts, setFilteredWorkouts] = useState(workouts);
 
     const [searchQuery, setSearchQuery] = React.useState('');
+
+    /**
+     * Retrieve unauth's profile
+     * @type {Dispatch<AnyAction>}
+     */
+    useEffect(() => {
+        if (username) {
+            dispatch(fetchCreatorProfile({username}));
+        }
+    }, [username])
+
+    /**
+     * Load fetched exercises and workouts
+     */
+    useEffect(() => {
+        if (profile) {
+            dispatch(workoutsAdded(profile.workouts.items));
+        }
+    }, [profile]);
 
     /**
      * Load workout into filtered workout
@@ -55,19 +67,13 @@ const CreatorProfile = () => {
      */
     const onChangeSearch = query => {
         setSearchQuery(query);
-        const searchResult = searchExerciseOrWorkout(workouts, query)
-        setFilteredWorkouts(searchResult);
-    };
-
-    /**
-     * Retrieve unauth's profile
-     * @type {Dispatch<AnyAction>}
-     */
-    useEffect(() => {
-        if (username) {
-            dispatch(fetchCreatorProfile({username: username}));
+        if(query) {
+            const searchResult = searchExerciseOrWorkout(filteredWorkouts, query);
+            setFilteredWorkouts(searchResult);
+        } else {
+            setFilteredWorkouts(workouts);
         }
-    }, [username])
+    };
 
     if (status === workoutsConstants.profileStatus.LOADING) {
         /**
@@ -82,7 +88,7 @@ const CreatorProfile = () => {
 
     } else {
         /**
-         * Page is ready but profile may not exists
+         * Page is ready but profile may not exist
          */
         if (profile === null) {
             /**
@@ -94,29 +100,23 @@ const CreatorProfile = () => {
          * Loaded Creator page content
          */
         return (
-
-            <>
-                <div className="container mx-auto p-4 min-h-screen">
-                    <NavBar/>
-                    <Profile user={profile}/>
-                    <form className="my-4 flex flex-col items-center">
-                        <input
-                            className="border-gray w-5/6 bg-secondary h-14 sm:h-18 shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
-                            id="search"
-                            type="text"
-                            placeholder="Search workouts"
-                            value={searchQuery}
-                            onChange={event => onChangeSearch(event.target.value.toLowerCase())}/>
-                    </form>
-                    <WorkoutList username={username}
-                                 workouts={filteredWorkouts}
-                                 exercises={exercises}
-                                 emptyListMessage={username + " " + "doesn't have any workouts yet"}
-                                 showDuration={true}/>
-                    <Footer/>
+            <div className="container mx-auto p-4 min-h-screen">
+                <NavBar user={profile} isAuth={false}/>
+                <Profile username={profile.preferred_username}/>
+                <div className="mt-4 mb-5 flex flex-col items-center">
+                    <input
+                        className="shadow-gray2 shadow-lg w-5/6 h-14 sm:h-18 shadow appearance-none rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+                        id="search"
+                        type="text"
+                        placeholder="Search workouts"
+                        value={searchQuery}
+                        onChange={event => onChangeSearch(event.target.value.toLowerCase())}/>
                 </div>
-            </>
-
+                <WorkoutList
+                    workouts={filteredWorkouts}
+                    emptyListMessage={username + " " + "doesn't have any workouts yet"}/>
+                <Footer/>
+            </div>
         )
     }
 }

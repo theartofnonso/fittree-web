@@ -2,14 +2,24 @@ import React from "react";
 import MockRight from "../src/components/views/mocks/MockRight";
 import MockLeft from "../src/components/views/mocks/MockLeft";
 import {APP_STORE_URL} from "../src/utils/utilsConstants";
-import InstagramIcon from "../src/components/svg/instagram-primary-line.svg";
-import TwitterIcon from "../src/components/svg/twitter-primary-line.svg";
-import FittrBigIcon from "../src/components/svg/fittr.svg";
-import FittrSmallIcon from "../src/components/svg/fittr_small.svg";
+import InstagramIcon from "../src/assets/svg/instagram-primary-line.svg";
+import TwitterIcon from "../src/assets/svg/twitter-primary-line.svg";
+import FittrBigIcon from "../src/assets/svg/fittr.svg";
+import FittrSmallIcon from "../src/assets/svg/fittr_small.svg";
 import Link from "next/link";
-import {withSSRContext} from "aws-amplify";
+import useAuth from "../src/utils/aws-utils/useAuth";
+import FittreeLoading from "../src/components/views/FittreeLoading";
 
-export default function App({authenticated}) {
+export default function App() {
+
+    const auth = useAuth()
+
+    /**
+     * Auth is being checked
+     */
+    if (auth === null) {
+        return <FittreeLoading/>
+    }
 
     return (
         <div className="container mx-auto">
@@ -27,7 +37,7 @@ export default function App({authenticated}) {
                     </Link>
                 </div>
                 <div className="flex flex-row h-10 bg-primary rounded-3xl place-content-between">
-                    {authenticated ?
+                    {auth.username ?
                         <Link href="/admin">
                             <a
                                 className="flex flex-row items-center font-medium text-secondary text-sm rounded-3xl h-full pl-5 pr-5 cursor-pointer hover:bg-darkPrimary">
@@ -83,37 +93,21 @@ export default function App({authenticated}) {
                     bodyOne="launch your workouts"
                     bodyTwo="with an improved experience"/>
             </div>
-            <div className="flex flex-col mx-6 sm:mx-8">
-                <button
-                    type="button"
-                    className="accordion bg-primary w-full text-start px-3 py-5 my-2 rounded-lg font-semibold text-md text-white">What
-                    is Fittree ?
-                </button>
-                <div className="p-3">
-                    <p>Fittree is a link to your workouts.
-                        All you need is a fittree.io/username to share with everyone, everywhere.
-                        Create awesome workouts and share them with your followers, clients, brand partners etc.
-                        Take your link everywhere your fitness brand exists.</p>
+            <div className="flex flex-col mx-8">
+                <div className="p-4 bg-secondary rounded-sm text-primary my-2">
+                    <p className="text-xl font-semibold mb-1">What is Fittree ?</p>
+                    <p className="text-justify">Fittree is a link to your workouts.
+                        All you need is a fittree.io/username to create awesome workouts and share them with your community.
+                    </p>
                 </div>
-
-                <button
-                    type="button"
-                    className="accordion bg-primary w-full text-start px-3 py-5 my-2 rounded-lg font-semibold text-md text-white">Why
-                    do I need Fittree ?
-                </button>
-                <div className="p-3">
-                    <p>It is simple, you have a brand (sense of value and reputation) to build, and we have the means to
-                        help you achieve that. Fittree is a fit-for-purpose link to the value you have to offer to your
+                <div className="p-4 bg-secondary rounded-sm text-primary my-2">
+                    <p className="text-xl font-semibold mb-1">Why do I need Fittree ?</p>
+                    <p className="text-justify">It is simple, Fittree is a fit-for-purpose platform for workouts you have to share with your
                         community.</p>
                 </div>
-
-                <button
-                    type="button"
-                    className="accordion bg-primary w-full text-start px-3 py-5 my-2 rounded-lg font-semibold text-md text-white">How
-                    can I share my workouts ?
-                </button>
-                <div className="p-3">
-                    <p>All you need is a fittree.io/username link.</p>
+                <div className="p-4 bg-secondary rounded-sm text-primary mt-2">
+                    <p className="text-xl font-semibold mb-1">How can I share my workouts ?</p>
+                    <p className="text-justify">All you need is a fittree.io/username link.</p>
                 </div>
             </div>
             <div className="flex flex-row my-4 mx-6 sm:mx-8 place-content-between">
@@ -135,27 +129,4 @@ export default function App({authenticated}) {
             </div>
         </div>
     );
-}
-
-export async function getServerSideProps(context) {
-
-    const {Auth} = withSSRContext(context)
-
-    try {
-
-        await Auth.currentAuthenticatedUser()
-
-        return {
-            props: {
-                authenticated: true,
-            }
-        }
-
-    } catch (err) {
-        return {
-            props: {
-                authenticated: false,
-            }
-        }
-    }
 }

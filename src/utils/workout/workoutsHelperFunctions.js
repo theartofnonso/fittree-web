@@ -29,19 +29,72 @@ export const workoutDurationSummary = duration => {
 }
 
 /**
+ * Determine if duration is second or time
+ * @param duration
+ * @returns {number}
+ */
+export const isMinutesOrSeconds = duration => {
+    const seconds = Math.round(duration / 1000)
+    const minutes = Math.round(duration / 60000)
+
+    if (seconds >= 60) {
+        return workoutsConstants.duration.MINUTES
+    }
+    return workoutsConstants.duration.SECONDS
+}
+
+/**
+ * Convert milliseconds to seconds or minutes
+ * @param duration
+ * @returns {number}
+ */
+export const convertMilliToSecondsOrMinutes = duration => {
+    const seconds = Math.round(duration / 1000)
+    const minutes = Math.round(duration / 60000)
+
+    if (seconds >= 60) {
+        return minutes
+    }
+    return seconds
+}
+
+/**
+ * Convert seconds or minutes to milliseconds
+ * @returns {number}
+ * @param value
+ * @param type
+ */
+export const convertSecondsOrMinutesToMilli = (value, type) => {
+
+    const secondsToMilli = Math.round(value * 1000)
+    const minutesToMilli = Math.round(value * 60000)
+
+    if(type === workoutsConstants.duration.SECONDS) {
+        return secondsToMilli
+    }
+
+    if (type === workoutsConstants.duration.MINUTES) {
+        return minutesToMilli
+    }
+
+    return parseInt(value)
+
+}
+
+/**
  * Interval duration summary
  * @param duration
  * @returns {string}
  */
-export const intervalDurationSummary = duration => {
+export const timeSummary = duration => {
     const exactDurationInSeconds = Math.round(duration / 1000)
     const exactDurationInMinutes = Math.round(duration / 60000)
 
     if(exactDurationInSeconds > 60) {
-        return exactDurationInMinutes + " mins"
+        return exactDurationInMinutes + " Mins"
     }
 
-    return exactDurationInSeconds + " secs"
+    return exactDurationInSeconds + " Secs"
 }
 
 /**
@@ -49,9 +102,9 @@ export const intervalDurationSummary = duration => {
  * @param timeOrCount
  */
 export const timeOrReps = timeOrCount =>
-  timeOrCount === workoutsConstants.exerciseInfo.TIME
-    ? workoutsConstants.exerciseInfo.duration.SECS
-    : workoutsConstants.exerciseInfo.REPS;
+  timeOrCount === workoutsConstants.duration.REPS
+    ? workoutsConstants.exerciseInfo.REPS
+    : workoutsConstants.exerciseInfo.duration.SECS;
 
 /**
  * Load the exercises into the rounds array to play
@@ -59,9 +112,7 @@ export const timeOrReps = timeOrCount =>
  */
 export const loadCircuitWorkout = workout => {
     let rounds = new Array(workout.rounds);
-    for (let i = 0; i < rounds.length; i++) {
-        rounds[i] = workout.workoutExercises;
-    }
+    rounds.fill(workout.workoutExercises)
     return rounds;
 };
 
@@ -70,36 +121,40 @@ export const loadCircuitWorkout = workout => {
  * @param workout
  */
 export const loadRepsAndSetsWorkout = workout => {
-    let exercises = new Array(workout.workoutExercises.length);
-    for (let i = 0; i < exercises.length; i++) {
-        const exercise = workout.workoutExercises[i];
-        const sets = new Array(exercise.sets);
-        for (let j = 0; j < sets.length; j++) {
-            sets[j] = exercise;
-        }
-        exercises[i] = sets;
-    }
-    return exercises;
+    return workout.workoutExercises
 };
 
 /**
- * Sort out exercises
- * @param workout
- * @param exercises
- * @returns {any[]}
+ * Display either a workout duration or live status
  */
-export const sortWorkouts = (workout, exercises) =>
-    Array.from(workout.workoutExercises)
-        .map(workoutExerciseJSON => {
-            const workoutExercise = JSON.parse(workoutExerciseJSON);
-            const exercise = exercises.find(item => item.id === workoutExercise.exerciseId);
-            if(exercise) {
-                return { ...workoutExercise, exercise };
-            } else {
-                return null
-            }
-        })
-        .filter(workoutExercise => workoutExercise !== null)
-        .sort((a, b) => a.index - b.index);
+export const workoutTagDisplay = (isCreator, workout) => {
+    if(isCreator) {
+        if(workout.isLive) {
+            return 'Live'
+        } else {
+            return 'Draft'
+        }
+    } else {
+        return workoutDurationSummary(workout.duration)
+    }
+}
+
+/**
+ * Format URI to correct form for displaying
+ */
+export const formatThumbnailUri = (uri) => {
+    let formattedUri = uri;
+    if(!uri.startsWith("blob")) {
+        formattedUri =  "https://" + uri
+    }
+    return formattedUri
+}
+
+/**
+ * Check if workout is valid i.e contains exercises at minimum
+ */
+export const isValidWorkout = (workout) => workout.workoutExercises.length > 0
 
 export const generateShareableLink = username => 'https://www.fittree.io/' + username;
+
+export const generateWorkoutLink = workoutId => 'https://www.fittree.io/workouts/' + workoutId;

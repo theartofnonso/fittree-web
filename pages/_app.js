@@ -1,7 +1,7 @@
 import Head from "next/head";
 import {Provider} from "react-redux";
 import store from "../store/store";
-import {Amplify} from "@aws-amplify/core";
+import Amplify from "aws-amplify";
 import awsConfigs from '../src/aws-exports';
 import * as Sentry from "@sentry/react";
 import {BrowserTracing} from "@sentry/tracing";
@@ -27,7 +27,7 @@ function MyApp({Component, pageProps}) {
                 <meta name="viewport"
                       content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=0"/>
                 <link rel="icon" href="/fittr_symbol_small.svg"/>
-                <title>Fittree | Your workouts everywhere</title>
+                <title>Fittree - Your workouts everywhere</title>
             </Head>
             <Provider store={store}>
                 <Component {...pageProps} />
