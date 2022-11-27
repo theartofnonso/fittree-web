@@ -15,7 +15,9 @@ const BodyParts = ({prevValues, onSelect}) => {
         "Quadriceps",
         "Shoulders",
         "Triceps",
-        "Full Body"
+        "Full Body",
+        "Upper Body",
+        "Lower Body"
     ];
 
     /**

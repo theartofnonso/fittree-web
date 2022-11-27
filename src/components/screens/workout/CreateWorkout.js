@@ -432,11 +432,11 @@ export default function CreateWorkout({params, close}) {
                     prevEquipments={selectedEquipments}
                     onSelect={selectEquipmentHandler}/>
                 <table
-                    className="table-auto outline outline-gray2 outline-1 pt-2 rounded-md mt-4 border-separate border-spacing-1">
+                    className="table-auto outline outline-gray2 outline-1 pt-2 rounded-md my-2 border-separate border-spacing-1">
                     <thead>
                     <tr className="text-left">
                         <th>Title</th>
-                        <th>{getWorkoutType() === workoutsConstants.workoutType.CIRCUIT ? "Sets" : "Sets"}</th>
+                        <th>{getWorkoutType() === workoutsConstants.workoutType.CIRCUIT ? "Time/Reps" : "Sets"}</th>
                         <th></th>
                     </tr>
                     </thead>

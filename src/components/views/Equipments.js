@@ -61,15 +61,15 @@ const Equipments = props => {
     };
 
     return (
-        <div className="outline outline-gray2 outline-1 p-2 rounded-md mt-4">
-            <input
-                className="appearance-none border-none w-5/6 bg-gray2 h-14 sm:h-18 rounded w-full py-2 px-3 my-2"
-                id="search"
-                type="text"
-                placeholder="Search equipment "
-                value={enteredEquipment}
-                maxLength={35}
-                onChange={event => filterEquipments(event.target.value.trim())}/>
+        <div className="my-2">
+            {/*<input*/}
+            {/*    className="appearance-none border-none w-5/6 bg-gray2 h-14 sm:h-18 rounded w-full py-2 px-3 my-2"*/}
+            {/*    id="search"*/}
+            {/*    type="text"*/}
+            {/*    placeholder="Search equipment "*/}
+            {/*    value={enteredEquipment}*/}
+            {/*    maxLength={35}*/}
+            {/*    onChange={event => filterEquipments(event.target.value.trim())}/>*/}
             <div className="flex flex-row flex-wrap">
                 {selectedEquipments.map((item, index) => {
                     return (
@@ -81,7 +81,7 @@ const Equipments = props => {
                     )
                 })}
             </div>
-            <div className="relative border-none my-2">
+            <div className="relative border-none">
                 <select
                     onChange={(event) => selectEquipmentHandler(event.target.value)}
                     className="block appearance-none w-full bg-gray2 text-gray-700 py-3 px-4 pr-8 rounded "
