@@ -10,7 +10,6 @@ import workoutsConstants from "../../src/utils/workout/workoutsConstants";
 import FittreeLoading from "../../src/components/views/FittreeLoading";
 import {useEffect} from "react";
 import CreatorWorkout404 from "../../src/components/views/errorPages/CreatorWorkout404";
-import CreatorProfile404 from "../../src/components/views/errorPages/CreatorProfile404";
 
 
 const CreatorWorkout = () => {
@@ -28,7 +27,7 @@ const CreatorWorkout = () => {
     const status = useSelector(selectGetWorkoutStatus)
 
     /**
-     * Retrieve unauth's profile
+     * Retrieve unauth's creator workout
      * @type {Dispatch<AnyAction>}
      */
     useEffect(() => {
@@ -56,7 +55,7 @@ const CreatorWorkout = () => {
             /**
              * Creator workout doesn't exist
              */
-            return <CreatorProfile404/>
+            return <CreatorWorkout404/>
         }
         /**
          * Loaded Creator workout

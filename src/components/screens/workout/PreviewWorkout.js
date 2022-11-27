@@ -243,7 +243,10 @@ const PreviewWorkout = ({workoutId, close}) => {
                                       isActive={true}
                             />
                             <MenuItem label="Share"
-                                      onClick={copyWorkoutLink}
+                                      onClick={() => {
+                                          copyWorkoutLink()
+                                          setShowMenuOptions(false)
+                                      }}
                                       isActive={true}
                             />
                             <MenuItem label="Edit"
@@ -253,7 +256,10 @@ const PreviewWorkout = ({workoutId, close}) => {
                                       }}
                                       isActive={user && !shouldPlayWorkout}/>
                             <MenuItem label="Delete"
-                                      onClick={doDeleteWorkout}
+                                      onClick={() => {
+                                          doDeleteWorkout()
+                                          setShowMenuOptions(false)
+                                      }}
                                       isHighlighted={true}
                                       isActive={user && !shouldPlayWorkout}/>
                         </Menu>
