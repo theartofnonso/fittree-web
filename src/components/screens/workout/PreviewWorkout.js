@@ -8,6 +8,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {deleteWorkout, selectWorkoutById} from "../../../features/auth/authWorkoutsSlice";
 import {selectWorkoutById as unauthSelectWorkoutById} from "../../../features/unauth/unAuthWorkoutsSlice"
 import {
+    generateWorkoutLink,
     isValidWorkout,
     loadCircuitWorkout,
     loadRepsAndSetsWorkout
@@ -192,6 +193,17 @@ const PreviewWorkout = ({workoutId, close}) => {
         }
     };
 
+    /**
+     * copy shareable link
+     */
+    const copyWorkoutLink = () => {
+        navigator.clipboard.writeText(generateWorkoutLink(workoutId)).then(() => {
+            setSnackbarType(SnackBarType.SUCCESS)
+            setSnackbarMessage("Link copied")
+            setShowSnackBar(true)
+        });
+    }
+
     if (openCreateWorkout) {
         return (
             <CreateWorkout
@@ -230,6 +242,13 @@ const PreviewWorkout = ({workoutId, close}) => {
                                       }}
                                       isActive={true}
                             />
+                            <MenuItem label="Share"
+                                      onClick={() => {
+                                          copyWorkoutLink()
+                                          setShowMenuOptions(false)
+                                      }}
+                                      isActive={true}
+                            />
                             <MenuItem label="Edit"
                                       onClick={() => {
                                           setOpenCreateWorkout(true)
@@ -237,7 +256,10 @@ const PreviewWorkout = ({workoutId, close}) => {
                                       }}
                                       isActive={user && !shouldPlayWorkout}/>
                             <MenuItem label="Delete"
-                                      onClick={doDeleteWorkout}
+                                      onClick={() => {
+                                          doDeleteWorkout()
+                                          setShowMenuOptions(false)
+                                      }}
                                       isHighlighted={true}
                                       isActive={user && !shouldPlayWorkout}/>
                         </Menu>
