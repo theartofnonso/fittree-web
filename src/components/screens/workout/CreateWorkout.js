@@ -456,7 +456,7 @@ export default function CreateWorkout({params, close}) {
                                 <td>
                                     {getWorkoutType() === workoutsConstants.workoutType.REPS_SETS ?
 
-                                        <Counter onChange={(value) => {
+                                        <Counter prevValue={exercise.sets.length} onChange={(value) => {
                                             if (value === INC) {
                                                 const newWorkoutExercise = addSet(exercise);
                                                 updateWorkoutExercise(newWorkoutExercise)

@@ -6,9 +6,9 @@ import SubtractIcon from "../../assets/svg/subtract-line.svg";
 const INC = "INCREASE"
 const DEC = "DECREASE"
 
-const Counter = ({onChange}) => {
+const Counter = ({onChange, prevValue}) => {
 
-    const [value, setValue] = useState(1)
+    const [value, setValue] = useState(prevValue)
 
     /**
      * Increase value
