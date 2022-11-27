@@ -49,22 +49,20 @@ const displayDuration = (workoutType, exercise, set = null) => {
 
 const ExerciseInfo = ({exercise, workoutType, set, isActiveSet, isActive}) => {
     return (
-        <p className={`text-xs font-semibold px-2 py-0.5 rounded-sm ${isActive ? "bg-secondary text-primary" : "bg-primary text-white"} ${isActive && isActiveSet ? "motion-safe:animate-pulse" : ""}`}>{displayDuration(workoutType, exercise, set)}</p>
+        <p className={`text-xs font-semibold px-2 py-0.5 m-0.5 rounded-sm ${isActive ? "bg-secondary text-primary" : "bg-primary text-white"} ${isActive && isActiveSet ? "motion-safe:animate-pulse" : ""}`}>{displayDuration(workoutType, exercise, set)}</p>
     )
 }
 
 const Exercise = ({isActive, exercise, setIndex, duration, timeLeft, workoutType}) => {
 
     return (
-        <div
-            className={`flex flex-row items-center place-content-between py-2 px-4 mt-2 mb-4 ${isActive ? "bg-primary hover:bg-darkPrimary" : "shadow-lightSecondary shadow-lg hover:bg-lightSecondary"} w-full rounded-sm`}>
-            <div className="flex flex-row items-center space-y-2 w-full py-3">
-                <div className="flex flex-col space-y-2 items-start text-left grow">
+        <div className={`flex flex-row items-center place-content-between py-2 px-4 mt-2 mb-4 ${isActive ? "bg-primary hover:bg-darkPrimary" : "shadow-lightSecondary shadow-lg hover:bg-lightSecondary"} w-full rounded-sm`}>
+            <div className="flex flex-row items-center place-content-between space-y-2 w-full py-3">
+                <div className="flex flex-col space-y-2 items-start text-left">
                     <p className={`font-semibold text-md sm:text-lg ${isActive ? "text-white" : "text-gray1"}`}>{exercise.title}</p>
                     <div
-                        className={`flex flex-row space-x-1 justify-start text-left`}>
-                        {workoutType === workoutsConstants.workoutType.CIRCUIT ?
-                            <ExerciseInfo exercise={exercise} workoutType={workoutType} isActive={isActive}/> : null}
+                        className={`flex flex-row flex-wrap`}>
+                        {workoutType === workoutsConstants.workoutType.CIRCUIT ? <ExerciseInfo exercise={exercise} workoutType={workoutType} isActive={isActive}/> : null}
                         {workoutType === workoutsConstants.workoutType.REPS_SETS ?
                             exercise.sets.map((set, index) => {
                                 return (<ExerciseInfo
@@ -78,7 +76,7 @@ const Exercise = ({isActive, exercise, setIndex, duration, timeLeft, workoutType
                     </div>
                 </div>
                 {isActive ?
-                    <p className="text-lg font-bold text-white">{displayDurationSummary(workoutType, exercise, duration, timeLeft)}</p> : null}
+                    <p className="text-center text-lg font-bold text-white ml-4">{displayDurationSummary(workoutType, exercise, duration, timeLeft)}</p> : null}
             </div>
         </div>
     );

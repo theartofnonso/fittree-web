@@ -91,10 +91,10 @@ export const timeSummary = duration => {
     const exactDurationInMinutes = Math.round(duration / 60000)
 
     if(exactDurationInSeconds > 60) {
-        return exactDurationInMinutes + " mins"
+        return exactDurationInMinutes + " Mins"
     }
 
-    return exactDurationInSeconds + " secs"
+    return exactDurationInSeconds + " Secs"
 }
 
 /**
