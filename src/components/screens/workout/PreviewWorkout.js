@@ -8,6 +8,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {deleteWorkout, selectWorkoutById} from "../../../features/auth/authWorkoutsSlice";
 import {selectWorkoutById as unauthSelectWorkoutById} from "../../../features/unauth/unAuthWorkoutsSlice"
 import {
+    generateWorkoutLink,
     isValidWorkout,
     loadCircuitWorkout,
     loadRepsAndSetsWorkout
@@ -192,6 +193,17 @@ const PreviewWorkout = ({workoutId, close}) => {
         }
     };
 
+    /**
+     * copy shareable link
+     */
+    const copyWorkoutLink = () => {
+        navigator.clipboard.writeText(generateWorkoutLink(workoutId)).then(() => {
+            setSnackbarType(SnackBarType.SUCCESS)
+            setSnackbarMessage("Link copied")
+            setShowSnackBar(true)
+        });
+    }
+
     if (openCreateWorkout) {
         return (
             <CreateWorkout
@@ -228,6 +240,10 @@ const PreviewWorkout = ({workoutId, close}) => {
                                           setMinimiseScreen(!minimiseScreen)
                                           setShowMenuOptions(false)
                                       }}
+                                      isActive={true}
+                            />
+                            <MenuItem label="Share"
+                                      onClick={copyWorkoutLink}
                                       isActive={true}
                             />
                             <MenuItem label="Edit"

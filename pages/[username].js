@@ -4,8 +4,8 @@ import {fetchCreatorProfile, selectCreator, selectCreatorStatus,} from "../src/f
 import {useDispatch, useSelector} from "react-redux";
 import {searchExerciseOrWorkout} from "../src/utils/workoutAndExerciseUtils";
 import workoutsConstants from "../src/utils/workout/workoutsConstants";
-import CreatorProfile404 from "../src/components/views/CreatorProfile404";
-import CreatorProfile500 from "../src/components/views/CreatorProfile500";
+import CreatorProfile404 from "../src/components/views/errorPages/CreatorProfile404";
+import CreatorProfile500 from "../src/components/views/errorPages/CreatorProfile500";
 import FittreeLoading from "../src/components/views/FittreeLoading";
 import Profile from "../src/components/views/Profile";
 import WorkoutList from "../src/components/views/WorkoutList";
@@ -88,7 +88,7 @@ const CreatorProfile = () => {
 
     } else {
         /**
-         * Page is ready but profile may not exists
+         * Page is ready but profile may not exist
          */
         if (profile === null) {
             /**

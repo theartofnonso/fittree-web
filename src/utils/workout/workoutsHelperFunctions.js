@@ -156,3 +156,5 @@ export const formatThumbnailUri = (uri) => {
 export const isValidWorkout = (workout) => workout.workoutExercises.length > 0
 
 export const generateShareableLink = username => 'https://www.fittree.io/' + username;
+
+export const generateWorkoutLink = workoutId => 'https://www.fittree.io/workouts/' + workoutId;
