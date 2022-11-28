@@ -3,6 +3,7 @@ import {createAsyncThunk, createEntityAdapter, createSlice} from "@reduxjs/toolk
 import {API, Auth, graphqlOperation} from "aws-amplify";
 import * as queries from "../../graphql/queries";
 import workoutsConstants from "../../utils/workout/workoutsConstants";
+import {isUserAuthenticated} from "../../utils/aws-utils/awsHelperFunctions";
 
 export const workoutsSliceEnums = {
     SLICE: "unAuthWorkouts",
@@ -51,15 +52,7 @@ export const fetchCreatorWorkout = createAsyncThunk("unAuthWorkouts/get", async 
 
     const {workoutId} = payload
 
-    let isAuthenticated = false;
-    try {
-        await Auth.currentAuthenticatedUser()
-        isAuthenticated = true
-    } catch (err) {
-        /**
-         * Do nothing
-         */
-    }
+    let isAuthenticated = await isUserAuthenticated()
 
     try {
         const response = await API.graphql({

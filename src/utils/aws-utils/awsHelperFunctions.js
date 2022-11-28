@@ -153,6 +153,23 @@ const uploadAndDeleteS3 = async (toBeUploadedUri, key, toBeDeletedUri, type) => 
 
 }
 
+/**
+ * Check if user is auth
+ * @returns {Promise<boolean>}
+ */
+const isUserAuthenticated = async () => {
+  let isAuthenticated = false;
+  try {
+    await Auth.currentAuthenticatedUser()
+    isAuthenticated = true
+  } catch (err) {
+    /**
+     * Do nothing
+     */
+  }
+  return isAuthenticated;
+}
+
 
 export {
   persistUserToDB,
@@ -162,5 +179,6 @@ export {
   retrieveCognitoUser,
   isCompleteSignUp,
   doesPreferredUsernameExists,
-  uploadAndDeleteS3
+  uploadAndDeleteS3,
+  isUserAuthenticated
 };

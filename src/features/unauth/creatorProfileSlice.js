@@ -3,6 +3,7 @@ import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {API, Auth, graphqlOperation} from "aws-amplify";
 import * as queries from "../../graphql/queries";
 import workoutsConstants from "../../utils/workout/workoutsConstants";
+import {isUserAuthenticated} from "../../utils/aws-utils/awsHelperFunctions";
 
 const initialState = {
     profile: null,
@@ -18,12 +19,6 @@ const creatorProfileSlice = createSlice({
             .addCase(fetchCreatorProfile.fulfilled, (state, action) => {
                 state.status = workoutsConstants.profileStatus.READY
                 state.profile = action.payload;
-                // Get their live workout only
-                state.liveWorkouts = action.payload ? action.payload.workouts.items
-                    .filter(item => item.isLive)
-                    .sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt)) : []
-                // Get all their exercises (it will be needed to load workout)
-                state.exercises = action.payload ? action.payload.exercises.items : []
             })
             .addCase(fetchCreatorProfile.rejected, (state, action) => {
                 state.status = workoutsConstants.profileStatus.FAILED
@@ -39,15 +34,7 @@ const creatorProfileSlice = createSlice({
 export const fetchCreatorProfile = createAsyncThunk("creatorProfile/get", async (payload, {rejectWithValue}) => {
     const {username} = payload;
 
-    let isAuthenticated = false;
-    try {
-        await Auth.currentAuthenticatedUser()
-        isAuthenticated = true
-    } catch (err) {
-        /**
-         * Do nothing
-         */
-    }
+    let isAuthenticated = await isUserAuthenticated()
 
     try {
 
