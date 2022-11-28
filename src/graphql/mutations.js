@@ -13,21 +13,6 @@ export const createCreator = /* GraphQL */ `
       preferred_username
       displayBrief
       displayProfile
-      exercises {
-        items {
-          id
-          creatorId
-          title
-          description
-          bodyParts
-          equipments
-          videoUrls
-          createdAt
-          updatedAt
-          owner
-        }
-        nextToken
-      }
       workouts {
         items {
           id
@@ -78,21 +63,6 @@ export const updateCreator = /* GraphQL */ `
       preferred_username
       displayBrief
       displayProfile
-      exercises {
-        items {
-          id
-          creatorId
-          title
-          description
-          bodyParts
-          equipments
-          videoUrls
-          createdAt
-          updatedAt
-          owner
-        }
-        nextToken
-      }
       workouts {
         items {
           id
@@ -143,21 +113,6 @@ export const deleteCreator = /* GraphQL */ `
       preferred_username
       displayBrief
       displayProfile
-      exercises {
-        items {
-          id
-          creatorId
-          title
-          description
-          bodyParts
-          equipments
-          videoUrls
-          createdAt
-          updatedAt
-          owner
-        }
-        nextToken
-      }
       workouts {
         items {
           id
@@ -190,63 +145,6 @@ export const deleteCreator = /* GraphQL */ `
       spotify
       tiktok
       youtube
-      createdAt
-      updatedAt
-      owner
-    }
-  }
-`;
-export const createExercise = /* GraphQL */ `
-  mutation CreateExercise(
-    $input: CreateExerciseInput!
-    $condition: ModelExerciseConditionInput
-  ) {
-    createExercise(input: $input, condition: $condition) {
-      id
-      creatorId
-      title
-      description
-      bodyParts
-      equipments
-      videoUrls
-      createdAt
-      updatedAt
-      owner
-    }
-  }
-`;
-export const updateExercise = /* GraphQL */ `
-  mutation UpdateExercise(
-    $input: UpdateExerciseInput!
-    $condition: ModelExerciseConditionInput
-  ) {
-    updateExercise(input: $input, condition: $condition) {
-      id
-      creatorId
-      title
-      description
-      bodyParts
-      equipments
-      videoUrls
-      createdAt
-      updatedAt
-      owner
-    }
-  }
-`;
-export const deleteExercise = /* GraphQL */ `
-  mutation DeleteExercise(
-    $input: DeleteExerciseInput!
-    $condition: ModelExerciseConditionInput
-  ) {
-    deleteExercise(input: $input, condition: $condition) {
-      id
-      creatorId
-      title
-      description
-      bodyParts
-      equipments
-      videoUrls
       createdAt
       updatedAt
       owner

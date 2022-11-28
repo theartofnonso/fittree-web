@@ -10,21 +10,6 @@ export const getCreator = /* GraphQL */ `
       preferred_username
       displayBrief
       displayProfile
-      exercises {
-        items {
-          id
-          creatorId
-          title
-          description
-          bodyParts
-          equipments
-          videoUrls
-          createdAt
-          updatedAt
-          owner
-        }
-        nextToken
-      }
       workouts {
         items {
           id
@@ -77,21 +62,6 @@ export const listCreators = /* GraphQL */ `
         preferred_username
         displayBrief
         displayProfile
-        exercises {
-          items {
-            id
-            creatorId
-            title
-            description
-            bodyParts
-            equipments
-            videoUrls
-            createdAt
-            updatedAt
-            owner
-          }
-          nextToken
-        }
         workouts {
           items {
             id
@@ -124,45 +94,6 @@ export const listCreators = /* GraphQL */ `
         spotify
         tiktok
         youtube
-        createdAt
-        updatedAt
-        owner
-      }
-      nextToken
-    }
-  }
-`;
-export const getExercise = /* GraphQL */ `
-  query GetExercise($id: ID!) {
-    getExercise(id: $id) {
-      id
-      creatorId
-      title
-      description
-      bodyParts
-      equipments
-      videoUrls
-      createdAt
-      updatedAt
-      owner
-    }
-  }
-`;
-export const listExercises = /* GraphQL */ `
-  query ListExercises(
-    $filter: ModelExerciseFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listExercises(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        creatorId
-        title
-        description
-        bodyParts
-        equipments
-        videoUrls
         createdAt
         updatedAt
         owner

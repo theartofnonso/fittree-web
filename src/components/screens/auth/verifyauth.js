@@ -59,6 +59,7 @@ export default function VerifyAuth(props) {
                     props.onVerify(cognitoUser);
                 })
                 .catch(err => {
+                    console.log(err)
                     clearTimeout(timeoutID);
                     setIsLoading(false);
                     switch (err.code) {

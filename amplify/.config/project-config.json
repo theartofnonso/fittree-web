@@ -2,7 +2,7 @@
   "providers": [
     "awscloudformation"
   ],
-  "projectName": "fitpin",
+  "projectName": "Fittree",
   "version": "3.1",
   "frontend": "javascript",
   "javascript": {

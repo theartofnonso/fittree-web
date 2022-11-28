@@ -4,14 +4,9 @@
 
 # Creators Table
 type Creator @model @auth(rules: [
-        {
-            allow: owner,
-            operations: [create, read, update, delete]
-        },
-        {   allow: public,
-            provider: iam,
-            operations: [read]
-        }
+        { allow: owner },
+        { allow: private, operations: [read] },
+        { allow: public, provider: iam, operations: [read] }
     ]){
     id: ID!
     cognitoId: String!
@@ -19,7 +14,6 @@ type Creator @model @auth(rules: [
     preferred_username: String!
     displayBrief: String @default(value: "")
     displayProfile: String @default(value: "")
-    exercises: [Exercise] @hasMany(indexName: "byCreator", fields: ["id"])
     workouts: [Workout] @hasMany(indexName: "byCreator", fields: ["id"])
     instagram: String @default(value: "")
     facebook: String @default(value: "")
@@ -32,42 +26,11 @@ type Creator @model @auth(rules: [
     owner: String
 }
 
-# Exercise Table
-# This is a reusable data
-# This shares a one-to-many with a WorkoutExercise
-# WorkoutExercises link to this entity to enrich it within the context of a workout
-type Exercise @model @auth(rules: [
-        {
-            allow: owner,
-            operations: [create, read, update, delete]
-        },
-        {   allow: public,
-            provider: iam,
-            operations: [read]
-        }
-    ]){
-    id: ID!
-    creatorId: ID! @index(name: "byCreator", sortKeyFields: ["title"])
-    title: String!
-    description: String @default(value: "")
-    bodyParts: [String]
-    equipments: [String]
-    videoUrls: [String!]!
-    createdAt: AWSDateTime
-    updatedAt: AWSDateTime
-    owner: String
-}
-
 # Workout Table
 type Workout @model @auth(rules: [
-        {
-            allow: owner,
-            operations: [create, read, update, delete]
-        },
-        {   allow: public,
-            provider: iam,
-            operations: [read]
-        }
+        { allow: owner },
+        { allow: private, operations: [read] },
+        { allow: public, provider: iam, operations: [read] }
     ]){
     id: ID!
     creatorId: ID! @index(name: "byCreator", sortKeyFields: ["title"])
