@@ -2,29 +2,17 @@
 // this is an auto generated file. This will be overwritten
 
 export const onCreateCreator = /* GraphQL */ `
-  subscription OnCreateCreator($owner: String) {
-    onCreateCreator(owner: $owner) {
+  subscription OnCreateCreator(
+    $filter: ModelSubscriptionCreatorFilterInput
+    $owner: String
+  ) {
+    onCreateCreator(filter: $filter, owner: $owner) {
       id
       cognitoId
       username
       preferred_username
       displayBrief
       displayProfile
-      exercises {
-        items {
-          id
-          creatorId
-          title
-          description
-          bodyParts
-          equipments
-          videoUrls
-          createdAt
-          updatedAt
-          owner
-        }
-        nextToken
-      }
       workouts {
         items {
           id
@@ -64,29 +52,17 @@ export const onCreateCreator = /* GraphQL */ `
   }
 `;
 export const onUpdateCreator = /* GraphQL */ `
-  subscription OnUpdateCreator($owner: String) {
-    onUpdateCreator(owner: $owner) {
+  subscription OnUpdateCreator(
+    $filter: ModelSubscriptionCreatorFilterInput
+    $owner: String
+  ) {
+    onUpdateCreator(filter: $filter, owner: $owner) {
       id
       cognitoId
       username
       preferred_username
       displayBrief
       displayProfile
-      exercises {
-        items {
-          id
-          creatorId
-          title
-          description
-          bodyParts
-          equipments
-          videoUrls
-          createdAt
-          updatedAt
-          owner
-        }
-        nextToken
-      }
       workouts {
         items {
           id
@@ -126,29 +102,17 @@ export const onUpdateCreator = /* GraphQL */ `
   }
 `;
 export const onDeleteCreator = /* GraphQL */ `
-  subscription OnDeleteCreator($owner: String) {
-    onDeleteCreator(owner: $owner) {
+  subscription OnDeleteCreator(
+    $filter: ModelSubscriptionCreatorFilterInput
+    $owner: String
+  ) {
+    onDeleteCreator(filter: $filter, owner: $owner) {
       id
       cognitoId
       username
       preferred_username
       displayBrief
       displayProfile
-      exercises {
-        items {
-          id
-          creatorId
-          title
-          description
-          bodyParts
-          equipments
-          videoUrls
-          createdAt
-          updatedAt
-          owner
-        }
-        nextToken
-      }
       workouts {
         items {
           id
@@ -187,57 +151,12 @@ export const onDeleteCreator = /* GraphQL */ `
     }
   }
 `;
-export const onCreateExercise = /* GraphQL */ `
-  subscription OnCreateExercise($owner: String) {
-    onCreateExercise(owner: $owner) {
-      id
-      creatorId
-      title
-      description
-      bodyParts
-      equipments
-      videoUrls
-      createdAt
-      updatedAt
-      owner
-    }
-  }
-`;
-export const onUpdateExercise = /* GraphQL */ `
-  subscription OnUpdateExercise($owner: String) {
-    onUpdateExercise(owner: $owner) {
-      id
-      creatorId
-      title
-      description
-      bodyParts
-      equipments
-      videoUrls
-      createdAt
-      updatedAt
-      owner
-    }
-  }
-`;
-export const onDeleteExercise = /* GraphQL */ `
-  subscription OnDeleteExercise($owner: String) {
-    onDeleteExercise(owner: $owner) {
-      id
-      creatorId
-      title
-      description
-      bodyParts
-      equipments
-      videoUrls
-      createdAt
-      updatedAt
-      owner
-    }
-  }
-`;
 export const onCreateWorkout = /* GraphQL */ `
-  subscription OnCreateWorkout($owner: String) {
-    onCreateWorkout(owner: $owner) {
+  subscription OnCreateWorkout(
+    $filter: ModelSubscriptionWorkoutFilterInput
+    $owner: String
+  ) {
+    onCreateWorkout(filter: $filter, owner: $owner) {
       id
       creatorId
       preferred_username
@@ -263,8 +182,11 @@ export const onCreateWorkout = /* GraphQL */ `
   }
 `;
 export const onUpdateWorkout = /* GraphQL */ `
-  subscription OnUpdateWorkout($owner: String) {
-    onUpdateWorkout(owner: $owner) {
+  subscription OnUpdateWorkout(
+    $filter: ModelSubscriptionWorkoutFilterInput
+    $owner: String
+  ) {
+    onUpdateWorkout(filter: $filter, owner: $owner) {
       id
       creatorId
       preferred_username
@@ -290,8 +212,11 @@ export const onUpdateWorkout = /* GraphQL */ `
   }
 `;
 export const onDeleteWorkout = /* GraphQL */ `
-  subscription OnDeleteWorkout($owner: String) {
-    onDeleteWorkout(owner: $owner) {
+  subscription OnDeleteWorkout(
+    $filter: ModelSubscriptionWorkoutFilterInput
+    $owner: String
+  ) {
+    onDeleteWorkout(filter: $filter, owner: $owner) {
       id
       creatorId
       preferred_username

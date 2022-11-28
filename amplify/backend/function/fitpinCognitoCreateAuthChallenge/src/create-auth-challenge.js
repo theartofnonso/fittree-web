@@ -427,7 +427,7 @@ exports.handler = async event => {
           Data: `Fittree Verification Code: ${secretLoginCode}`,
         },
       },
-      Source: 'Fittree Verify <hello@fittree.io>',
+      Source: 'Fittree <hello@fittree.io>',
     }).promise();
   } else {
     // re-use code generated in previous challenge
