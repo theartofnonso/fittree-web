@@ -12,7 +12,6 @@ const Controls = (props) => {
     return (
         <div
             className={`relative h-12 ${isRepsSets ? "w-64" : "w-52"} flex flex-col bg-whiteOpacity1 justify-center items-center rounded-lg text-white font-semibold shadow-darkSecondary shadow-md`}>
-            <div className="absolute top-0 right-0 bottom-0 left-0 blur-lg"></div>
             <div
                 className="absolute flex flex-row items-center justify-center top-0 right-0 bottom-0 left-0 text-black m-4">
                 {isRepsSets ?
