@@ -63,7 +63,7 @@ const WorkoutPlaylist = ({shouldPlayWorkout, shouldResetWorkout, onPauseWorkout,
      * Reset the workoutPlaylist
      */
     useEffect(() => {
-        if(shouldResetWorkout) {
+        if (shouldResetWorkout) {
             setExerciseDuration(0)
             setExerciseIndex(0)
             setRoundsIndex(0)
@@ -90,6 +90,17 @@ const WorkoutPlaylist = ({shouldPlayWorkout, shouldResetWorkout, onPauseWorkout,
                 setExerciseDuration(getExercise().sets[0].duration.value)
                 setIsWorkoutStarting(false)
             }
+        }
+    }
+
+    /**
+     * Set interval
+     * @param interval
+     */
+    const setInterval = (interval) => {
+        if (interval > 0) {
+            setIntervalModalTime(workout.exerciseInterval);
+            setShowIntervalModal(true);
         }
     }
 
@@ -140,8 +151,7 @@ const WorkoutPlaylist = ({shouldPlayWorkout, shouldResetWorkout, onPauseWorkout,
                 setSetIndex(0);
                 setExerciseDuration(getExercise(-1, nextExerciseIndex).sets[0].duration.value);
                 setIntervalModalDescription(workoutsConstants.playMessages.NEXT_EXERCISE);
-                setIntervalModalTime(workout.exerciseInterval);
-                setShowIntervalModal(true);
+                setInterval(workout.exerciseInterval)
             }
         } else {
             /**
@@ -149,8 +159,7 @@ const WorkoutPlaylist = ({shouldPlayWorkout, shouldResetWorkout, onPauseWorkout,
              */
             setSetIndex(nextSetIndex);
             setExerciseDuration(getExercise(-1, exerciseIndex).sets[nextSetIndex].duration.value);
-            setIntervalModalTime(workout.setsInterval);
-            setShowIntervalModal(true);
+            setInterval(workout.setsInterval)
         }
     };
 
@@ -171,8 +180,7 @@ const WorkoutPlaylist = ({shouldPlayWorkout, shouldResetWorkout, onPauseWorkout,
             setSetIndex(0);
             setExerciseDuration(getExercise(-1, nextExerciseIndex).sets[0].duration.value);
             setIntervalModalDescription(workoutsConstants.playMessages.NEXT_EXERCISE);
-            setIntervalModalTime(workout.exerciseInterval);
-            setShowIntervalModal(true);
+            setInterval(workout.exerciseInterval)
         }
 
     }
@@ -204,9 +212,7 @@ const WorkoutPlaylist = ({shouldPlayWorkout, shouldResetWorkout, onPauseWorkout,
             setSetIndex(0);
             setExerciseDuration(getExercise(-1, prevExerciseIndex).sets[0].duration.value);
             setIntervalModalDescription(workoutsConstants.playMessages.NEXT_EXERCISE);
-            setIntervalModalTime(workout.exerciseInterval);
-            setShowIntervalModal(true);
-
+            setInterval(workout.exerciseInterval)
         }
 
     }
@@ -236,8 +242,7 @@ const WorkoutPlaylist = ({shouldPlayWorkout, shouldResetWorkout, onPauseWorkout,
                 setExerciseIndex(0);
                 setExerciseDuration(getExercise(nextRoundsIndex, 0).duration.value);
                 setIntervalModalDescription(workoutsConstants.playMessages.NEXT_ROUND);
-                setIntervalModalTime(workout.roundsInterval);
-                setShowIntervalModal(true);
+                setInterval(workout.roundsInterval)
             }
         } else {
             /**
@@ -245,8 +250,7 @@ const WorkoutPlaylist = ({shouldPlayWorkout, shouldResetWorkout, onPauseWorkout,
              */
             setExerciseIndex(nextExerciseIndex);
             setExerciseDuration(getExercise(roundsIndex, nextExerciseIndex).duration.value);
-            setIntervalModalTime(workout.exerciseInterval);
-            setShowIntervalModal(true);
+            setInterval(workout.exerciseInterval)
         }
 
     };
@@ -316,7 +320,8 @@ const WorkoutPlaylist = ({shouldPlayWorkout, shouldResetWorkout, onPauseWorkout,
 
     return (
         <div className="relative rounded-md">
-            {shouldPlayWorkout && type === workoutsConstants.workoutType.CIRCUIT ? <p className="font-semibold text-center mb-2">{sectionHeader}</p> : null}
+            {shouldPlayWorkout && type === workoutsConstants.workoutType.CIRCUIT ?
+                <p className="font-semibold text-center mb-2">{sectionHeader}</p> : null}
             {list.map((exercise, index) =>
                 <Exercise
                     isActive={getExercise().id === exercise.id && shouldPlayWorkout}
