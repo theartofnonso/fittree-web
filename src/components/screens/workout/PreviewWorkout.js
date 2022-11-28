@@ -17,7 +17,7 @@ import {SnackBar, SnackBarType} from "../../views/SnackBar";
 import workoutsConstants from "../../../utils/workout/workoutsConstants";
 import {selectAuthUser} from "../../../features/auth/authUserSlice";
 import WorkoutPlaylist from "../../views/WorkoutPlaylist";
-import utilsConstants from "../../../utils/utilsConstants";
+import utilsConstants, {FITTREE_BASE_URL} from "../../../utils/utilsConstants";
 import WorkoutCompletedModal from "./WorkoutCompletedModal";
 import {Transition} from '@headlessui/react'
 import Tags from "../../views/Tags";
@@ -25,6 +25,7 @@ import MenuItem from "../../views/MenuItem";
 import Menu from "../../views/Menu";
 import OverflowIcon from "../../../assets/svg/overflow.svg";
 import WorkoutCardLite from "../../views/cards/WorkoutCardLite";
+import Link from "next/link";
 
 const PreviewWorkout = ({workoutId, previewOnly, close}) => {
 
@@ -199,10 +200,15 @@ const PreviewWorkout = ({workoutId, previewOnly, close}) => {
                                 className="cursor-pointer bg-secondary py-2 px-6 rounded-full text-primary text-sm font-semibold hover:bg-darkSecondary">End
                                 workout
                             </button> :
-                            (!previewOnly) ?
-                                <div className="cursor-pointer" onClick={close}>
+                            (previewOnly) ?
+                                <Link href={FITTREE_BASE_URL + workout.preferred_username}>
+                                    <a className="text-sm font-medium bg-secondary text-primary rounded-full px-3 py-2">
+                                        Shared by {workout.preferred_username}
+                                    </a>
+                                </Link>
+                                : <div className="cursor-pointer" onClick={close}>
                                     <CloseIcon/>
-                                </div> : <div></div>}
+                                </div>}
                         <Menu open={showMenuOptions}
                               icon={<OverflowIcon/>}
                               onMouseOver={() => setShowMenuOptions(true)}
