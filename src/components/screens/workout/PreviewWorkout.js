@@ -187,7 +187,10 @@ const PreviewWorkout = ({workoutId, previewOnly, close}) => {
     } else {
 
         if (showWorkoutCompletedModal) {
-            return (<WorkoutCompletedModal close={close}/>)
+            return (<WorkoutCompletedModal close={() => {
+                setShowWorkoutCompletedModal(false)
+                resetWorkoutPlayState()
+            }}/>)
         } else {
             return (
                 <div
