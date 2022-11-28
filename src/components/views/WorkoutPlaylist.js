@@ -155,6 +155,29 @@ const WorkoutPlaylist = ({shouldPlayWorkout, shouldResetWorkout, onPauseWorkout,
     };
 
     /**
+     * Seek forward to next exercise for Reps and Sets
+     */
+    const seekFastForward = () => {
+
+        const nextExerciseIndex = exerciseIndex + 1;
+
+        /**
+         * If next exercise is more than total playlist
+         */
+        if (nextExerciseIndex >= playlist.length) {
+            onEndWorkout()
+        } else {
+            setExerciseIndex(nextExerciseIndex);
+            setSetIndex(0);
+            setExerciseDuration(getExercise(-1, nextExerciseIndex).sets[0].duration.value);
+            setIntervalModalDescription(workoutsConstants.playMessages.NEXT_EXERCISE);
+            setIntervalModalTime(workout.exerciseInterval);
+            setShowIntervalModal(true);
+        }
+
+    }
+
+    /**
      * Seek through exercises and sets
      */
     const seekBackwardRepsAndSets = () => {
@@ -165,6 +188,28 @@ const WorkoutPlaylist = ({shouldPlayWorkout, shouldResetWorkout, onPauseWorkout,
             setSetIndex(0);
         }
     };
+
+    /**
+     * Seek backward to prev exercise for Reps and Sets
+     */
+    const seekFastBackward = () => {
+
+        const prevExerciseIndex = exerciseIndex - 1;
+
+        /**
+         * If next exercise is more than total playlist
+         */
+        if (prevExerciseIndex >= 0) {
+            setExerciseIndex(prevExerciseIndex);
+            setSetIndex(0);
+            setExerciseDuration(getExercise(-1, prevExerciseIndex).sets[0].duration.value);
+            setIntervalModalDescription(workoutsConstants.playMessages.NEXT_EXERCISE);
+            setIntervalModalTime(workout.exerciseInterval);
+            setShowIntervalModal(true);
+
+        }
+
+    }
 
     /**
      * Seek through exercises
@@ -288,6 +333,9 @@ const WorkoutPlaylist = ({shouldPlayWorkout, shouldResetWorkout, onPauseWorkout,
                     <Controls prev={seekBackward}
                               pause={() => onPauseWorkout(false)}
                               next={seekForward}
+                              skipExercise={seekFastForward}
+                              prevExercise={seekFastBackward}
+                              workoutType={type}
                               isPlaying={shouldPlayWorkout}/>
                 </div> : null}
 

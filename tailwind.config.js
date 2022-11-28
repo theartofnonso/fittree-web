@@ -11,8 +11,9 @@ module.exports = {
     },
     colors: {
       primary: '#EF7A75',
-      secondary: '#F5EDE8',
       darkPrimary: '#da716c',
+      primaryOpacity1: 'rgba(239,122,117,0.55)',
+      secondary: '#F5EDE8',
       darkSecondary: '#e0d9d5',
       lightSecondary: 'rgba(245,237,232,0.74)',
       red: '#eb4034',
@@ -22,6 +23,7 @@ module.exports = {
       gray3: '#faf8f7',
       grayOpacity6: 'rgba(166,166,166,0.3)',
       white: '#FFFFFF',
+      whiteOpacity1: 'rgba(255,255,255,0.80)',
       black: '#000000',
       transparentBlack: 'rgba(0,0,0,1)',
       transparentBlack1: 'rgba(0,0,0,0.09)',
