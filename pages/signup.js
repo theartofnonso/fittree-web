@@ -301,7 +301,7 @@ export default function SignUp() {
                     up
                 </button>
             </div>
-            <p className="text-center mt-8 font-light">Don't have a Fittree account?&nbsp;
+            <p className="text-center mt-8 font-light">Already have a Fittree account?&nbsp;
                 <Link href="/signin">
                     <a className="font-bold cursor-pointer hover:font-semibold">Sign in</a>
                 </Link>
