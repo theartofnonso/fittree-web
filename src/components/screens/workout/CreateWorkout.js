@@ -513,11 +513,11 @@ export default function CreateWorkout({params, close}) {
                     className="flex flex-row items-center justify-center w-36 bg-secondary rounded-md hover:bg-darkSecondary text-primary pl-1 pr-3 py-1 my-2 font-semibold text-sm">
                     <AddIcon/> Add Exercise
                 </button>
-                <InputTime title="Exercise Interval"
+                <InputTime title="Rest time after exercise"
                            value={exerciseInterval}
                            open={workoutExercises.length > 1}
                            onSelectTime={(duration) => setExerciseInterval(duration.value)}/>
-                <InputTime title="Sets Interval"
+                <InputTime title="Rest time after set"
                            value={setsInterval}
                            open={(workoutExercises.length > 0) && getWorkoutType() === workoutsConstants.workoutType.REPS_SETS}
                            onSelectTime={(duration) => setSetsInterval(duration.value)}/>
@@ -526,7 +526,7 @@ export default function CreateWorkout({params, close}) {
                                 value={rounds}
                                 open={(workoutExercises.length > 1) && getWorkoutType() === workoutsConstants.workoutType.CIRCUIT}
                                 onSelectValue={(value) => setRounds(value)}/>
-                    <InputTime title="Rounds Interval"
+                    <InputTime title="Rest time after round"
                                value={roundsInterval}
                                open={rounds > 1}
                                onSelectTime={(duration) => setRoundsInterval(duration.value)}/>
