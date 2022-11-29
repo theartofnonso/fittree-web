@@ -28,7 +28,7 @@ const WorkoutPlaylist = ({shouldPlayWorkout, shouldResetWorkout, onPauseWorkout,
     const sectionHeader = `Round ${roundsIndex + 1} of ${playlist.length}`;
 
     const [isWorkoutStarting, setIsWorkoutStarting] = useState(true)
-
+    
     /**
      * Automate the workout
      */
@@ -97,9 +97,9 @@ const WorkoutPlaylist = ({shouldPlayWorkout, shouldResetWorkout, onPauseWorkout,
      * Set interval
      * @param interval
      */
-    const setInterval = (interval) => {
+    const setRestInterval = (interval) => {
         if (interval > 0) {
-            setIntervalModalTime(workout.exerciseInterval);
+            setIntervalModalTime(interval);
             setShowIntervalModal(true);
         }
     }
@@ -151,7 +151,7 @@ const WorkoutPlaylist = ({shouldPlayWorkout, shouldResetWorkout, onPauseWorkout,
                 setSetIndex(0);
                 setExerciseDuration(getExercise(-1, nextExerciseIndex).sets[0].duration.value);
                 setIntervalModalDescription(workoutsConstants.playMessages.NEXT_EXERCISE);
-                setInterval(workout.exerciseInterval)
+                setRestInterval(workout.exerciseInterval)
             }
         } else {
             /**
@@ -159,7 +159,7 @@ const WorkoutPlaylist = ({shouldPlayWorkout, shouldResetWorkout, onPauseWorkout,
              */
             setSetIndex(nextSetIndex);
             setExerciseDuration(getExercise(-1, exerciseIndex).sets[nextSetIndex].duration.value);
-            setInterval(workout.setsInterval)
+            setRestInterval(workout.setsInterval)
         }
     };
 
@@ -180,7 +180,7 @@ const WorkoutPlaylist = ({shouldPlayWorkout, shouldResetWorkout, onPauseWorkout,
             setSetIndex(0);
             setExerciseDuration(getExercise(-1, nextExerciseIndex).sets[0].duration.value);
             setIntervalModalDescription(workoutsConstants.playMessages.NEXT_EXERCISE);
-            setInterval(workout.exerciseInterval)
+            setRestInterval(workout.exerciseInterval)
         }
 
     }
@@ -212,7 +212,7 @@ const WorkoutPlaylist = ({shouldPlayWorkout, shouldResetWorkout, onPauseWorkout,
             setSetIndex(0);
             setExerciseDuration(getExercise(-1, prevExerciseIndex).sets[0].duration.value);
             setIntervalModalDescription(workoutsConstants.playMessages.NEXT_EXERCISE);
-            setInterval(workout.exerciseInterval)
+            setRestInterval(workout.exerciseInterval)
         }
 
     }
@@ -242,7 +242,7 @@ const WorkoutPlaylist = ({shouldPlayWorkout, shouldResetWorkout, onPauseWorkout,
                 setExerciseIndex(0);
                 setExerciseDuration(getExercise(nextRoundsIndex, 0).duration.value);
                 setIntervalModalDescription(workoutsConstants.playMessages.NEXT_ROUND);
-                setInterval(workout.roundsInterval)
+                setRestInterval(workout.roundsInterval)
             }
         } else {
             /**
@@ -250,7 +250,7 @@ const WorkoutPlaylist = ({shouldPlayWorkout, shouldResetWorkout, onPauseWorkout,
              */
             setExerciseIndex(nextExerciseIndex);
             setExerciseDuration(getExercise(roundsIndex, nextExerciseIndex).duration.value);
-            setInterval(workout.exerciseInterval)
+            setRestInterval(workout.exerciseInterval)
         }
 
     };
