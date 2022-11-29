@@ -47,7 +47,8 @@ const updateSet = (workoutExercise, index, duration) => {
 
 const addSet = (workoutExercise) => {
     const sets = workoutExercise.sets
-    sets.push(defaultSets)
+    const prevSet = sets[sets.length - 1] // Get the previous set duration
+    sets.push(prevSet)
     return {
         ...workoutExercise,
         sets

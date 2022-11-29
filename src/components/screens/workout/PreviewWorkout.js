@@ -69,10 +69,6 @@ const PreviewWorkout = ({workoutId, previewOnly, close}) => {
     const [snackbarType, setSnackbarType] = useState("")
     const [snackbarMessage, setSnackbarMessage] = useState("");
 
-    const [recommendedVideos, setRecommendedVideos] = useState(new Map())
-
-    const [selectedExercise, setSelectedExercises] = useState(null)
-
     const loadWorkouts = () => {
         let items;
         if (workout.type === workoutsConstants.workoutType.CIRCUIT) {
@@ -187,7 +183,10 @@ const PreviewWorkout = ({workoutId, previewOnly, close}) => {
     } else {
 
         if (showWorkoutCompletedModal) {
-            return (<WorkoutCompletedModal close={close}/>)
+            return (<WorkoutCompletedModal close={() => {
+                setShowWorkoutCompletedModal(false)
+                resetWorkoutPlayState()
+            }}/>)
         } else {
             return (
                 <div
