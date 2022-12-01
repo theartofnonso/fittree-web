@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import MockRight from "../src/components/views/mocks/MockRight";
 import MockLeft from "../src/components/views/mocks/MockLeft";
 import {APP_STORE_URL} from "../src/utils/utilsConstants";
@@ -9,10 +9,20 @@ import FittrSmallIcon from "../src/assets/svg/fittr_small.svg";
 import Link from "next/link";
 import useAuth from "../src/utils/aws-utils/useAuth";
 import FittreeLoading from "../src/components/views/FittreeLoading";
+import {searchExerciseOrWorkout} from "../src/utils/workoutAndExerciseUtils";
+import {useSelector} from "react-redux";
+import {selectAllWorkouts} from "../src/features/auth/authWorkoutsSlice";
+import { Tab } from '@headlessui/react'
 
 export default function App() {
 
     const auth = useAuth()
+
+    const workouts = [] //useSelector(selectAllWorkouts)
+
+    const [searchQuery, setSearchQuery] = useState("");
+
+    const [filteredWorkouts, setFilteredWorkouts] = useState([]);
 
     /**
      * Auth is being checked
@@ -21,9 +31,23 @@ export default function App() {
         return <FittreeLoading/>
     }
 
+    /**
+     * Filter workouts
+     * @param query
+     */
+    const onChangeSearch = query => {
+        setSearchQuery(query);
+        if(query) {
+            const searchResult = searchExerciseOrWorkout(filteredWorkouts, query);
+            setFilteredWorkouts(searchResult);
+        } else {
+            setFilteredWorkouts(workouts);
+        }
+    };
+
     return (
-        <div className="container mx-auto">
-            <div className="mx-8 sm:mx-10 flex flex-row items-center place-content-between">
+        <div className="container mx-auto px-5">
+            <div className="flex flex-row items-center place-content-between">
                 <div>
                     <Link href="/">
                         <a className="lg:hidden">
@@ -60,17 +84,22 @@ export default function App() {
                 </div>
             </div>
 
-            <div className="flex flex-col items-center my-2 sm:my-4">
-                <div className="flex flex-col items-center">
-                    <p className="font-bold text-2xl sm:text-4xl">Your workouts</p>
-                    <p className="font-bold text-2xl sm:text-4xl">everywhere you go</p>
-                    <p className="font-normal text-xs my-1.5">Create, share and play workouts on any device</p>
+            <div className="mt-4 sm:mt-2">
+                <div className="flex flex-col space-y-1">
+                    <p className="font-medium text-4xl sm:text-5xl">Your workout plan</p>
+                    <p className="font-medium text-4xl sm:text-5xl">everywhere you go</p>
+                    <p className="font-normal text-md pt-3">Create, share and play workouts on any device</p>
                 </div>
-                <Link href={APP_STORE_URL}>
-                    <a className="bg-primary rounded-3xl py-2 px-10 mt-6 text-white font-medium hover:bg-darkPrimary">
-                        Get it on IOS
-                    </a>
-                </Link>
+            </div>
+
+            <div className="mt-4 mb-5 flex flex-col items-center">
+                <input
+                    className="shadow-gray2 shadow-lg w-5/6 h-14 sm:h-18 shadow appearance-none rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+                    id="search"
+                    type="search"
+                    placeholder="Search workouts"
+                    value={searchQuery}
+                    onChange={event => onChangeSearch(event.target.value.toLowerCase())}/>
             </div>
 
             <div className="flex flex-col items-center">
@@ -93,6 +122,7 @@ export default function App() {
                     bodyOne="launch your workouts"
                     bodyTwo="with an improved experience"/>
             </div>
+
             <div className="flex flex-col mx-8">
                 <div className="p-4 bg-secondary rounded-sm text-primary my-2">
                     <p className="text-xl font-semibold mb-1">What is Fittree ?</p>
