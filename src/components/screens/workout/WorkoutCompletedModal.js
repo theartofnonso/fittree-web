@@ -34,7 +34,6 @@ const WorkoutCompletedModal = props => {
             className="px-5 sm:px-10 fixed top-0 right-0 bottom-0 left-0 h-full w-screen flex flex-col items-center bg-white">
             <div className="flex flex-col items-center justify-center h-full">
                 <CheckIcon/>
-                <p className="mt-4 font-medium">It took you {calculateWorkoutDuration()}</p>
             </div>
             <button
                 type="button"
