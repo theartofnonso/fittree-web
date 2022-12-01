@@ -7,7 +7,7 @@ module.exports = {
   ],
   theme: {
     fontFamily: {
-      sans: ['Montserrat', 'sans-serif'],
+      sans: ['Poppins', 'sans-serif'],
     },
     colors: {
       primary: '#EF7A75',
