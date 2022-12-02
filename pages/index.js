@@ -94,7 +94,7 @@ export default function App() {
                     onChange={event => onChangeSearch(event.target.value.toLowerCase())}/>
             </div>
 
-            <img src="/heroimage.png" alt='Image of phone' className="w-full sm:my-8"/>
+            <img src="/heroimage.jpg" alt='Image of phone' className="w-full sm:my-8"/>
 
             <div className=" flex flex-col items-center rounded-md my-4 p-4">
                 <p className="text-center">Fittree is a link to your workouts</p>
