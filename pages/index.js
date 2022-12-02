@@ -1,7 +1,4 @@
 import React, {useState} from "react";
-import MockRight from "../src/components/views/mocks/MockRight";
-import MockLeft from "../src/components/views/mocks/MockLeft";
-import {APP_STORE_URL} from "../src/utils/utilsConstants";
 import InstagramIcon from "../src/assets/svg/instagram-primary-line.svg";
 import TwitterIcon from "../src/assets/svg/twitter-primary-line.svg";
 import FittrBigIcon from "../src/assets/svg/fittr.svg";
@@ -10,9 +7,6 @@ import Link from "next/link";
 import useAuth from "../src/utils/aws-utils/useAuth";
 import FittreeLoading from "../src/components/views/FittreeLoading";
 import {searchExerciseOrWorkout} from "../src/utils/workoutAndExerciseUtils";
-import {useSelector} from "react-redux";
-import {selectAllWorkouts} from "../src/features/auth/authWorkoutsSlice";
-import { Tab } from '@headlessui/react'
 
 export default function App() {
 
@@ -37,7 +31,7 @@ export default function App() {
      */
     const onChangeSearch = query => {
         setSearchQuery(query);
-        if(query) {
+        if (query) {
             const searchResult = searchExerciseOrWorkout(filteredWorkouts, query);
             setFilteredWorkouts(searchResult);
         } else {
@@ -46,8 +40,8 @@ export default function App() {
     };
 
     return (
-        <div className="container mx-auto px-5">
-            <div className="flex flex-row items-center place-content-between">
+        <div className="text-gray1">
+            <div className="px-5 flex flex-row items-center place-content-between">
                 <div>
                     <Link href="/">
                         <a className="lg:hidden">
@@ -84,15 +78,13 @@ export default function App() {
                 </div>
             </div>
 
-            <div className="mt-4 sm:mt-2">
-                <div className="flex flex-col space-y-1">
-                    <p className="font-medium text-4xl sm:text-5xl">Your workout plan</p>
-                    <p className="font-medium text-4xl sm:text-5xl">everywhere you go</p>
-                    <p className="font-normal text-md pt-3">Create, share and play workouts on any device</p>
-                </div>
+            <div className="px-5 flex flex-col space-y-1 mt-4 sm:mt-2">
+                <p className="font-medium text-4xl sm:text-6xl">Your workout plan</p>
+                <p className="font-medium text-4xl sm:text-6xl">everywhere you go</p>
+                <p className="font-normal text-md sm:text-lg pt-3">Create, share and play workouts on any device</p>
             </div>
 
-            <div className="mt-4 mb-5 flex flex-col items-center">
+            <div className="px-3 my-4 mb-5 flex flex-col items-center">
                 <input
                     className="shadow-gray2 shadow-lg w-5/6 h-14 sm:h-18 shadow appearance-none rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
                     id="search"
@@ -102,49 +94,16 @@ export default function App() {
                     onChange={event => onChangeSearch(event.target.value.toLowerCase())}/>
             </div>
 
-            <div className="flex flex-col items-center">
-                <MockRight
-                    url={"https://d2ez6lox3k9lt0.cloudfront.net/public/fitpin-public/mocks/create_exercise.png"}
-                    headerOne="Create 5 secs"
-                    headerTwo="exercise videos"
-                    bodyOne="Shoot 5 seconds videos"
-                    bodyTwo="to demonstrate an exercise"/>
-                <MockLeft
-                    url={"https://d2ez6lox3k9lt0.cloudfront.net/public/fitpin-public/mocks/curate_workouts.png"}
-                    headerOne="Curate exercises"
-                    headerTwo="into workouts"
-                    bodyOne="Curate various exercises into"
-                    bodyTwo="workouts of Circuits or Reps and Sets"/>
-                <MockRight
-                    url={"https://d2ez6lox3k9lt0.cloudfront.net/public/fitpin-public/mocks/go_live.png"}
-                    headerOne="Go live"
-                    headerTwo=""
-                    bodyOne="launch your workouts"
-                    bodyTwo="with an improved experience"/>
+            <img src="/heroimage.png" alt='Image of phone' className="w-full sm:my-8"/>
+
+            <div className=" flex flex-col items-center rounded-md my-4 p-4">
+                <p className="text-center">Fittree is a link to your workouts</p>
+                <p className="text-center"><span className="font-semibold">All you need is a fittree.io/username</span> to</p>
+                <p className="text-center">create awesome workouts and share</p>
             </div>
 
-            <div className="flex flex-col mx-8">
-                <div className="p-4 bg-secondary rounded-sm text-primary my-2">
-                    <p className="text-xl font-semibold mb-1">What is Fittree ?</p>
-                    <p className="text-justify">Fittree is a link to your workouts.
-                        All you need is a fittree.io/username to create awesome workouts and share them with your community.
-                    </p>
-                </div>
-                <div className="p-4 bg-secondary rounded-sm text-primary my-2">
-                    <p className="text-xl font-semibold mb-1">Why do I need Fittree ?</p>
-                    <p className="text-justify">It is simple, Fittree is a fit-for-purpose platform for workouts you have to share with your
-                        community.</p>
-                </div>
-                <div className="p-4 bg-secondary rounded-sm text-primary mt-2">
-                    <p className="text-xl font-semibold mb-1">How can I share my workouts ?</p>
-                    <p className="text-justify">All you need is a fittree.io/username link.</p>
-                </div>
-            </div>
-            <div className="flex flex-row my-4 mx-6 sm:mx-8 place-content-between">
-                <div>
-                    <p className="font-medium">hello@fittree.io</p>
-                </div>
-                <div className="flex flex-row place-content-around">
+            <div className="flex flex-col items-center mb-4">
+                <div className="flex flex-row mb-1">
                     <Link href="https://instagram.com/fittree.io">
                         <a target="_blank" className="mx-2">
                             <InstagramIcon/>
@@ -155,6 +114,9 @@ export default function App() {
                             <TwitterIcon/>
                         </a>
                     </Link>
+                </div>
+                <div>
+                    <p className="font-medium">hello@fittree.io</p>
                 </div>
             </div>
         </div>
