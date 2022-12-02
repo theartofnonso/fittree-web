@@ -94,12 +94,13 @@ export default function App() {
                     onChange={event => onChangeSearch(event.target.value.toLowerCase())}/>
             </div>
 
-            <img src="/heroimage.jpg" alt='Image of phone' className="w-full sm:my-8"/>
+            <div className="bg-[url('/heroimage.jpg')] h-96 sm:h-[32rem] bg-cover bg-center">
+            </div>
 
             <div className=" flex flex-col items-center rounded-md my-4 p-4">
                 <p className="text-center">Fittree is a link to your workouts</p>
-                <p className="text-center"><span className="font-semibold">All you need is a fittree.io/username</span> to</p>
-                <p className="text-center">create awesome workouts and share</p>
+                <p className="text-center"><span className="font-semibold">all you need is a fittree.io/username</span></p>
+                <p className="text-center">to create awesome workouts and share</p>
             </div>
 
             <div className="flex flex-col items-center mb-4">
