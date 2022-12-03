@@ -6,17 +6,20 @@ import FittrSmallIcon from "../src/assets/svg/fittr_small.svg";
 import Link from "next/link";
 import useAuth from "../src/utils/aws-utils/useAuth";
 import FittreeLoading from "../src/components/views/FittreeLoading";
-import {searchExerciseOrWorkout} from "../src/utils/workoutAndExerciseUtils";
+import {useDispatch, useSelector} from "react-redux";
+import {selectAllWorkouts} from "../src/features/unauth/unAuthWorkoutsSlice";
+import WorkoutList from "../src/components/views/WorkoutList";
+import {fetchWorkouts} from "../src/features/unauth/unAuthWorkoutsSlice";
 
 export default function App() {
 
     const auth = useAuth()
 
-    const workouts = [] //useSelector(selectAllWorkouts)
+    const workouts = useSelector(selectAllWorkouts)
+
+    const dispatch = useDispatch();
 
     const [searchQuery, setSearchQuery] = useState("");
-
-    const [filteredWorkouts, setFilteredWorkouts] = useState([]);
 
     /**
      * Auth is being checked
@@ -26,18 +29,11 @@ export default function App() {
     }
 
     /**
-     * Filter workouts
-     * @param query
+     * Fetch workouts
      */
-    const onChangeSearch = query => {
-        setSearchQuery(query);
-        if (query) {
-            const searchResult = searchExerciseOrWorkout(filteredWorkouts, query);
-            setFilteredWorkouts(searchResult);
-        } else {
-            setFilteredWorkouts(workouts);
-        }
-    };
+    const fetchTopWorkouts = () => {
+        dispatch(fetchWorkouts({searchQuery}));
+    }
 
     return (
         <div className="text-gray1">
@@ -84,6 +80,8 @@ export default function App() {
                 <p className="font-normal text-md sm:text-lg pt-3">Create, share and play workouts on any device</p>
             </div>
 
+            <div className="bg-[url('/heroimage.jpg')] h-96 sm:h-[32rem] bg-cover bg-center my-3"/>
+
             <form className="px-3 my-4 mb-5 flex flex-col items-center">
                 <input
                     className="shadow-gray2 shadow-lg w-5/6 h-14 sm:h-18 shadow appearance-none rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
@@ -91,19 +89,25 @@ export default function App() {
                     type="search"
                     placeholder="Search workouts"
                     value={searchQuery}
-                    onChange={event => onChangeSearch(event.target.value.toLowerCase())}/>
+                    onChange={event => setSearchQuery(event.target.value.toLowerCase())}/>
                 <button
                     type="button"
+                    onClick={fetchTopWorkouts}
                     className="my-4 w-full bg-primary rounded-3xl py-2 px-8 text-white font-semibold hover:bg-darkPrimary"> Search
                 </button>
             </form>
 
-            <div className="bg-[url('/heroimage.jpg')] h-96 sm:h-[32rem] bg-cover bg-center">
-            </div>
+            {workouts.length > 0 ?
+                <div className="px-3">
+                    <WorkoutList
+                        workouts={workouts}
+                        emptyListMessage={"We can't find " + searchQuery}/>
+                </div> : null}
 
             <div className=" flex flex-col items-center rounded-md my-4 p-4">
                 <p className="text-center">Fittree is a link to your workouts</p>
-                <p className="text-center"><span className="font-semibold">all you need is a fittree.io/username</span></p>
+                <p className="text-center"><span className="font-semibold">all you need is a fittree.io/username</span>
+                </p>
                 <p className="text-center">to create awesome workouts and share</p>
             </div>
 

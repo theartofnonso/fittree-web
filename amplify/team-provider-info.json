@@ -62,6 +62,11 @@
       "storage": {
         "fitpinS3": {}
       },
+      "api": {
+        "fitpinAppSync": {
+          "OpenSearchInstanceType": "t2.medium.elasticsearch"
+        }
+      },
       "function": {
         "fitpinCognitoCreateAuthChallenge": {
           "deploymentBucketName": "amplify-fitpin-prod-180524-deployment",

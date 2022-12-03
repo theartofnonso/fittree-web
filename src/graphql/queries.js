@@ -163,3 +163,62 @@ export const listWorkouts = /* GraphQL */ `
     }
   }
 `;
+export const searchWorkouts = /* GraphQL */ `
+  query SearchWorkouts(
+    $filter: SearchableWorkoutFilterInput
+    $sort: [SearchableWorkoutSortInput]
+    $limit: Int
+    $nextToken: String
+    $from: Int
+    $aggregates: [SearchableWorkoutAggregationInput]
+  ) {
+    searchWorkouts(
+      filter: $filter
+      sort: $sort
+      limit: $limit
+      nextToken: $nextToken
+      from: $from
+      aggregates: $aggregates
+    ) {
+      items {
+        id
+        creatorId
+        preferred_username
+        title
+        description
+        intensityLevel
+        bodyParts
+        equipments
+        rounds
+        roundsInterval
+        exerciseInterval
+        setsInterval
+        thumbnailUrl
+        workoutExercises
+        type
+        isLive
+        duration
+        createdAt
+        updatedAt
+        publishedAt
+        owner
+      }
+      nextToken
+      total
+      aggregateItems {
+        name
+        result {
+          ... on SearchableAggregateScalarResult {
+            value
+          }
+          ... on SearchableAggregateBucketResult {
+            buckets {
+              key
+              doc_count
+            }
+          }
+        }
+      }
+    }
+  }
+`;
