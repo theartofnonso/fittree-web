@@ -32,6 +32,7 @@ export const onCreateCreator = /* GraphQL */ `
           type
           isLive
           duration
+          numOfPlays
           createdAt
           updatedAt
           publishedAt
@@ -82,6 +83,7 @@ export const onUpdateCreator = /* GraphQL */ `
           type
           isLive
           duration
+          numOfPlays
           createdAt
           updatedAt
           publishedAt
@@ -132,6 +134,7 @@ export const onDeleteCreator = /* GraphQL */ `
           type
           isLive
           duration
+          numOfPlays
           createdAt
           updatedAt
           publishedAt
@@ -174,6 +177,7 @@ export const onCreateWorkout = /* GraphQL */ `
       type
       isLive
       duration
+      numOfPlays
       createdAt
       updatedAt
       publishedAt
@@ -204,6 +208,7 @@ export const onUpdateWorkout = /* GraphQL */ `
       type
       isLive
       duration
+      numOfPlays
       createdAt
       updatedAt
       publishedAt
@@ -234,6 +239,7 @@ export const onDeleteWorkout = /* GraphQL */ `
       type
       isLive
       duration
+      numOfPlays
       createdAt
       updatedAt
       publishedAt
