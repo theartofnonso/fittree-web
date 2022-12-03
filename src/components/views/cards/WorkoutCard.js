@@ -5,22 +5,17 @@ import workoutsConstants from "../../../utils/workout/workoutsConstants";
 const WorkoutCard = ({workout}) => {
 
     return (
-            <div className="relative h-52 rounded-md flex flex-col justify-end cursor-pointer bg-dustBlack shadow-darkSecondary shadow-md text-white">
+            <div className="relative h-52 rounded-md flex flex-col justify-end cursor-pointer bg-black shadow-darkSecondary shadow-md text-white hover:bg-dustBlack1">
                     <div className="absolute top-0 right-0 mt-2 mr-2 text-white text-xs font-bold">
                         <p>{workoutDurationSummary(workout.duration)}</p>
                     </div>
 
-                <div className={`space-y-1 p-3 rounded-lg text-ellipsis overflow-hidden`}>
+                <div className={`space-y-1 p-3 rounded-lg`}>
                     <p className="text-left text-white text-xl font-extrabold my-2">{workout.title}</p>
                     <p className="text-sm font-semibold">{workout.intensityLevel}</p>
-                    <div className="flex flex-row font-bold">
-                        <div
-                            className={`flex flex-row items-center px-2 py-0.5 w-fit bg-primary text-white ${workout.type === workoutsConstants.workoutType.CIRCUIT ? "rounded-l" : "rounded"} text-xs`}>{workout.workoutExercises.length} exercises
-                        </div>
-                        {workout.type === workoutsConstants.workoutType.CIRCUIT ?
-                            <div className="flex flex-row items-center ml-0.5 px-2 py-0.5 w-fit bg-primary text-white rounded-r text-xs">
-                                {workout.rounds} Rounds
-                            </div> : null}
+                    <div className="flex flex-row font-medium space-x-1">
+                        <p className="text-white rounded-md text-sm">{workout.workoutExercises.length} exercises</p>
+                        {workout.type === workoutsConstants.workoutType.CIRCUIT && <p className="bg-white rounded px-2 text-dustBlack rounded-md text-sm">{workout.rounds} rnds</p>}
                     </div>
                 </div>
             </div>

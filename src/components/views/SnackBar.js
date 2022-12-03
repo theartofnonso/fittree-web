@@ -1,8 +1,8 @@
 /* eslint-disable */
 import React, {useEffect} from "react";
-import CloseIcon from "../../assets/svg/close-line-white.svg";
 import CheckIcon from "../../assets/svg/check-green-24.svg";
 import WarningIcon from "../../assets/svg/error-warning-line.svg";
+import WarningWhiteIcon from "../../assets/svg/error-warning-white-line.svg";
 import InfoIcon from "../../assets/svg/information-white-line.svg";
 
 const SnackBarType =  {
@@ -57,7 +57,7 @@ const SnackBar = (props) => {
         return (
             <div
                 className="z-50 fixed rounded-3xl bottom-0 left-0 ml-2 sm:ml-10 mb-8 p-2 flex flex-row justify-start items-center rounded bg-red w-5/6 sm:w-2/5">
-                <CloseIcon/>
+                <WarningWhiteIcon/>
                 <p className="ml-2 text-white font-normal text-sm">{props.message}</p>
             </div>
         );
