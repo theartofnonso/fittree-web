@@ -7,9 +7,8 @@ import Link from "next/link";
 import useAuth from "../src/utils/aws-utils/useAuth";
 import FittreeLoading from "../src/components/views/FittreeLoading";
 import {useDispatch, useSelector} from "react-redux";
-import {selectAllWorkouts} from "../src/features/unauth/unAuthWorkoutsSlice";
+import {searchCreatorWorkouts, selectAllWorkouts} from "../src/features/unauth/unAuthWorkoutsSlice";
 import WorkoutList from "../src/components/views/WorkoutList";
-import {fetchWorkouts} from "../src/features/unauth/unAuthWorkoutsSlice";
 
 export default function App() {
 
@@ -21,6 +20,8 @@ export default function App() {
 
     const [searchQuery, setSearchQuery] = useState("");
 
+    const [hasResults, setHasResults] = useState(false)
+
     /**
      * Auth is being checked
      */
@@ -31,9 +32,11 @@ export default function App() {
     /**
      * Fetch workouts
      */
-    const fetchTopWorkouts = () => {
-        if(searchQuery) {
-            dispatch(fetchWorkouts({searchQuery}));
+    const fetchTopWorkouts = async () => {
+        if (searchQuery) {
+            setHasResults(false)
+            await dispatch(searchCreatorWorkouts({searchQuery}));
+            setHasResults(true)
         }
     }
 
@@ -84,13 +87,14 @@ export default function App() {
 
             <div className="bg-[url('/heroimage.jpg')] h-96 sm:h-[32rem] bg-cover bg-center my-3"/>
 
-            <form className="px-3 my-4 mb-5 flex flex-col items-center">
+            <form className="px-3 mt-4 mb-5 flex flex-col items-center">
                 <input
                     className="shadow-gray2 shadow-lg w-5/6 h-14 sm:h-18 shadow appearance-none rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
                     id="search"
                     type="search"
                     placeholder="Search workouts"
                     value={searchQuery}
+                    onFocus={() => setHasResults(false)}
                     onChange={event => setSearchQuery(event.target.value.toLowerCase())}/>
                 <button
                     type="button"
@@ -99,13 +103,14 @@ export default function App() {
                 </button>
             </form>
 
-                <div className="px-3">
-                    <WorkoutList
-                        showCount={false}
-                        workouts={workouts}
-                        showEmptyListMessage={!!searchQuery}
-                        emptyListMessage={"We can't find " + searchQuery}/>
-                </div>
+            <div className="px-3">
+                <WorkoutList
+                    showCount={false}
+                    workouts={workouts}
+                    showEmptyListMessage={false}/>
+                {hasResults && workouts.length === 0 ?
+                    <p className="font-normal text-center">{"We can't find " + searchQuery}</p> : null}
+            </div>
 
             <div className=" flex flex-col items-center rounded-md my-4 p-4">
                 <p className="text-center">Fittree is a link to your workouts</p>

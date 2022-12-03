@@ -30,7 +30,7 @@ const WorkoutList = ({workouts, emptyListMessage, showEmptyListMessage = true, s
         )
     } else {
         return (
-            <div className="">
+            <div className="bg-black">
                 {showCount ? <p className="text-sm sm:text-md md:text-lg font-semibold">{`${workouts.length} workouts`} </p> : null }
                 {workouts.length > 0 ?
                     <div className="mt-1 grid gap-1 sm:gap-2 grid-cols-2 sm:grid-cols-4">

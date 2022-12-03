@@ -41,11 +41,12 @@ const unAuthWorkoutsSlice = createSlice({
             .addCase(fetchCreatorWorkout.rejected, (state, action) => {
                 state.status = workoutsConstants.profileStatus.FAILED
             })
-            .addCase(fetchWorkouts.fulfilled, (state, action) => {
+            .addCase(searchCreatorWorkouts.fulfilled, (state, action) => {
                 state.status = workoutsSliceEnums.STATUS_FULFILLED;
                 workoutsAdapter.setAll(state, action.payload);
             })
-            .addCase(fetchWorkouts.rejected, (state, action) => {
+            .addCase(searchCreatorWorkouts.rejected, (state, action) => {
+                state.status = workoutsSliceEnums.STATUS_FULFILLED;
                 workoutsAdapter.setAll(state, []);
             });
     },
@@ -79,7 +80,7 @@ export const fetchCreatorWorkout = createAsyncThunk("unAuthWorkouts/get", async 
  * Get workouts from DynamoDB
  * @type {AsyncThunk<unknown, void, {}>}
  */
-export const fetchWorkouts = createAsyncThunk("unAuthWorkouts/getAll", async (payload, {rejectWithValue}) => {
+export const searchCreatorWorkouts = createAsyncThunk("unAuthWorkouts/getAll", async (payload, {rejectWithValue}) => {
 
     const {searchQuery} = payload
 
