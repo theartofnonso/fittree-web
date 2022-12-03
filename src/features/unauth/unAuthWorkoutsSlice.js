@@ -1,6 +1,6 @@
 /* eslint-disable */
 import {createAsyncThunk, createEntityAdapter, createSlice} from "@reduxjs/toolkit";
-import {API, Auth, graphqlOperation} from "aws-amplify";
+import {API, graphqlOperation} from "aws-amplify";
 import * as queries from "../../graphql/queries";
 import workoutsConstants from "../../utils/workout/workoutsConstants";
 import {isUserAuthenticated} from "../../utils/aws-utils/awsHelperFunctions";
@@ -34,12 +34,20 @@ const unAuthWorkoutsSlice = createSlice({
         builder
             .addCase(fetchCreatorWorkout.fulfilled, (state, action) => {
                 state.status = state.status = workoutsConstants.profileStatus.READY
-                if(action.payload) {
+                if (action.payload) {
                     workoutsAdapter.addOne(state, action.payload);
                 }
             })
             .addCase(fetchCreatorWorkout.rejected, (state, action) => {
                 state.status = workoutsConstants.profileStatus.FAILED
+            })
+            .addCase(searchCreatorWorkouts.fulfilled, (state, action) => {
+                state.status = workoutsSliceEnums.STATUS_FULFILLED;
+                workoutsAdapter.setAll(state, action.payload);
+            })
+            .addCase(searchCreatorWorkouts.rejected, (state, action) => {
+                state.status = workoutsSliceEnums.STATUS_FULFILLED;
+                workoutsAdapter.setAll(state, []);
             });
     },
 });
@@ -64,6 +72,37 @@ export const fetchCreatorWorkout = createAsyncThunk("unAuthWorkouts/get", async 
         return response.data.getWorkout;
     } catch (err) {
         return rejectWithValue(err.error);
+    }
+
+});
+
+/**
+ * Get workouts from DynamoDB
+ * @type {AsyncThunk<unknown, void, {}>}
+ */
+export const searchCreatorWorkouts = createAsyncThunk("unAuthWorkouts/getAll", async (payload, {rejectWithValue}) => {
+
+    const {searchQuery} = payload
+
+    let isAuthenticated = await isUserAuthenticated()
+
+    try {
+        const response = await API.graphql({
+                ...graphqlOperation(queries.searchWorkouts, {
+                        limit: 10,
+                        filter: {
+                            title: {
+                                wildcard: searchQuery.trim() + "*",
+                            },
+                        },
+                    },
+                ),
+                authMode: isAuthenticated ? "AMAZON_COGNITO_USER_POOLS" : "AWS_IAM"
+            }
+        )
+        return response.data.searchWorkouts.items;
+    } catch (err) {
+        return rejectWithValue([]);
     }
 
 });

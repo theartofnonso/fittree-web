@@ -27,7 +27,7 @@ type Creator @model @auth(rules: [
 }
 
 # Workout Table
-type Workout @model @auth(rules: [
+type Workout @model @searchable @auth(rules: [
         { allow: owner },
         { allow: private, operations: [read] },
         { allow: public, provider: iam, operations: [read] }

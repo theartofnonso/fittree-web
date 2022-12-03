@@ -1,11 +1,10 @@
 /* eslint-disable */
 import React, {useState} from "react";
-import WorkoutCard from "./cards/WorkoutCard";
 import EmptyState from "../../assets/svg/empty_state.svg";
 import PreviewWorkout from "../screens/workout/PreviewWorkout";
-import WorkoutCardLite from "./cards/WorkoutCardLite";
+import WorkoutCard from "./cards/WorkoutCard";
 
-const WorkoutList = ({workouts, emptyListMessage}) => {
+const WorkoutList = ({workouts, emptyListMessage, showEmptyListMessage = true, showCount=true}) => {
 
     const [workout, setWorkout] = useState(null)
 
@@ -31,19 +30,19 @@ const WorkoutList = ({workouts, emptyListMessage}) => {
         )
     } else {
         return (
-            <div className="h-screen">
-                <p className="text-sm sm:text-md md:text-lg font-semibold">{`${workouts.length} workouts`} </p>
+            <div className="">
+                {showCount ? <p className="text-sm sm:text-md md:text-lg font-semibold">{`${workouts.length} workouts`} </p> : null }
                 {workouts.length > 0 ?
-                    <div className="mt-1 grid gap-3 sm:gap-2 grid-cols-1 sm:grid-cols-3">
+                    <div className="mt-1 grid gap-1 sm:gap-2 grid-cols-2 sm:grid-cols-4">
                         {workouts.map((item, index) => {
                             return (
                                 <div key={index} onClick={() => previewWorkout(item)}>
-                                    <WorkoutCardLite workout={item}/>
+                                    <WorkoutCard workout={item}/>
                                 </div>
                             );
                         })}
                     </div> :
-                    <div className="flex flex-col justify-center items-center h-screen">
+                    <div className={`flex flex-col justify-center items-center h-full ${showEmptyListMessage ? "block" : "hidden"}`}>
                         <EmptyState/>
                         <p className="font-normal mt-4">{emptyListMessage}</p>
                     </div>}
