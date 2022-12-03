@@ -4,7 +4,7 @@ import EmptyState from "../../assets/svg/empty_state.svg";
 import PreviewWorkout from "../screens/workout/PreviewWorkout";
 import WorkoutCard from "./cards/WorkoutCard";
 
-const WorkoutList = ({workouts, emptyListMessage}) => {
+const WorkoutList = ({workouts, emptyListMessage, showEmptyListMessage = true, showCount=true}) => {
 
     const [workout, setWorkout] = useState(null)
 
@@ -31,7 +31,7 @@ const WorkoutList = ({workouts, emptyListMessage}) => {
     } else {
         return (
             <div className="">
-                <p className="text-sm sm:text-md md:text-lg font-semibold">{`${workouts.length} workouts`} </p>
+                {showCount ? <p className="text-sm sm:text-md md:text-lg font-semibold">{`${workouts.length} workouts`} </p> : null }
                 {workouts.length > 0 ?
                     <div className="mt-1 grid gap-1 sm:gap-2 grid-cols-2 sm:grid-cols-4">
                         {workouts.map((item, index) => {
@@ -42,7 +42,7 @@ const WorkoutList = ({workouts, emptyListMessage}) => {
                             );
                         })}
                     </div> :
-                    <div className="flex flex-col justify-center items-center h-screen">
+                    <div className={`flex flex-col justify-center items-center h-full ${showEmptyListMessage ? "block" : "hidden"}`}>
                         <EmptyState/>
                         <p className="font-normal mt-4">{emptyListMessage}</p>
                     </div>}

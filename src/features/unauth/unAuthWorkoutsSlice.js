@@ -99,10 +99,8 @@ export const fetchWorkouts = createAsyncThunk("unAuthWorkouts/getAll", async (pa
                 authMode: isAuthenticated ? "AMAZON_COGNITO_USER_POOLS" : "AWS_IAM"
             }
         )
-        console.log(response.data)
         return response.data.searchWorkouts.items;
     } catch (err) {
-        console.log(err)
         return rejectWithValue([]);
     }
 

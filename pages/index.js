@@ -32,7 +32,9 @@ export default function App() {
      * Fetch workouts
      */
     const fetchTopWorkouts = () => {
-        dispatch(fetchWorkouts({searchQuery}));
+        if(searchQuery) {
+            dispatch(fetchWorkouts({searchQuery}));
+        }
     }
 
     return (
@@ -97,12 +99,13 @@ export default function App() {
                 </button>
             </form>
 
-            {workouts.length > 0 ?
                 <div className="px-3">
                     <WorkoutList
+                        showCount={false}
                         workouts={workouts}
+                        showEmptyListMessage={!!searchQuery}
                         emptyListMessage={"We can't find " + searchQuery}/>
-                </div> : null}
+                </div>
 
             <div className=" flex flex-col items-center rounded-md my-4 p-4">
                 <p className="text-center">Fittree is a link to your workouts</p>

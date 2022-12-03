@@ -32,8 +32,9 @@ const WorkoutCompletedModal = props => {
     return (
         <div
             className="px-5 sm:px-10 fixed top-0 right-0 bottom-0 left-0 h-full w-screen flex flex-col items-center bg-white">
-            <div className="flex flex-col items-center justify-center h-full">
+            <div className="flex flex-col items-center justify-center h-full space-y-4">
                 <CheckIcon/>
+                <p>Workout completed</p>
             </div>
             <button
                 type="button"
