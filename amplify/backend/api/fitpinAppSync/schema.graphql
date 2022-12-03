@@ -49,6 +49,7 @@ type Workout @model @searchable @auth(rules: [
     type: String
     isLive: Boolean @default(value: "false")
     duration: Int
+    numOfPlays: Int
     createdAt: AWSDateTime
     updatedAt: AWSDateTime
     publishedAt: AWSDateTime

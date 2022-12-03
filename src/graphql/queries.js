@@ -29,6 +29,7 @@ export const getCreator = /* GraphQL */ `
           type
           isLive
           duration
+          numOfPlays
           createdAt
           updatedAt
           publishedAt
@@ -81,6 +82,7 @@ export const listCreators = /* GraphQL */ `
             type
             isLive
             duration
+            numOfPlays
             createdAt
             updatedAt
             publishedAt
@@ -122,6 +124,7 @@ export const getWorkout = /* GraphQL */ `
       type
       isLive
       duration
+      numOfPlays
       createdAt
       updatedAt
       publishedAt
@@ -154,6 +157,7 @@ export const listWorkouts = /* GraphQL */ `
         type
         isLive
         duration
+        numOfPlays
         createdAt
         updatedAt
         publishedAt
@@ -198,6 +202,7 @@ export const searchWorkouts = /* GraphQL */ `
         type
         isLive
         duration
+        numOfPlays
         createdAt
         updatedAt
         publishedAt
