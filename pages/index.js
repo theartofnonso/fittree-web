@@ -84,7 +84,7 @@ export default function App() {
                 <p className="font-normal text-md sm:text-lg pt-3">Create, share and play workouts on any device</p>
             </div>
 
-            <div className="px-3 my-4 mb-5 flex flex-col items-center">
+            <form className="px-3 my-4 mb-5 flex flex-col items-center">
                 <input
                     className="shadow-gray2 shadow-lg w-5/6 h-14 sm:h-18 shadow appearance-none rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
                     id="search"
@@ -92,7 +92,11 @@ export default function App() {
                     placeholder="Search workouts"
                     value={searchQuery}
                     onChange={event => onChangeSearch(event.target.value.toLowerCase())}/>
-            </div>
+                <button
+                    type="button"
+                    className="my-4 w-full bg-primary rounded-3xl py-2 px-8 text-white font-semibold hover:bg-darkPrimary"> Search
+                </button>
+            </form>
 
             <div className="bg-[url('/heroimage.jpg')] h-96 sm:h-[32rem] bg-cover bg-center">
             </div>
