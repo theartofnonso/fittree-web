@@ -5,7 +5,7 @@ import workoutsConstants from "../../../utils/workout/workoutsConstants";
 const WorkoutCard = ({workout}) => {
 
     return (
-            <div className="relative h-44 rounded-md flex flex-col justify-end cursor-pointer bg-black shadow-darkSecondary shadow-md text-white hover:bg-dustBlack1">
+            <div className="relative h-44 rounded-md flex flex-col justify-end cursor-pointer bg-black shadow-darkSecondary shadow-md text-white hover:bg-dustBlack1 bg-[url('/circuit-board.svg')]">
                     <div className="absolute top-0 right-0 mt-2 mr-2 text-white text-xs font-bold">
                         <p>{workoutDurationSummary(workout.duration)}</p>
                     </div>
