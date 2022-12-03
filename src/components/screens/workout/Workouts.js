@@ -16,6 +16,8 @@ export default function Workouts({user}) {
 
     const workouts = useSelector(selectAllWorkouts)
 
+    console.log(workouts)
+
     const [filteredWorkouts, setFilteredWorkouts] = useState([]);
 
     const [searchQuery, setSearchQuery] = useState("");
@@ -64,6 +66,14 @@ export default function Workouts({user}) {
         setOpenCreateWorkout(true)
     }
 
+    if(openCreateWorkout) {
+        return (
+            <CreateWorkout
+                close={() => setOpenCreateWorkout(false)}
+                params={{workoutId: "", workoutType}}/>
+        )
+    }
+
     return (
         <div className="container mx-auto h-screen">
             <NavBar user={user}
@@ -83,10 +93,10 @@ export default function Workouts({user}) {
             <WorkoutList
                 workouts={filteredWorkouts}
                 emptyListMessage="You don't have any workouts yet"/>
-            {openCreateWorkout ?
-                <CreateWorkout
-                    close={() => setOpenCreateWorkout(false)}
-                    params={{workoutId: "", workoutType}}/> : null}
+            {/*{openCreateWorkout ?*/}
+            {/*    <CreateWorkout*/}
+            {/*        close={() => setOpenCreateWorkout(false)}*/}
+            {/*        params={{workoutId: "", workoutType}}/> : null}*/}
             <Footer/>
         </div>
     )

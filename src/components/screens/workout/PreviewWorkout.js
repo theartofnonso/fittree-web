@@ -24,8 +24,9 @@ import Tags from "../../views/Tags";
 import MenuItem from "../../views/MenuItem";
 import Menu from "../../views/Menu";
 import OverflowIcon from "../../../assets/svg/overflow.svg";
-import WorkoutCardLite from "../../views/cards/WorkoutCardLite";
+import WorkoutCard from "../../views/cards/WorkoutCard";
 import Link from "next/link";
+import WorkoutCardLarge from "../../views/cards/WorkoutCardLarge";
 
 const PreviewWorkout = ({workoutId, previewOnly, close}) => {
 
@@ -243,7 +244,7 @@ const PreviewWorkout = ({workoutId, previewOnly, close}) => {
                     </div>
 
                     <div className="mb-2">
-                        <WorkoutCardLite workout={workout}/>
+                        <WorkoutCardLarge workout={workout}/>
                     </div>
 
                     <Transition
